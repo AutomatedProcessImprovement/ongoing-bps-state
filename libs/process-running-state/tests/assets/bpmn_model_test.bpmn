@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             targetNamespace="http://www.omg.org/bpmn20"
+             xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+    <process id="process_test">
+        <startEvent id="event-0" name="Start">
+            <outgoing>edge-1</outgoing>
+        </startEvent>
+        <intermediateCatchEvent id="event-19" name="Timer">
+            <incoming>edge-18</incoming>
+            <outgoing>edge-20</outgoing>
+        </intermediateCatchEvent>
+        <endEvent id="event-28" name="End">
+            <incoming>edge-27</incoming>
+        </endEvent>
+        <task id="task-2" name="A">
+            <incoming>edge-1</incoming>
+            <outgoing>edge-3</outgoing>
+        </task>
+        <task id="task-10" name="C">
+            <incoming>edge-8</incoming>
+            <outgoing>edge-13</outgoing>
+        </task>
+        <task id="task-11" name="D">
+            <incoming>edge-9</incoming>
+            <outgoing>edge-14</outgoing>
+        </task>
+        <task id="task-12" name="B">
+            <incoming>edge-6</incoming>
+            <outgoing>edge-16</outgoing>
+        </task>
+        <task id="task-17" name="F">
+            <incoming>edge-16</incoming>
+            <outgoing>edge-23</outgoing>
+        </task>
+        <task id="task-21" name="E">
+            <incoming>edge-20</incoming>
+            <outgoing>edge-22</outgoing>
+        </task>
+        <task id="task-26" name="G">
+            <incoming>edge-25</incoming>
+            <outgoing>edge-27</outgoing>
+        </task>
+        <parallelGateway id="gateway-4" name="AND-split">
+            <incoming>edge-3</incoming>
+            <outgoing>edge-5</outgoing>
+            <outgoing>edge-6</outgoing>
+        </parallelGateway>
+        <parallelGateway id="gateway-24" name="AND-join">
+            <incoming>edge-22</incoming>
+            <incoming>edge-23</incoming>
+            <outgoing>edge-25</outgoing>
+        </parallelGateway>
+        <exclusiveGateway id="gateway-7" name="XOR-split">
+            <incoming>edge-5</incoming>
+            <outgoing>edge-8</outgoing>
+            <outgoing>edge-9</outgoing>
+        </exclusiveGateway>
+        <exclusiveGateway id="gateway-15" name="XOR-join">
+            <incoming>edge-13</incoming>
+            <incoming>edge-14</incoming>
+            <outgoing>edge-18</outgoing>
+        </exclusiveGateway>
+        <sequenceFlow id="edge-1" name="" sourceRef="event-0" targetRef="task-2"/>
+        <sequenceFlow id="edge-3" name="" sourceRef="task-2" targetRef="gateway-4"/>
+        <sequenceFlow id="edge-5" name="" sourceRef="gateway-4" targetRef="gateway-7"/>
+        <sequenceFlow id="edge-6" name="" sourceRef="gateway-4" targetRef="task-12"/>
+        <sequenceFlow id="edge-8" name="" sourceRef="gateway-7" targetRef="task-10"/>
+        <sequenceFlow id="edge-9" name="" sourceRef="gateway-7" targetRef="task-11"/>
+        <sequenceFlow id="edge-13" name="" sourceRef="task-10" targetRef="gateway-15"/>
+        <sequenceFlow id="edge-14" name="" sourceRef="task-11" targetRef="gateway-15"/>
+        <sequenceFlow id="edge-16" name="" sourceRef="task-12" targetRef="task-17"/>
+        <sequenceFlow id="edge-18" name="" sourceRef="gateway-15" targetRef="event-19"/>
+        <sequenceFlow id="edge-20" name="" sourceRef="event-19" targetRef="task-21"/>
+        <sequenceFlow id="edge-22" name="" sourceRef="task-21" targetRef="gateway-24"/>
+        <sequenceFlow id="edge-23" name="" sourceRef="task-17" targetRef="gateway-24"/>
+        <sequenceFlow id="edge-25" name="" sourceRef="gateway-24" targetRef="task-26"/>
+        <sequenceFlow id="edge-27" name="" sourceRef="task-26" targetRef="event-28"/>
+    </process>
+</definitions>
