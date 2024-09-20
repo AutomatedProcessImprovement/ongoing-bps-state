@@ -1,0 +1,90 @@
+//python main.py samples/synthetic_xor_loop_ongoing.csv samples/synthetic_xor_loop.bpmn --column_mapping '{"case_id": "CaseId", "Resource": "Resource", "Activity": "Activity", "__start_time": "StartTime", "end_time": "EndTime"}' --start_time '2012-03-21T10:10:00.000'
+
+{
+    "0": {
+        "state": "{'Flow_08i82lb'}",
+        "active_activities": []
+    },
+    "1": {
+        "state": "{'Flow_0a9co7f'}",
+        "active_activities": []
+    },
+    "2": {
+        "state": "{'Flow_1df9ld5'}",
+        "active_activities": []
+    },
+    "3": {
+        "state": "{'Flow_08i82lb'}",
+        "active_activities": []
+    },
+    "4": {
+        "state": "{'Flow_0a9co7f'}",
+        "active_activities": []
+    },
+    "5": {
+        "state": "{'Flow_0qkv9uj'}",
+        "active_activities": []
+    },
+    "6": {
+        "state": "{'Flow_0a9co7f'}",
+        "active_activities": []
+    },
+    "7": {
+        "state": "{'Flow_1dbtc82'}",
+        "active_activities": []
+    },
+    "8": {
+        "state": "{'Flow_0a9co7f'}",
+        "active_activities": []
+    },
+    "9": {
+        "state": "{'Flow_1dbtc82'}",
+        "active_activities": []
+    },
+    "10": {
+        "state": "{'Flow_10ueywn'}",
+        "active_activities": []
+    },
+    "11": {
+        "state": "{'Flow_0qkv9uj'}",
+        "active_activities": []
+    },
+    "12": {
+        "state": "{'Flow_08i82lb'}",
+        "active_activities": []
+    },
+    "13": {
+        "state": "{'Flow_10ueywn'}",
+        "active_activities": []
+    },
+    "14": {
+        "state": "{'Flow_08i82lb'}",
+        "active_activities": [
+            {
+                "name": "P",
+                "startTime": "2012-03-21 10:10:00+00:00",
+                "resource": "Jolyne-000001"
+            }
+        ]
+    },
+    "15": {
+        "state": "{'Flow_0qkv9uj'}",
+        "active_activities": [
+            {
+                "name": "L",
+                "startTime": "2012-03-21 10:10:00+00:00",
+                "resource": "Jonathan-000001"
+            }
+        ]
+    },
+    "16": {
+        "state": "{'Flow_1df9ld5'}",
+        "active_activities": [
+            {
+                "name": "C",
+                "startTime": "2012-03-21 10:10:00+00:00",
+                "resource": "DIO-000001"
+            }
+        ]
+    }
+}
