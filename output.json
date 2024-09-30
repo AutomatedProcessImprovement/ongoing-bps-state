@@ -1,90 +1,241 @@
-//python main.py samples/synthetic_xor_loop_ongoing.csv samples/synthetic_xor_loop.bpmn --column_mapping '{"case_id": "CaseId", "Resource": "Resource", "Activity": "Activity", "__start_time": "StartTime", "end_time": "EndTime"}' --start_time '2012-03-21T10:10:00.000'
-
 {
     "0": {
-        "state": "{'Flow_08i82lb'}",
-        "active_activities": []
+        "control_flow_state": {
+            "flows": [
+                "Flow_08i82lb"
+            ],
+            "activities": []
+        },
+        "ongoing_activities": [],
+        "enabled_activities": []
     },
     "1": {
-        "state": "{'Flow_0a9co7f'}",
-        "active_activities": []
+        "control_flow_state": {
+            "flows": [
+                "Flow_0a9co7f"
+            ],
+            "activities": []
+        },
+        "ongoing_activities": [],
+        "enabled_activities": [
+            {
+                "name": "I",
+                "enabled_time": "2012-03-21 06:35:00+00:00"
+            }
+        ]
     },
     "2": {
-        "state": "{'Flow_1df9ld5'}",
-        "active_activities": []
+        "control_flow_state": {
+            "flows": [
+                "Flow_1df9ld5"
+            ],
+            "activities": []
+        },
+        "ongoing_activities": [],
+        "enabled_activities": [
+            {
+                "name": "D",
+                "enabled_time": "2012-03-21 06:45:00+00:00"
+            }
+        ]
     },
     "3": {
-        "state": "{'Flow_08i82lb'}",
-        "active_activities": []
+        "control_flow_state": {
+            "flows": [
+                "Flow_08i82lb"
+            ],
+            "activities": []
+        },
+        "ongoing_activities": [],
+        "enabled_activities": []
     },
     "4": {
-        "state": "{'Flow_0a9co7f'}",
-        "active_activities": []
+        "control_flow_state": {
+            "flows": [
+                "Flow_0a9co7f"
+            ],
+            "activities": []
+        },
+        "ongoing_activities": [],
+        "enabled_activities": [
+            {
+                "name": "I",
+                "enabled_time": "2012-03-21 07:25:00+00:00"
+            }
+        ]
     },
     "5": {
-        "state": "{'Flow_0qkv9uj'}",
-        "active_activities": []
+        "control_flow_state": {
+            "flows": [
+                "Flow_0qkv9uj"
+            ],
+            "activities": []
+        },
+        "ongoing_activities": [],
+        "enabled_activities": [
+            {
+                "name": "M",
+                "enabled_time": "2012-03-21 07:50:00+00:00"
+            }
+        ]
     },
     "6": {
-        "state": "{'Flow_0a9co7f'}",
-        "active_activities": []
+        "control_flow_state": {
+            "flows": [
+                "Flow_0a9co7f"
+            ],
+            "activities": []
+        },
+        "ongoing_activities": [],
+        "enabled_activities": [
+            {
+                "name": "I",
+                "enabled_time": "2012-03-21 07:55:00+00:00"
+            }
+        ]
     },
     "7": {
-        "state": "{'Flow_1dbtc82'}",
-        "active_activities": []
+        "control_flow_state": {
+            "flows": [
+                "Flow_1dbtc82"
+            ],
+            "activities": []
+        },
+        "ongoing_activities": [],
+        "enabled_activities": []
     },
     "8": {
-        "state": "{'Flow_0a9co7f'}",
-        "active_activities": []
+        "control_flow_state": {
+            "flows": [
+                "Flow_0a9co7f"
+            ],
+            "activities": []
+        },
+        "ongoing_activities": [],
+        "enabled_activities": [
+            {
+                "name": "I",
+                "enabled_time": "2012-03-21 08:20:00+00:00"
+            }
+        ]
     },
     "9": {
-        "state": "{'Flow_1dbtc82'}",
-        "active_activities": []
+        "control_flow_state": {
+            "flows": [
+                "Flow_1dbtc82"
+            ],
+            "activities": []
+        },
+        "ongoing_activities": [],
+        "enabled_activities": []
     },
     "10": {
-        "state": "{'Flow_10ueywn'}",
-        "active_activities": []
+        "control_flow_state": {
+            "flows": [
+                "Flow_10ueywn"
+            ],
+            "activities": []
+        },
+        "ongoing_activities": [],
+        "enabled_activities": [
+            {
+                "name": "G",
+                "enabled_time": "2012-03-21 08:45:00+00:00"
+            }
+        ]
     },
     "11": {
-        "state": "{'Flow_0qkv9uj'}",
-        "active_activities": []
+        "control_flow_state": {
+            "flows": [
+                "Flow_0qkv9uj"
+            ],
+            "activities": []
+        },
+        "ongoing_activities": [],
+        "enabled_activities": [
+            {
+                "name": "M",
+                "enabled_time": "2012-03-21 09:10:00+00:00"
+            }
+        ]
     },
     "12": {
-        "state": "{'Flow_08i82lb'}",
-        "active_activities": []
+        "control_flow_state": {
+            "flows": [
+                "Flow_08i82lb"
+            ],
+            "activities": []
+        },
+        "ongoing_activities": [],
+        "enabled_activities": []
     },
     "13": {
-        "state": "{'Flow_10ueywn'}",
-        "active_activities": []
+        "control_flow_state": {
+            "flows": [
+                "Flow_10ueywn"
+            ],
+            "activities": []
+        },
+        "ongoing_activities": [],
+        "enabled_activities": [
+            {
+                "name": "G",
+                "enabled_time": "2012-03-21 09:30:00+00:00"
+            }
+        ]
     },
     "14": {
-        "state": "{'Flow_08i82lb'}",
-        "active_activities": [
+        "control_flow_state": {
+            "flows": [
+                "Flow_1dbtc82"
+            ],
+            "activities": [
+                "P"
+            ]
+        },
+        "ongoing_activities": [
             {
                 "name": "P",
-                "startTime": "2012-03-21 10:10:00+00:00",
+                "start_time": "2012-03-21 10:10:00+00:00",
                 "resource": "Jolyne-000001"
             }
-        ]
+        ],
+        "enabled_activities": []
     },
     "15": {
-        "state": "{'Flow_0qkv9uj'}",
-        "active_activities": [
+        "control_flow_state": {
+            "flows": [
+                "Flow_0kkshlq"
+            ],
+            "activities": [
+                "L"
+            ]
+        },
+        "ongoing_activities": [
             {
                 "name": "L",
-                "startTime": "2012-03-21 10:10:00+00:00",
+                "start_time": "2012-03-21 10:10:00+00:00",
                 "resource": "Jonathan-000001"
             }
-        ]
+        ],
+        "enabled_activities": []
     },
     "16": {
-        "state": "{'Flow_1df9ld5'}",
-        "active_activities": [
+        "control_flow_state": {
+            "flows": [
+                "Flow_0fwnjaa"
+            ],
+            "activities": [
+                "C"
+            ]
+        },
+        "ongoing_activities": [
             {
                 "name": "C",
-                "startTime": "2012-03-21 10:10:00+00:00",
+                "start_time": "2012-03-21 10:10:00+00:00",
                 "resource": "DIO-000001"
             }
-        ]
+        ],
+        "enabled_activities": []
     }
 }

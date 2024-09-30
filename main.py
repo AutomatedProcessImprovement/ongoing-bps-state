@@ -16,40 +16,40 @@ def main():
     parser = argparse.ArgumentParser(description='Process Event Log and BPMN Model')
     parser.add_argument('event_log', help='Path to the event log CSV file')
     parser.add_argument('bpmn_model', help='Path to the BPMN model file')
+    parser.add_argument('bpmn_parameters', help='BPMN parameters in JSON format') #currently not used anywhere
     parser.add_argument('--start_time', help='Optional starting point datetime in ISO format')
     parser.add_argument('--column_mapping', help='Optional JSON string for column mapping')
     args = parser.parse_args()
     
-    # Handle inputs
+# Handle inputs
     input_handler = InputHandler(args)
     event_log_df = input_handler.read_event_log()
     bpmn_model = input_handler.read_bpmn_model()
+    bpmn_parameters = input_handler.parse_bpmn_parameters()
     
     # Process event log
     event_log_processor = EventLogProcessor(event_log_df, args.start_time)
     processed_event_log = event_log_processor.process()
     
     # Build N-Gram Index from BPMN model
-    bpmn_handler = BPMNHandler(bpmn_model)
+    bpmn_handler = BPMNHandler(bpmn_model, bpmn_parameters, input_handler.bpmn_model_path)
     n_gram_index = bpmn_handler.build_n_gram_index()
+    reachability_graph = bpmn_handler.get_reachability_graph()
     
     # Compute states for each case
-    state_computer = StateComputer(n_gram_index, processed_event_log)
+    state_computer = StateComputer(n_gram_index, reachability_graph, processed_event_log, bpmn_handler)
     case_states = state_computer.compute_case_states()
-    
+
     # Output results
     output_data = {}
     for case_id, case_info in case_states.items():
-        print(f"Case ID: {case_id}")
-        print(f"State: {case_info['state']}")
-        print("Active Activities:")
-        for activity in case_info['active_activities']:
-            print(f"\tName: {activity['name']}, StartTime: {activity['startTime']}, Resource: {activity['resource']}")
-        print("")
-        # Prepare data for JSON output
         output_data[case_id] = {
-            'state': str(case_info['state']),
-            'active_activities': case_info['active_activities']
+            'control_flow_state': {
+                'flows': list(case_info['state']['flows']),
+                'activities': list(case_info['state']['activities'])
+            },
+            'ongoing_activities': case_info['ongoing_activities'],
+            'enabled_activities': case_info['enabled_activities']
         }
     
     # Write output to JSON file

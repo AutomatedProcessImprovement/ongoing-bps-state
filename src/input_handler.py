@@ -14,9 +14,10 @@ class InputHandler:
     def __init__(self, args):
         self.event_log_path = Path(args.event_log)
         self.bpmn_model_path = Path(args.bpmn_model)
+        self.bpmn_parameters_str = args.bpmn_parameters
         self.start_time = args.start_time
         self.column_mapping = self.parse_column_mapping(args.column_mapping)
-
+    
     def parse_column_mapping(self, column_mapping_str):
         """Parses the column mapping from a JSON string."""
         if column_mapping_str:
@@ -31,6 +32,10 @@ class InputHandler:
                 'EndTime': 'EndTime'
             }
     
+    def parse_bpmn_parameters(self):
+        """Parses the BPMN parameters from a JSON string."""
+        return json.loads(self.bpmn_parameters_str)
+    
     def read_event_log(self):
         """Reads the event log CSV file into a DataFrame."""
         df = pd.read_csv(self.event_log_path)
@@ -41,11 +46,11 @@ class InputHandler:
         for col in required_columns:
             if col not in df.columns:
                 raise ValueError(f"Missing required column: {col}")
-        # Convert StartTime and EndTime to datetime
+        # Convert StartTime and EndTime to datetime with UTC timezone
         df['StartTime'] = pd.to_datetime(df['StartTime'], utc=True)
         df['EndTime'] = pd.to_datetime(df['EndTime'], utc=True, errors='coerce')  # Allow NaT for missing EndTime
         return df
-
+    
     def read_bpmn_model(self):
         """Reads the BPMN model file."""
         bpmn_model = read_bpmn_model(self.bpmn_model_path)

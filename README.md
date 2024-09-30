@@ -18,17 +18,22 @@ cd libs/process_running_state
 poetry install
 
 To run, use:
-python main.py path/to/event_log.csv path/to/bpmn_model.bpmn --start_time "YYYY-MM-DDTHH:MM:SS" --column_mapping '{"csv_column_name": "ExpectedColumnName", ...}'
+python main.py path/to/event_log.csv path/to/bpmn_model.bpmn path/to/parameters.json --start_time "YYYY-MM-DDTHH:MM:SS" --column_mapping '{"csv_column_name": "ExpectedColumnName", ...}'
+
+(currently parameters not used)
 
 Examples:
 - With start_time specified
 
-python main.py samples/synthetic_xor_loop_ongoing.csv samples/synthetic_xor_loop.bpmn --column_mapping '{"case_id": "CaseId", "Resource": "Resource", "Activity": "Activity", "__start_time": "StartTime", "end_time": "EndTime"}' --start_time '2012-03-21T06:10:00.000'
+python main.py samples/synthetic_xor_loop_ongoing.csv samples/synthetic_xor_loop.bpmn '{"param1": "value1", "param2": "value2"}' --column_mapping '{"case_id": "CaseId", "Resource": "Resource", "Activity": "Activity", "__start_time": "StartTime", "end_time": "EndTime"}' --start_time '2012-03-21T06:10:00.000'
 
-python main.py samples/synthetic_and_k5_ongoing.csv samples/synthetic_and_k5.bpmn --column_mapping '{"case_id": "CaseId", "Resource": "Resource", "Activity": "Activity", "__start_time": "StartTime", "end_time": "EndTime"}' --start_time '2012-03-21T08:05:00'
+python main.py samples/synthetic_and_k5_ongoing.csv samples/synthetic_and_k5.bpmn '{"param1": "value1", "param2": "value2"}' --column_mapping '{"case_id": "CaseId", "Resource": "Resource", "Activity": "Activity", "__start_time": "StartTime", "end_time": "EndTime"}' --start_time '2012-03-21T08:05:00'
 
 - Without start_time specified
 
-python main.py samples/synthetic_xor_loop_ongoing.csv samples/synthetic_xor_loop.bpmn --column_mapping '{"case_id": "CaseId", "Resource": "Resource", "Activity": "Activity", "__start_time": "StartTime", "end_time": "EndTime"}'
+python main.py samples/synthetic_xor_loop_ongoing.csv samples/synthetic_xor_loop.bpmn '{"param1": "value1", "param2": "value2"}' --column_mapping '{"case_id": "CaseId", "Resource": "Resource", "Activity": "Activity", "__start_time": "StartTime", "end_time": "EndTime"}'
 
-python main.py samples/synthetic_and_k5_ongoing.csv samples/synthetic_and_k5.bpmn --column_mapping '{"case_id": "CaseId", "Resource": "Resource", "Activity": "Activity", "__start_time": "StartTime", "end_time": "EndTime"}'
+python main.py samples/synthetic_and_k5_ongoing.csv samples/synthetic_and_k5.bpmn '{"param1": "value1", "param2": "value2"}' --column_mapping '{"case_id": "CaseId", "Resource": "Resource", "Activity": "Activity", "__start_time": "StartTime", "end_time": "EndTime"}'
+
+
+Example in output.json is used on  python main.py samples/synthetic_xor_loop_ongoing.csv samples/synthetic_xor_loop.bpmn '{"param1": "value1", "param2": "value2"}' --column_mapping '{"case_id": "CaseId", "Resource": "Resource", "Activity": "Activity", "__start_time": "StartTime", "end_time": "EndTime"}' --start_time '2012-03-21T10:10:00.000'
