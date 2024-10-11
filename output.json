@@ -20,7 +20,7 @@
         "enabled_activities": [
             {
                 "name": "I",
-                "enabled_time": "2012-03-21 06:35:00+00:00"
+                "enabled_time": "2012-03-21 06:30:00+00:00"
             }
         ]
     },
@@ -35,7 +35,7 @@
         "enabled_activities": [
             {
                 "name": "D",
-                "enabled_time": "2012-03-21 06:45:00+00:00"
+                "enabled_time": "2012-03-21 06:40:00+00:00"
             }
         ]
     },
@@ -60,7 +60,7 @@
         "enabled_activities": [
             {
                 "name": "I",
-                "enabled_time": "2012-03-21 07:25:00+00:00"
+                "enabled_time": "2012-03-21 07:20:00+00:00"
             }
         ]
     },
@@ -75,7 +75,7 @@
         "enabled_activities": [
             {
                 "name": "M",
-                "enabled_time": "2012-03-21 07:50:00+00:00"
+                "enabled_time": "2012-03-21 07:45:00+00:00"
             }
         ]
     },
@@ -90,7 +90,7 @@
         "enabled_activities": [
             {
                 "name": "I",
-                "enabled_time": "2012-03-21 07:55:00+00:00"
+                "enabled_time": "2012-03-21 07:50:00+00:00"
             }
         ]
     },
@@ -115,7 +115,7 @@
         "enabled_activities": [
             {
                 "name": "I",
-                "enabled_time": "2012-03-21 08:20:00+00:00"
+                "enabled_time": "2012-03-21 08:15:00+00:00"
             }
         ]
     },
@@ -140,7 +140,7 @@
         "enabled_activities": [
             {
                 "name": "G",
-                "enabled_time": "2012-03-21 08:45:00+00:00"
+                "enabled_time": "2012-03-21 08:40:00+00:00"
             }
         ]
     },
@@ -155,7 +155,7 @@
         "enabled_activities": [
             {
                 "name": "M",
-                "enabled_time": "2012-03-21 09:10:00+00:00"
+                "enabled_time": "2012-03-21 09:05:00+00:00"
             }
         ]
     },
@@ -180,15 +180,13 @@
         "enabled_activities": [
             {
                 "name": "G",
-                "enabled_time": "2012-03-21 09:30:00+00:00"
+                "enabled_time": "2012-03-21 09:25:00+00:00"
             }
         ]
     },
     "14": {
         "control_flow_state": {
-            "flows": [
-                "Flow_1dbtc82"
-            ],
+            "flows": [],
             "activities": [
                 "P"
             ]
@@ -204,9 +202,7 @@
     },
     "15": {
         "control_flow_state": {
-            "flows": [
-                "Flow_0kkshlq"
-            ],
+            "flows": [],
             "activities": [
                 "L"
             ]
@@ -222,9 +218,7 @@
     },
     "16": {
         "control_flow_state": {
-            "flows": [
-                "Flow_0fwnjaa"
-            ],
+            "flows": [],
             "activities": [
                 "C"
             ]

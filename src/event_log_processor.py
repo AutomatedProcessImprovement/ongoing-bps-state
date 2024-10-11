@@ -15,7 +15,8 @@ class EventLogProcessor:
     def __init__(self, event_log_df, start_time):
         self.event_log_df = event_log_df
         self.start_time = pd.to_datetime(start_time, utc=True) if start_time else None
-    
+        self.concurrency_oracle = None
+
     def process(self):
         """Processes the event log according to the provided starting point and computes enabled times."""
         df = self.event_log_df.copy()
@@ -24,9 +25,6 @@ class EventLogProcessor:
             df = df[df['StartTime'] <= self.start_time]
             # Update EndTime for ongoing activities at the starting point
             df.loc[(df['EndTime'].isna()) | (df['EndTime'] > self.start_time), 'EndTime'] = pd.NaT
-        else:
-            # Handle cases where EndTime is missing or activities are ongoing
-            pass  # No changes needed as per requirements
         
         # Compute enabled time if not present
         if 'enabled_time' not in df.columns:
@@ -46,9 +44,23 @@ class EventLogProcessor:
                 ),
                 concurrency_thresholds=ConcurrencyThresholds(df=0.5)
             )
-            concurrency_oracle = OverlappingConcurrencyOracle(df, config)
+            self.concurrency_oracle = OverlappingConcurrencyOracle(df, config)
             # Call add_enabled_times function
-            concurrency_oracle.add_enabled_times(df)
+            self.concurrency_oracle.add_enabled_times(df)
             # Step iii: Revert EndTime to empty/NULL where it was originally
             df.loc[df['EndTime'] == last_timestamp_plus_one_hour, 'EndTime'] = pd.NaT
+        else:
+            # If enabled_time exists, still create the concurrency oracle for later use
+            config = Configuration(
+                log_ids=EventLogIDs(
+                    case='CaseId',
+                    activity='Activity',
+                    start_time='StartTime',
+                    end_time='EndTime',
+                    resource='Resource',
+                    enabled_time='enabled_time'
+                ),
+                concurrency_thresholds=ConcurrencyThresholds(df=0.5)
+            )
+            self.concurrency_oracle = OverlappingConcurrencyOracle(df, config)
         return df
