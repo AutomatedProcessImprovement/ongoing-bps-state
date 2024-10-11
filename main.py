@@ -10,6 +10,7 @@ from src.input_handler import InputHandler
 from src.event_log_processor import EventLogProcessor
 from src.bpmn_handler import BPMNHandler
 from src.state_computer import StateComputer
+from pix_framework.io.event_log import EventLogIDs
 
 def main():
     # Parse command-line arguments
@@ -23,22 +24,23 @@ def main():
     
     # Handle inputs
     input_handler = InputHandler(args)
+    event_log_ids = input_handler.get_event_log_ids()
     event_log_df = input_handler.read_event_log()
     bpmn_model = input_handler.read_bpmn_model()
     bpmn_parameters = input_handler.parse_bpmn_parameters()
     
     # Process event log
-    event_log_processor = EventLogProcessor(event_log_df, args.start_time)
+    event_log_processor = EventLogProcessor(event_log_df, args.start_time, event_log_ids)
     processed_event_log = event_log_processor.process()
-    concurrency_oracle = event_log_processor.concurrency_oracle  # Retrieve the concurrency oracle
-
+    concurrency_oracle = event_log_processor.concurrency_oracle
+    
     # Build N-Gram Index from BPMN model
     bpmn_handler = BPMNHandler(bpmn_model, bpmn_parameters, input_handler.bpmn_model_path)
     n_gram_index = bpmn_handler.build_n_gram_index()
     reachability_graph = bpmn_handler.get_reachability_graph()
     
     # Compute states for each case
-    state_computer = StateComputer(n_gram_index, reachability_graph, processed_event_log, bpmn_handler, concurrency_oracle)
+    state_computer = StateComputer(n_gram_index, reachability_graph, processed_event_log, bpmn_handler, concurrency_oracle, event_log_ids)
     case_states = state_computer.compute_case_states()
     
     # Output results

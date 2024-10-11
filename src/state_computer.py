@@ -9,30 +9,32 @@ from process_running_state.n_gram_index import NGramIndex
 
 class StateComputer:
     """Computes the state of each case using the N-Gram index."""
-    def __init__(self, n_gram_index, reachability_graph, event_log_df, bpmn_handler, concurrency_oracle):
+    def __init__(self, n_gram_index, reachability_graph, event_log_df, bpmn_handler, concurrency_oracle, event_log_ids):
         self.n_gram_index = n_gram_index
         self.reachability_graph = reachability_graph
         self.event_log_df = event_log_df
         self.bpmn_handler = bpmn_handler
         self.concurrency_oracle = concurrency_oracle
+        self.event_log_ids = event_log_ids
 
     def compute_case_states(self):
         """Computes states and active activities for all cases."""
         case_states = {}
+        ids = self.event_log_ids  # For convenience
         # Group the event log by CaseId
-        grouped = self.event_log_df.groupby('CaseId')
+        grouped = self.event_log_df.groupby(ids.case)
         for case_id, group in grouped:
             # Sort activities by StartTime
-            group = group.sort_values('StartTime')
+            group = group.sort_values(ids.start_time)
             # Identify ongoing activities
-            ongoing_activities_df = group[group['EndTime'].isna()]
-            ongoing_activities = ongoing_activities_df[['Activity', 'StartTime', 'Resource']].rename(columns={
-                'Activity': 'name',
-                'StartTime': 'start_time',
-                'Resource': 'resource'
+            ongoing_activities_df = group[group[ids.end_time].isna()]
+            ongoing_activities = ongoing_activities_df[[ids.activity, ids.start_time, ids.resource]].rename(columns={
+                ids.activity: 'name',
+                ids.start_time: 'start_time',
+                ids.resource: 'resource'
             }).to_dict('records')
             # Get the entire sequence of activities (including ongoing ones)
-            activities = group['Activity'].tolist()
+            activities = group[ids.activity].tolist()
             n_gram = [NGramIndex.TRACE_START] + activities
             # Compute the state using N-Gram index
             state_marking = self.n_gram_index.get_best_marking_state_for(n_gram)
@@ -65,12 +67,12 @@ class StateComputer:
                 activity_name = self.bpmn_handler.activities.get(target_ref)
                 if activity_name:
                     # Create temporary event
-                    finished_activities = group[group['EndTime'].notna()]
-                    max_end_time = finished_activities['EndTime'].max() if not finished_activities.empty else None
+                    finished_activities = group[group[ids.end_time].notna()]
+                    max_end_time = finished_activities[ids.end_time].max() if not finished_activities.empty else None
                     temp_event = pd.Series({
-                        'Activity': activity_name,
-                        'StartTime': max_end_time,
-                        'EndTime': max_end_time
+                        ids.activity: activity_name,
+                        ids.start_time: max_end_time,
+                        ids.end_time: max_end_time
                     })
                     # Compute enabled_time using the concurrency oracle
                     enabled_time = self.concurrency_oracle.enabled_since(trace=group, event=temp_event)
