@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'libs
 
 import argparse
 import json
+import pandas as pd
 from src.input_handler import InputHandler
 from src.event_log_processor import EventLogProcessor
 from src.bpmn_handler import BPMNHandler
@@ -42,10 +43,35 @@ def main():
     state_computer = StateComputer(n_gram_index, reachability_graph, processed_event_log, bpmn_handler, concurrency_oracle, event_log_ids)
     case_states = state_computer.compute_case_states()
     
+    # Compute the last case arrival datetime
+    ids = event_log_ids
+    # Get the earliest start_time per case
+    case_arrival_times = processed_event_log.groupby(ids.case)[ids.start_time].min()
+    # Get the maximum of these earliest start_times
+    last_case_arrival = case_arrival_times.max()
+    # Convert to ISO format string
+    last_case_arrival_str = last_case_arrival.isoformat() if pd.notnull(last_case_arrival) else None
+    
+    # Compute the last recorded end_time per resource
+    # Drop rows where end_time is NaT
+    end_times = processed_event_log.dropna(subset=[ids.end_time])
+    # Group by resource and get the maximum end_time per resource
+    resource_last_end_times = end_times.groupby(ids.resource)[ids.end_time].max()
+    # Convert to dictionary with ISO format strings
+    resource_last_end_times_dict = {
+        resource: end_time.isoformat() if pd.notnull(end_time) else None
+        for resource, end_time in resource_last_end_times.items()
+    }
+    
     # Output results
-    output_data = {}
+    output_data = {
+        'last_case_arrival': last_case_arrival_str,
+        'resource_last_end_times': resource_last_end_times_dict,
+        'cases': {}
+    }
+    
     for case_id, case_info in case_states.items():
-        output_data[case_id] = {
+        output_data['cases'][str(case_id)] = {
             'control_flow_state': {
                 'flows': list(case_info['control_flow_state']['flows']),
                 'activities': list(case_info['control_flow_state']['activities'])
