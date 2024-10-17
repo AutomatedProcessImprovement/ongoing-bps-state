@@ -19,16 +19,15 @@ class InputHandler:
         self.start_time = args.start_time
         self.column_mapping_str = args.column_mapping
         self.column_mapping = self.parse_column_mapping()
+        self.event_log_df = self.read_event_log()  # Read the event log here
         self.event_log_ids = self.get_event_log_ids()
-
+    
     def parse_column_mapping(self):
-        """Parses the column mapping from a JSON string and creates a mapping to standard names."""
+        """Parses the column mapping from a JSON string."""
         if self.column_mapping_str:
             mapping = json.loads(self.column_mapping_str)
-            # The mapping is from actual column names to standard names
             # Ensure all required standard names are present in the mapping values
             required_standard_names = ['CaseId', 'Resource', 'Activity', 'StartTime', 'EndTime']
-            # Create a set of standard names provided in the mapping
             provided_standard_names = set(mapping.values())
             for std_name in required_standard_names:
                 if std_name not in provided_standard_names:
@@ -44,9 +43,9 @@ class InputHandler:
                 'StartTime': 'StartTime',
                 'EndTime': 'EndTime'
             }
-
+    
     def get_event_log_ids(self):
-        """Returns the EventLogIDs instance with standard names."""
+        """Returns the EventLogIDs instance with actual column names after mapping."""
         return EventLogIDs(
             case='CaseId',
             activity='Activity',
@@ -65,7 +64,7 @@ class InputHandler:
         df = pd.read_csv(self.event_log_path)
         # Apply column mapping to rename columns to standard names
         df = df.rename(columns=self.column_mapping)
-        # Validate required columns
+        # Validate required columns using standard names
         required_columns = ['CaseId', 'Resource', 'Activity', 'StartTime', 'EndTime']
         for col in required_columns:
             if col not in df.columns:

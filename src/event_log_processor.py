@@ -8,7 +8,6 @@ import pandas as pd
 import numpy as np
 from pix_framework.enhancement.concurrency_oracle import OverlappingConcurrencyOracle
 from pix_framework.enhancement.start_time_estimator.config import Configuration, ConcurrencyThresholds
-from pix_framework.io.event_log import EventLogIDs
 
 class EventLogProcessor:
     """Processes the event log DataFrame based on the starting point."""
@@ -17,7 +16,7 @@ class EventLogProcessor:
         self.start_time = pd.to_datetime(start_time, utc=True) if start_time else None
         self.event_log_ids = event_log_ids
         self.concurrency_oracle = None  # Initialize the concurrency oracle
-
+    
     def process(self):
         """Processes the event log according to the provided starting point and computes enabled times."""
         df = self.event_log_df.copy()
