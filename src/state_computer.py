@@ -26,6 +26,7 @@ class StateComputer:
         for case_id, group in grouped:
             # Sort activities by StartTime
             group = group.sort_values(ids.start_time)
+
             # Identify ongoing activities
             ongoing_activities_df = group[group[ids.end_time].isna()]
             ongoing_activities = ongoing_activities_df[[ids.activity, ids.start_time, ids.resource]].rename(columns={
@@ -33,12 +34,31 @@ class StateComputer:
                 ids.start_time: 'start_time',
                 ids.resource: 'resource'
             }).to_dict('records')
+
+            # Also compute enabled_time for ongoing activities
+            for ongoing_activity in ongoing_activities:
+                activity_name = ongoing_activity['name']
+                stime = ongoing_activity['start_time']
+                if pd.isna(stime):
+                    # If there's no start time, we can't compute properly
+                    ongoing_activity['enabled_time'] = None
+                else:
+                    # Create a temporary event for concurrency oracle
+                    temp_event = pd.Series({
+                        ids.activity: activity_name,
+                        ids.start_time: stime,
+                        ids.end_time: stime
+                    })
+                    enabled_time = self.concurrency_oracle.enabled_since(trace=group, event=temp_event)
+                    ongoing_activity['enabled_time'] = enabled_time
+
             # Get the entire sequence of activities (including ongoing ones)
             activities = group[ids.activity].tolist()
             n_gram = [NGramIndex.TRACE_START] + activities
             # Compute the state using N-Gram index
             state_marking = self.n_gram_index.get_best_marking_state_for(n_gram)
             state_flows = state_marking.copy()
+
             # Get the current marking ID
             current_marking_key = tuple(sorted(state_marking))
             current_marking_id = self.reachability_graph.marking_to_key.get(current_marking_key)
@@ -57,9 +77,11 @@ class StateComputer:
                             # Intersect the source marking with the current state marking
                             state_flows = state_flows.intersection(source_marking)
                             break  # Stop after finding the first matching edge
+
             # Add IDs of ongoing activities to the state
             ongoing_activity_ids = set([activity['name'] for activity in ongoing_activities])
             state_activities = ongoing_activity_ids
+
             # Compute enabled activities
             enabled_activities = []
             for flow_id in state_flows:
@@ -80,6 +102,7 @@ class StateComputer:
                         'name': activity_name,
                         'enabled_time': enabled_time
                     })
+
             # Store case information
             case_states[case_id] = {
                 'control_flow_state': {
