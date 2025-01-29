@@ -1,10 +1,6 @@
 # src/bpmn_handler.py
 
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'libs')))
-
-from process_running_state.n_gram_index import NGramIndex
+from ongoing_process_state.n_gram_index import NGramIndex
 import xml.etree.ElementTree as ET
 
 class BPMNHandler:
@@ -13,8 +9,8 @@ class BPMNHandler:
         self.bpmn_model = bpmn_model
         self.bpmn_parameters = bpmn_parameters
         self.bpmn_model_path = bpmn_model_path
-        self.sequence_flows = {}  # flow_id -> targetRef
-        self.activities = {}      # element_id -> name
+        self.sequence_flows = {}
+        self.activities = {}
         self.parse_bpmn_xml()
     
     def parse_bpmn_xml(self):

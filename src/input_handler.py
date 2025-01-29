@@ -1,13 +1,9 @@
 # src/input_handler.py
 
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'libs')))
-
 import pandas as pd
 from pathlib import Path
 import json
-from process_running_state.utils import read_bpmn_model
+from ongoing_process_state.utils import read_bpmn_model
 from pix_framework.io.event_log import EventLogIDs
 
 class InputHandler:

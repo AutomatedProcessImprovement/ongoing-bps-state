@@ -1,11 +1,7 @@
 # src/state_computer.py
 
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'libs')))
-
 import pandas as pd
-from process_running_state.n_gram_index import NGramIndex
+from ongoing_process_state.n_gram_index import NGramIndex
 
 class StateComputer:
     """Computes the state of each case using the N-Gram index."""
