@@ -52,8 +52,13 @@ class InputHandler:
         )
 
     def parse_bpmn_parameters(self):
-        """Parses the BPMN parameters from a JSON string."""
-        return json.loads(self.bpmn_parameters_str)
+        """
+        Interpret self.bpmn_parameters_str as a filename.
+        We'll open it and parse the JSON content from that file.
+        """
+        with open(self.bpmn_parameters_str, 'r') as f:
+            return json.load(f)
+
     
     def read_event_log(self):
         """Reads the event log CSV file into a DataFrame."""

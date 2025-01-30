@@ -1,9 +1,5 @@
 # src/event_log_processor.py
 
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'libs')))
-
 import pandas as pd
 import numpy as np
 from pix_framework.enhancement.concurrency_oracle import OverlappingConcurrencyOracle
