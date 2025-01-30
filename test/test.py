@@ -1,6 +1,10 @@
 # test.py
 
+import sys
+import os
 import multiprocessing
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from src.runner import run_process_state_and_simulation
 
 def main():
@@ -19,5 +23,5 @@ def main():
     )
 
 if __name__ == "__main__":
-    multiprocessing.freeze_support()  # Usually safe on Windows
+    # multiprocessing.freeze_support()
     main()
