@@ -35,7 +35,7 @@ def main():
     sim_time = run_basic_simulation(
         bpmn_model=bpmn_model,
         json_sim_params=bpmn_params,
-        total_cases=1000,
+        total_cases=5000,
         out_stats_csv_path=basic_stats_csv,
         out_log_csv_path=basic_log_csv,
         start_date="2012-03-19T10:10:00.000Z"
@@ -62,12 +62,12 @@ def main():
     partial_log_csv   = "samples/output/partial_sim_log.csv"
 
     # Simulation parameters for partial-state simulation
-    start_time = "2012-03-21T10:10:00.000Z"
-    simulation_horizon = "2012-04-25T23:10:30.000Z"
-    total_cases = 1000
+    start_time = "2012-04-21T10:10:00.000Z"
+    simulation_horizon = "2012-09-25T23:10:30.000Z"
+    total_cases = 4000
 
     # Number of runs to perform (to account for stochasticity)
-    num_runs = 5
+    num_runs = 15
 
     # List to collect the distances dictionary from each run.
     all_run_distances = []

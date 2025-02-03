@@ -78,7 +78,7 @@ def read_event_log(csv_path, column_mapping=None):
 
 def preprocess_alog(df, start_time=None, horizon=None):
     """
-    1) remove events that ended before 'start_time' (i.e. end_time < start_time),
+    1) remove events that ended before cut-off point (i.e. end_time < start_time),
        fully-finished prior to the partial-state start.
     2) remove entire cases that start after horizon (min start_time > horizon).
     """
