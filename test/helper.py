@@ -98,8 +98,7 @@ def preprocess_alog(df, start_time=None, horizon=None):
 
 def preprocess_glog(df, horizon=None):
     """
-    Similar logic for GLog if desired:
-    remove cases that only start after horizon, etc.
+    remove cases that only start after horizon.
     """
     out = df.copy()
     if horizon is not None and "start_time" in out.columns:
