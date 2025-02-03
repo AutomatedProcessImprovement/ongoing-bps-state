@@ -81,7 +81,7 @@ def main():
     # -------------------------------
     # STEP 2: Run experiments for both approaches (K runs)
     # -------------------------------
-    num_runs = 5
+    num_runs = 7
 
     # File names for simulation outputs (they can be overwritten each run)
     proc_stats_csv = "samples/output/partial_sim_stats.csv"
@@ -180,6 +180,23 @@ def main():
     proc_agg = aggregate_metrics(proc_run_distances)
     warmup_agg = aggregate_metrics(warmup_run_distances)
 
+    comparison_summary = {}
+    metric_keys = proc_agg.keys()
+    for metric in metric_keys:
+        proc_mean = proc_agg[metric]["mean"]
+        warmup_mean = warmup_agg[metric]["mean"]
+        if proc_mean < warmup_mean:
+            better_approach = "process_state"
+        elif warmup_mean < proc_mean:
+            better_approach = "warmup"
+        else:
+            better_approach = "tie"
+        comparison_summary[metric] = {
+            "process_state_mean": proc_mean,
+            "warmup_mean": warmup_mean,
+            "better_approach": better_approach
+        }
+
     # -------------------------------
     # STEP 5: Build final output JSON
     # -------------------------------
@@ -192,7 +209,8 @@ def main():
         "warmup": {
             "aggregated_results": warmup_agg,
             "all_run_results": warmup_run_distances
-        }
+        },
+        "comparison_summary": comparison_summary
     }
 
     print("\n=== Final Aggregated Results ===")
