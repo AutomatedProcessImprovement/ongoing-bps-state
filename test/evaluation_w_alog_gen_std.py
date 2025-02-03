@@ -26,6 +26,7 @@ def main():
          (b) The process-state approach: run the partial-state simulation starting at simulation_cut_date.
     4) For each run and each approach, compute distance metrics comparing the simulation output to the reference ALog.
     5) Aggregate results (mean, std, 95% CI) across runs for each approach.
+    6) Perform a simple analysis comparing the aggregated mean distances between approaches.
     """
 
     # -------------------------------
@@ -81,7 +82,7 @@ def main():
     # -------------------------------
     # STEP 2: Run experiments for both approaches (K runs)
     # -------------------------------
-    num_runs = 7
+    num_runs = 15
 
     # File names for simulation outputs (they can be overwritten each run)
     proc_stats_csv = "samples/output/partial_sim_stats.csv"
@@ -101,7 +102,7 @@ def main():
 
     proc_total_cases = 4000
 
-    # For the warm-up approach, the warmup start is the same as the ALog simulation start.
+    # For the warm-up approach, the warmup simulation starts at the same simulation date as ALog.
     warmup_start = "2012-03-19T10:10:00.000Z"
     warmup_total_cases = 4000
 
@@ -154,7 +155,7 @@ def main():
         warmup_run_distances.append(warmup_result.get("distances", {}))
 
     # -------------------------------
-    # STEP 4: Aggregate results for each approach
+    # STEP 3: Aggregate results for each approach
     # -------------------------------
     def aggregate_metrics(all_runs):
         agg = {}
@@ -180,6 +181,10 @@ def main():
     proc_agg = aggregate_metrics(proc_run_distances)
     warmup_agg = aggregate_metrics(warmup_run_distances)
 
+    # -------------------------------
+    # STEP 4: Comparison Analysis
+    # -------------------------------
+    # For each metric, compare the aggregated mean values. Lower distance is assumed to be better.
     comparison_summary = {}
     metric_keys = proc_agg.keys()
     for metric in metric_keys:

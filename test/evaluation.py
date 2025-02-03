@@ -53,27 +53,33 @@ def evaluate_partial_state_simulation(
     if required_columns is None:
         required_columns = ["case_id", "activity", "start_time", "end_time", "resource"]
 
-    # 1) Run the partial-state simulation (if requested)
+    # 1) Run the partial-state simulation (if requested) with up to 3 retries
     if simulate:
         if verbose:
             print("=== [Process-State] Step 1: Running partial-state simulation ===")
-        try:
-            run_process_state_and_simulation(
-                event_log=event_log,
-                bpmn_model=bpmn_model,
-                bpmn_parameters=bpmn_parameters,
-                start_time=start_time,
-                column_mapping=column_mapping,
-                simulate=True,
-                simulation_horizon=simulation_horizon,
-                total_cases=total_cases,
-                sim_stats_csv=sim_stats_csv,
-                sim_log_csv=sim_log_csv,
-            )
-        except FileNotFoundError as e:
-            raise RuntimeError(f"Simulation failed - file not found: {e}") from e
-        except Exception as e:
-            raise RuntimeError(f"Simulation failed with unexpected error: {e}") from e
+        max_attempts = 3
+        attempt = 1
+        while attempt <= max_attempts:
+            try:
+                run_process_state_and_simulation(
+                    event_log=event_log,
+                    bpmn_model=bpmn_model,
+                    bpmn_parameters=bpmn_parameters,
+                    start_time=start_time,
+                    column_mapping=column_mapping,
+                    simulate=True,
+                    simulation_horizon=simulation_horizon,
+                    total_cases=total_cases,
+                    sim_stats_csv=sim_stats_csv,
+                    sim_log_csv=sim_log_csv,
+                )
+                break
+            except Exception as e:
+                if attempt == max_attempts:
+                    raise RuntimeError(f"Process-state simulation failed after {max_attempts} attempts: {e}") from e
+                else:
+                    print(f"[Process-State] Attempt {attempt} failed: {e}. Retrying...")
+                    attempt += 1
     else:
         if verbose:
             print("Skipping simulation (simulate=False).")
@@ -220,23 +226,29 @@ def evaluate_warmup_simulation(
             "EndTime": "end_time",
         }
 
-    # 1) Run basic simulation starting at warmup_start (includes the warm-up period)
+    # 1) Run basic simulation starting at warmup_start (includes the warm-up period) with up to 3 retries
     if simulate:
         if verbose:
             print("=== [Warm-up] Step 1: Running basic simulation (warm-up) ===")
-        try:
-            run_basic_simulation(
-                bpmn_model=bpmn_model,
-                json_sim_params=bpmn_parameters,
-                total_cases=total_cases,
-                out_stats_csv_path=sim_stats_csv,
-                out_log_csv_path=sim_log_csv,
-                start_date=warmup_start
-            )
-        except FileNotFoundError as e:
-            raise RuntimeError(f"Warm-up simulation failed - file not found: {e}") from e
-        except Exception as e:
-            raise RuntimeError(f"Warm-up simulation failed with unexpected error: {e}") from e
+        max_attempts = 3
+        attempt = 1
+        while attempt <= max_attempts:
+            try:
+                run_basic_simulation(
+                    bpmn_model=bpmn_model,
+                    json_sim_params=bpmn_parameters,
+                    total_cases=total_cases,
+                    out_stats_csv_path=sim_stats_csv,
+                    out_log_csv_path=sim_log_csv,
+                    start_date=warmup_start
+                )
+                break
+            except Exception as e:
+                if attempt == max_attempts:
+                    raise RuntimeError(f"Warm-up simulation failed after {max_attempts} attempts: {e}") from e
+                else:
+                    print(f"[Warm-up] Attempt {attempt} failed: {e}. Retrying...")
+                    attempt += 1
     else:
         if verbose:
             print("Skipping warm-up simulation (simulate=False).")
