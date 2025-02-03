@@ -5,14 +5,9 @@ import os
 import json
 import pandas as pd
 
-# Ensure Python can find 'src' if needed
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# We assume run_process_state_and_simulation is defined in src/runner.py
-from src.runner import run_process_state_and_simulation
-
-# Our local helpers and metrics in 'test/' folder
-from test import helper, metrics, evaluation
+from test import evaluation
 
 if __name__ == "__main__":
     colmap_str = '{"case_id":"CaseId","Resource":"Resource","Activity":"Activity","__start_time":"StartTime","end_time":"EndTime","enable_time":"__AssignedTime"}'
