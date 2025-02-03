@@ -67,6 +67,42 @@ def run_short_term_simulation(
     sim_time = (datetime.datetime.now() - start_clock).total_seconds()
     return sim_time
 
+def run_basic_simulation(
+    bpmn_model,
+    json_sim_params,
+    total_cases,
+    out_stats_csv_path,
+    out_log_csv_path,
+    start_date=None
+):
+    """
+    Perform a standard Prosimos simulation, *without* partial-state or horizon.
+    
+    :param bpmn_model: Path to BPMN model file
+    :param json_sim_params: Path to JSON simulation parameters
+    :param total_cases: Number of cases to simulate
+    :param out_stats_csv_path: CSV path for simulation stats
+    :param out_log_csv_path: CSV path for simulation event log
+    :param start_date: Optional simulation start time as a datetime
+    
+    :return: The elapsed simulation time in seconds (float)
+    """
+    start_clock = datetime.datetime.now()
+
+    run_simulation(
+        bpmn_path=bpmn_model,
+        json_path=json_sim_params,
+        total_cases=total_cases,
+        stat_out_path=out_stats_csv_path,
+        log_out_path=out_log_csv_path,
+        starting_at=start_date,
+        process_state=None,         # No partial-state
+        simulation_horizon=None     # No horizon
+    )
+
+    sim_time = (datetime.datetime.now() - start_clock).total_seconds()
+    return sim_time
+
 def main():
     parser = argparse.ArgumentParser(
         description="Runs Prosimos with optional partial-state and horizon for short-term simulation."

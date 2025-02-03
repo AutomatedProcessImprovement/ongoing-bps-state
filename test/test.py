@@ -8,7 +8,6 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from src.runner import run_process_state_and_simulation
 
 def main():
-    # You might define all your parameters here:
     run_process_state_and_simulation(
         event_log="samples/synthetic_xor_loop_ongoing.csv",
         bpmn_model="samples/synthetic_xor_loop.bpmn",
