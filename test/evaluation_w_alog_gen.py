@@ -6,12 +6,9 @@ import json
 import pandas as pd
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-sys.path.insert(0, "./prosimos_std")
 
 from src.process_state_prosimos_run import run_basic_simulation
 from test.evaluation import evaluate_partial_state_simulation
-
-#Not working rn, there is an issue with prosimos without process state
 
 def main():
     """
@@ -56,15 +53,13 @@ def main():
     # to interpret columns in the partial-state step.
     colmap_str = '{"case_id":"CaseId","activity":"Activity","resource":"Resource","start_time":"StartTime","end_time":"EndTime"}'
 
-    # We'll rename columns in the "ALog" if needed. 
-    # Adjust keys/values depending on how your basic simulation CSV actually names them!
+    # We'll rename columns in the "ALog"
     rename_alog_dict = {
         "CaseId":       "case_id",
         "Activity":     "activity",
         "Resource":     "resource",
         "StartTime":    "start_time",
         "EndTime":      "end_time",
-        # etc.  (If your basic log has different columns, adapt as needed.)
     }
 
     # We'll produce new sim logs in these paths:
@@ -92,9 +87,6 @@ def main():
         simulate=True,
         verbose=True
     )
-
-    # print("\n=== Final result of partial-state evaluation ===")
-    # print(json.dumps(result_dict, indent=4))
 
 if __name__ == "__main__":
     main()
