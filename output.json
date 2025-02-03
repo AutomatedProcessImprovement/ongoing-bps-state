@@ -282,30 +282,35 @@
         },
         "28": {
             "control_flow_state": {
-                "flows": [
-                    "Flow_08i82lb"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": []
-        },
-        "29": {
-            "control_flow_state": {
                 "flows": [],
                 "activities": [
-                    "O"
+                    "N"
                 ]
             },
             "ongoing_activities": [
                 {
-                    "name": "O",
-                    "start_time": "2012-03-21 10:05:14.915168+00:00",
-                    "resource": "Giorno",
-                    "enabled_time": "2012-03-21 10:00:14.915168+00:00"
+                    "name": "N",
+                    "start_time": "2012-03-21 10:05:24.224301+00:00",
+                    "resource": "Jolyne",
+                    "enabled_time": "2012-03-21 10:01:43.768729+00:00"
                 }
             ],
             "enabled_activities": []
+        },
+        "29": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0qkv9uj"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "name": "M",
+                    "enabled_time": "2012-03-21 10:00:24.224301+00:00"
+                }
+            ]
         },
         "30": {
             "control_flow_state": {
@@ -321,32 +326,59 @@
             "control_flow_state": {
                 "flows": [],
                 "activities": [
-                    "N"
+                    "K"
                 ]
             },
             "ongoing_activities": [
                 {
-                    "name": "N",
-                    "start_time": "2012-03-21 10:08:15.278786+00:00",
-                    "resource": "Jolyne",
-                    "enabled_time": "2012-03-21 10:03:15.278786+00:00"
+                    "name": "K",
+                    "start_time": "2012-03-21 10:06:43.768729+00:00",
+                    "resource": "Jonathan",
+                    "enabled_time": "2012-03-21 10:04:21.831362+00:00"
                 }
             ],
             "enabled_activities": []
         },
         "32": {
             "control_flow_state": {
+                "flows": [
+                    "Flow_0kkshlq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": []
+        },
+        "33": {
+            "control_flow_state": {
                 "flows": [],
                 "activities": [
-                    "E"
+                    "L"
                 ]
             },
             "ongoing_activities": [
                 {
-                    "name": "E",
-                    "start_time": "2012-03-21 10:07:48.554397+00:00",
-                    "resource": "DIO",
-                    "enabled_time": "2012-03-21 10:02:48.554397+00:00"
+                    "name": "L",
+                    "start_time": "2012-03-21 10:09:21.831362+00:00",
+                    "resource": "Giorno",
+                    "enabled_time": "2012-03-21 10:05:24.224301+00:00"
+                }
+            ],
+            "enabled_activities": []
+        },
+        "34": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "B"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "name": "B",
+                    "start_time": "2012-03-21 10:07:46.795909+00:00",
+                    "resource": "Pucci",
+                    "enabled_time": "NaT"
                 }
             ],
             "enabled_activities": []

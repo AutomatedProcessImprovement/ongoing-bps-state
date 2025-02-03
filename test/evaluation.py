@@ -6,8 +6,20 @@ import pandas as pd
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from src.runner import run_process_state_and_simulation
-from test import helper, metrics
+from test import helper
 
+# Import functions from the log-distance-measures library
+from log_distance_measures.config import (
+    DEFAULT_CSV_IDS,
+    AbsoluteTimestampType,
+    discretize_to_hour,
+    EventLogIDs
+)
+from log_distance_measures.control_flow_log_distance import control_flow_log_distance
+from log_distance_measures.n_gram_distribution import n_gram_distribution_distance
+from log_distance_measures.absolute_event_distribution import absolute_event_distribution_distance
+from log_distance_measures.case_arrival_distribution import case_arrival_distribution_distance
+from log_distance_measures.cycle_time_distribution import cycle_time_distribution_distance
 
 def evaluate_partial_state_simulation(
     event_log: str,
@@ -60,7 +72,7 @@ def evaluate_partial_state_simulation(
     if required_columns is None:
         required_columns = ["case_id", "activity", "start_time", "end_time", "resource"]
 
-    # 1) Optional partial-state simulation
+    # 1) Run the partial-state simulation (if requested)
     if simulate:
         if verbose:
             print("=== Step 1: Running partial-state simulation ===")
@@ -85,10 +97,9 @@ def evaluate_partial_state_simulation(
         if verbose:
             print("Skipping simulation (simulate=False).")
 
-    # 2) Read ALog & GLog
+    # 2) Read ALog & GLog CSV files
     if verbose:
         print("=== Step 2: Reading ALog & GLog with no special mapping ===")
-
     if not os.path.isfile(event_log):
         raise FileNotFoundError(f"ALog file not found: {event_log}")
     if not os.path.isfile(sim_log_csv):
@@ -97,13 +108,13 @@ def evaluate_partial_state_simulation(
     alog_df = pd.read_csv(event_log)
     glog_df = pd.read_csv(sim_log_csv)
 
-    # 2b) Rename columns to the standard columns that metrics code expects
+    # 2b) Rename columns to standard names as expected by log-distance-measures
     if rename_alog:
         alog_df.rename(columns=rename_alog, inplace=True)
     if rename_glog:
         glog_df.rename(columns=rename_glog, inplace=True)
 
-    # Convert times to datetime
+    # Convert time columns to datetime
     time_cols = ["enable_time", "start_time", "end_time"]
     for col in time_cols:
         if col in alog_df.columns:
@@ -111,43 +122,81 @@ def evaluate_partial_state_simulation(
         if col in glog_df.columns:
             glog_df[col] = pd.to_datetime(glog_df[col], utc=True, errors="coerce")
 
-    # if verbose:
-    #     print("ALog columns after rename:", alog_df.columns.tolist())
-    #     print("GLog columns after rename:", glog_df.columns.tolist())
-
-    # 3) Preprocess logs
+    # 3) Preprocess logs (remove events/cases outside the simulation window)
     if verbose:
         print("=== Step 3: Preprocessing logs ===")
     start_dt = pd.to_datetime(start_time, utc=True)
     horizon_dt = pd.to_datetime(simulation_horizon, utc=True)
-
     A_clean = helper.preprocess_alog(alog_df, start_time=start_dt, horizon=horizon_dt)
     G_clean = helper.preprocess_glog(glog_df, horizon=horizon_dt)
 
-    # 4) Keep only columns needed for metrics
-    #    (if any required columns missing, a KeyError will be raised)
+    # 4) Keep only the required columns
     A_clean = A_clean[required_columns]
     G_clean = G_clean[required_columns]
 
-    # 5) Basic stats
+    # 5) Compute basic log stats (number of cases, events, etc.)
     if verbose:
         print("=== Step 4: Computing basic stats ===")
     statsA = helper.basic_log_stats(A_clean)
     statsG = helper.basic_log_stats(G_clean)
 
-    # 6) Compute metrics
-    if verbose:
-        print("=== Step 5: Computing metrics ===")
-    metric_vals = metrics.compute_all_metrics(A_clean, G_clean)
+    custom_ids = EventLogIDs(
+        case="case_id",
+        activity="activity",
+        start_time="start_time",
+        end_time="end_time",
+        resource="resource"
+    )
 
-    # 7) Return as a dict (JSON-like)
+    # 6) Compute distances using log-distance-measures
+    if verbose:
+        print("=== Step 5: Computing log-distance-measures distances ===")
+    distances = {}
+    try:
+        # Control-Flow Log Distance (CFLD)
+        distances["control_flow_log_distance"] = control_flow_log_distance(
+            A_clean, custom_ids,
+            G_clean, custom_ids
+        )
+
+        # N-Gram Distribution Distance (using trigrams, i.e. n=3)
+        distances["n_gram_distribution_distance"] = n_gram_distribution_distance(
+            A_clean, custom_ids,
+            G_clean, custom_ids,
+            n=3
+        )
+
+        # Absolute Event Distribution Distance (considering only start times)
+        distances["absolute_event_distribution_distance"] = absolute_event_distribution_distance(
+            A_clean, custom_ids,
+            G_clean, custom_ids,
+            discretize_type=AbsoluteTimestampType.START,
+            discretize_event=discretize_to_hour
+        )
+
+        # Case Arrival Distribution Distance
+        distances["case_arrival_distribution_distance"] = case_arrival_distribution_distance(
+            A_clean, custom_ids,
+            G_clean, custom_ids,
+            discretize_event=discretize_to_hour
+        )
+
+        # Cycle Time Distribution Distance (with 1-hour bins)
+        distances["cycle_time_distribution_distance"] = cycle_time_distribution_distance(
+            A_clean, custom_ids,
+            G_clean, custom_ids,
+            bin_size=pd.Timedelta(hours=1)
+        )
+    except Exception as e:
+        raise RuntimeError(f"Error computing log distance measures: {e}") from e
+
+    # 7) Return the stats and computed distances as a result dictionary
     result_dict = {
         "ALog_stats": statsA,
         "GLog_stats": statsG,
-        "metrics": metric_vals,
+        "distances": distances,
     }
 
     if verbose:
         print("Evaluation result:", json.dumps(result_dict, indent=4))
-
     return result_dict
