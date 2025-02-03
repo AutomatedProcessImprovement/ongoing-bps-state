@@ -153,20 +153,20 @@ def evaluate_partial_state_simulation(
         print("=== Step 5: Computing log-distance-measures distances ===")
     distances = {}
     try:
-        # Control-Flow Log Distance (CFLD)
+        # Control-Flow Log Distance
         distances["control_flow_log_distance"] = control_flow_log_distance(
             A_clean, custom_ids,
             G_clean, custom_ids
         )
 
-        # N-Gram Distribution Distance (using trigrams, i.e. n=3)
+        # N-Gram Distribution Distance
         distances["n_gram_distribution_distance"] = n_gram_distribution_distance(
             A_clean, custom_ids,
             G_clean, custom_ids,
             n=3
         )
 
-        # Absolute Event Distribution Distance (considering only start times)
+        # Absolute Event Distribution Distance
         distances["absolute_event_distribution_distance"] = absolute_event_distribution_distance(
             A_clean, custom_ids,
             G_clean, custom_ids,
@@ -181,7 +181,7 @@ def evaluate_partial_state_simulation(
             discretize_event=discretize_to_hour
         )
 
-        # Cycle Time Distribution Distance (with 1-hour bins)
+        # Cycle Time Distribution Distance
         distances["cycle_time_distribution_distance"] = cycle_time_distribution_distance(
             A_clean, custom_ids,
             G_clean, custom_ids,

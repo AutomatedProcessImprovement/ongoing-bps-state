@@ -1,4 +1,4 @@
-# test/test_synthetic_xor_loop.py
+# test/test_glog_alog_synthetic_simple.py
 
 import sys
 import os

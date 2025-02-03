@@ -1,4 +1,4 @@
-# test.py
+# test/test_synthetic_simple.py
 
 import sys
 import os
