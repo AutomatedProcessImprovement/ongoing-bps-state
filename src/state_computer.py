@@ -46,6 +46,10 @@ class StateComputer:
                         ids.end_time: stime
                     })
                     enabled_time = self.concurrency_oracle.enabled_since(trace=group, event=temp_event)
+
+                    if pd.isna(enabled_time):
+                        print(f"[DEBUG concurrency] Ongoing '{activity_name}' in case {case_id}: "
+                              "concurrency oracle returned NaT => no valid enabling event found.")
                     ongoing_activity['enabled_time'] = enabled_time
 
             # Get the entire sequence of activities (including ongoing ones)
