@@ -180,19 +180,19 @@ def compare_results(proc_agg: dict, warmup_agg: dict) -> dict:
 
 def main():
     # ===================== CONFIGURATION =====================
-    EXISTING_ALOG_PATH = "samples/real_life/BPIC_2012_changed.csv"  # Path to existing ALog
-    BPMN_MODEL = "samples/real_life/BPIC_2012.bpmn"
-    BPMN_PARAMS = "samples/real_life/BPIC_2012.json"
+    EXISTING_ALOG_PATH = "samples/real_life/AcademicCredentials_fixed.csv"
+    BPMN_MODEL = "samples/real_life/AcademicCredentials.bpmn"
+    BPMN_PARAMS = "samples/real_life/AcademicCredentials.json"
     
     # Simulation window parameters
-    SIMULATION_CUT_DATE = "2012-01-23T10:10:00.000Z"
-    SIMULATION_HORIZON = "2012-03-01T23:20:30.000Z"
-    WARMUP_START_DATE = "2012-01-07T09:04:12.000Z"  # Should match ALog's start
+    SIMULATION_CUT_DATE = "2016-05-12T10:10:00.000Z"
+    SIMULATION_HORIZON = "2016-06-29T23:20:30.000Z"
+    WARMUP_START_DATE = "2016-04-16T09:04:12.000Z"
     
     # Experimental parameters
-    NUM_RUNS = 15
-    PROC_TOTAL_CASES = 3000
-    WARMUP_TOTAL_CASES = 3000
+    NUM_RUNS = 30
+    PROC_TOTAL_CASES = 400
+    WARMUP_TOTAL_CASES = 400
     
     # ===================== EXECUTION =====================
     print("=== Loading and preprocessing ALog ===")

@@ -89,7 +89,7 @@ class InputHandler:
             resource='Resource',
             start_time='StartTime',
             end_time='EndTime',
-            enabled_time='enabled_time'  # or however your log references the enabled time
+            enabled_time='enabled_time'
         )
 
     def parse_bpmn_parameters(self):
@@ -127,7 +127,7 @@ class InputHandler:
         df['StartTime'] = df['StartTime'].astype(str).apply(ensure_fractional_seconds)
         df['StartTime'] = pd.to_datetime(
             df['StartTime'],
-            infer_datetime_format=True,  # tries multiple standard formats
+            infer_datetime_format=True,
             utc=True,
             errors='coerce'
         )
