@@ -190,7 +190,7 @@ def main():
     WARMUP_START_DATE = "2016-04-16T09:04:12.000Z"
     
     # Experimental parameters
-    NUM_RUNS = 30
+    NUM_RUNS = 10
     PROC_TOTAL_CASES = 400
     WARMUP_TOTAL_CASES = 400
     
