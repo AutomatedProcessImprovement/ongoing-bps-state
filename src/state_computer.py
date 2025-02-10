@@ -27,26 +27,25 @@ class StateComputer:
             ongoing_activities_df = group[group[ids.end_time].isna()]
             ongoing_activities = []
             for _, row in ongoing_activities_df.iterrows():
-                task_id = self.bpmn_handler.get_task_id_by_name(row[ids.activity])
+                original_activity = row[ids.activity]
+                task_id = self.bpmn_handler.get_task_id_by_name(original_activity)
                 stime = row[ids.start_time]
-                if pd.isna(stime):
-                    # If there's no start time, we can't compute properly
+                if pd.isna(stime) or task_id is None:
                     enabled_time = None
                 else:
-                    activity_name = row[ids.activity]
-                    if activity_name not in getattr(self.concurrency_oracle, 'concurrency', {}):
+                    # Use the original activity name for the concurrency oracle lookup.
+                    if original_activity not in getattr(self.concurrency_oracle, 'concurrency', {}):
                         enabled_time = None
                     else:
-                        # Create a temporary event for concurrency oracle
                         temp_event = pd.Series({
-                            ids.activity: row[ids.activity],
+                            ids.activity: original_activity,  # using name here
                             ids.start_time: stime,
                             ids.end_time: stime
                         })
                         enabled_time = self.concurrency_oracle.enabled_since(trace=group, event=temp_event)
 
                         if pd.isna(enabled_time):
-                            print(f"[DEBUG concurrency] Ongoing '{row[ids.activity]}' in case {case_id}: "
+                            print(f"[DEBUG concurrency] Ongoing '{task_id}' in case {case_id}: "
                                   "concurrency oracle returned NaT => no valid enabling event found.")
                 ongoing_activities.append({
                     "id": task_id,
@@ -67,13 +66,13 @@ class StateComputer:
             current_marking_id = self.reachability_graph.marking_to_key.get(current_marking_key)
             if current_marking_id is not None:
                 for activity in ongoing_activities:
-                    activity_name = activity['id']
+                    t_id = activity['id']
                     # Get incoming edges to the current marking
                     incoming_edges = self.reachability_graph.incoming_edges.get(current_marking_id, [])
                     # Find the edge with the activity label
                     for edge_id in incoming_edges:
                         edge_activity = self.reachability_graph.edge_to_activity.get(edge_id)
-                        if edge_activity == activity_name:
+                        if edge_activity == t_id:
                             # Get the source marking of that edge
                             source_marking_id, _ = self.reachability_graph.edges[edge_id]
                             source_marking = self.reachability_graph.markings[source_marking_id]
@@ -81,7 +80,7 @@ class StateComputer:
                             state_flows = state_flows.intersection(source_marking)
                             break  # Stop after finding the first matching edge
 
-            # Add IDs of ongoing activities to the state
+            # Add names of ongoing activities to the state
             ongoing_activity_ids = set([activity['id'] for activity in ongoing_activities])
             state_activities = ongoing_activity_ids
 
@@ -92,17 +91,16 @@ class StateComputer:
                 target_ref = self.bpmn_handler.sequence_flows.get(flow_id)
                 if target_ref in self.bpmn_handler.activities:
                     activity_name = self.bpmn_handler.activities.get(target_ref)
+                    # Use the activity_name for the concurrency oracle lookup.
                     if activity_name not in getattr(self.concurrency_oracle, 'concurrency', {}):
                         enabled_time = None
                     else:
-                        # Create temporary event
                         max_end_time = finished_activities[ids.end_time].max() if not finished_activities.empty else None
                         temp_event = pd.Series({
-                            ids.activity: activity_name,
+                            ids.activity: activity_name,  # using name here
                             ids.start_time: max_end_time,
                             ids.end_time: max_end_time
                         })
-                        # Compute enabled_time using the concurrency oracle
                         enabled_time = self.concurrency_oracle.enabled_since(trace=group, event=temp_event)
                     enabled_activities.append({
                         "id": target_ref,

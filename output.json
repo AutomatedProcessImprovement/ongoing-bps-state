@@ -91,7 +91,7 @@
             "enabled_activities": [
                 {
                     "id": "Activity_0vma5lg",
-                    "enabled_time": null
+                    "enabled_time": "2012-03-21 07:45:00+00:00"
                 }
             ],
             "enabled_gateways": []
@@ -187,7 +187,7 @@
             "enabled_activities": [
                 {
                     "id": "Activity_0vma5lg",
-                    "enabled_time": null
+                    "enabled_time": "2012-03-21 09:05:00+00:00"
                 }
             ],
             "enabled_gateways": []
@@ -227,6 +227,31 @@
         "14": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_08i82lb"
+                ],
+                "activities": [
+                    "Activity_0o2ojeh"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_0o2ojeh",
+                    "start_time": "2012-03-21 10:10:00+00:00",
+                    "resource": "Jolyne",
+                    "enabled_time": "2012-03-21 10:05:00+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "Event_0w0qv5v",
+                    "enabled_time": "2012-03-21 10:10:00+00:00"
+                }
+            ]
+        },
+        "15": {
+            "control_flow_state": {
+                "flows": [
                     "Flow_0qkv9uj"
                 ],
                 "activities": [
@@ -236,20 +261,20 @@
             "ongoing_activities": [
                 {
                     "id": "Activity_08cbrgi",
-                    "start_time": "2012-03-21 09:55:00+00:00",
-                    "resource": "Jolyne",
-                    "enabled_time": "2012-03-21 09:50:00+00:00"
+                    "start_time": "2012-03-21 10:10:00+00:00",
+                    "resource": "Jonathan",
+                    "enabled_time": "2012-03-21 10:05:00+00:00"
                 }
             ],
             "enabled_activities": [
                 {
                     "id": "Activity_0vma5lg",
-                    "enabled_time": null
+                    "enabled_time": "2012-03-21 10:05:00+00:00"
                 }
             ],
             "enabled_gateways": []
         },
-        "15": {
+        "16": {
             "control_flow_state": {
                 "flows": [
                     "Flow_1df9ld5"
@@ -261,15 +286,15 @@
             "ongoing_activities": [
                 {
                     "id": "Activity_1edcm8i",
-                    "start_time": "2012-03-21 09:55:00+00:00",
+                    "start_time": "2012-03-21 10:10:00+00:00",
                     "resource": "DIO",
-                    "enabled_time": "2012-03-21 09:50:00+00:00"
+                    "enabled_time": "2012-03-21 10:05:00+00:00"
                 }
             ],
             "enabled_activities": [
                 {
                     "id": "Activity_1jm3g3j",
-                    "enabled_time": "2012-03-21 09:50:00+00:00"
+                    "enabled_time": "2012-03-21 10:05:00+00:00"
                 }
             ],
             "enabled_gateways": []
