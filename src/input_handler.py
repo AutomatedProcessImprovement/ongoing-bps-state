@@ -25,6 +25,11 @@ def ensure_fractional_seconds(ts: str) -> str:
     if pd.isnull(ts):
         return ts  # preserve NaNs / None
 
+    # Insert 'T' if it's missing
+    if 'T' not in ts:
+        # Replace the first space or just ensure 'T' before HH:MM
+        ts = ts.replace(' ', 'T', 1)
+
     # If there's already a decimal, do nothing
     if '.' in ts:
         return ts
@@ -127,7 +132,6 @@ class InputHandler:
         df['StartTime'] = df['StartTime'].astype(str).apply(ensure_fractional_seconds)
         df['StartTime'] = pd.to_datetime(
             df['StartTime'],
-            infer_datetime_format=True,
             utc=True,
             errors='coerce'
         )
@@ -140,7 +144,6 @@ class InputHandler:
             print(df[missing_end].head())  # see some examples
         df['EndTime'] = pd.to_datetime(
             df['EndTime'],
-            infer_datetime_format=True,
             utc=True,
             errors='coerce'  # allow NaT for missing or invalid EndTime
         )

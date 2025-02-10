@@ -11,6 +11,9 @@ class BPMNHandler:
         self.bpmn_model_path = bpmn_model_path
         self.sequence_flows = {}
         self.activities = {}
+        self.flow_sources = {}
+        # new dictionary for quick lookups from task name -> ID
+        self.task_name_to_id = {}
         self.parse_bpmn_xml()
     
     def parse_bpmn_xml(self):
@@ -21,11 +24,33 @@ class BPMNHandler:
         
         # Extract activities (tasks)
         for task in root.findall('.//bpmn:task', ns):
-            self.activities[task.attrib['id']] = task.attrib.get('name', f"Unnamed Task {task.attrib['id']}")
+            t_id = task.attrib['id']
+            t_name = task.attrib.get('name', f"Unnamed Task {t_id}")
+            self.activities[t_id] = t_name
+            self.task_name_to_id[t_name] = t_id
         # Extract sequence flows
         for seq_flow in root.findall('.//bpmn:sequenceFlow', ns):
-            self.sequence_flows[seq_flow.attrib['id']] = seq_flow.attrib['targetRef']
+            sf_id = seq_flow.attrib['id']
+            self.sequence_flows[sf_id] = seq_flow.attrib['targetRef']
+            self.flow_sources[sf_id] = seq_flow.attrib['sourceRef']
     
+    def get_upstream_tasks_through_gateways(self, gateway_id):
+        visited = set()
+        stack = [gateway_id]
+        tasks_found = set()
+        while stack:
+            current = stack.pop()
+            if current in self.activities:
+                tasks_found.add(current)
+                continue
+            for sf_id, tgt in self.sequence_flows.items():
+                if tgt == current:
+                    src = self.flow_sources[sf_id]
+                    if src not in visited:
+                        visited.add(src)
+                        stack.append(src)
+        return tasks_found
+
     def build_n_gram_index(self, n_gram_size_limit=5):
         """Builds the N-Gram index from the BPMN model."""
         reachability_graph = self.bpmn_model.get_reachability_graph()
@@ -37,3 +62,6 @@ class BPMNHandler:
     def get_reachability_graph(self):
         """Returns the reachability graph."""
         return self.reachability_graph
+
+    def get_task_id_by_name(self, name):
+        return self.task_name_to_id.get(name)

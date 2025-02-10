@@ -66,11 +66,11 @@ def run_process_state_and_simulation(
     bpmn_model_obj = input_handler.read_bpmn_model()
     bpmn_params = input_handler.parse_bpmn_parameters()
 
-    df = input_handler.event_log_df.copy()
-    print("Shape after reading event log:", df.shape)
-    print("Any StartTime missing?", df["StartTime"].isna().sum())
-    print("Any EndTime missing?", df["EndTime"].isna().sum())
-    df.to_csv("debug_after_input_handler.csv", index=False)
+    # df = input_handler.event_log_df.copy()
+    # print("Shape after reading event log:", df.shape)
+    # print("Any StartTime missing?", df["StartTime"].isna().sum())
+    # print("Any EndTime missing?", df["EndTime"].isna().sum())
+    # df.to_csv("debug_after_input_handler.csv", index=False)
 
     print("=== RUNNER: Step C: Process event log ===")
     event_log_processor = EventLogProcessor(event_log_df, start_time, event_log_ids)
@@ -82,12 +82,12 @@ def run_process_state_and_simulation(
     n_gram_index = bpmn_handler.build_n_gram_index()
     reachability_graph = bpmn_handler.get_reachability_graph()
 
-    grouped_traces = df.groupby("CaseId")  # then loops over them
-    # or maybe you store them in a dictionary trace[case_id] = ...
-    # Right after this grouping, do:
-    print("Number of rows in the grouped DataFrame:", len(df))
-    print("Missing StartTimes in grouped DF:", df["StartTime"].isna().sum())
-    print("Missing EndTimes in grouped DF:", df["EndTime"].isna().sum())
+    # grouped_traces = df.groupby("CaseId")  # then loops over them
+    # # or maybe you store them in a dictionary trace[case_id] = ...
+    # # Right after this grouping, do:
+    # print("Number of rows in the grouped DataFrame:", len(df))
+    # print("Missing StartTimes in grouped DF:", df["StartTime"].isna().sum())
+    # print("Missing EndTimes in grouped DF:", df["EndTime"].isna().sum())
 
     print("=== RUNNER: Step E: Compute process state ===")
     state_computer = StateComputer(
@@ -100,19 +100,20 @@ def run_process_state_and_simulation(
     output_data = {'cases': {}}
     for case_id, case_info in case_states.items():
         output_data['cases'][str(case_id)] = {
-            'control_flow_state': {
-                'flows': list(case_info['control_flow_state']['flows']),
-                'activities': list(case_info['control_flow_state']['activities'])
+            "control_flow_state": {
+                "flows": list(case_info["control_flow_state"]["flows"]),
+                "activities": list(case_info["control_flow_state"]["activities"])
             },
-            'ongoing_activities': case_info['ongoing_activities'],
-            'enabled_activities': case_info['enabled_activities']
+            "ongoing_activities": case_info["ongoing_activities"],
+            "enabled_activities": case_info["enabled_activities"],
+            "enabled_gateways": case_info["enabled_gateways"]
         }
 
     # 3) Write partial state to output.json
     print("=== RUNNER: Step F: Writing partial-state to output.json ===")
     with open('output.json', 'w') as f:
         json.dump(output_data, f, default=str, indent=4)
-    print("Process state in 'output.json'.")
+    # print("Process state in 'output.json'.")
 
     # 4) If simulate => call short-term approach
     if simulate:
