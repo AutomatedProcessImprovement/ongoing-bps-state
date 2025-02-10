@@ -12,7 +12,7 @@ def main():
         event_log="samples/synthetic_xor_loop_ongoing.csv",
         bpmn_model="samples/synthetic_xor_loop.bpmn",
         bpmn_parameters="samples/synthetic_xor_loop.json",
-        start_time="2012-03-21T10:10:00.000Z",
+        start_time="2012-03-21T17:55:00.000Z",
         column_mapping='{"case_id":"CaseId","Resource":"Resource","Activity":"Activity","__start_time":"StartTime","end_time":"EndTime"}',
         simulate=True,
         simulation_horizon="2012-03-21T23:10:30.000Z",

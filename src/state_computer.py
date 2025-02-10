@@ -91,13 +91,12 @@ class StateComputer:
                 target_ref = self.bpmn_handler.sequence_flows.get(flow_id)
                 if target_ref in self.bpmn_handler.activities:
                     activity_name = self.bpmn_handler.activities.get(target_ref)
-                    # Use the activity_name for the concurrency oracle lookup.
                     if activity_name not in getattr(self.concurrency_oracle, 'concurrency', {}):
                         enabled_time = None
                     else:
                         max_end_time = finished_activities[ids.end_time].max() if not finished_activities.empty else None
                         temp_event = pd.Series({
-                            ids.activity: activity_name,  # using name here
+                            ids.activity: activity_name,  # using name for lookup
                             ids.start_time: max_end_time,
                             ids.end_time: max_end_time
                         })
@@ -107,16 +106,22 @@ class StateComputer:
                         "enabled_time": enabled_time
                     })
 
-            # Now compute enabled_gateways
+            # Now compute enabled gateways, skipping those that have upstream tasks still ongoing
             enabled_gateways = []
             for flow_id in state_flows:
                 gw_id = self.bpmn_handler.sequence_flows.get(flow_id, None)
                 if gw_id and gw_id not in self.bpmn_handler.activities:
+                    # Get upstream tasks for this gateway
+                    tasks_upstream = self.bpmn_handler.get_upstream_tasks_through_gateways(gw_id)
+                    # If any upstream task is still ongoing, skip this gateway
+                    if tasks_upstream.intersection(ongoing_activity_ids):
+                        continue
                     gw_enabled_time = self._compute_gateway_enabled_time(gw_id, group, finished_activities)
-                    enabled_gateways.append({
-                        "id": gw_id,
-                        "enabled_time": gw_enabled_time
-                    })
+                    if pd.notna(gw_enabled_time):
+                        enabled_gateways.append({
+                            "id": gw_id,
+                            "enabled_time": gw_enabled_time
+                        })
 
             # Store case information
             case_states[case_id] = {

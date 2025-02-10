@@ -119,7 +119,7 @@ def run_process_state_and_simulation(
     if simulate:
         print("=== RUNNER: Step G: Doing short-term simulation ===")
         sim_horizon_dt = parse_datetime(simulation_horizon)
-        partial_state = output_data  # or reformat if needed
+        partial_state = output_data
 
         sim_time = run_short_term_simulation(
             start_date=start_time,
