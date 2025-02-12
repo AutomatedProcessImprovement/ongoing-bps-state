@@ -12,12 +12,12 @@ class BPMNHandler:
         self.sequence_flows = {}
         self.activities = {}
         self.flow_sources = {}
-        # new dictionary for quick lookups from task name -> ID
         self.task_name_to_id = {}
+        self.end_events = set()
         self.parse_bpmn_xml()
     
     def parse_bpmn_xml(self):
-        """Parses the BPMN XML file to extract sequence flows and activities."""
+        """Parses the BPMN XML file to extract sequence flows, activities, and end events."""
         tree = ET.parse(self.bpmn_model_path)
         root = tree.getroot()
         ns = {'bpmn': 'http://www.omg.org/spec/BPMN/20100524/MODEL'}
@@ -28,12 +28,31 @@ class BPMNHandler:
             t_name = task.attrib.get('name', f"Unnamed Task {t_id}")
             self.activities[t_id] = t_name
             self.task_name_to_id[t_name] = t_id
+
+        # Extract end events (with namespace)
+        for end_event in root.findall('.//bpmn:endEvent', ns):
+            event_id = end_event.attrib['id']
+            self.end_events.add(event_id)
+        
+        # Also attempt to extract end events without the namespace, if any exist
+        for end_event in root.findall('.//endEvent'):
+            event_id = end_event.attrib['id']
+            self.end_events.add(event_id)
+        
         # Extract sequence flows
         for seq_flow in root.findall('.//bpmn:sequenceFlow', ns):
             sf_id = seq_flow.attrib['id']
             self.sequence_flows[sf_id] = seq_flow.attrib['targetRef']
             self.flow_sources[sf_id] = seq_flow.attrib['sourceRef']
     
+    def is_end_event(self, element_id):
+        """
+        Returns True if the provided element_id corresponds to an end event in the BPMN model.
+        
+        This function checks the stored set of end event IDs.
+        """
+        return element_id in self.end_events
+
     def get_upstream_tasks_through_gateways(self, gateway_id):
         visited = set()
         stack = [gateway_id]
@@ -58,7 +77,7 @@ class BPMNHandler:
         n_gram_index.build()
         self.reachability_graph = reachability_graph
         return n_gram_index
-    
+
     def get_reachability_graph(self):
         """Returns the reachability graph."""
         return self.reachability_graph

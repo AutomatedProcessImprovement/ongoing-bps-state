@@ -18,9 +18,27 @@ class EventLogProcessor:
         df = self.event_log_df.copy()
         ids = self.event_log_ids  # For convenience
         if self.start_time:
-            # Exclude activities that start after the starting point
+            # Before altering EndTime, filter out cases that are "finished" before the cut-off.
+            #
+            # A case is considered ongoing if it has at least one event that is either:
+            #   (a) starting after the cut-off, or
+            #   (b) ongoing at the cut-off (i.e. its EndTime is missing or later than the cut-off).
+            #
+            # Note: We use the raw log (before dropping events with start_time > cut-off) for this grouping.
+            ongoing_cases = df.groupby(ids.case).filter(
+                lambda group: (
+                    (group[ids.start_time] > self.start_time).any() or 
+                    (group[ids.end_time].isna().any()) or 
+                    (group[ids.end_time] > self.start_time).any()
+                )
+            )[ids.case].unique()
+            df = df[df[ids.case].isin(ongoing_cases)]
+
+            # Now, restrict to events that have occurred up to the cut-off.
             df = df[df[ids.start_time] <= self.start_time]
-            # Update EndTime for ongoing activities at the starting point
+            
+            # For events that were ongoing at the cut-off (i.e. originally with no EndTime or with EndTime beyond the cut-off),
+            # mark them as ongoing by setting their EndTime to NaT.
             df.loc[(df[ids.end_time].isna()) | (df[ids.end_time] > self.start_time), ids.end_time] = pd.NaT
         
         # Compute enabled time if not present

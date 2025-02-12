@@ -1,153 +1,9 @@
 {
     "cases": {
-        "0": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_08i82lb"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [
-                {
-                    "id": "Event_0w0qv5v",
-                    "enabled_time": "2012-03-21 06:50:00+00:00"
-                }
-            ]
-        },
-        "1": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0a9co7f"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_1weaufy",
-                    "enabled_time": "2012-03-21 06:30:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
-        "2": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_1df9ld5"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_1jm3g3j",
-                    "enabled_time": "2012-03-21 06:40:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
-        "3": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_08i82lb"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [
-                {
-                    "id": "Event_0w0qv5v",
-                    "enabled_time": "2012-03-21 07:25:00+00:00"
-                }
-            ]
-        },
-        "4": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0a9co7f"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_1weaufy",
-                    "enabled_time": "2012-03-21 07:20:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
-        "5": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0qkv9uj"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_0vma5lg",
-                    "enabled_time": "2012-03-21 07:45:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
-        "6": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0a9co7f"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_1weaufy",
-                    "enabled_time": "2012-03-21 07:50:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
-        "7": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_1dbtc82"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [
-                {
-                    "id": "Gateway_1abqo5n",
-                    "enabled_time": "2012-03-21 08:25:00+00:00"
-                }
-            ]
-        },
-        "8": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0a9co7f"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_1weaufy",
-                    "enabled_time": "2012-03-21 08:15:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
         "9": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_1dbtc82"
+                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
                 ],
                 "activities": []
             },
@@ -155,47 +11,15 @@
             "enabled_activities": [],
             "enabled_gateways": [
                 {
-                    "id": "Gateway_1abqo5n",
-                    "enabled_time": "2012-03-21 08:55:00+00:00"
+                    "id": "node_729da07f-fb0f-489e-b608-effdcbf63c25",
+                    "enabled_time": "2016-04-18 13:49:29+00:00"
                 }
             ]
         },
         "10": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_10ueywn"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_0qhd8v2",
-                    "enabled_time": "2012-03-21 08:40:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
-        "11": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0qkv9uj"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_0vma5lg",
-                    "enabled_time": "2012-03-21 09:05:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
-        "12": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_08i82lb"
+                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
                 ],
                 "activities": []
             },
@@ -203,47 +27,15 @@
             "enabled_activities": [],
             "enabled_gateways": [
                 {
-                    "id": "Event_0w0qv5v",
-                    "enabled_time": "2012-03-21 09:40:00+00:00"
-                }
-            ]
-        },
-        "13": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_10ueywn"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_0qhd8v2",
-                    "enabled_time": "2012-03-21 09:25:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
-        "14": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_08i82lb"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [
-                {
-                    "id": "Event_0w0qv5v",
-                    "enabled_time": "2012-03-21 10:15:00+00:00"
+                    "id": "node_729da07f-fb0f-489e-b608-effdcbf63c25",
+                    "enabled_time": "2016-04-18 13:57:09+00:00"
                 }
             ]
         },
         "15": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_1dbtc82"
+                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
                 ],
                 "activities": []
             },
@@ -251,31 +43,15 @@
             "enabled_activities": [],
             "enabled_gateways": [
                 {
-                    "id": "Gateway_1abqo5n",
-                    "enabled_time": "2012-03-21 10:50:00+00:00"
+                    "id": "node_61eb7826-aa5f-4b47-ac9c-45f8e35c422a",
+                    "enabled_time": "2016-04-19 22:52:22+00:00"
                 }
             ]
         },
         "16": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_0a9co7f"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_1weaufy",
-                    "enabled_time": "2012-03-21 10:40:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
-        "17": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0kkshlq"
+                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
                 ],
                 "activities": []
             },
@@ -283,31 +59,15 @@
             "enabled_activities": [],
             "enabled_gateways": [
                 {
-                    "id": "Gateway_0nmpe12",
-                    "enabled_time": "2012-03-21 10:40:00+00:00"
-                }
-            ]
-        },
-        "18": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0kkshlq"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [
-                {
-                    "id": "Gateway_0nmpe12",
-                    "enabled_time": "2012-03-21 11:00:00+00:00"
+                    "id": "node_61eb7826-aa5f-4b47-ac9c-45f8e35c422a",
+                    "enabled_time": "2016-04-19 17:54:48+00:00"
                 }
             ]
         },
         "19": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_1dbtc82"
+                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
                 ],
                 "activities": []
             },
@@ -315,47 +75,31 @@
             "enabled_activities": [],
             "enabled_gateways": [
                 {
-                    "id": "Gateway_1abqo5n",
-                    "enabled_time": "2012-03-21 11:35:00+00:00"
+                    "id": "node_61eb7826-aa5f-4b47-ac9c-45f8e35c422a",
+                    "enabled_time": "2016-04-26 18:20:35+00:00"
                 }
             ]
-        },
-        "20": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0a9co7f"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_1weaufy",
-                    "enabled_time": "2012-03-21 11:10:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
         },
         "21": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_0o87lw7"
+                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
                 ],
                 "activities": []
             },
             "ongoing_activities": [],
-            "enabled_activities": [
+            "enabled_activities": [],
+            "enabled_gateways": [
                 {
-                    "id": "Activity_0807lx7",
-                    "enabled_time": "2012-03-21 11:30:00+00:00"
+                    "id": "node_729da07f-fb0f-489e-b608-effdcbf63c25",
+                    "enabled_time": "2016-04-26 17:07:05+00:00"
                 }
-            ],
-            "enabled_gateways": []
+            ]
         },
         "22": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_08i82lb"
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
                 ],
                 "activities": []
             },
@@ -363,63 +107,15 @@
             "enabled_activities": [],
             "enabled_gateways": [
                 {
-                    "id": "Event_0w0qv5v",
-                    "enabled_time": "2012-03-21 12:20:00+00:00"
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-19 05:22:41+00:00"
                 }
             ]
-        },
-        "23": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_10ueywn"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_0qhd8v2",
-                    "enabled_time": "2012-03-21 11:55:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
-        "24": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0rajtx0"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_0eat6px",
-                    "enabled_time": "2012-03-21 12:35:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
-        "25": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_10ueywn"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_0qhd8v2",
-                    "enabled_time": "2012-03-21 12:25:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
         },
         "26": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_08i82lb"
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
                 ],
                 "activities": []
             },
@@ -427,31 +123,15 @@
             "enabled_activities": [],
             "enabled_gateways": [
                 {
-                    "id": "Event_0w0qv5v",
-                    "enabled_time": "2012-03-21 13:40:00+00:00"
-                }
-            ]
-        },
-        "27": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_1dbtc82"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [
-                {
-                    "id": "Gateway_1abqo5n",
-                    "enabled_time": "2012-03-21 13:40:00+00:00"
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-19 20:12:53+00:00"
                 }
             ]
         },
         "28": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_0kkshlq"
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
                 ],
                 "activities": []
             },
@@ -459,127 +139,47 @@
             "enabled_activities": [],
             "enabled_gateways": [
                 {
-                    "id": "Gateway_0nmpe12",
-                    "enabled_time": "2012-03-21 13:25:00+00:00"
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-25 20:15:59+00:00"
                 }
             ]
-        },
-        "29": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0kkshlq"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [
-                {
-                    "id": "Gateway_0nmpe12",
-                    "enabled_time": "2012-03-21 13:45:00+00:00"
-                }
-            ]
-        },
-        "30": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0a9co7f"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_1weaufy",
-                    "enabled_time": "2012-03-21 13:50:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
-        "31": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_1jxq2cd"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_1sar4e1",
-                    "enabled_time": "2012-03-21 14:05:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
-        "32": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_1dbtc82"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [
-                {
-                    "id": "Gateway_1abqo5n",
-                    "enabled_time": "2012-03-21 14:40:00+00:00"
-                }
-            ]
-        },
-        "33": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_1jxq2cd"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_1sar4e1",
-                    "enabled_time": "2012-03-21 14:35:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
         },
         "34": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_10ueywn"
+                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
                 ],
                 "activities": []
             },
             "ongoing_activities": [],
-            "enabled_activities": [
+            "enabled_activities": [],
+            "enabled_gateways": [
                 {
-                    "id": "Activity_0qhd8v2",
-                    "enabled_time": "2012-03-21 14:40:00+00:00"
+                    "id": "node_729da07f-fb0f-489e-b608-effdcbf63c25",
+                    "enabled_time": "2016-04-26 17:09:43+00:00"
                 }
-            ],
-            "enabled_gateways": []
+            ]
         },
         "35": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_0rajtx0"
+                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
                 ],
                 "activities": []
             },
             "ongoing_activities": [],
-            "enabled_activities": [
+            "enabled_activities": [],
+            "enabled_gateways": [
                 {
-                    "id": "Activity_0eat6px",
-                    "enabled_time": "2012-03-21 15:15:00+00:00"
+                    "id": "node_61eb7826-aa5f-4b47-ac9c-45f8e35c422a",
+                    "enabled_time": "2016-04-22 02:20:02+00:00"
                 }
-            ],
-            "enabled_gateways": []
+            ]
         },
         "36": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_0kkshlq"
+                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
                 ],
                 "activities": []
             },
@@ -587,31 +187,15 @@
             "enabled_activities": [],
             "enabled_gateways": [
                 {
-                    "id": "Gateway_0nmpe12",
-                    "enabled_time": "2012-03-21 15:20:00+00:00"
+                    "id": "node_729da07f-fb0f-489e-b608-effdcbf63c25",
+                    "enabled_time": "2016-04-26 17:13:25+00:00"
                 }
             ]
-        },
-        "37": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0a9co7f"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_1weaufy",
-                    "enabled_time": "2012-03-21 15:25:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
         },
         "38": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_1dbtc82"
+                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
                 ],
                 "activities": []
             },
@@ -619,63 +203,15 @@
             "enabled_activities": [],
             "enabled_gateways": [
                 {
-                    "id": "Gateway_1abqo5n",
-                    "enabled_time": "2012-03-21 16:10:00+00:00"
-                }
-            ]
-        },
-        "39": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0kkshlq"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [
-                {
-                    "id": "Gateway_0nmpe12",
-                    "enabled_time": "2012-03-21 16:40:00+00:00"
+                    "id": "node_61eb7826-aa5f-4b47-ac9c-45f8e35c422a",
+                    "enabled_time": "2016-04-25 15:34:20+00:00"
                 }
             ]
         },
         "40": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_0qkv9uj"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_0vma5lg",
-                    "enabled_time": "2012-03-21 16:30:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
-        "41": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0o87lw7"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_0807lx7",
-                    "enabled_time": "2012-03-21 16:30:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
-        "42": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0kkshlq"
+                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
                 ],
                 "activities": []
             },
@@ -683,15 +219,47 @@
             "enabled_activities": [],
             "enabled_gateways": [
                 {
-                    "id": "Gateway_0nmpe12",
-                    "enabled_time": "2012-03-21 17:00:00+00:00"
+                    "id": "node_61eb7826-aa5f-4b47-ac9c-45f8e35c422a",
+                    "enabled_time": "2016-04-26 19:20:01+00:00"
+                }
+            ]
+        },
+        "41": {
+            "control_flow_state": {
+                "flows": [
+                    "node_a72e4b2f-e92b-4a3e-a497-02f5cc96783b"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "Event_d78197e3-a4e7-461d-a8b4-011f08128534",
+                    "enabled_time": "2016-04-26 19:49:04+00:00"
+                }
+            ]
+        },
+        "42": {
+            "control_flow_state": {
+                "flows": [
+                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_61eb7826-aa5f-4b47-ac9c-45f8e35c422a",
+                    "enabled_time": "2016-04-21 18:36:29+00:00"
                 }
             ]
         },
         "43": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_1dbtc82"
+                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
                 ],
                 "activities": []
             },
@@ -699,67 +267,15 @@
             "enabled_activities": [],
             "enabled_gateways": [
                 {
-                    "id": "Gateway_1abqo5n",
-                    "enabled_time": "2012-03-21 17:25:00+00:00"
+                    "id": "node_61eb7826-aa5f-4b47-ac9c-45f8e35c422a",
+                    "enabled_time": "2016-04-22 21:39:53+00:00"
                 }
             ]
-        },
-        "44": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0rajtx0"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_0eat6px",
-                    "enabled_time": "2012-03-21 17:35:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
         },
         "45": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_0qkv9uj"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "Activity_0vma5lg",
-                    "enabled_time": "2012-03-21 17:45:00+00:00"
-                }
-            ],
-            "enabled_gateways": []
-        },
-        "46": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0kkshlq"
-                ],
-                "activities": [
-                    "Activity_1weaufy"
-                ]
-            },
-            "ongoing_activities": [
-                {
-                    "id": "Activity_1weaufy",
-                    "start_time": "2012-03-21 17:55:00+00:00",
-                    "resource": "Jonathan",
-                    "enabled_time": "2012-03-21 17:50:00+00:00"
-                }
-            ],
-            "enabled_activities": [],
-            "enabled_gateways": []
-        },
-        "47": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0fwnjaa"
+                    "node_d89b8fc8-435d-47e1-ac54-13c0702dab2b"
                 ],
                 "activities": []
             },
@@ -767,8 +283,968 @@
             "enabled_activities": [],
             "enabled_gateways": [
                 {
-                    "id": "Gateway_1prgzlv",
-                    "enabled_time": "2012-03-21 17:55:00+00:00"
+                    "id": "node_670f8a76-4be8-4c0a-af4b-463efc84080f",
+                    "enabled_time": "2016-04-21 19:29:52+00:00"
+                }
+            ]
+        },
+        "46": {
+            "control_flow_state": {
+                "flows": [
+                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_729da07f-fb0f-489e-b608-effdcbf63c25",
+                    "enabled_time": "2016-04-26 17:16:32+00:00"
+                }
+            ]
+        },
+        "47": {
+            "control_flow_state": {
+                "flows": [
+                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_acdf7b16-d2f6-479e-93d6-cbf8afb93e63",
+                    "enabled_time": "2016-04-21 15:06:04+00:00"
+                }
+            ]
+        },
+        "48": {
+            "control_flow_state": {
+                "flows": [
+                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_729da07f-fb0f-489e-b608-effdcbf63c25",
+                    "enabled_time": "2016-04-26 17:17:38+00:00"
+                }
+            ]
+        },
+        "49": {
+            "control_flow_state": {
+                "flows": [
+                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_61eb7826-aa5f-4b47-ac9c-45f8e35c422a",
+                    "enabled_time": "2016-04-26 20:20:21+00:00"
+                }
+            ]
+        },
+        "50": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-21 23:30:13+00:00"
+                }
+            ]
+        },
+        "51": {
+            "control_flow_state": {
+                "flows": [
+                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_61eb7826-aa5f-4b47-ac9c-45f8e35c422a",
+                    "enabled_time": "2016-04-27 20:23:27+00:00"
+                }
+            ]
+        },
+        "52": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-21 21:13:17+00:00"
+                }
+            ]
+        },
+        "53": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-21 22:05:28+00:00"
+                }
+            ]
+        },
+        "54": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-21 22:27:03+00:00"
+                }
+            ]
+        },
+        "55": {
+            "control_flow_state": {
+                "flows": [
+                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_acdf7b16-d2f6-479e-93d6-cbf8afb93e63",
+                    "enabled_time": "2016-04-21 22:41:47+00:00"
+                }
+            ]
+        },
+        "56": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-21 23:09:05+00:00"
+                }
+            ]
+        },
+        "58": {
+            "control_flow_state": {
+                "flows": [
+                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_61eb7826-aa5f-4b47-ac9c-45f8e35c422a",
+                    "enabled_time": "2016-04-22 21:36:50+00:00"
+                }
+            ]
+        },
+        "60": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-22 17:24:38+00:00"
+                }
+            ]
+        },
+        "61": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-22 17:21:13+00:00"
+                }
+            ]
+        },
+        "62": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-22 20:50:17+00:00"
+                }
+            ]
+        },
+        "64": {
+            "control_flow_state": {
+                "flows": [
+                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_acdf7b16-d2f6-479e-93d6-cbf8afb93e63",
+                    "enabled_time": "2016-04-22 17:25:13+00:00"
+                }
+            ]
+        },
+        "65": {
+            "control_flow_state": {
+                "flows": [
+                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_acdf7b16-d2f6-479e-93d6-cbf8afb93e63",
+                    "enabled_time": "2016-04-22 17:57:22+00:00"
+                }
+            ]
+        },
+        "66": {
+            "control_flow_state": {
+                "flows": [
+                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_61eb7826-aa5f-4b47-ac9c-45f8e35c422a",
+                    "enabled_time": "2016-04-26 01:03:02+00:00"
+                }
+            ]
+        },
+        "67": {
+            "control_flow_state": {
+                "flows": [
+                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_61eb7826-aa5f-4b47-ac9c-45f8e35c422a",
+                    "enabled_time": "2016-04-27 20:20:55+00:00"
+                }
+            ]
+        },
+        "68": {
+            "control_flow_state": {
+                "flows": [
+                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_acdf7b16-d2f6-479e-93d6-cbf8afb93e63",
+                    "enabled_time": "2016-04-23 21:18:54+00:00"
+                }
+            ]
+        },
+        "69": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-25 22:45:48+00:00"
+                }
+            ]
+        },
+        "70": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-24 13:03:02+00:00"
+                }
+            ]
+        },
+        "72": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-24 18:08:40+00:00"
+                }
+            ]
+        },
+        "73": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-24 18:47:56+00:00"
+                }
+            ]
+        },
+        "74": {
+            "control_flow_state": {
+                "flows": [
+                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_acdf7b16-d2f6-479e-93d6-cbf8afb93e63",
+                    "enabled_time": "2016-04-25 00:55:26+00:00"
+                }
+            ]
+        },
+        "78": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-25 15:26:53+00:00"
+                }
+            ]
+        },
+        "80": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-25 15:50:50+00:00"
+                }
+            ]
+        },
+        "81": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-25 21:06:54+00:00"
+                }
+            ]
+        },
+        "82": {
+            "control_flow_state": {
+                "flows": [
+                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_61eb7826-aa5f-4b47-ac9c-45f8e35c422a",
+                    "enabled_time": "2016-04-25 22:42:20+00:00"
+                }
+            ]
+        },
+        "84": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-26 02:22:17+00:00"
+                }
+            ]
+        },
+        "86": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-26 17:26:08+00:00"
+                }
+            ]
+        },
+        "87": {
+            "control_flow_state": {
+                "flows": [
+                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_acdf7b16-d2f6-479e-93d6-cbf8afb93e63",
+                    "enabled_time": "2016-04-27 10:30:25+00:00"
+                }
+            ]
+        },
+        "88": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-26 23:40:16+00:00"
+                }
+            ]
+        },
+        "89": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-27 00:19:15+00:00"
+                }
+            ]
+        },
+        "90": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-27 01:23:03+00:00"
+                }
+            ]
+        },
+        "91": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-27 10:15:38+00:00"
+                }
+            ]
+        },
+        "92": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-27 14:47:19+00:00"
+                }
+            ]
+        },
+        "94": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-27 15:24:59+00:00"
+                }
+            ]
+        },
+        "95": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-27 17:29:22+00:00"
+                }
+            ]
+        },
+        "96": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-27 21:27:15+00:00"
+                }
+            ]
+        },
+        "97": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-27 21:39:00+00:00"
+                }
+            ]
+        },
+        "98": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-27 21:45:21+00:00"
+                }
+            ]
+        },
+        "99": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-27 20:13:44+00:00"
+                }
+            ]
+        },
+        "101": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-27 19:59:48+00:00"
+                }
+            ]
+        },
+        "102": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-27 20:13:06+00:00"
+                }
+            ]
+        },
+        "103": {
+            "control_flow_state": {
+                "flows": [
+                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_0aa41448-6953-40e9-99bb-abe2ec34ec00",
+                    "enabled_time": "2016-04-27 20:13:10+00:00"
+                }
+            ]
+        },
+        "104": {
+            "control_flow_state": {
+                "flows": [
+                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_acdf7b16-d2f6-479e-93d6-cbf8afb93e63",
+                    "enabled_time": "2016-04-27 21:23:42+00:00"
+                }
+            ]
+        },
+        "105": {
+            "control_flow_state": {
+                "flows": [
+                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_acdf7b16-d2f6-479e-93d6-cbf8afb93e63",
+                    "enabled_time": "2016-04-27 23:39:26+00:00"
+                }
+            ]
+        },
+        "106": {
+            "control_flow_state": {
+                "flows": [
+                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_acdf7b16-d2f6-479e-93d6-cbf8afb93e63",
+                    "enabled_time": "2016-04-27 23:41:55+00:00"
+                }
+            ]
+        },
+        "362": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-28 00:19:09+00:00"
+                }
+            ]
+        },
+        "363": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-28 04:23:10+00:00"
+                }
+            ]
+        },
+        "383": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-22 19:09:50+00:00"
+                }
+            ]
+        },
+        "384": {
+            "control_flow_state": {
+                "flows": [
+                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_acdf7b16-d2f6-479e-93d6-cbf8afb93e63",
+                    "enabled_time": "2016-04-22 20:09:12+00:00"
+                }
+            ]
+        },
+        "385": {
+            "control_flow_state": {
+                "flows": [
+                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_acdf7b16-d2f6-479e-93d6-cbf8afb93e63",
+                    "enabled_time": "2016-04-22 20:19:36+00:00"
+                }
+            ]
+        },
+        "387": {
+            "control_flow_state": {
+                "flows": [
+                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_61eb7826-aa5f-4b47-ac9c-45f8e35c422a",
+                    "enabled_time": "2016-04-27 00:24:47+00:00"
+                }
+            ]
+        },
+        "388": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-25 23:12:53+00:00"
+                }
+            ]
+        },
+        "394": {
+            "control_flow_state": {
+                "flows": [
+                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_27d1452c-da59-4152-b305-1689fdc24856",
+                    "enabled_time": "2016-04-20 20:26:43+00:00"
+                }
+            ]
+        },
+        "395": {
+            "control_flow_state": {
+                "flows": [
+                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_61eb7826-aa5f-4b47-ac9c-45f8e35c422a",
+                    "enabled_time": "2016-04-25 15:31:22+00:00"
+                }
+            ]
+        },
+        "396": {
+            "control_flow_state": {
+                "flows": [
+                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_729da07f-fb0f-489e-b608-effdcbf63c25",
+                    "enabled_time": "2016-04-26 17:04:44+00:00"
+                }
+            ]
+        },
+        "397": {
+            "control_flow_state": {
+                "flows": [
+                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node_729da07f-fb0f-489e-b608-effdcbf63c25",
+                    "enabled_time": "2016-04-22 00:52:08+00:00"
                 }
             ]
         }

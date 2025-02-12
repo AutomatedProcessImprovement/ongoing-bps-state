@@ -123,6 +123,11 @@ class StateComputer:
                             "enabled_time": gw_enabled_time
                         })
 
+            # --- Exclude cases with enabled gateways that are end events ---
+            if any(self.bpmn_handler.is_end_event(gateway["id"]) for gateway in enabled_gateways):
+                # Skip this case from the process state as it has an enabled gateway that is an end event.
+                continue
+
             # Store case information
             case_states[case_id] = {
                 "control_flow_state": {

@@ -185,14 +185,14 @@ def main():
     BPMN_PARAMS = "samples/real_life/AcademicCredentials.json"
     
     # Simulation window parameters
-    SIMULATION_CUT_DATE = "2016-05-12T10:10:00.000Z"
+    SIMULATION_CUT_DATE = "2016-04-28T10:10:00.000Z"
     SIMULATION_HORIZON = "2016-06-29T23:20:30.000Z"
     WARMUP_START_DATE = "2016-04-16T09:04:12.000Z"
     
     # Experimental parameters
     NUM_RUNS = 10
-    PROC_TOTAL_CASES = 400
-    WARMUP_TOTAL_CASES = 400
+    PROC_TOTAL_CASES = 600
+    WARMUP_TOTAL_CASES = 600
     
     # ===================== EXECUTION =====================
     print("=== Loading and preprocessing ALog ===")
