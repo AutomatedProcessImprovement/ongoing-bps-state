@@ -77,6 +77,7 @@ def run_experiments(
     simulation_cut_date: str,
     simulation_horizon: str,
     warmup_start: str,
+    evaluation_end: str,
     num_runs: int,
     proc_total_cases: int,
     warmup_total_cases: int
@@ -106,6 +107,7 @@ def run_experiments(
             bpmn_parameters=bpmn_params,
             start_time=simulation_cut_date,
             simulation_horizon=simulation_horizon,
+            evaluation_end=evaluation_end,
             column_mapping=colmap_str,
             total_cases=proc_total_cases,
             sim_stats_csv="samples/output/partial_sim_stats.csv",
@@ -125,6 +127,7 @@ def run_experiments(
             warmup_start=warmup_start,
             simulation_cut=simulation_cut_date,
             simulation_horizon=simulation_horizon,
+            evaluation_end=evaluation_end,
             total_cases=warmup_total_cases,
             sim_stats_csv="samples/output/warmup_sim_stats.csv",
             sim_log_csv="samples/output/warmup_sim_log.csv",
@@ -184,10 +187,11 @@ def main():
     BPMN_MODEL = "samples/real_life/AcademicCredentials.bpmn"
     BPMN_PARAMS = "samples/real_life/AcademicCredentials.json"
     
-    # Simulation window parameters
-    SIMULATION_CUT_DATE = "2016-04-28T10:10:00.000Z"
-    SIMULATION_HORIZON = "2016-06-29T23:20:30.000Z"
-    WARMUP_START_DATE = "2016-04-16T09:04:12.000Z"
+    # Updated simulation and evaluation window parameters:
+    SIMULATION_CUT_DATE = "2016-04-28T10:10:00.000Z"        # evaluation start
+    EVALUATION_END     = "2016-06-29T23:20:30.000Z"         # evaluation end time (for event metrics)
+    SIMULATION_HORIZON = "2016-07-29T23:20:30.000Z"         # simulation horizon (may be later than evaluation)
+    WARMUP_START_DATE  = "2016-04-16T09:04:12.000Z"
     
     # Experimental parameters
     NUM_RUNS = 10
@@ -208,6 +212,7 @@ def main():
         bpmn_model=BPMN_MODEL,
         bpmn_params=BPMN_PARAMS,
         simulation_cut_date=SIMULATION_CUT_DATE,
+        evaluation_end=EVALUATION_END,
         simulation_horizon=SIMULATION_HORIZON,
         warmup_start=WARMUP_START_DATE,
         num_runs=NUM_RUNS,

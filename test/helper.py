@@ -116,3 +116,32 @@ def basic_log_stats(df):
         "earliest_start": str(earliest) if earliest is not None else None,
         "latest_end": str(latest) if latest is not None else None,
     }
+
+def filter_cases_by_eval_window(df: pd.DataFrame, eval_start: pd.Timestamp, eval_end: pd.Timestamp) -> pd.DataFrame:
+    """
+    Keep entire cases if at least one event has its start or end time within the evaluation window.
+    (A case is kept if any event in the group satisfies:
+       eval_start <= start_time <= eval_end  OR  eval_start <= end_time <= eval_end)
+    """
+    keep_case_ids = []
+    for cid, group in df.groupby("case_id"):
+        if (((group["start_time"] >= eval_start) & (group["start_time"] <= eval_end)).any() or 
+            ((group["end_time"] >= eval_start) & (group["end_time"] <= eval_end)).any()):
+            keep_case_ids.append(cid)
+    return df[df["case_id"].isin(keep_case_ids)].copy()
+
+
+def trim_events_to_eval_window(df: pd.DataFrame, eval_start: pd.Timestamp, eval_end: pd.Timestamp) -> pd.DataFrame:
+    """
+    For each event in df, adjust the event’s times so that:
+      - If an event starts before eval_start, set its start_time = eval_start.
+      - If an event ends after eval_end, set its end_time = eval_end.
+    Also keep only events that overlap the evaluation window.
+    """
+    df = df.copy()
+    # Keep only events that actually overlap the evaluation window.
+    df = df[(df["end_time"] > eval_start) & (df["start_time"] < eval_end)]
+    # Trim start and end times
+    df.loc[df["start_time"] < eval_start, "start_time"] = eval_start
+    df.loc[df["end_time"] > eval_end, "end_time"] = eval_end
+    return df
