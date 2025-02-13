@@ -1,18 +1,10 @@
-# ==============================
-# test/evaluation.py
-# ==============================
-
-import sys
-import os
-import json
-import math
 import pandas as pd
+import math
+import json
+import os
+import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from src.runner import run_process_state_and_simulation
-from src.process_state_prosimos_run import run_basic_simulation
-from test import helper
 
 # Log-distance-measures imports
 from log_distance_measures.config import (
@@ -28,146 +20,26 @@ from log_distance_measures.cycle_time_distribution import cycle_time_distributio
 from log_distance_measures.circadian_workforce_distribution import circadian_workforce_distribution_distance
 from log_distance_measures.relative_event_distribution import relative_event_distribution_distance
 
+from test.helper import (
+    basic_log_stats,
+    filter_cases_by_eval_window,
+    trim_events_to_eval_window,
+    run_simulation_with_retries,
+    read_event_log
+)
 
-def discard_partial_cases(df: pd.DataFrame, start_dt: pd.Timestamp, horizon_dt: pd.Timestamp) -> pd.DataFrame:
-    """
-    Discard entire cases if ANY event is partially out of [start_dt, horizon_dt].
-    That is, keep a case only if all events lie fully within the time window.
-    We'll assume 'start_time' and 'end_time' exist in df.
-    """
-    if df.empty:
-        return df
-
-    keep_case_ids = []
-    grouped = df.groupby("case_id", as_index=False)
-    for cid, group in grouped:
-        min_start = group["start_time"].min()
-        max_end   = group["end_time"].max()
-        # Condition: entire case is in [start_dt, horizon_dt]
-        # i.e. (min_start >= start_dt) AND (max_end <= horizon_dt)
-        if (min_start >= start_dt) and (max_end <= horizon_dt):
-            keep_case_ids.append(cid)
-
-    return df[df["case_id"].isin(keep_case_ids)].copy()
+# Simulation-libs (adjust path as needed)
+from src.runner import run_process_state_and_simulation
+from src.process_state_prosimos_run import run_basic_simulation
 
 
-###########################################################################
-# PROCESS-STATE (PARTIAL-STATE) APPROACH
-###########################################################################
-def evaluate_partial_state_simulation(
-    event_log: str,
-    bpmn_model: str,
-    bpmn_parameters: str,
-    start_time: str,           # Evaluation start (formerly SIMULATION_CUT_DATE)
-    evaluation_end: str,       # Evaluation end time (new parameter)
-    simulation_horizon: str,   # Simulation horizon (may be longer than evaluation_end)
-    column_mapping: str,       # JSON string for renaming columns
-    total_cases: int = 1000,
-    sim_stats_csv: str = "sim_stats.csv",
-    sim_log_csv: str = "sim_log.csv",
-    rename_alog: dict = None,
-    rename_glog: dict = None,
-    required_columns: list = None,
-    simulate: bool = True,
-    verbose: bool = True
+def compute_log_distances(
+    A_event: pd.DataFrame, G_event: pd.DataFrame, A_case: pd.DataFrame, G_case: pd.DataFrame, verbose=True
 ) -> dict:
     """
-    Runs the process-state simulation and then evaluates the distances between the reference event log (ALog)
-    and the generated simulation log (GLog) using separate handling for cases and events:
-      - Case metrics: keep entire cases if any event falls in [start_time, evaluation_end].
-      - Event metrics: trim events so that events starting before start_time are set to start_time,
-        and events ending after evaluation_end are set to evaluation_end.
-    Saves both logs for case and event metrics.
+    Computes the set of log distances between the reference (A_event, A_case)
+    and the generated (G_event, G_case) logs.
     """
-    if required_columns is None:
-        required_columns = ["case_id", "activity", "start_time", "end_time", "resource"]
-
-    # --- Step 1: Run simulation (with up to 3 retries) ---
-    if simulate:
-        if verbose:
-            print("=== [Process-State] Step 1: Running partial-state simulation ===")
-        max_attempts = 3
-        attempt = 1
-        while attempt <= max_attempts:
-            try:
-                run_process_state_and_simulation(
-                    event_log=event_log,
-                    bpmn_model=bpmn_model,
-                    bpmn_parameters=bpmn_parameters,
-                    start_time=start_time,
-                    column_mapping=column_mapping,
-                    simulate=True,
-                    simulation_horizon=simulation_horizon,
-                    total_cases=total_cases,
-                    sim_stats_csv=sim_stats_csv,
-                    sim_log_csv=sim_log_csv,
-                )
-                break
-            except Exception as e:
-                if attempt == max_attempts:
-                    raise RuntimeError(f"Process-state simulation failed after {max_attempts} attempts: {e}") from e
-                else:
-                    print(f"[Process-State] Attempt {attempt} failed: {e}. Retrying...")
-                    attempt += 1
-    else:
-        if verbose:
-            print("Skipping simulation (simulate=False).")
-
-    # --- Step 2: Load ALog and GLog ---
-    if verbose:
-        print("=== [Process-State] Step 2: Reading ALog & GLog ===")
-    if not os.path.isfile(event_log):
-        raise FileNotFoundError(f"ALog file not found: {event_log}")
-    if not os.path.isfile(sim_log_csv):
-        raise FileNotFoundError(f"GLog file not found: {sim_log_csv}")
-
-    alog_df = pd.read_csv(event_log)
-    glog_df = pd.read_csv(sim_log_csv)
-
-    if rename_alog:
-        alog_df.rename(columns=rename_alog, inplace=True)
-    if rename_glog:
-        glog_df.rename(columns=rename_glog, inplace=True)
-
-    # Convert time columns (do not filter out events here)
-    time_cols = ["enable_time", "start_time", "end_time"]
-    for col in time_cols:
-        if col in alog_df.columns:
-            alog_df[col] = pd.to_datetime(alog_df[col], utc=True, errors="coerce")
-        if col in glog_df.columns:
-            glog_df[col] = pd.to_datetime(glog_df[col], utc=True, errors="coerce")
-
-    # --- Step 3: Define the evaluation window ---
-    eval_start = pd.to_datetime(start_time, utc=True)
-    eval_end_dt = pd.to_datetime(evaluation_end, utc=True)
-
-    # --- Step 4: Preprocess logs without discarding events ---
-    # Note: We call preprocess_alog and preprocess_glog WITHOUT passing start_time/horizon parameters,
-    # so that we keep the full event data for each case.
-    A_all = helper.preprocess_alog(alog_df)
-    G_all = helper.preprocess_glog(glog_df)
-
-    # --- Step 5: Create two versions for evaluation ---
-    # (a) For case metrics: keep full events for cases that have any event in [eval_start, eval_end]
-    A_case = helper.filter_cases_by_eval_window(A_all, eval_start, eval_end_dt)
-    G_case = helper.filter_cases_by_eval_window(G_all, eval_start, eval_end_dt)
-    # (b) For event metrics: take the same cases and trim individual events to the evaluation window.
-    A_event = helper.trim_events_to_eval_window(A_all, eval_start, eval_end_dt)
-    G_event = helper.trim_events_to_eval_window(G_all, eval_start, eval_end_dt)
-
-    # --- Step 6: Save both logs for debugging ---
-    if verbose:
-        A_case[required_columns].to_csv("samples/output/PS_A_case.csv", index=False)
-        A_event[required_columns].to_csv("samples/output/PS_A_event.csv", index=False)
-        G_case[required_columns].to_csv("samples/output/PS_G_case.csv", index=False)
-        G_event[required_columns].to_csv("samples/output/PS_G_event.csv", index=False)
-        print("Saved PS A_case, A_event, G_case, and G_event CSV files.")
-
-    # --- Step 7: Compute basic stats on the event metrics logs ---
-    statsA = helper.basic_log_stats(A_event)
-    statsG = helper.basic_log_stats(G_event)
-
-    # --- Step 8: Compute log distances using the event metrics logs ---
     custom_ids = EventLogIDs(
         case="case_id",
         activity="activity",
@@ -175,35 +47,128 @@ def evaluate_partial_state_simulation(
         end_time="end_time",
         resource="resource"
     )
-    if verbose:
-        print("=== [Process-State] Step 8: Computing distances using event metrics logs ===")
+
     distances = {}
     try:
         distances["control_flow_log_distance"] = control_flow_log_distance(A_event, custom_ids, G_event, custom_ids)
-        distances["n_gram_distribution_distance"] = n_gram_distribution_distance(A_event, custom_ids, G_event, custom_ids, n=3)
+        distances["n_gram_distribution_distance"] = n_gram_distribution_distance(
+            A_event, custom_ids, G_event, custom_ids, n=3
+        )
         distances["absolute_event_distribution_distance"] = absolute_event_distribution_distance(
-            A_event, custom_ids, G_event, custom_ids,
+            A_event,
+            custom_ids,
+            G_event,
+            custom_ids,
             discretize_type=AbsoluteTimestampType.START,
             discretize_event=discretize_to_hour
         )
         distances["case_arrival_distribution_distance"] = case_arrival_distribution_distance(
-            A_case, custom_ids, G_case, custom_ids,
-            discretize_event=discretize_to_hour
+            A_case, custom_ids, G_case, custom_ids, discretize_event=discretize_to_hour
         )
         distances["cycle_time_distribution_distance"] = cycle_time_distribution_distance(
-            A_case, custom_ids, G_case, custom_ids,
-            bin_size=pd.Timedelta(hours=1)
+            A_case, custom_ids, G_case, custom_ids, bin_size=pd.Timedelta(hours=1)
         )
         distances["circadian_workforce_distribution_distance"] = circadian_workforce_distribution_distance(
             A_case, custom_ids, G_case, custom_ids
         )
         distances["relative_event_distribution_distance"] = relative_event_distribution_distance(
-            A_event, custom_ids, G_event, custom_ids,
+            A_event,
+            custom_ids,
+            G_event,
+            custom_ids,
             discretize_type=AbsoluteTimestampType.BOTH,
             discretize_event=discretize_to_hour
         )
     except Exception as e:
-        raise RuntimeError(f"Error computing distances (process-state): {e}") from e
+        raise RuntimeError(f"Error computing distances: {e}") from e
+
+    return distances
+
+
+def evaluate_partial_state_simulation(
+    run_output_dir: str,
+    # Simulation inputs:
+    event_log: str,
+    bpmn_model: str,
+    bpmn_parameters: str,
+    start_time: pd.Timestamp,
+    simulation_horizon: pd.Timestamp,
+    total_cases: int,
+    # Already preprocessed reference data:
+    A_case_ref: pd.DataFrame,
+    A_event_ref: pd.DataFrame,
+    evaluation_end: pd.Timestamp,
+    # Column rename info:
+    column_mapping: dict,
+    required_columns: list,
+    # Flags:
+    simulate: bool = True,
+    verbose: bool = True,
+):
+    """
+    Runs partial-state approach simulation, loads GLog, and computes 
+    distances vs. the reference subsets.
+    Saves the intermediate logs in the run_output_dir.
+    """
+    sim_stats_csv = os.path.join(run_output_dir, "partial_sim_stats.csv")
+    sim_log_csv = os.path.join(run_output_dir, "partial_sim_log.csv")
+
+    if simulate:
+        if verbose:
+            print("=== [Process-State] Running simulation ===")
+        sim_func_kwargs = {
+            "event_log": event_log,
+            "bpmn_model": bpmn_model,
+            "bpmn_parameters": bpmn_parameters,
+            "start_time": str(start_time.isoformat()),
+            "column_mapping": json.dumps(column_mapping),
+            "simulate": True,
+            "simulation_horizon": str(simulation_horizon.isoformat()),
+            "total_cases": total_cases,
+            "sim_stats_csv": sim_stats_csv,
+            "sim_log_csv": sim_log_csv,
+        }
+        run_simulation_with_retries(run_process_state_and_simulation, sim_func_kwargs, max_attempts=3, verbose=verbose)
+    else:
+        if verbose:
+            print("Skipping partial-state simulation (simulate=False).")
+
+    inv_mapping = {v: k for k, v in column_mapping.items()}
+
+    # --- Load GLog ---
+    if verbose:
+        print("=== [Process-State] Loading generated simulation log ===")
+    glog_df = read_event_log(
+        csv_path=sim_log_csv,
+        rename_map=inv_mapping,
+        required_columns=None,
+        verbose=verbose
+    )
+
+    # Reference subsets for partial-state approach
+    A_case = A_case_ref.copy()
+    A_event = A_event_ref.copy()
+
+    # Filter/trim the generated log
+    G_all = glog_df.copy()
+    eval_start_dt = start_time
+    eval_end_dt = evaluation_end
+
+    G_case = filter_cases_by_eval_window(G_all, eval_start_dt, eval_end_dt)
+    G_event = trim_events_to_eval_window(G_all, eval_start_dt, eval_end_dt)
+
+    # Save logs
+    # A_case.to_csv(os.path.join(run_output_dir, "PS_A_case.csv"), index=False)
+    # A_event.to_csv(os.path.join(run_output_dir, "PS_A_event.csv"), index=False)
+    G_case.to_csv(os.path.join(run_output_dir, "PS_G_case.csv"), index=False)
+    G_event.to_csv(os.path.join(run_output_dir, "PS_G_event.csv"), index=False)
+
+    # Compute stats
+    statsA = basic_log_stats(A_event)
+    statsG = basic_log_stats(G_event)
+
+    # Compute log distances
+    distances = compute_log_distances(A_event, G_event, A_case, G_case, verbose=verbose)
 
     result_dict = {
         "ALog_stats_event": statsA,
@@ -215,159 +180,77 @@ def evaluate_partial_state_simulation(
     return result_dict
 
 
-###########################################################################
-# WARM-UP APPROACH
-###########################################################################
 def evaluate_warmup_simulation(
-    event_log: str,
+    run_output_dir: str,
+    # Simulation inputs:
     bpmn_model: str,
     bpmn_parameters: str,
-    warmup_start: str,       # warm-up simulation start
-    simulation_cut: str,     # discard events before this date (for simulation)
-    evaluation_end: str,     # evaluation end time (new parameter)
-    simulation_horizon: str, # simulation horizon (can be later than evaluation_end)
-    total_cases: int = 1000,
-    sim_stats_csv: str = "warmup_sim_stats.csv",
-    sim_log_csv: str = "warmup_sim_log.csv",
-    column_mapping: str = '{"case_id":"CaseId","activity":"Activity","resource":"Resource","start_time":"StartTime","end_time":"EndTime"}',
-    rename_alog: dict = None,
-    required_columns: list = None,
+    warmup_start: pd.Timestamp,
+    simulation_cut: pd.Timestamp,
+    evaluation_end: pd.Timestamp,
+    total_cases: int,
+    # Already preprocessed reference data:
+    A_case_ref: pd.DataFrame,
+    A_event_ref: pd.DataFrame,
+    # Column rename info:
+    rename_map: dict,
+    required_columns: list,
+    # Flags:
     simulate: bool = True,
-    verbose: bool = True
-) -> dict:
+    verbose: bool = True,
+):
     """
-    Warm-up simulation approach:
-      1) Simulate from warmup_start.
-      2) Discard simulation events before simulation_cut (for simulation purposes).
-      3) For evaluation, keep events (for cases and for trimming) that lie within [simulation_cut, evaluation_end].
-      4) For case metrics, keep entire cases if any event falls in the evaluation window.
-      5) For event metrics, trim events to the evaluation window.
-      6) Save both sets of logs.
+    Runs warm-up approach from warmup_start, loads the resulting log,
+    discards events before simulation_cut, then compares to reference
+    subsets in [simulation_cut, evaluation_end].
     """
-    if required_columns is None:
-        required_columns = ["case_id", "activity", "start_time", "end_time", "resource"]
-    if rename_alog is None:
-        rename_alog = {
-            "CaseId": "case_id",
-            "Activity": "activity",
-            "Resource": "resource",
-            "StartTime": "start_time",
-            "EndTime": "end_time",
-        }
+    sim_stats_csv = os.path.join(run_output_dir, "warmup_sim_stats.csv")
+    sim_log_csv = os.path.join(run_output_dir, "warmup_sim_log.csv")
 
-    # --- Step 1: Possibly run the warm-up simulation ---
     if simulate:
         if verbose:
-            print("=== [Warm-up] Step 1: Running basic simulation (warm-up) ===")
-        max_attempts = 3
-        attempt = 1
-        while attempt <= max_attempts:
-            try:
-                run_basic_simulation(
-                    bpmn_model=bpmn_model,
-                    json_sim_params=bpmn_parameters,
-                    total_cases=total_cases,
-                    out_stats_csv_path=sim_stats_csv,
-                    out_log_csv_path=sim_log_csv,
-                    start_date=warmup_start
-                )
-                break
-            except Exception as e:
-                if attempt == max_attempts:
-                    raise RuntimeError(f"Warm-up simulation failed after {max_attempts} attempts: {e}") from e
-                else:
-                    print(f"[Warm-up] Attempt {attempt} failed: {e}. Retrying...")
-                    attempt += 1
+            print("=== [Warm-up] Running simulation ===")
+        sim_func_kwargs = {
+            "bpmn_model": bpmn_model,
+            "json_sim_params": bpmn_parameters,
+            "total_cases": total_cases,
+            "out_stats_csv_path": sim_stats_csv,
+            "out_log_csv_path": sim_log_csv,
+            "start_date": str(warmup_start.isoformat())
+        }
+        run_simulation_with_retries(run_basic_simulation, sim_func_kwargs, max_attempts=3, verbose=verbose)
     else:
         if verbose:
             print("Skipping warm-up simulation (simulate=False).")
 
-    # --- Step 2: Load and preprocess simulation log ---
-    if verbose:
-        print("=== [Warm-up] Step 2: Reading simulation log ===")
-    if not os.path.isfile(sim_log_csv):
-        raise FileNotFoundError(f"Warm-up simulation log not found: {sim_log_csv}")
-    sim_df = pd.read_csv(sim_log_csv)
-    sim_df.rename(columns=rename_alog, inplace=True)
-    for col in ["enable_time", "start_time", "end_time"]:
-        if col in sim_df.columns:
-            sim_df[col] = pd.to_datetime(sim_df[col], utc=True, errors="coerce")
-
-    # Define the evaluation window for warm-up:
-    eval_start = pd.to_datetime(simulation_cut, utc=True)
-    eval_end_dt = pd.to_datetime(evaluation_end, utc=True)
-
-    # --- Step 3: Preprocess simulation log without discarding events ---
-    sim_all = helper.preprocess_alog(sim_df)
-    sim_case = helper.filter_cases_by_eval_window(sim_all, eval_start, eval_end_dt)
-    sim_event = helper.trim_events_to_eval_window(sim_all, eval_start, eval_end_dt)
-
-    # --- Step 4: Save both warm-up simulation logs ---
-    if verbose:
-        sim_case[required_columns].to_csv("samples/output/WU_G_case.csv", index=False)
-        sim_event[required_columns].to_csv("samples/output/WU_G_event.csv", index=False)
-        print("Saved WU_G_case and WU_G_event CSV files.")
-
-    # --- Step 5: Load and preprocess reference ALog similarly ---
-    if verbose:
-        print("=== [Warm-up] Step 5: Reading and preprocessing reference ALog ===")
-    if not os.path.isfile(event_log):
-        raise FileNotFoundError(f"Reference event log not found: {event_log}")
-    alog_df = pd.read_csv(event_log)
-    alog_df.rename(columns=rename_alog, inplace=True)
-    for col in ["enable_time", "start_time", "end_time"]:
-        if col in alog_df.columns:
-            alog_df[col] = pd.to_datetime(alog_df[col], utc=True, errors="coerce")
-    A_all = helper.preprocess_alog(alog_df)
-    A_case = helper.filter_cases_by_eval_window(A_all, eval_start, eval_end_dt)
-    A_event = helper.trim_events_to_eval_window(A_all, eval_start, eval_end_dt)
-
-    # --- Step 6: Save ALog for warm-up evaluation ---
-    if verbose:
-        A_case[required_columns].to_csv("samples/output/WU_A_case.csv", index=False)
-        A_event[required_columns].to_csv("samples/output/WU_A_event.csv", index=False)
-        print("Saved WU_A_case and WU_A_event CSV files.")
-
-    # --- Step 7: Compute basic stats on simulation event logs ---
-    statsSim = helper.basic_log_stats(sim_event)
-
-    # --- Step 8: Compute log distances using event logs for events and full-case logs for case metrics ---
-    custom_ids = EventLogIDs(
-        case="case_id",
-        activity="activity",
-        start_time="start_time",
-        end_time="end_time",
-        resource="resource"
+    # --- Load simulation results ---
+    sim_df = read_event_log(
+        csv_path=sim_log_csv,
+        rename_map=rename_map,
+        required_columns=None,
+        verbose=verbose
     )
-    if verbose:
-        print("=== [Warm-up] Step 8: Computing distances using event logs ===")
-    distances = {}
-    try:
-        distances["control_flow_log_distance"] = control_flow_log_distance(A_event, custom_ids, sim_event, custom_ids)
-        distances["n_gram_distribution_distance"] = n_gram_distribution_distance(A_event, custom_ids, sim_event, custom_ids, n=3)
-        distances["absolute_event_distribution_distance"] = absolute_event_distribution_distance(
-            A_event, custom_ids, sim_event, custom_ids,
-            discretize_type=AbsoluteTimestampType.START,
-            discretize_event=discretize_to_hour
-        )
-        distances["case_arrival_distribution_distance"] = case_arrival_distribution_distance(
-            A_case, custom_ids, sim_case, custom_ids,
-            discretize_event=discretize_to_hour
-        )
-        distances["cycle_time_distribution_distance"] = cycle_time_distribution_distance(
-            A_case, custom_ids, sim_case, custom_ids,
-            bin_size=pd.Timedelta(hours=1)
-        )
-        distances["circadian_workforce_distribution_distance"] = circadian_workforce_distribution_distance(
-            A_case, custom_ids, sim_case, custom_ids
-        )
-        distances["relative_event_distribution_distance"] = relative_event_distribution_distance(
-            A_event, custom_ids, sim_event, custom_ids,
-            discretize_type=AbsoluteTimestampType.BOTH,
-            discretize_event=discretize_to_hour
-        )
-    except Exception as e:
-        raise RuntimeError(f"Error computing distances (warm-up): {e}") from e
+
+    eval_start_dt = simulation_cut
+    eval_end_dt = evaluation_end
+
+    # Filter/trim the simulation log
+    sim_case = filter_cases_by_eval_window(sim_df, eval_start_dt, eval_end_dt)
+    sim_event = trim_events_to_eval_window(sim_df, eval_start_dt, eval_end_dt)
+    statsSim = basic_log_stats(sim_event)
+
+    # Reference subsets
+    A_case = A_case_ref.copy()
+    A_event = A_event_ref.copy()
+
+    # Save intermediate logs
+    # A_case.to_csv(os.path.join(run_output_dir, "WU_A_case.csv"), index=False)
+    # A_event.to_csv(os.path.join(run_output_dir, "WU_A_event.csv"), index=False)
+    sim_case.to_csv(os.path.join(run_output_dir, "WU_G_case.csv"), index=False)
+    sim_event.to_csv(os.path.join(run_output_dir, "WU_G_event.csv"), index=False)
+
+    # Compute distances
+    distances = compute_log_distances(A_event, sim_event, A_case, sim_case, verbose=verbose)
 
     result_dict = {
         "SimStats": statsSim,
@@ -376,3 +259,78 @@ def evaluate_warmup_simulation(
     if verbose:
         print("[Warm-up] Evaluation result:", json.dumps(result_dict, indent=4))
     return result_dict
+
+
+def aggregate_metrics(all_runs: list) -> dict:
+    """
+    Aggregates metrics across runs (mean, std, 95% CI).
+    Each element of `all_runs` is assumed to have a dict {metricA: valA, metricB: valB, ...}.
+    """
+    agg = {}
+    if not all_runs:
+        return agg
+
+    # Collect set of metric keys
+    metric_keys = set()
+    for run_result in all_runs:
+        for k in run_result.keys():
+            metric_keys.add(k)
+    metric_keys = list(metric_keys)
+
+    for metric in metric_keys:
+        run_values = [run_result.get(metric, float("nan")) for run_result in all_runs]
+        run_values = [v for v in run_values if v is not None and not pd.isnull(v)]
+        if not run_values:
+            agg[metric] = {
+                "mean": None,
+                "std": None,
+                "confidence_interval": [None, None],
+                "individual_runs": []
+            }
+            continue
+
+        mean_val = sum(run_values) / len(run_values)
+        std_val = math.sqrt(sum((x - mean_val) ** 2 for x in run_values) / len(run_values))
+        se = std_val / math.sqrt(len(run_values))
+        ci_lower = mean_val - 1.96 * se
+        ci_upper = mean_val + 1.96 * se
+
+        agg[metric] = {
+            "mean": mean_val,
+            "std": std_val,
+            "confidence_interval": [ci_lower, ci_upper],
+            "individual_runs": run_values
+        }
+
+    return agg
+
+
+def compare_results(proc_agg: dict, warmup_agg: dict) -> dict:
+    """
+    Compare aggregated results between approaches.
+    """
+    comparison = {}
+    metric_keys = set(proc_agg.keys()).union(set(warmup_agg.keys()))
+    for metric in metric_keys:
+        p_data = proc_agg.get(metric, {})
+        w_data = warmup_agg.get(metric, {})
+        proc_mean = p_data.get("mean", None)
+        warmup_mean = w_data.get("mean", None)
+
+        # Decide "better_approach" based on lower mean distance
+        if proc_mean is None or warmup_mean is None:
+            better = None
+        else:
+            if proc_mean < warmup_mean:
+                better = "process_state"
+            elif warmup_mean < proc_mean:
+                better = "warmup"
+            else:
+                better = "tie"
+
+        comparison[metric] = {
+            "process_state_mean": proc_mean,
+            "warmup_mean": warmup_mean,
+            "better_approach": better
+        }
+    return comparison
