@@ -19,7 +19,7 @@ def read_event_log(csv_path, rename_map=None, required_columns=None, verbose=Tru
     # Convert time columns
     for tcol in ["enable_time", "start_time", "end_time"]:
         if tcol in df.columns:
-            df[tcol] = pd.to_datetime(df[tcol], utc=True, errors="coerce")
+            df[tcol] = pd.to_datetime(df[tcol], utc=True, format='mixed')
 
     # Check required columns
     if required_columns:
@@ -41,7 +41,7 @@ def trim_events_to_eval_window(df: pd.DataFrame, eval_start: pd.Timestamp, eval_
     
     # Keep only events that have any overlap with the evaluation window:
     # - Events that end after eval_start and start before eval_end.
-    mask = (out["end_time"] > eval_start) & (out["start_time"] < eval_end)
+    mask = (out["end_time"] >= eval_start) & (out["start_time"] <= eval_end)
     out = out[mask].copy()
     
     # Trim events that extend beyond the evaluation window:
@@ -135,4 +135,6 @@ def filter_complete_cases(df: pd.DataFrame, eval_start: pd.Timestamp, eval_end: 
         min_st = group["start_time"].min()
         if min_st >= eval_start and min_st <= eval_end:
             keep_case_ids.append(cid)
+
+    print(f"Keeping cases: {keep_case_ids}")
     return out[out["case_id"].isin(keep_case_ids)].copy()

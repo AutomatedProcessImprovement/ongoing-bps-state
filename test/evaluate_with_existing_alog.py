@@ -22,31 +22,31 @@ from test.evaluation import (
 
 def main():
     # ----------- CONFIG -----------
-    # EXISTING_ALOG_PATH = "samples/real_life/AcademicCredentials_fixed.csv"
-    # BPMN_MODEL = "samples/real_life/AcademicCredentials.bpmn"
-    # BPMN_PARAMS = "samples/real_life/AcademicCredentials.json"
+    EXISTING_ALOG_PATH = "samples/real_life/AcademicCredentials_fixed.csv"
+    BPMN_MODEL = "samples/real_life/AcademicCredentials.bpmn"
+    BPMN_PARAMS = "samples/real_life/AcademicCredentials.json"
 
-    # SIMULATION_CUT_DATE = "2016-04-28T10:10:00.000Z"  
-    # EVALUATION_END_DATE = "2016-06-29T23:20:30.000Z"  
-    # SIMULATION_HORIZON  = "2016-07-29T23:20:30.000Z"  
-    # WARMUP_START_DATE   = "2016-04-16T09:04:12.000Z"
+    SIMULATION_CUT_DATE = "2016-04-28T10:10:00.000Z"  
+    EVALUATION_END_DATE = "2016-06-29T23:20:30.000Z"  
+    SIMULATION_HORIZON  = "2016-07-29T23:20:30.000Z"  
+    WARMUP_START_DATE   = "2016-04-16T09:04:12.000Z"
 
-    # NUM_RUNS = 15
-    # PROC_TOTAL_CASES = 600
-    # WARMUP_TOTAL_CASES = 600
+    NUM_RUNS = 10
+    PROC_TOTAL_CASES = 600
+    WARMUP_TOTAL_CASES = 600
 
-    EXISTING_ALOG_PATH = "samples/real_life/BPIC_2012_fixed.csv"
-    BPMN_MODEL = "samples/real_life/BPIC_2012.bpmn"
-    BPMN_PARAMS = "samples/real_life/BPIC_2012.json"
+    # EXISTING_ALOG_PATH = "samples/real_life/BPIC_2012_new.csv"
+    # BPMN_MODEL = "samples/real_life/BPIC_2012.bpmn"
+    # BPMN_PARAMS = "samples/real_life/BPIC_2012.json"
 
-    SIMULATION_CUT_DATE = "2012-01-14T10:10:00.000Z"  
-    EVALUATION_END_DATE = "2012-02-26T23:20:30.000Z"  
-    SIMULATION_HORIZON  = "2012-04-08T23:20:30.000Z"  
-    WARMUP_START_DATE   = "2012-01-07T09:04:12.000Z"
+    # SIMULATION_CUT_DATE = "2012-01-11T10:00:00.000Z"  
+    # EVALUATION_END_DATE = "2012-02-01T10:00:00.000Z"  
+    # SIMULATION_HORIZON  = "2012-03-05T10:00:00.000Z"  
+    # WARMUP_START_DATE   = "2011-12-24T10:00:00.000Z"
 
-    NUM_RUNS = 15
-    PROC_TOTAL_CASES = 3500
-    WARMUP_TOTAL_CASES = 3500
+    # NUM_RUNS = 10
+    # PROC_TOTAL_CASES = 3500
+    # WARMUP_TOTAL_CASES = 3500
 
 
     # Column renaming
@@ -99,6 +99,8 @@ def main():
     # 1C) Complete subset
     #    "complete" if min(start_time) >= eval_start
     #    keep entire case
+    start = alog_df[alog_df["case_id"]==140]["start_time"].min()
+    print(f"Filtering complete cases... {start} {eval_start_dt} {eval_end_dt}")
     A_complete_ref = filter_complete_cases(alog_df, eval_start_dt, eval_end_dt)
 
     # Optionally, save these references in top-level output folder

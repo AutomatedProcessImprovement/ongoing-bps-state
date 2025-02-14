@@ -133,7 +133,7 @@ class InputHandler:
         df['StartTime'] = pd.to_datetime(
             df['StartTime'],
             utc=True,
-            errors='coerce'
+            # errors='coerce'
         )
 
         # Convert EndTime to string, ensure fractional seconds, then parse
@@ -145,7 +145,6 @@ class InputHandler:
         df['EndTime'] = pd.to_datetime(
             df['EndTime'],
             utc=True,
-            errors='coerce'  # allow NaT for missing or invalid EndTime
         )
         
         return df

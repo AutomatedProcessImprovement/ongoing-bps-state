@@ -138,19 +138,23 @@ def compute_custom_metrics(
 
     # ----------------- COMPLETE FILTER -----------------
     # Relative Event Distribution Distance (RED)
-    try:
-        results["complete_filter"]["RED"] = relative_event_distribution_distance(
-            A_complete_ref,
-            custom_ids,
-            G_complete,
-            custom_ids,
-            discretize_type=AbsoluteTimestampType.BOTH,
-            discretize_event=discretize_to_hour
-        )
-    except Exception as e:
-        if verbose:
-            print("[compute_custom_metrics] Error computing RED for complete_filter:", e)
-        results["complete_filter"]["RED"] = None
+    # try:
+    if G_complete["start_time"].isnull().any():
+        print(f"[DEBUG] G_complete has {A_complete_ref['start_time'].isnull().sum()} null start_time values.")
+    if G_complete["end_time"].isnull().any():
+        print(f"[DEBUG] G_complete has {A_complete_ref['end_time'].isnull().sum()} null end_time values.")
+    results["complete_filter"]["RED"] = relative_event_distribution_distance(
+        A_complete_ref,
+        custom_ids,
+        G_complete,
+        custom_ids,
+        discretize_type=AbsoluteTimestampType.BOTH,
+        discretize_event=discretize_to_hour
+    )
+    # except Exception as e:
+    #     if verbose:
+    #         print("[compute_custom_metrics] Error computing RED for complete_filter:", e)
+    #     results["complete_filter"]["RED"] = None
 
     # Cycle Time Distribution Distance
     try:

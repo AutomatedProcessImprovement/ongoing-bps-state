@@ -23,8 +23,8 @@ from pix_framework.enhancement.concurrency_oracle import OverlappingConcurrencyO
 # ============================
 # Configuration: update these paths.
 # ============================
-INPUT_FILE = "samples/real_life/BPIC_2012.csv"    # Path to your input CSV event log
-OUTPUT_FILE = "samples/real_life/BPIC_2012_fixed.csv"  # Path to the output CSV file
+INPUT_FILE = "samples/real_life/BPIC_2012_test.csv"    # Path to your input CSV event log
+OUTPUT_FILE = "samples/real_life/BPIC_2012_new.csv"  # Path to the output CSV file
 
 def format_enabled_time(ts):
     """If ts is a pandas Timestamp, return ISO8601 string with T and three-digit ms."""
@@ -54,8 +54,8 @@ def main():
     # --- Step 2: Parse start_time and end_time for concurrency calculations ---
     # We do not want to change the original text for these columns, so we use our own parsed copies.
     # Use pd.to_datetime without specifying a strict format so that various ISO-like strings are accepted.
-    df['start_time_parsed'] = pd.to_datetime(df['start_time'], utc=True, errors='coerce')
-    df['end_time_parsed'] = pd.to_datetime(df['end_time'], utc=True, errors='coerce')
+    df['start_time_parsed'] = pd.to_datetime(df['start_time'], utc=True)
+    df['end_time_parsed'] = pd.to_datetime(df['end_time'], utc=True)
 
     # --- Step 3: Prepare pix-framework’s EventLogIDs ---
     ids = EventLogIDs(
@@ -103,7 +103,7 @@ def main():
 
     # --- Step 9: Write the updated DataFrame to the output CSV ---
     print(f"Writing output CSV to: {OUTPUT_FILE}")
-    df.to_csv(OUTPUT_FILE, index=False)
+    df.to_csv(OUTPUT_FILE, index=False, date_format='%Y-%m-%dT%H:%M:%S.%fZ')
     print("Processing complete.")
 
 if __name__ == "__main__":

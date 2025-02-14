@@ -54,7 +54,7 @@ def main():
     alog_df = pd.read_csv(basic_log_csv)
     for col in ["StartTime", "EndTime"]:
         if col in alog_df.columns:
-            alog_df[col] = pd.to_datetime(alog_df[col], utc=True, errors="coerce")
+            alog_df[col] = pd.to_datetime(alog_df[col], utc=True)
     alog_df.rename(columns={
         "CaseId": "case_id",
         "Activity": "activity",
@@ -63,9 +63,9 @@ def main():
         "EndTime": "end_time"
     }, inplace=True)
     if "start_time" in alog_df.columns:
-        alog_df["start_time"] = pd.to_datetime(alog_df["start_time"], utc=True, errors="coerce")
+        alog_df["start_time"] = pd.to_datetime(alog_df["start_time"], utc=True)
     if "end_time" in alog_df.columns:
-        alog_df["end_time"] = pd.to_datetime(alog_df["end_time"], utc=True, errors="coerce")
+        alog_df["end_time"] = pd.to_datetime(alog_df["end_time"], utc=True)
 
     # Define the simulation window for evaluation:
     simulation_cut_date = "2012-04-21T10:10:00.000Z"

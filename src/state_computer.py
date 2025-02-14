@@ -42,7 +42,7 @@ class StateComputer:
                             ids.start_time: stime,
                             ids.end_time: stime
                         })
-                        enabled_time = self.concurrency_oracle.enabled_since(trace=group, event=temp_event)
+                        enabled_time = row[ids.enabled_time]
 
                         if pd.isna(enabled_time):
                             print(f"[DEBUG concurrency] Ongoing '{task_id}' in case {case_id}: "
@@ -91,16 +91,19 @@ class StateComputer:
                 target_ref = self.bpmn_handler.sequence_flows.get(flow_id)
                 if target_ref in self.bpmn_handler.activities:
                     activity_name = self.bpmn_handler.activities.get(target_ref)
-                    if activity_name not in getattr(self.concurrency_oracle, 'concurrency', {}):
-                        enabled_time = None
+                    if len(finished_activities)== 0:
+                        print("reached")
+                        enabled_time = min(group[ids.start_time])
                     else:
+                        if activity_name not in getattr(self.concurrency_oracle, 'concurrency', {}):
+                            self.concurrency_oracle.concurrency[activity_name] = {}
                         max_end_time = finished_activities[ids.end_time].max() if not finished_activities.empty else None
                         temp_event = pd.Series({
                             ids.activity: activity_name,  # using name for lookup
-                            ids.start_time: max_end_time,
-                            ids.end_time: max_end_time
+                            ids.start_time: max_end_time + pd.Timedelta(seconds=1),
+                            ids.end_time: max_end_time+ pd.Timedelta(seconds=1),
                         })
-                        enabled_time = self.concurrency_oracle.enabled_since(trace=group, event=temp_event)
+                        enabled_time = self.concurrency_oracle.enabled_since(trace=finished_activities, event=temp_event)
                     enabled_activities.append({
                         "id": target_ref,
                         "enabled_time": enabled_time
