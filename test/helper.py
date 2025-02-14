@@ -30,30 +30,24 @@ def read_event_log(csv_path, rename_map=None, required_columns=None, verbose=Tru
     return df
 
 
-def filter_cases_by_eval_window(df: pd.DataFrame, eval_start: pd.Timestamp, eval_end: pd.Timestamp) -> pd.DataFrame:
-    """
-    Keep entire cases if at least one event has its start or end time 
-    within [eval_start, eval_end].
-    """
-    keep_case_ids = []
-    for cid, group in df.groupby("case_id"):
-        if (
-            ((group["start_time"] >= eval_start) & (group["start_time"] <= eval_end)).any()
-            or ((group["end_time"] >= eval_start) & (group["end_time"] <= eval_end)).any()
-        ):
-            keep_case_ids.append(cid)
-    return df[df["case_id"].isin(keep_case_ids)].copy()
-
-
 def trim_events_to_eval_window(df: pd.DataFrame, eval_start: pd.Timestamp, eval_end: pd.Timestamp) -> pd.DataFrame:
     """
     For each event, ensure times are within [eval_start, eval_end].
-    Only keep events that overlap with the window in any way.
+    Only keep events that overlap the evaluation window.
+    This additionally eliminates events that start and finish completely
+    outside the evaluation window (and thus, cases having only such events).
     """
     out = df.copy()
-    out = out[(out["end_time"] > eval_start) & (out["start_time"] < eval_end)]
+    
+    # Keep only events that have any overlap with the evaluation window:
+    # - Events that end after eval_start and start before eval_end.
+    mask = (out["end_time"] > eval_start) & (out["start_time"] < eval_end)
+    out = out[mask].copy()
+    
+    # Trim events that extend beyond the evaluation window:
     out.loc[out["start_time"] < eval_start, "start_time"] = eval_start
     out.loc[out["end_time"] > eval_end, "end_time"] = eval_end
+    
     return out
 
 
@@ -99,3 +93,46 @@ def run_simulation_with_retries(sim_func, sim_func_kwargs, max_attempts=3, verbo
                 if verbose:
                     print(f"[Simulation] Attempt {attempt} failed: {e}. Retrying...")
                 attempt += 1
+
+def filter_ongoing_cases(df: pd.DataFrame, eval_start: pd.Timestamp, eval_end: pd.Timestamp) -> pd.DataFrame:
+    """
+    Return only the part of cases that were 'ongoing' at eval_start:
+      - A case is 'ongoing' if it has at least one event starting before eval_start
+        AND at least one event ending after eval_start.
+      - Then keep only events with end_time > eval_start.
+      - Finally, adjust (clip) each event's start and end times so that they lie within [eval_start, eval_end].
+    """
+    out = df.copy()
+    
+    # Identify cases that are ongoing at eval_start.
+    keep_case_ids = []
+    for cid, group in out.groupby("case_id"):
+        min_start = group["start_time"].min()
+        max_end = group["end_time"].max()
+        if min_start < eval_start and max_end > eval_start:
+            keep_case_ids.append(cid)
+
+    out = out[out["case_id"].isin(keep_case_ids)].copy()
+    # Keep only events that end after eval_start.
+    out = out[out["end_time"] > eval_start].copy()
+    
+    # Clip the events' times to the evaluation window.
+    out.loc[out["start_time"] < eval_start, "start_time"] = eval_start
+    out.loc[out["end_time"] > eval_end, "end_time"] = eval_end
+    
+    return out
+
+
+
+def filter_complete_cases(df: pd.DataFrame, eval_start: pd.Timestamp, eval_end: pd.Timestamp) -> pd.DataFrame:
+    """
+    Return only the full cases whose min(start_time) >= eval_start and min(start_time) <= eval_end.
+    Keep ALL events for those cases (even if they extend beyond eval_end).
+    """
+    out = df.copy()
+    keep_case_ids = []
+    for cid, group in out.groupby("case_id"):
+        min_st = group["start_time"].min()
+        if min_st >= eval_start and min_st <= eval_end:
+            keep_case_ids.append(cid)
+    return out[out["case_id"].isin(keep_case_ids)].copy()

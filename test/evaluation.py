@@ -1,44 +1,69 @@
-import pandas as pd
-import math
-import json
 import os
-import sys
+import json
+import math
+import pandas as pd
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-# Log-distance-measures imports
+# Log-distance-measures imports (only the ones we actually use)
 from log_distance_measures.config import (
     AbsoluteTimestampType,
     discretize_to_hour,
     EventLogIDs
 )
-from log_distance_measures.control_flow_log_distance import control_flow_log_distance
 from log_distance_measures.n_gram_distribution import n_gram_distribution_distance
 from log_distance_measures.absolute_event_distribution import absolute_event_distribution_distance
-from log_distance_measures.case_arrival_distribution import case_arrival_distribution_distance
 from log_distance_measures.cycle_time_distribution import cycle_time_distribution_distance
-from log_distance_measures.circadian_workforce_distribution import circadian_workforce_distribution_distance
 from log_distance_measures.relative_event_distribution import relative_event_distribution_distance
+from log_distance_measures.circadian_event_distribution import circadian_event_distribution_distance
+from log_distance_measures.circadian_workforce_distribution import circadian_workforce_distribution_distance
+from log_distance_measures.case_arrival_distribution import case_arrival_distribution_distance
 
 from test.helper import (
-    basic_log_stats,
-    filter_cases_by_eval_window,
-    trim_events_to_eval_window,
     run_simulation_with_retries,
-    read_event_log
+    read_event_log,
+    trim_events_to_eval_window,
+    filter_ongoing_cases,
+    filter_complete_cases
 )
 
-# Simulation-libs (adjust path as needed)
+# Simulation-libs
 from src.runner import run_process_state_and_simulation
 from src.process_state_prosimos_run import run_basic_simulation
 
-
-def compute_log_distances(
-    A_event: pd.DataFrame, G_event: pd.DataFrame, A_case: pd.DataFrame, G_case: pd.DataFrame, verbose=True
+###############################################################################
+# Metric Computation (Event / Ongoing / Complete)
+###############################################################################
+def compute_custom_metrics(
+    A_event_filter_ref: pd.DataFrame,
+    A_ongoing_ref: pd.DataFrame,
+    A_complete_ref: pd.DataFrame,
+    G_event_filter: pd.DataFrame,
+    G_ongoing: pd.DataFrame,
+    G_complete: pd.DataFrame,
+    verbose=True
 ) -> dict:
     """
-    Computes the set of log distances between the reference (A_event, A_case)
-    and the generated (G_event, G_case) logs.
+    Computes metrics for the three filtering approaches:
+    
+    Event Filter Metrics:
+      - n_gram: N-gram distribution distance (3-grams)
+      - absolute_event: Absolute event distribution distance
+      - circadian_event: Circadian Event Distribution
+      - circadian_workflow: Circadian Workflow Distribution
+
+    Ongoing Filter Metrics:
+      - TCTD: Cycle Time Distribution Distance
+
+    Complete Filter Metrics:
+      - RED: Relative Event Distribution Distance
+      - cycle_time: Cycle Time Distribution Distance
+      - case_arrival_rate: Case Arrival Rate Distance
+
+    Returns a dict:
+    {
+      "event_filter": { "n_gram": ..., "absolute_event": ..., "circadian_event": ..., "circadian_workflow": ... },
+      "ongoing_filter": { "TCTD": ... },
+      "complete_filter": { "RED": ..., "cycle_time": ..., "case_arrival_rate": ... }
+    }
     """
     custom_ids = EventLogIDs(
         case="case_id",
@@ -48,43 +73,174 @@ def compute_log_distances(
         resource="resource"
     )
 
-    distances = {}
+    results = {
+        "event_filter": {},
+        "ongoing_filter": {},
+        "complete_filter": {}
+    }
+
+    # ----------------- EVENT FILTER -----------------
+    # N-gram distribution distance (using 3-grams)
     try:
-        distances["control_flow_log_distance"] = control_flow_log_distance(A_event, custom_ids, G_event, custom_ids)
-        distances["n_gram_distribution_distance"] = n_gram_distribution_distance(
-            A_event, custom_ids, G_event, custom_ids, n=3
+        results["event_filter"]["n_gram"] = n_gram_distribution_distance(
+            A_event_filter_ref, custom_ids, G_event_filter, custom_ids, n=3
         )
-        distances["absolute_event_distribution_distance"] = absolute_event_distribution_distance(
-            A_event,
+    except Exception as e:
+        if verbose:
+            print("[compute_custom_metrics] Error computing n_gram for event_filter:", e)
+        results["event_filter"]["n_gram"] = None
+
+    # Absolute event distribution distance
+    try:
+        results["event_filter"]["absolute_event"] = absolute_event_distribution_distance(
+            A_event_filter_ref,
             custom_ids,
-            G_event,
+            G_event_filter,
             custom_ids,
             discretize_type=AbsoluteTimestampType.START,
             discretize_event=discretize_to_hour
         )
-        distances["case_arrival_distribution_distance"] = case_arrival_distribution_distance(
-            A_case, custom_ids, G_case, custom_ids, discretize_event=discretize_to_hour
+    except Exception as e:
+        if verbose:
+            print("[compute_custom_metrics] Error computing absolute_event for event_filter:", e)
+        results["event_filter"]["absolute_event"] = None
+
+    # Circadian Event Distribution
+    try:
+        results["event_filter"]["circadian_event"] = circadian_event_distribution_distance(
+            A_event_filter_ref, custom_ids, G_event_filter, custom_ids
         )
-        distances["cycle_time_distribution_distance"] = cycle_time_distribution_distance(
-            A_case, custom_ids, G_case, custom_ids, bin_size=pd.Timedelta(hours=1)
+    except Exception as e:
+        if verbose:
+            print("[compute_custom_metrics] Error computing circadian_event for event_filter:", e)
+        results["event_filter"]["circadian_event"] = None
+
+    # Circadian Workflow Distribution
+    try:
+        results["event_filter"]["circadian_workflow"] = circadian_workforce_distribution_distance(
+            A_event_filter_ref, custom_ids, G_event_filter, custom_ids
         )
-        distances["circadian_workforce_distribution_distance"] = circadian_workforce_distribution_distance(
-            A_case, custom_ids, G_case, custom_ids
+    except Exception as e:
+        if verbose:
+            print("[compute_custom_metrics] Error computing circadian_workflow for event_filter:", e)
+        results["event_filter"]["circadian_workflow"] = None
+
+    # ----------------- ONGOING FILTER -----------------
+    # Cycle Time Distribution Distance (TCTD)
+    try:
+        results["ongoing_filter"]["TCTD"] = cycle_time_distribution_distance(
+            A_ongoing_ref, custom_ids, G_ongoing, custom_ids, bin_size=pd.Timedelta(hours=1)
         )
-        distances["relative_event_distribution_distance"] = relative_event_distribution_distance(
-            A_event,
+    except Exception as e:
+        if verbose:
+            print("[compute_custom_metrics] Error computing TCTD for ongoing_filter:", e)
+        results["ongoing_filter"]["TCTD"] = None
+
+    # ----------------- COMPLETE FILTER -----------------
+    # Relative Event Distribution Distance (RED)
+    try:
+        results["complete_filter"]["RED"] = relative_event_distribution_distance(
+            A_complete_ref,
             custom_ids,
-            G_event,
+            G_complete,
             custom_ids,
             discretize_type=AbsoluteTimestampType.BOTH,
             discretize_event=discretize_to_hour
         )
     except Exception as e:
-        raise RuntimeError(f"Error computing distances: {e}") from e
+        if verbose:
+            print("[compute_custom_metrics] Error computing RED for complete_filter:", e)
+        results["complete_filter"]["RED"] = None
 
-    return distances
+    # Cycle Time Distribution Distance
+    try:
+        results["complete_filter"]["cycle_time"] = cycle_time_distribution_distance(
+            A_complete_ref, custom_ids, G_complete, custom_ids, bin_size=pd.Timedelta(hours=1)
+        )
+    except Exception as e:
+        if verbose:
+            print("[compute_custom_metrics] Error computing cycle_time for complete_filter:", e)
+        results["complete_filter"]["cycle_time"] = None
+
+    # Case Arrival Rate Distance
+    try:
+        results["complete_filter"]["case_arrival_rate"] = case_arrival_distribution_distance(
+            A_complete_ref, custom_ids, G_complete, custom_ids, discretize_event=discretize_to_hour
+        )
+    except Exception as e:
+        if verbose:
+            print("[compute_custom_metrics] Error computing case_arrival_rate for complete_filter:", e)
+        results["complete_filter"]["case_arrival_rate"] = None
+
+    return results
 
 
+###############################################################################
+# Helpers for Partial-State approach (Parsing partial_state.json)
+###############################################################################
+def parse_partial_state_json(json_path: str) -> set:
+    """
+    Reads the partial-state JSON, which has a structure like:
+    {
+      "cases": {
+         "9": { ... },
+         "10": { ... },
+         ...
+      }
+    }
+    Returns the set of case_ids that appear in partial-state (i.e. started before cutoff).
+    If the file doesn't exist or is invalid, returns an empty set.
+    """
+    if not os.path.isfile(json_path):
+        return set()  # no file -> no partial-state
+    try:
+        with open(json_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if "cases" not in data:
+            return set()
+        return set(data["cases"].keys())  # keys are strings
+    except Exception as e:
+        print(f"[parse_partial_state_json] Error reading {json_path}: {e}")
+        return set()
+
+
+def build_partial_state_subsets(
+    glog_df: pd.DataFrame,
+    partial_ids: set,
+    cutoff: pd.Timestamp,
+    evaluation_end: pd.Timestamp
+) -> tuple:
+    """
+    Builds the three subsets for the partial-state approach:
+
+    1) G_event_filter: events overlapping [cutoff, evaluation_end] (using trim_events_to_eval_window).
+    2) G_ongoing: events from cases in partial_ids, with event times clipped to [cutoff, evaluation_end].
+    3) G_complete: events from cases *not* in partial_ids, where the earliest event starts 
+       at or after cutoff and strictly before evaluation_end.
+    """
+    # (1) Event filter
+    G_event_filter = trim_events_to_eval_window(glog_df, cutoff, evaluation_end)
+
+    # (2) Ongoing: keep only events from cases in partial_ids.
+    G_ongoing = glog_df[glog_df["case_id"].astype(str).isin(partial_ids)].copy()
+    # Clip event times to [cutoff, evaluation_end]
+    G_ongoing.loc[G_ongoing["start_time"] < cutoff, "start_time"] = cutoff
+    G_ongoing.loc[G_ongoing["end_time"] > evaluation_end, "end_time"] = evaluation_end
+
+    # (3) Complete: exclude partial_ids, keep only cases whose earliest start is between cutoff (inclusive)
+    # and evaluation_end (exclusive).
+    remainder_df = glog_df[~glog_df["case_id"].astype(str).isin(partial_ids)].copy()
+    group_min_start = remainder_df.groupby("case_id")["start_time"].transform("min")
+    G_complete = remainder_df[(group_min_start >= cutoff) & (group_min_start < evaluation_end)]
+
+    return G_event_filter, G_ongoing, G_complete
+
+
+
+
+###############################################################################
+# Evaluate Partial-State Simulation
+###############################################################################
 def evaluate_partial_state_simulation(
     run_output_dir: str,
     # Simulation inputs:
@@ -94,25 +250,28 @@ def evaluate_partial_state_simulation(
     start_time: pd.Timestamp,
     simulation_horizon: pd.Timestamp,
     total_cases: int,
-    # Already preprocessed reference data:
-    A_case_ref: pd.DataFrame,
-    A_event_ref: pd.DataFrame,
+    # Already precomputed reference subsets (A):
+    A_event_filter_ref: pd.DataFrame,
+    A_ongoing_ref: pd.DataFrame,
+    A_complete_ref: pd.DataFrame,
+    # Extra params:
     evaluation_end: pd.Timestamp,
-    # Column rename info:
     column_mapping: dict,
     required_columns: list,
-    # Flags:
     simulate: bool = True,
-    verbose: bool = True,
-):
+    verbose: bool = True
+) -> dict:
     """
-    Runs partial-state approach simulation, loads GLog, and computes 
-    distances vs. the reference subsets.
-    Saves the intermediate logs in the run_output_dir.
+    1) Run partial-state approach simulation
+    2) Parse partial_state.json to find ongoing IDs
+    3) Build G_event_filter, G_ongoing, G_complete using partial_state info
+    4) compute_custom_metrics(A references, G subsets)
+    5) Return the result dict
     """
     sim_stats_csv = os.path.join(run_output_dir, "partial_sim_stats.csv")
     sim_log_csv = os.path.join(run_output_dir, "partial_sim_log.csv")
 
+    # Step 1: Run simulation
     if simulate:
         if verbose:
             print("=== [Process-State] Running simulation ===")
@@ -133,11 +292,11 @@ def evaluate_partial_state_simulation(
         if verbose:
             print("Skipping partial-state simulation (simulate=False).")
 
+    # Step 2: Load GLog
     inv_mapping = {v: k for k, v in column_mapping.items()}
-
-    # --- Load GLog ---
     if verbose:
-        print("=== [Process-State] Loading generated simulation log ===")
+        print("=== [Process-State] Reading partial-state simulation log ===")
+
     glog_df = read_event_log(
         csv_path=sim_log_csv,
         rename_map=inv_mapping,
@@ -145,68 +304,64 @@ def evaluate_partial_state_simulation(
         verbose=verbose
     )
 
-    # Reference subsets for partial-state approach
-    A_case = A_case_ref.copy()
-    A_event = A_event_ref.copy()
-
-    # Filter/trim the generated log
-    G_all = glog_df.copy()
-    eval_start_dt = start_time
-    eval_end_dt = evaluation_end
-
-    G_case = filter_cases_by_eval_window(G_all, eval_start_dt, eval_end_dt)
-    G_event = trim_events_to_eval_window(G_all, eval_start_dt, eval_end_dt)
-
-    # Save logs
-    # A_case.to_csv(os.path.join(run_output_dir, "PS_A_case.csv"), index=False)
-    # A_event.to_csv(os.path.join(run_output_dir, "PS_A_event.csv"), index=False)
-    G_case.to_csv(os.path.join(run_output_dir, "PS_G_case.csv"), index=False)
-    G_event.to_csv(os.path.join(run_output_dir, "PS_G_event.csv"), index=False)
-
-    # Compute stats
-    statsA = basic_log_stats(A_event)
-    statsG = basic_log_stats(G_event)
-
-    # Compute log distances
-    distances = compute_log_distances(A_event, G_event, A_case, G_case, verbose=verbose)
-
-    result_dict = {
-        "ALog_stats_event": statsA,
-        "GLog_stats_event": statsG,
-        "distances": distances,
-    }
+    # Step 2B: Parse partial_state.json to find ongoing IDs
+    partial_ids = parse_partial_state_json("output.json")
     if verbose:
-        print("[Process-State] Evaluation result:", json.dumps(result_dict, indent=4))
-    return result_dict
+        print(f"[Process-State] Found {len(partial_ids)} ongoing partial-state case IDs.")
+
+    # Step 3: Build generated subsets
+    G_event_filter, G_ongoing, G_complete = build_partial_state_subsets(
+        glog_df,
+        partial_ids,
+        cutoff=start_time,
+        evaluation_end=evaluation_end
+    )
+
+    # Optionally save these G subsets
+    G_event_filter.to_csv(os.path.join(run_output_dir, "PS_event_G.csv"), index=False)
+    G_ongoing.to_csv(os.path.join(run_output_dir, "PS_ongoing_G.csv"), index=False)
+    G_complete.to_csv(os.path.join(run_output_dir, "PS_complete_G.csv"), index=False)
+
+    # Step 4: Compute metrics
+    result_metrics = compute_custom_metrics(
+        A_event_filter_ref, A_ongoing_ref, A_complete_ref,
+        G_event_filter, G_ongoing, G_complete,
+        verbose=verbose
+    )
+    return result_metrics
 
 
+###############################################################################
+# Evaluate Warm-Up Simulation
+###############################################################################
 def evaluate_warmup_simulation(
     run_output_dir: str,
-    # Simulation inputs:
     bpmn_model: str,
     bpmn_parameters: str,
     warmup_start: pd.Timestamp,
     simulation_cut: pd.Timestamp,
     evaluation_end: pd.Timestamp,
     total_cases: int,
-    # Already preprocessed reference data:
-    A_case_ref: pd.DataFrame,
-    A_event_ref: pd.DataFrame,
+    # Already precomputed reference subsets (A):
+    A_event_filter_ref: pd.DataFrame,
+    A_ongoing_ref: pd.DataFrame,
+    A_complete_ref: pd.DataFrame,
     # Column rename info:
     rename_map: dict,
     required_columns: list,
-    # Flags:
     simulate: bool = True,
-    verbose: bool = True,
-):
+    verbose: bool = True
+) -> dict:
     """
-    Runs warm-up approach from warmup_start, loads the resulting log,
-    discards events before simulation_cut, then compares to reference
-    subsets in [simulation_cut, evaluation_end].
+    Warm-up approach:
+    1) Run simulation
+    2) Build G_event_filter, G_ongoing, G_complete using normal helper filters
+    3) compute_custom_metrics(A references, G subsets)
     """
     sim_stats_csv = os.path.join(run_output_dir, "warmup_sim_stats.csv")
     sim_log_csv = os.path.join(run_output_dir, "warmup_sim_log.csv")
 
+    # Step 1: Simulation
     if simulate:
         if verbose:
             print("=== [Warm-up] Running simulation ===")
@@ -223,7 +378,9 @@ def evaluate_warmup_simulation(
         if verbose:
             print("Skipping warm-up simulation (simulate=False).")
 
-    # --- Load simulation results ---
+    # Step 2: Load GLog
+    if verbose:
+        print("=== [Warm-up] Reading warm-up simulation log ===")
     sim_df = read_event_log(
         csv_path=sim_log_csv,
         rename_map=rename_map,
@@ -231,106 +388,135 @@ def evaluate_warmup_simulation(
         verbose=verbose
     )
 
-    eval_start_dt = simulation_cut
-    eval_end_dt = evaluation_end
+    # Step 3: Build generated subsets (using normal filters)
+    #  event_filter: [simulation_cut, evaluation_end]
+    G_event_filter = trim_events_to_eval_window(sim_df, simulation_cut, evaluation_end)
 
-    # Filter/trim the simulation log
-    sim_case = filter_cases_by_eval_window(sim_df, eval_start_dt, eval_end_dt)
-    sim_event = trim_events_to_eval_window(sim_df, eval_start_dt, eval_end_dt)
-    statsSim = basic_log_stats(sim_event)
+    #  ongoing_filter: "ongoing" if min(start) < simulation_cut < max(end),
+    #                  only keep events after simulation_cut
+    G_ongoing = filter_ongoing_cases(sim_df, simulation_cut, evaluation_end)
 
-    # Reference subsets
-    A_case = A_case_ref.copy()
-    A_event = A_event_ref.copy()
+    #  complete_filter: min(start) >= simulation_cut
+    G_complete = filter_complete_cases(sim_df, simulation_cut, evaluation_end)
 
-    # Save intermediate logs
-    # A_case.to_csv(os.path.join(run_output_dir, "WU_A_case.csv"), index=False)
-    # A_event.to_csv(os.path.join(run_output_dir, "WU_A_event.csv"), index=False)
-    sim_case.to_csv(os.path.join(run_output_dir, "WU_G_case.csv"), index=False)
-    sim_event.to_csv(os.path.join(run_output_dir, "WU_G_event.csv"), index=False)
+    # Optionally save these G subsets
+    G_event_filter.to_csv(os.path.join(run_output_dir, "WU_event_G.csv"), index=False)
+    G_ongoing.to_csv(os.path.join(run_output_dir, "WU_ongoing_G.csv"), index=False)
+    G_complete.to_csv(os.path.join(run_output_dir, "WU_complete_G.csv"), index=False)
 
-    # Compute distances
-    distances = compute_log_distances(A_event, sim_event, A_case, sim_case, verbose=verbose)
-
-    result_dict = {
-        "SimStats": statsSim,
-        "distances": distances,
-    }
-    if verbose:
-        print("[Warm-up] Evaluation result:", json.dumps(result_dict, indent=4))
-    return result_dict
+    # Step 4: Compute metrics
+    result_metrics = compute_custom_metrics(
+        A_event_filter_ref, A_ongoing_ref, A_complete_ref,
+        G_event_filter, G_ongoing, G_complete,
+        verbose=verbose
+    )
+    return result_metrics
 
 
+###############################################################################
+# Aggregation and Comparison
+###############################################################################
 def aggregate_metrics(all_runs: list) -> dict:
     """
-    Aggregates metrics across runs (mean, std, 95% CI).
-    Each element of `all_runs` is assumed to have a dict {metricA: valA, metricB: valB, ...}.
+    Each run is a dict:
+      {
+        "event_filter": { ... },
+        "ongoing_filter": { ... },
+        "complete_filter": { ... }
+      }
+    We'll compute mean, std, 95% CI across runs for each sub-filter & metric.
     """
-    agg = {}
     if not all_runs:
-        return agg
+        return {}
 
-    # Collect set of metric keys
-    metric_keys = set()
-    for run_result in all_runs:
-        for k in run_result.keys():
-            metric_keys.add(k)
-    metric_keys = list(metric_keys)
+    aggregated = {}
+    sub_filters = set()
+    for run_res in all_runs:
+        sub_filters.update(run_res.keys())  # gather sub-filter keys
 
-    for metric in metric_keys:
-        run_values = [run_result.get(metric, float("nan")) for run_result in all_runs]
-        run_values = [v for v in run_values if v is not None and not pd.isnull(v)]
-        if not run_values:
-            agg[metric] = {
-                "mean": None,
-                "std": None,
-                "confidence_interval": [None, None],
-                "individual_runs": []
+    for sf in sub_filters:
+        aggregated[sf] = {}
+        metric_keys = set()
+        for run_res in all_runs:
+            if sf in run_res:
+                metric_keys.update(run_res[sf].keys())
+
+        for mk in metric_keys:
+            vals = []
+            for run_res in all_runs:
+                val = run_res.get(sf, {}).get(mk, None)
+                if val is not None and not pd.isnull(val):
+                    vals.append(val)
+
+            if not vals:
+                aggregated[sf][mk] = {
+                    "mean": None,
+                    "std": None,
+                    "confidence_interval": [None, None],
+                    "individual_runs": []
+                }
+                continue
+
+            mean_val = sum(vals) / len(vals)
+            var_val = sum((x - mean_val) ** 2 for x in vals) / len(vals)
+            std_val = math.sqrt(var_val)
+            se = std_val / math.sqrt(len(vals))
+            ci_lower = mean_val - 1.96 * se
+            ci_upper = mean_val + 1.96 * se
+
+            aggregated[sf][mk] = {
+                "mean": mean_val,
+                "std": std_val,
+                "confidence_interval": [ci_lower, ci_upper],
+                "individual_runs": vals
             }
-            continue
 
-        mean_val = sum(run_values) / len(run_values)
-        std_val = math.sqrt(sum((x - mean_val) ** 2 for x in run_values) / len(run_values))
-        se = std_val / math.sqrt(len(run_values))
-        ci_lower = mean_val - 1.96 * se
-        ci_upper = mean_val + 1.96 * se
-
-        agg[metric] = {
-            "mean": mean_val,
-            "std": std_val,
-            "confidence_interval": [ci_lower, ci_upper],
-            "individual_runs": run_values
-        }
-
-    return agg
+    return aggregated
 
 
 def compare_results(proc_agg: dict, warmup_agg: dict) -> dict:
     """
-    Compare aggregated results between approaches.
+    Compare aggregated results between approaches, for each sub-filter and metric.
+    Produces a structure like:
+    {
+      "event_filter": {
+        "n_gram": {"process_state_mean": X, "warmup_mean": Y, "better_approach": ...},
+        ...
+      },
+      ...
+    }
     """
     comparison = {}
-    metric_keys = set(proc_agg.keys()).union(set(warmup_agg.keys()))
-    for metric in metric_keys:
-        p_data = proc_agg.get(metric, {})
-        w_data = warmup_agg.get(metric, {})
-        proc_mean = p_data.get("mean", None)
-        warmup_mean = w_data.get("mean", None)
+    all_sub_filters = set(proc_agg.keys()).union(warmup_agg.keys())
 
-        # Decide "better_approach" based on lower mean distance
-        if proc_mean is None or warmup_mean is None:
-            better = None
-        else:
-            if proc_mean < warmup_mean:
-                better = "process_state"
-            elif warmup_mean < proc_mean:
-                better = "warmup"
+    for sf in all_sub_filters:
+        comparison[sf] = {}
+        proc_metrics = proc_agg.get(sf, {})
+        warm_metrics = warmup_agg.get(sf, {})
+
+        all_metrics = set(proc_metrics.keys()).union(warm_metrics.keys())
+        for mk in all_metrics:
+            p_data = proc_metrics.get(mk, {})
+            w_data = warm_metrics.get(mk, {})
+
+            proc_mean = p_data.get("mean", None)
+            warmup_mean = w_data.get("mean", None)
+
+            # Decide "better_approach" based on lower mean distance
+            if proc_mean is None or warmup_mean is None:
+                better = None
             else:
-                better = "tie"
+                if proc_mean < warmup_mean:
+                    better = "process_state"
+                elif warmup_mean < proc_mean:
+                    better = "warmup"
+                else:
+                    better = "tie"
 
-        comparison[metric] = {
-            "process_state_mean": proc_mean,
-            "warmup_mean": warmup_mean,
-            "better_approach": better
-        }
+            comparison[sf][mk] = {
+                "process_state_mean": proc_mean,
+                "warmup_mean": warmup_mean,
+                "better_approach": better
+            }
+
     return comparison

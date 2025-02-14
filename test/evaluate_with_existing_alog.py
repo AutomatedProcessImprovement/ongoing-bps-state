@@ -3,13 +3,13 @@ import json
 import pandas as pd
 import sys
 
-# Add parent directory to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from test.helper import (
     read_event_log,
-    filter_cases_by_eval_window,
     trim_events_to_eval_window,
+    filter_ongoing_cases,
+    filter_complete_cases,
     generate_short_uuid
 )
 from test.evaluation import (
@@ -21,27 +21,35 @@ from test.evaluation import (
 
 
 def main():
-    # -----------
-    #  CONFIG
-    # -----------
-    # Paths to reference log, BPMN model, BPMN params
-    EXISTING_ALOG_PATH = "samples/real_life/AcademicCredentials_fixed.csv"
-    BPMN_MODEL = "samples/real_life/AcademicCredentials.bpmn"
-    BPMN_PARAMS = "samples/real_life/AcademicCredentials.json"
+    # ----------- CONFIG -----------
+    # EXISTING_ALOG_PATH = "samples/real_life/AcademicCredentials_fixed.csv"
+    # BPMN_MODEL = "samples/real_life/AcademicCredentials.bpmn"
+    # BPMN_PARAMS = "samples/real_life/AcademicCredentials.json"
 
-    # Simulation / evaluation windows
-    SIMULATION_CUT_DATE = "2016-04-28T10:10:00.000Z"  # evaluation start
-    EVALUATION_END_DATE = "2016-06-29T23:20:30.000Z"   # evaluation end
-    SIMULATION_HORIZON  = "2016-07-29T23:20:30.000Z"   # horizon
-    WARMUP_START_DATE   = "2016-04-16T09:04:12.000Z"
+    # SIMULATION_CUT_DATE = "2016-04-28T10:10:00.000Z"  
+    # EVALUATION_END_DATE = "2016-06-29T23:20:30.000Z"  
+    # SIMULATION_HORIZON  = "2016-07-29T23:20:30.000Z"  
+    # WARMUP_START_DATE   = "2016-04-16T09:04:12.000Z"
 
-    # Experimental parameters
-    NUM_RUNS = 5
-    PROC_TOTAL_CASES = 600
-    WARMUP_TOTAL_CASES = 600
+    # NUM_RUNS = 15
+    # PROC_TOTAL_CASES = 600
+    # WARMUP_TOTAL_CASES = 600
 
-    # Two mappings:
-    # (1) For evaluation, our reference file already has lowercase names.
+    EXISTING_ALOG_PATH = "samples/real_life/BPIC_2012_fixed.csv"
+    BPMN_MODEL = "samples/real_life/BPIC_2012.bpmn"
+    BPMN_PARAMS = "samples/real_life/BPIC_2012.json"
+
+    SIMULATION_CUT_DATE = "2012-01-14T10:10:00.000Z"  
+    EVALUATION_END_DATE = "2012-02-26T23:20:30.000Z"  
+    SIMULATION_HORIZON  = "2012-04-08T23:20:30.000Z"  
+    WARMUP_START_DATE   = "2012-01-07T09:04:12.000Z"
+
+    NUM_RUNS = 15
+    PROC_TOTAL_CASES = 3500
+    WARMUP_TOTAL_CASES = 3500
+
+
+    # Column renaming
     rename_alog_dict_eval = {
         "CaseId": "case_id",
         "Activity": "activity",
@@ -49,34 +57,26 @@ def main():
         "StartTime": "start_time",
         "EndTime": "end_time"
     }
-    # (2) For simulation input, we need to tell the simulation the expected column names.
-    # That mapping converts our evaluation names to simulation names.
     rename_alog_dict_sim = {
         "case_id": "CaseId",
         "activity": "Activity",
         "resource": "Resource",
         "start_time": "StartTime",
-        "end_time": "EndTime"
+        "end_time": "EndTime",
+        "enabled_time": "EnabledTime"
     }
-    # The inverse mapping (for simulation output) is:
     rename_alog_dict_sim_inv = {v: k for k, v in rename_alog_dict_sim.items()}
 
-    # Required columns for evaluation functions (always lowercase)
     required_columns = ["case_id", "activity", "start_time", "end_time", "resource"]
 
-    # -----------
-    #  OUTPUT DIR
-    # -----------
-    run_id = generate_short_uuid(length=6)   # e.g. 'a1b2c3'
+    # ----------- OUTPUT DIR -----------
+    run_id = generate_short_uuid(length=6)
     out_dir = os.path.join("outputs", run_id)
     os.makedirs(out_dir, exist_ok=True)
     print(f"Output directory: {out_dir}")
 
-    # -----------
-    #  STEP 1: Read & prepare reference data ONCE
-    # -----------
+    # ----------- STEP 1: Read & prepare reference data -----------
     print("=== Loading and preprocessing ALog once ===")
-    # Our reference file already has lowercase column names.
     alog_df = read_event_log(
         csv_path=EXISTING_ALOG_PATH,
         rename_map=rename_alog_dict_eval,
@@ -84,21 +84,29 @@ def main():
         verbose=True
     )
 
-    # Convert strings to Timestamps
     eval_start_dt = pd.to_datetime(SIMULATION_CUT_DATE, utc=True)
     eval_end_dt   = pd.to_datetime(EVALUATION_END_DATE, utc=True)
 
-    # Prepare reference subsets (using evaluation column names)
-    A_case = filter_cases_by_eval_window(alog_df, eval_start_dt, eval_end_dt)
-    A_event = trim_events_to_eval_window(alog_df, eval_start_dt, eval_end_dt)
+    # 1A) Event filter subset
+    A_event_filter_ref = trim_events_to_eval_window(alog_df, eval_start_dt, eval_end_dt)
 
-    # Save these reference subsets in the top-level output folder
-    A_case.to_csv(os.path.join(out_dir, "A_case.csv"), index=False)
-    A_event.to_csv(os.path.join(out_dir, "A_event.csv"), index=False)
+    # 1B) Ongoing subset
+    #    "ongoing" if case has min(start_time) < eval_start AND max(end_time) > eval_start
+    #    then we only keep events whose end_time > eval_start
+    #    But the helper function filter_ongoing_cases already does that logic
+    A_ongoing_ref = filter_ongoing_cases(alog_df, eval_start_dt, eval_end_dt)
 
-    # -----------
-    #  STEP 2: Run experiments
-    # -----------
+    # 1C) Complete subset
+    #    "complete" if min(start_time) >= eval_start
+    #    keep entire case
+    A_complete_ref = filter_complete_cases(alog_df, eval_start_dt, eval_end_dt)
+
+    # Optionally, save these references in top-level output folder
+    A_event_filter_ref.to_csv(os.path.join(out_dir, "A_event_filter_ref.csv"), index=False)
+    A_ongoing_ref.to_csv(os.path.join(out_dir, "A_ongoing_ref.csv"), index=False)
+    A_complete_ref.to_csv(os.path.join(out_dir, "A_complete_ref.csv"), index=False)
+
+    # ----------- STEP 2: Run experiments -----------
     proc_run_distances = []
     warmup_run_distances = []
 
@@ -110,7 +118,7 @@ def main():
         run_subfolder = os.path.join(out_dir, str(run_index))
         os.makedirs(run_subfolder, exist_ok=True)
 
-        # (1) Evaluate Process-State approach
+        # Evaluate Process-State approach
         proc_result = evaluate_partial_state_simulation(
             run_output_dir=run_subfolder,
             event_log=EXISTING_ALOG_PATH,
@@ -119,17 +127,18 @@ def main():
             start_time=eval_start_dt,
             simulation_horizon=horizon_dt,
             total_cases=PROC_TOTAL_CASES,
-            A_case_ref=A_case,
-            A_event_ref=A_event,
+            A_event_filter_ref=A_event_filter_ref,
+            A_ongoing_ref=A_ongoing_ref,
+            A_complete_ref=A_complete_ref,
             evaluation_end=eval_end_dt,
             column_mapping=rename_alog_dict_sim,
             required_columns=required_columns,
             simulate=True,
             verbose=True
         )
-        proc_run_distances.append(proc_result.get("distances", {}))
+        proc_run_distances.append(proc_result)
 
-        # (2) Evaluate Warm-Up approach
+        # Evaluate Warm-Up approach
         warmup_result = evaluate_warmup_simulation(
             run_output_dir=run_subfolder,
             bpmn_model=BPMN_MODEL,
@@ -138,18 +147,17 @@ def main():
             simulation_cut=eval_start_dt,
             evaluation_end=eval_end_dt,
             total_cases=WARMUP_TOTAL_CASES,
-            A_case_ref=A_case,
-            A_event_ref=A_event,
+            A_event_filter_ref=A_event_filter_ref,
+            A_ongoing_ref=A_ongoing_ref,
+            A_complete_ref=A_complete_ref,
             rename_map=rename_alog_dict_sim_inv,
             required_columns=required_columns,
             simulate=True,
             verbose=True
         )
-        warmup_run_distances.append(warmup_result.get("distances", {}))
+        warmup_run_distances.append(warmup_result)
 
-    # -----------
-    #  STEP 3: Aggregate & Compare
-    # -----------
+    # ----------- STEP 3: Aggregate & Compare -----------
     print("\n=== Aggregating Process-State metrics ===")
     proc_agg = aggregate_metrics(proc_run_distances)
 
@@ -159,9 +167,7 @@ def main():
     print("\n=== Comparing Process-State vs. Warm-Up ===")
     comparison = compare_results(proc_agg, warmup_agg)
 
-    # -----------
-    #  STEP 4: Save final output
-    # -----------
+    # ----------- STEP 4: Save final output -----------
     final_output = {
         "num_runs": NUM_RUNS,
         "process_state": {
@@ -183,6 +189,7 @@ def main():
     print(results_path)
     print("\n=== Final Results ===")
     print(json.dumps(final_output, indent=4))
+
 
 if __name__ == "__main__":
     main()

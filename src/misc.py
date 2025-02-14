@@ -23,8 +23,8 @@ from pix_framework.enhancement.concurrency_oracle import OverlappingConcurrencyO
 # ============================
 # Configuration: update these paths.
 # ============================
-INPUT_FILE = "samples/real_life/AcademicCredentials.csv"    # Path to your input CSV event log
-OUTPUT_FILE = "samples/real_life/AcademicCredentials_fixed.csv"  # Path to the output CSV file
+INPUT_FILE = "samples/real_life/BPIC_2012.csv"    # Path to your input CSV event log
+OUTPUT_FILE = "samples/real_life/BPIC_2012_fixed.csv"  # Path to the output CSV file
 
 def format_enabled_time(ts):
     """If ts is a pandas Timestamp, return ISO8601 string with T and three-digit ms."""
@@ -99,6 +99,7 @@ def main():
         df['end_time'] = original_end
     # Optionally, remove our temporary parsed columns.
     df.drop(columns=['start_time_parsed', 'end_time_parsed'], inplace=True)
+    df.drop(columns=['variant_index', 'variant', 'creator'], inplace=True)
 
     # --- Step 9: Write the updated DataFrame to the output CSV ---
     print(f"Writing output CSV to: {OUTPUT_FILE}")
