@@ -44,9 +44,9 @@ class StateComputer:
                         })
                         enabled_time = row[ids.enabled_time]
 
-                        if pd.isna(enabled_time):
-                            print(f"[DEBUG concurrency] Ongoing '{task_id}' in case {case_id}: "
-                                  "concurrency oracle returned NaT => no valid enabling event found.")
+                        # if pd.isna(enabled_time):
+                            # print(f"[DEBUG concurrency] Ongoing '{task_id}' in case {case_id}: "
+                                #   "concurrency oracle returned NaT => no valid enabling event found.")
                 ongoing_activities.append({
                     "id": task_id,
                     "start_time": stime,
@@ -92,7 +92,6 @@ class StateComputer:
                 if target_ref in self.bpmn_handler.activities:
                     activity_name = self.bpmn_handler.activities.get(target_ref)
                     if len(finished_activities)== 0:
-                        print("reached")
                         enabled_time = min(group[ids.start_time])
                     else:
                         if activity_name not in getattr(self.concurrency_oracle, 'concurrency', {}):

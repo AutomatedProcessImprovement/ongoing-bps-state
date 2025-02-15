@@ -2,6 +2,8 @@ import os
 import json
 import math
 import pandas as pd
+import numpy as np
+from scipy.stats import t
 
 # Log-distance-measures imports (only the ones we actually use)
 from log_distance_measures.config import (
@@ -138,23 +140,23 @@ def compute_custom_metrics(
 
     # ----------------- COMPLETE FILTER -----------------
     # Relative Event Distribution Distance (RED)
-    # try:
-    if G_complete["start_time"].isnull().any():
-        print(f"[DEBUG] G_complete has {A_complete_ref['start_time'].isnull().sum()} null start_time values.")
-    if G_complete["end_time"].isnull().any():
-        print(f"[DEBUG] G_complete has {A_complete_ref['end_time'].isnull().sum()} null end_time values.")
-    results["complete_filter"]["RED"] = relative_event_distribution_distance(
-        A_complete_ref,
-        custom_ids,
-        G_complete,
-        custom_ids,
-        discretize_type=AbsoluteTimestampType.BOTH,
-        discretize_event=discretize_to_hour
-    )
-    # except Exception as e:
-    #     if verbose:
-    #         print("[compute_custom_metrics] Error computing RED for complete_filter:", e)
-    #     results["complete_filter"]["RED"] = None
+    try:
+        if G_complete["start_time"].isnull().any():
+            print(f"[DEBUG] G_complete has {A_complete_ref['start_time'].isnull().sum()} null start_time values.")
+        if G_complete["end_time"].isnull().any():
+            print(f"[DEBUG] G_complete has {A_complete_ref['end_time'].isnull().sum()} null end_time values.")
+        results["complete_filter"]["RED"] = relative_event_distribution_distance(
+            A_complete_ref,
+            custom_ids,
+            G_complete,
+            custom_ids,
+            discretize_type=AbsoluteTimestampType.BOTH,
+            discretize_event=discretize_to_hour
+        )
+    except Exception as e:
+        if verbose:
+            print("[compute_custom_metrics] Error computing RED for complete_filter:", e)
+        results["complete_filter"]["RED"] = None
 
     # Cycle Time Distribution Distance
     try:
@@ -420,6 +422,15 @@ def evaluate_warmup_simulation(
 ###############################################################################
 # Aggregation and Comparison
 ###############################################################################
+def compute_mean_conf_interval(data: list, confidence: float = 0.95):
+    sample_mean = np.mean(data)
+    sample_std = np.std(data, ddof=1)
+    df = len(data) - 1
+    t_value = t.ppf(1 - (1 - confidence) / 2, df)
+    std_error = sample_std / np.sqrt(len(data))
+    conf_interval = t_value * std_error
+    return sample_mean, conf_interval
+
 def aggregate_metrics(all_runs: list) -> dict:
     """
     Each run is a dict:
@@ -455,23 +466,16 @@ def aggregate_metrics(all_runs: list) -> dict:
             if not vals:
                 aggregated[sf][mk] = {
                     "mean": None,
-                    "std": None,
-                    "confidence_interval": [None, None],
+                    "interval": None,
                     "individual_runs": []
                 }
                 continue
 
-            mean_val = sum(vals) / len(vals)
-            var_val = sum((x - mean_val) ** 2 for x in vals) / len(vals)
-            std_val = math.sqrt(var_val)
-            se = std_val / math.sqrt(len(vals))
-            ci_lower = mean_val - 1.96 * se
-            ci_upper = mean_val + 1.96 * se
+            mean_val, conf_int = compute_mean_conf_interval(vals)
 
             aggregated[sf][mk] = {
                 "mean": mean_val,
-                "std": std_val,
-                "confidence_interval": [ci_lower, ci_upper],
+                "interval": conf_int,
                 "individual_runs": vals
             }
 

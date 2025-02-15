@@ -136,5 +136,5 @@ def filter_complete_cases(df: pd.DataFrame, eval_start: pd.Timestamp, eval_end: 
         if min_st >= eval_start and min_st <= eval_end:
             keep_case_ids.append(cid)
 
-    print(f"Keeping cases: {keep_case_ids}")
+    # print(f"Keeping cases: {keep_case_ids}")
     return out[out["case_id"].isin(keep_case_ids)].copy()
