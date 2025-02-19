@@ -100,7 +100,7 @@ def main():
     #    "complete" if min(start_time) >= eval_start
     #    keep entire case
     start = alog_df[alog_df["case_id"]==140]["start_time"].min()
-    print(f"Filtering complete cases... {start} {eval_start_dt} {eval_end_dt}")
+    # print(f"Filtering complete cases... {start} {eval_start_dt} {eval_end_dt}")
     A_complete_ref = filter_complete_cases(alog_df, eval_start_dt, eval_end_dt)
 
     # Optionally, save these references in top-level output folder

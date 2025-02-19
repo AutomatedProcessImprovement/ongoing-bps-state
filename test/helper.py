@@ -101,6 +101,8 @@ def filter_ongoing_cases(df: pd.DataFrame, eval_start: pd.Timestamp, eval_end: p
         AND at least one event ending after eval_start.
       - Then keep only events with end_time > eval_start.
       - Finally, adjust (clip) each event's start and end times so that they lie within [eval_start, eval_end].
+    
+    Additionally, for each kept case, an artificial event is added with start_time = end_time = eval_start.
     """
     out = df.copy()
     
@@ -111,16 +113,34 @@ def filter_ongoing_cases(df: pd.DataFrame, eval_start: pd.Timestamp, eval_end: p
         max_end = group["end_time"].max()
         if min_start < eval_start and max_end > eval_start:
             keep_case_ids.append(cid)
-
+    
+    # Filter to only ongoing cases.
     out = out[out["case_id"].isin(keep_case_ids)].copy()
+    
     # Keep only events that end after eval_start.
     out = out[out["end_time"] > eval_start].copy()
     
-    # Clip the events' times to the evaluation window.
+    # Clip event times to the evaluation window.
     out.loc[out["start_time"] < eval_start, "start_time"] = eval_start
     out.loc[out["end_time"] > eval_end, "end_time"] = eval_end
     
+    # # Create artificial event for each kept case.
+    # unique_cases = pd.Series(keep_case_ids).unique()
+    # # Create an empty DataFrame with the same columns and dtypes as 'out'
+    # empty_template = out.iloc[0:0].copy()  # This is an empty DataFrame with the same schema
+
+    # # Create a new DataFrame with the appropriate number of rows using the template's columns
+    # artificial_events = pd.DataFrame(index=range(len(unique_cases)), columns=empty_template.columns)
+
+    # artificial_events["case_id"] = unique_cases
+    # artificial_events["start_time"] = eval_start
+    # artificial_events["end_time"] = eval_start  # Artificial event: zero duration at cut-off
+
+    # out = pd.concat([out, artificial_events], ignore_index=True)
+
+    
     return out
+
 
 
 

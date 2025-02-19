@@ -221,25 +221,42 @@ def build_partial_state_subsets(
 
     1) G_event_filter: events overlapping [cutoff, evaluation_end] (using trim_events_to_eval_window).
     2) G_ongoing: events from cases in partial_ids, with event times clipped to [cutoff, evaluation_end].
+       Additionally, for each case in partial_ids, an artificial event is added with start_time = end_time = cutoff.
     3) G_complete: events from cases *not* in partial_ids, where the earliest event starts 
        at or after cutoff and strictly before evaluation_end.
     """
-    # (1) Event filter
+    # (1) Event filter.
     G_event_filter = trim_events_to_eval_window(glog_df, cutoff, evaluation_end)
 
     # (2) Ongoing: keep only events from cases in partial_ids.
     G_ongoing = glog_df[glog_df["case_id"].astype(str).isin(partial_ids)].copy()
-    # Clip event times to [cutoff, evaluation_end]
+    # Clip event times to [cutoff, evaluation_end].
     G_ongoing.loc[G_ongoing["start_time"] < cutoff, "start_time"] = cutoff
     G_ongoing.loc[G_ongoing["end_time"] > evaluation_end, "end_time"] = evaluation_end
 
-    # (3) Complete: exclude partial_ids, keep only cases whose earliest start is between cutoff (inclusive)
+    # # Create artificial event for each partial case.
+    # unique_cases = pd.Series(list(partial_ids)).unique()
+
+    # # Create an empty DataFrame with the same columns and dtypes as G_ongoing.
+    # empty_template = G_ongoing.iloc[0:0].copy()
+    # artificial_events = pd.DataFrame(index=range(len(unique_cases)), columns=empty_template.columns)
+
+    # # Assign values for the required columns.
+    # artificial_events["case_id"] = unique_cases
+    # artificial_events["start_time"] = cutoff
+    # artificial_events["end_time"] = cutoff  # Artificial event at the cut-off
+
+    # # Append the artificial events.
+    # G_ongoing = pd.concat([G_ongoing, artificial_events], ignore_index=True)
+
+    # (3) Complete: exclude partial_ids and keep only cases whose earliest start is between cutoff (inclusive)
     # and evaluation_end (exclusive).
     remainder_df = glog_df[~glog_df["case_id"].astype(str).isin(partial_ids)].copy()
     group_min_start = remainder_df.groupby("case_id")["start_time"].transform("min")
     G_complete = remainder_df[(group_min_start >= cutoff) & (group_min_start < evaluation_end)]
 
     return G_event_filter, G_ongoing, G_complete
+
 
 
 
