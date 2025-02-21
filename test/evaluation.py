@@ -18,6 +18,7 @@ from log_distance_measures.relative_event_distribution import relative_event_dis
 from log_distance_measures.circadian_event_distribution import circadian_event_distribution_distance
 from log_distance_measures.circadian_workforce_distribution import circadian_workforce_distribution_distance
 from log_distance_measures.case_arrival_distribution import case_arrival_distribution_distance
+from log_distance_measures.remaining_time_distribution import remaining_time_distribution_distance
 
 from test.helper import (
     run_simulation_with_retries,
@@ -41,10 +42,11 @@ def compute_custom_metrics(
     G_event_filter: pd.DataFrame,
     G_ongoing: pd.DataFrame,
     G_complete: pd.DataFrame,
+    ongoing_reference_point: pd.Timestamp,
     verbose=True
 ) -> dict:
     """
-    Computes metrics for the three filtering approaches:
+    Computes metrics for the three filtering approaches.
     
     Event Filter Metrics:
       - n_gram: N-gram distribution distance (3-grams)
@@ -53,7 +55,7 @@ def compute_custom_metrics(
       - circadian_workflow: Circadian Workflow Distribution
 
     Ongoing Filter Metrics:
-      - TCTD: Cycle Time Distribution Distance
+      - RTD: Remaining Time Distribution Distance
 
     Complete Filter Metrics:
       - RED: Relative Event Distribution Distance
@@ -63,7 +65,7 @@ def compute_custom_metrics(
     Returns a dict:
     {
       "event_filter": { "n_gram": ..., "absolute_event": ..., "circadian_event": ..., "circadian_workflow": ... },
-      "ongoing_filter": { "TCTD": ... },
+      "ongoing_filter": { "RTD": ... },
       "complete_filter": { "RED": ..., "cycle_time": ..., "case_arrival_rate": ... }
     }
     """
@@ -82,7 +84,6 @@ def compute_custom_metrics(
     }
 
     # ----------------- EVENT FILTER -----------------
-    # N-gram distribution distance (using 3-grams)
     try:
         results["event_filter"]["n_gram"] = n_gram_distribution_distance(
             A_event_filter_ref, custom_ids, G_event_filter, custom_ids, n=3
@@ -92,7 +93,6 @@ def compute_custom_metrics(
             print("[compute_custom_metrics] Error computing n_gram for event_filter:", e)
         results["event_filter"]["n_gram"] = None
 
-    # Absolute event distribution distance
     try:
         results["event_filter"]["absolute_event"] = absolute_event_distribution_distance(
             A_event_filter_ref,
@@ -107,7 +107,6 @@ def compute_custom_metrics(
             print("[compute_custom_metrics] Error computing absolute_event for event_filter:", e)
         results["event_filter"]["absolute_event"] = None
 
-    # Circadian Event Distribution
     try:
         results["event_filter"]["circadian_event"] = circadian_event_distribution_distance(
             A_event_filter_ref, custom_ids, G_event_filter, custom_ids
@@ -117,7 +116,6 @@ def compute_custom_metrics(
             print("[compute_custom_metrics] Error computing circadian_event for event_filter:", e)
         results["event_filter"]["circadian_event"] = None
 
-    # Circadian Workflow Distribution
     try:
         results["event_filter"]["circadian_workflow"] = circadian_workforce_distribution_distance(
             A_event_filter_ref, custom_ids, G_event_filter, custom_ids
@@ -128,23 +126,20 @@ def compute_custom_metrics(
         results["event_filter"]["circadian_workflow"] = None
 
     # ----------------- ONGOING FILTER -----------------
-    # Cycle Time Distribution Distance (TCTD)
     try:
-        results["ongoing_filter"]["TCTD"] = cycle_time_distribution_distance(
-            A_ongoing_ref, custom_ids, G_ongoing, custom_ids, bin_size=pd.Timedelta(hours=1)
+        results["ongoing_filter"]["RTD"] = remaining_time_distribution_distance(
+            A_ongoing_ref, custom_ids,
+            G_ongoing, custom_ids,
+            reference_point=ongoing_reference_point,  # evaluation start/cut-off time
+            bin_size=pd.Timedelta(hours=1)
         )
     except Exception as e:
         if verbose:
-            print("[compute_custom_metrics] Error computing TCTD for ongoing_filter:", e)
-        results["ongoing_filter"]["TCTD"] = None
+            print("[compute_custom_metrics] Error computing RTD for ongoing_filter:", e)
+        results["ongoing_filter"]["RTD"] = None
 
     # ----------------- COMPLETE FILTER -----------------
-    # Relative Event Distribution Distance (RED)
     try:
-        if G_complete["start_time"].isnull().any():
-            print(f"[DEBUG] G_complete has {A_complete_ref['start_time'].isnull().sum()} null start_time values.")
-        if G_complete["end_time"].isnull().any():
-            print(f"[DEBUG] G_complete has {A_complete_ref['end_time'].isnull().sum()} null end_time values.")
         results["complete_filter"]["RED"] = relative_event_distribution_distance(
             A_complete_ref,
             custom_ids,
@@ -158,7 +153,6 @@ def compute_custom_metrics(
             print("[compute_custom_metrics] Error computing RED for complete_filter:", e)
         results["complete_filter"]["RED"] = None
 
-    # Cycle Time Distribution Distance
     try:
         results["complete_filter"]["cycle_time"] = cycle_time_distribution_distance(
             A_complete_ref, custom_ids, G_complete, custom_ids, bin_size=pd.Timedelta(hours=1)
@@ -168,7 +162,6 @@ def compute_custom_metrics(
             print("[compute_custom_metrics] Error computing cycle_time for complete_filter:", e)
         results["complete_filter"]["cycle_time"] = None
 
-    # Case Arrival Rate Distance
     try:
         results["complete_filter"]["case_arrival_rate"] = case_arrival_distribution_distance(
             A_complete_ref, custom_ids, G_complete, custom_ids, discretize_event=discretize_to_hour
@@ -179,6 +172,7 @@ def compute_custom_metrics(
         results["complete_filter"]["case_arrival_rate"] = None
 
     return results
+
 
 
 ###############################################################################
@@ -232,22 +226,7 @@ def build_partial_state_subsets(
     G_ongoing = glog_df[glog_df["case_id"].astype(str).isin(partial_ids)].copy()
     # Clip event times to [cutoff, evaluation_end].
     G_ongoing.loc[G_ongoing["start_time"] < cutoff, "start_time"] = cutoff
-    G_ongoing.loc[G_ongoing["end_time"] > evaluation_end, "end_time"] = evaluation_end
-
-    # # Create artificial event for each partial case.
-    # unique_cases = pd.Series(list(partial_ids)).unique()
-
-    # # Create an empty DataFrame with the same columns and dtypes as G_ongoing.
-    # empty_template = G_ongoing.iloc[0:0].copy()
-    # artificial_events = pd.DataFrame(index=range(len(unique_cases)), columns=empty_template.columns)
-
-    # # Assign values for the required columns.
-    # artificial_events["case_id"] = unique_cases
-    # artificial_events["start_time"] = cutoff
-    # artificial_events["end_time"] = cutoff  # Artificial event at the cut-off
-
-    # # Append the artificial events.
-    # G_ongoing = pd.concat([G_ongoing, artificial_events], ignore_index=True)
+    # G_ongoing.loc[G_ongoing["end_time"] > evaluation_end, "end_time"] = evaluation_end
 
     # (3) Complete: exclude partial_ids and keep only cases whose earliest start is between cutoff (inclusive)
     # and evaluation_end (exclusive).
@@ -348,7 +327,7 @@ def evaluate_partial_state_simulation(
     # Step 4: Compute metrics
     result_metrics = compute_custom_metrics(
         A_event_filter_ref, A_ongoing_ref, A_complete_ref,
-        G_event_filter, G_ongoing, G_complete,
+        G_event_filter, G_ongoing, G_complete, start_time,
         verbose=verbose
     )
     return result_metrics
@@ -430,7 +409,7 @@ def evaluate_warmup_simulation(
     # Step 4: Compute metrics
     result_metrics = compute_custom_metrics(
         A_event_filter_ref, A_ongoing_ref, A_complete_ref,
-        G_event_filter, G_ongoing, G_complete,
+        G_event_filter, G_ongoing, G_complete, simulation_cut,
         verbose=verbose
     )
     return result_metrics

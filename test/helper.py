@@ -19,7 +19,7 @@ def read_event_log(csv_path, rename_map=None, required_columns=None, verbose=Tru
     # Convert time columns
     for tcol in ["enable_time", "start_time", "end_time"]:
         if tcol in df.columns:
-            df[tcol] = pd.to_datetime(df[tcol], utc=True, format='mixed')
+            df[tcol] = pd.to_datetime(df[tcol], utc=True, format="ISO8601")
 
     # Check required columns
     if required_columns:
@@ -122,22 +122,13 @@ def filter_ongoing_cases(df: pd.DataFrame, eval_start: pd.Timestamp, eval_end: p
     
     # Clip event times to the evaluation window.
     out.loc[out["start_time"] < eval_start, "start_time"] = eval_start
-    out.loc[out["end_time"] > eval_end, "end_time"] = eval_end
-    
-    # # Create artificial event for each kept case.
-    # unique_cases = pd.Series(keep_case_ids).unique()
-    # # Create an empty DataFrame with the same columns and dtypes as 'out'
-    # empty_template = out.iloc[0:0].copy()  # This is an empty DataFrame with the same schema
+    # out.loc[out["end_time"] > eval_end, "end_time"] = eval_end
 
-    # # Create a new DataFrame with the appropriate number of rows using the template's columns
-    # artificial_events = pd.DataFrame(index=range(len(unique_cases)), columns=empty_template.columns)
-
-    # artificial_events["case_id"] = unique_cases
-    # artificial_events["start_time"] = eval_start
-    # artificial_events["end_time"] = eval_start  # Artificial event: zero duration at cut-off
-
-    # out = pd.concat([out, artificial_events], ignore_index=True)
-
+    is_anomaly = out["start_time"] > out["end_time"]
+    if is_anomaly.any():
+        print(f"[filter_ongoing_cases] Found {is_anomaly.sum()} row(s) where start_time > end_time.")
+        for idx, row in out[is_anomaly].iterrows():
+            print(f"[filter_ongoing_cases]  Anomaly idx={idx}: case_id={row['case_id']}, start_time={row['start_time']}, end_time={row['end_time']}")
     
     return out
 

@@ -22,31 +22,31 @@ from test.evaluation import (
 
 def main():
     # ----------- CONFIG -----------
-    EXISTING_ALOG_PATH = "samples/real_life/AcademicCredentials_fixed.csv"
-    BPMN_MODEL = "samples/real_life/AcademicCredentials.bpmn"
-    BPMN_PARAMS = "samples/real_life/AcademicCredentials.json"
+    # EXISTING_ALOG_PATH = "samples/real_life/AcademicCredentials_fixed.csv"
+    # BPMN_MODEL = "samples/real_life/AcademicCredentials.bpmn"
+    # BPMN_PARAMS = "samples/real_life/AcademicCredentials.json"
 
-    SIMULATION_CUT_DATE = "2016-04-28T10:10:00.000Z"  
-    EVALUATION_END_DATE = "2016-06-29T23:20:30.000Z"  
-    SIMULATION_HORIZON  = "2016-07-29T23:20:30.000Z"  
-    WARMUP_START_DATE   = "2016-04-16T09:04:12.000Z"
-
-    NUM_RUNS = 10
-    PROC_TOTAL_CASES = 600
-    WARMUP_TOTAL_CASES = 600
-
-    # EXISTING_ALOG_PATH = "samples/real_life/BPIC_2012_new.csv"
-    # BPMN_MODEL = "samples/real_life/BPIC_2012.bpmn"
-    # BPMN_PARAMS = "samples/real_life/BPIC_2012.json"
-
-    # SIMULATION_CUT_DATE = "2012-01-11T10:00:00.000Z"  
-    # EVALUATION_END_DATE = "2012-02-01T10:00:00.000Z"  
-    # SIMULATION_HORIZON  = "2012-03-05T10:00:00.000Z"  
-    # WARMUP_START_DATE   = "2011-12-24T10:00:00.000Z"
+    # SIMULATION_CUT_DATE = "2016-04-28T10:10:00.000Z"  
+    # EVALUATION_END_DATE = "2016-06-29T23:20:30.000Z"  
+    # SIMULATION_HORIZON  = "2016-07-29T23:20:30.000Z"  
+    # WARMUP_START_DATE   = "2016-04-16T09:04:12.000Z"
 
     # NUM_RUNS = 10
-    # PROC_TOTAL_CASES = 3500
-    # WARMUP_TOTAL_CASES = 3500
+    # PROC_TOTAL_CASES = 600
+    # WARMUP_TOTAL_CASES = 600
+
+    EXISTING_ALOG_PATH = "samples/real_life/BPIC_2012_new.csv"
+    BPMN_MODEL = "samples/real_life/BPIC_2012.bpmn"
+    BPMN_PARAMS = "samples/real_life/BPIC_2012.json"
+
+    SIMULATION_CUT_DATE = "2012-01-11T10:00:00.000Z"  
+    EVALUATION_END_DATE = "2012-02-01T10:00:00.000Z"  
+    SIMULATION_HORIZON  = "2012-03-05T10:00:00.000Z"  
+    WARMUP_START_DATE   = "2011-12-24T10:00:00.000Z"
+
+    NUM_RUNS = 10
+    PROC_TOTAL_CASES = 3500
+    WARMUP_TOTAL_CASES = 3500
 
 
     # Column renaming
