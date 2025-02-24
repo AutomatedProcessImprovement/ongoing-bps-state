@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import random
 import string
+from log_distance_measures.config import EventLogIDs
 
 
 def read_event_log(csv_path, rename_map=None, required_columns=None, verbose=True):
@@ -149,3 +150,18 @@ def filter_complete_cases(df: pd.DataFrame, eval_start: pd.Timestamp, eval_end: 
 
     # print(f"Keeping cases: {keep_case_ids}")
     return out[out["case_id"].isin(keep_case_ids)].copy()
+
+def compute_avg_remaining_time(log: pd.DataFrame, cutoff: pd.Timestamp, ids: EventLogIDs) -> float:
+    """
+    Computes the average remaining time (in seconds) for a log.
+    The remaining time for a case is the difference between its last event end and the cutoff.
+    """
+    durations = []
+    for case, group in log.groupby(ids.case):
+        # Compute remaining time in seconds
+        remaining = (group[ids.end_time].max() - cutoff).total_seconds()
+        durations.append(remaining)
+    if durations:
+        return sum(durations) / len(durations)
+    else:
+        return 0.0
