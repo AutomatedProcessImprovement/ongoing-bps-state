@@ -109,7 +109,7 @@ class StateComputer:
             enabled_gateways = []
             for flow_id in state_flows:
                 gw_id = self.bpmn_handler.sequence_flows.get(flow_id, None)
-                if gw_id and gw_id not in self.bpmn_handler.activities:
+                if gw_id and self.bpmn_handler.get_node_type(gw_id) == 'ExclusiveGateway':
                     # Get upstream tasks for this gateway
                     tasks_upstream = self.bpmn_handler.get_upstream_tasks_through_gateways(gw_id)
                     # If any upstream task is still ongoing, skip this gateway
@@ -127,34 +127,33 @@ class StateComputer:
                 # Skip this case from the process state as it has an enabled gateway that is an end event.
                 continue
 
-            # # --- New: Compute enabled events ---
-            # enabled_events = []
-            # # We assume that self.bpmn_handler.events is a dictionary mapping event IDs to their names.
-            # for flow_id in state_flows:
-            #     target_ref = self.bpmn_handler.sequence_flows.get(flow_id)
-            #     # Check if the target is an event (now including all events, not just end events)
-            #     if target_ref in self.bpmn_handler.events:
-            #         # Compute the enabled time for the event using a proper algorithm
-            #         if finished_activities.empty:
-            #             event_enabled_time = min(group[ids.start_time])
-            #         else:
-            #             # Look up the event name; if not found, fallback to target_ref
-            #             event_name = self.bpmn_handler.events.get(target_ref, target_ref)
-            #             # Ensure the concurrency oracle has an entry for this event
-            #             if event_name not in getattr(self.concurrency_oracle, 'concurrency', {}):
-            #                 self.concurrency_oracle.concurrency[event_name] = {}
-            #             # Get the last finished activity’s end time and add a small delta
-            #             max_end_time = finished_activities[ids.end_time].max()
-            #             temp_event = pd.Series({
-            #                 ids.activity: event_name,
-            #                 ids.start_time: max_end_time + pd.Timedelta(seconds=1),
-            #                 ids.end_time: max_end_time + pd.Timedelta(seconds=1)
-            #             })
-            #             event_enabled_time = self.concurrency_oracle.enabled_since(trace=finished_activities, event=temp_event)
-            #         enabled_events.append({
-            #             "id": target_ref,
-            #             "enabled_time": event_enabled_time
-            #         })
+            # --- Compute enabled events ---
+            enabled_events = []
+            for flow_id in state_flows:
+                target_ref = self.bpmn_handler.sequence_flows.get(flow_id)
+                # Check if the target is an event
+                if target_ref in self.bpmn_handler.events:
+                    # Compute the enabled time for the event
+                    if finished_activities.empty:
+                        event_enabled_time = min(group[ids.start_time])
+                    else:
+                        # Look up the event name; if not found, fallback to target_ref
+                        event_name = self.bpmn_handler.events.get(target_ref, target_ref)
+                        # Ensure the concurrency oracle has an entry for this event
+                        if event_name not in getattr(self.concurrency_oracle, 'concurrency', {}):
+                            self.concurrency_oracle.concurrency[event_name] = {}
+                        # Get the last finished activity’s end time and add a small delta
+                        max_end_time = finished_activities[ids.end_time].max()
+                        temp_event = pd.Series({
+                            ids.activity: event_name,
+                            ids.start_time: max_end_time + pd.Timedelta(seconds=1),
+                            ids.end_time: max_end_time + pd.Timedelta(seconds=1)
+                        })
+                        event_enabled_time = self.concurrency_oracle.enabled_since(trace=finished_activities, event=temp_event)
+                    enabled_events.append({
+                        "id": target_ref,
+                        "enabled_time": event_enabled_time
+                    })
 
 
             # Store case information
@@ -165,7 +164,8 @@ class StateComputer:
                 },
                 "ongoing_activities": ongoing_activities,
                 "enabled_activities": enabled_activities,
-                "enabled_gateways": enabled_gateways
+                "enabled_gateways": enabled_gateways,
+                "enabled_events": enabled_events
             }
         return case_states
 
