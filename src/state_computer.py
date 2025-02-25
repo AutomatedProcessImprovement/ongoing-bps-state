@@ -46,6 +46,7 @@ class StateComputer:
 
                 ongoing_activities.append({
                     "id": task_id,
+                    "label": original_activity,
                     "start_time": stime,
                     "resource": row[ids.resource],
                     "enabled_time": enabled_time
@@ -63,13 +64,14 @@ class StateComputer:
             current_marking_id = self.reachability_graph.marking_to_key.get(current_marking_key)
             if current_marking_id is not None:
                 for activity in ongoing_activities:
+                    t_label = activity['label']
                     t_id = activity['id']
                     # Get incoming edges to the current marking
                     incoming_edges = self.reachability_graph.incoming_edges.get(current_marking_id, [])
                     # Find the edge with the activity label
                     for edge_id in incoming_edges:
                         edge_activity = self.reachability_graph.edge_to_activity.get(edge_id)
-                        if edge_activity == t_id:
+                        if edge_activity == t_label:
                             # Get the source marking of that edge
                             source_marking_id, _ = self.reachability_graph.edges[edge_id]
                             source_marking = self.reachability_graph.markings[source_marking_id]
