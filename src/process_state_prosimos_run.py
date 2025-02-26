@@ -77,8 +77,13 @@ def run_short_term_simulation(
     out_log_csv_path: str | Path,
     process_state: dict | None,
     simulation_horizon: str | _dt.datetime | None,
+    produce_events_when_simulating=False,
 ) -> float:
-    """Prosimos run with *partial-state* + finite horizon."""
+    """
+    Perform a "short-term" simulation by calling Prosimos's run_simulation(...) once,
+    passing partial-state & horizon. This replicates the logic of run_diff_res_simulation
+    without referencing testing_scripts.
+    """
     t0 = _dt_now()
 
     run_simulation(
@@ -90,6 +95,7 @@ def run_short_term_simulation(
         starting_at=start_date,
         process_state=process_state,
         simulation_horizon=simulation_horizon,
+        is_event_added_to_log=produce_events_when_simulating
     )
 
     return (_dt_now() - t0).total_seconds()
