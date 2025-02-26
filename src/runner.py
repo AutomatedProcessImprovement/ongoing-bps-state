@@ -79,7 +79,7 @@ def run_process_state_and_simulation(
 
     print("=== RUNNER: Step D: Build N-Gram Index ===")
     bpmn_handler = BPMNHandler(bpmn_model_obj, bpmn_params, input_handler.bpmn_model_path)
-    n_gram_index = bpmn_handler.build_n_gram_index()
+    n_gram_index = bpmn_handler.build_n_gram_index(n_gram_size_limit=20)
     reachability_graph = bpmn_handler.get_reachability_graph()
 
     # grouped_traces = df.groupby("CaseId")  # then loops over them

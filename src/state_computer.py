@@ -1,4 +1,5 @@
 # src/state_computer.py
+from typing import List
 
 import pandas as pd
 from ongoing_process_state.n_gram_index import NGramIndex
@@ -53,35 +54,21 @@ class StateComputer:
                 })
 
             # Get the entire sequence of activities (including ongoing ones)
-            activities = group[ids.activity].tolist()
-            n_gram = [NGramIndex.TRACE_START] + activities
+            sorted_events = list()
+            group.apply(
+                lambda activity_instance:
+                _add_to_sorted_events(
+                    sorted_events=sorted_events,
+                    activity_label=activity_instance[ids.activity],
+                    start_time=activity_instance[ids.start_time],
+                    end_time=activity_instance[ids.end_time],
+                ), axis=1
+            )
+            n_gram = [NGramIndex.TRACE_START] + [event['label'] for event in sorted_events]
             # Compute the state using N-Gram index
             state_marking = self.n_gram_index.get_best_marking_state_for(n_gram)
-            state_flows = state_marking.copy()
-
-            # Get the current marking ID
-            current_marking_key = tuple(sorted(state_marking))
-            current_marking_id = self.reachability_graph.marking_to_key.get(current_marking_key)
-            if current_marking_id is not None:
-                for activity in ongoing_activities:
-                    t_label = activity['label']
-                    t_id = activity['id']
-                    # Get incoming edges to the current marking
-                    incoming_edges = self.reachability_graph.incoming_edges.get(current_marking_id, [])
-                    # Find the edge with the activity label
-                    for edge_id in incoming_edges:
-                        edge_activity = self.reachability_graph.edge_to_activity.get(edge_id)
-                        if edge_activity == t_label:
-                            # Get the source marking of that edge
-                            source_marking_id, _ = self.reachability_graph.edges[edge_id]
-                            source_marking = self.reachability_graph.markings[source_marking_id]
-                            # Intersect the source marking with the current state marking
-                            state_flows = state_flows.intersection(source_marking)
-                            break  # Stop after finding the first matching edge
-
-            # Add names of ongoing activities to the state
-            ongoing_activity_ids = set([activity['id'] for activity in ongoing_activities])
-            state_activities = ongoing_activity_ids
+            state_flows = {el_id for el_id in state_marking if el_id in self.bpmn_handler.sequence_flows}
+            state_activities = {el_id for el_id in state_marking if el_id in self.bpmn_handler.activities}
 
             # Compute enabled activities
             finished_activities = group[group[ids.end_time].notna()]
@@ -115,7 +102,7 @@ class StateComputer:
                     # Get upstream tasks for this gateway
                     tasks_upstream = self.bpmn_handler.get_upstream_tasks_through_gateways(gw_id)
                     # If any upstream task is still ongoing, skip this gateway
-                    if tasks_upstream.intersection(ongoing_activity_ids):
+                    if tasks_upstream.intersection(state_activities):
                         continue
                     gw_enabled_time = self._compute_gateway_enabled_time(gw_id, group, finished_activities)
                     if pd.notna(gw_enabled_time):
@@ -185,3 +172,27 @@ class StateComputer:
         if pd.isna(max_et):
             max_et = ended_df[self.event_log_ids.end_time].max()
         return max_et
+
+
+def _add_to_sorted_events(
+        sorted_events: List[dict],
+        activity_label: str,
+        start_time: pd.Timestamp,
+        end_time: pd.Timestamp
+):
+    # Insert start
+    if not pd.isna(start_time):
+        index = 0
+        event = {'label': f"{activity_label}+START", 'timestamp': start_time}
+        for i, other_event in enumerate(sorted_events):
+            if other_event['timestamp'] <= event['timestamp']:
+                index = i
+        sorted_events.insert(index + 1, event)
+    # Insert end
+    if not pd.isna(end_time):
+        index = 0
+        event = {'label': f"{activity_label}+COMPLETE", 'timestamp': end_time}
+        for i, other_event in enumerate(sorted_events):
+            if other_event['timestamp'] <= event['timestamp']:
+                index = i
+        sorted_events.insert(index + 1, event)

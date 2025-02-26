@@ -1,5 +1,6 @@
 # src/bpmn_handler.py
 
+from ongoing_process_state.bpmn_model import BPMNModel
 from ongoing_process_state.n_gram_index import NGramIndex
 import xml.etree.ElementTree as ET
 
@@ -92,9 +93,10 @@ class BPMNHandler:
                         stack.append(src)
         return tasks_found
 
-    def build_n_gram_index(self, n_gram_size_limit=5):
+    def build_n_gram_index(self, n_gram_size_limit=10):
         """Builds the N-Gram index from the BPMN model."""
-        reachability_graph = self.bpmn_model.get_reachability_graph()
+        extended_bpmn_model = compute_extended_bpmn_model(self.bpmn_model)
+        reachability_graph = extended_bpmn_model.get_reachability_graph()
         n_gram_index = NGramIndex(reachability_graph, n_gram_size_limit)
         n_gram_index.build()
         self.reachability_graph = reachability_graph
@@ -107,7 +109,7 @@ class BPMNHandler:
     def get_task_id_by_name(self, name):
         return self.task_name_to_id.get(name)
     
-    def get_node_type(self, element_id):
+        def get_node_type(self, element_id):
         """
         Returns the type of the BPMN element with the given ID.
         Possible return values include:
@@ -127,3 +129,47 @@ class BPMNHandler:
         if element_id in self.gateways:
             return self.gateways[element_id]
         return None
+
+
+def compute_extended_bpmn_model(bpmn_model: BPMNModel, treat_event_as_task: bool = False) -> BPMNModel:
+    # Build extended BPMN model where each activity is split in Start/End activities
+    extended_bpmn_model = BPMNModel()
+    split_node_ids = set()
+    # Add nodes, splitting when necessary
+    for node in bpmn_model.nodes:
+        if node.is_task():
+            # Task, split in two
+            node_start_id = f"{node.id}+START"
+            node_start_name = f"{node.name}+START"
+            extended_bpmn_model.add_task(node_start_id, node_start_name)
+            node_complete_id = f"{node.id}+COMPLETE"
+            node_complete_name = f"{node.name}+COMPLETE"
+            extended_bpmn_model.add_task(node_complete_id, node_complete_name)
+            extended_bpmn_model.add_flow(node.id, node.name, node_start_id, node_complete_id)
+            split_node_ids |= {node.id}
+        elif node.is_event():
+            # Event
+            if node.is_intermediate_event() and treat_event_as_task:
+                # Intermediate event and we are treating them as tasks, split
+                node_start_id = f"{node.id}+START"
+                node_start_name = f"{node.name}+START"
+                extended_bpmn_model.add_task(node_start_id, node_start_name)
+                node_complete_id = f"{node.id}+COMPLETE"
+                node_complete_name = f"{node.name}+COMPLETE"
+                extended_bpmn_model.add_task(node_complete_id, node_complete_name)
+                extended_bpmn_model.add_flow(node.id, node.name, node_start_id, node_complete_id)
+                split_node_ids |= {node.id}
+            else:
+                # Add without splitting
+                extended_bpmn_model.add_event(node.type, node.id, node.name)
+        elif node.is_gateway():
+            # Gateway, add without splitting
+            extended_bpmn_model.add_gateway(node.type, node.id, node.name)
+    # Add original flows, updating source/target when it is split node
+    for flow in bpmn_model.flows:
+        flow_source_id = flow.source if flow.source not in split_node_ids else f"{flow.source}+COMPLETE"
+        flow_target_id = flow.target if flow.target not in split_node_ids else f"{flow.target}+START"
+        extended_bpmn_model.add_flow(flow.id, flow.name, flow_source_id, flow_target_id)
+    # Return extended BPMN model
+    return extended_bpmn_model
+    
