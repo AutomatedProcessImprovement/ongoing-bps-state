@@ -25,7 +25,8 @@ from test.helper import (
     read_event_log,
     trim_events_to_eval_window,
     filter_ongoing_cases,
-    filter_complete_cases
+    filter_complete_cases,
+    compute_avg_remaining_time
 )
 
 # Simulation-libs
@@ -137,6 +138,26 @@ def compute_custom_metrics(
         if verbose:
             print("[compute_custom_metrics] Error computing RTD for ongoing_filter:", e)
         results["ongoing_filter"]["RTD"] = None
+
+    # Additional metric: Normalized difference in average remaining cycle time.
+    try:
+        # Compute average remaining time (in seconds) for the reference and simulated ongoing logs.
+        avg_remaining_A = compute_avg_remaining_time(A_ongoing_ref, ongoing_reference_point, custom_ids)
+        avg_remaining_G = compute_avg_remaining_time(G_ongoing, ongoing_reference_point, custom_ids)
+        
+        if avg_remaining_A > 0:
+            normalized_diff = abs(avg_remaining_A - avg_remaining_G) / avg_remaining_A
+        else:
+            normalized_diff = None
+        
+        # Optionally, convert seconds to days (if desired) by dividing by 86400.
+        # normalized_diff remains unitless though.
+        results["ongoing_filter"]["avg_remaining_diff"] = normalized_diff
+    except Exception as e:
+        if verbose:
+            print("[compute_custom_metrics] Error computing avg_remaining_diff for ongoing_filter:", e)
+        results["ongoing_filter"]["avg_remaining_diff"] = None
+
 
     # ----------------- COMPLETE FILTER -----------------
     try:

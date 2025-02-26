@@ -106,7 +106,8 @@ def run_process_state_and_simulation(
             },
             "ongoing_activities": case_info["ongoing_activities"],
             "enabled_activities": case_info["enabled_activities"],
-            "enabled_gateways": case_info["enabled_gateways"]
+            "enabled_gateways": case_info["enabled_gateways"],
+            "enabled_events": case_info["enabled_events"]
         }
 
     # 3) Write partial state to output.json
