@@ -109,7 +109,7 @@ class BPMNHandler:
     def get_task_id_by_name(self, name):
         return self.task_name_to_id.get(name)
     
-        def get_node_type(self, element_id):
+    def get_node_type(self, element_id):
         """
         Returns the type of the BPMN element with the given ID.
         Possible return values include:

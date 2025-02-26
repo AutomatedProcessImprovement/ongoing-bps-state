@@ -51,7 +51,7 @@
         "19": {
             "control_flow_state": {
                 "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -63,7 +63,7 @@
         "21": {
             "control_flow_state": {
                 "flows": [
-                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -111,7 +111,7 @@
         "34": {
             "control_flow_state": {
                 "flows": [
-                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -123,7 +123,7 @@
         "35": {
             "control_flow_state": {
                 "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -135,7 +135,7 @@
         "36": {
             "control_flow_state": {
                 "flows": [
-                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -147,7 +147,7 @@
         "38": {
             "control_flow_state": {
                 "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -159,7 +159,7 @@
         "40": {
             "control_flow_state": {
                 "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -188,7 +188,7 @@
         "42": {
             "control_flow_state": {
                 "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -200,7 +200,7 @@
         "43": {
             "control_flow_state": {
                 "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -224,7 +224,7 @@
         "46": {
             "control_flow_state": {
                 "flows": [
-                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -248,7 +248,7 @@
         "48": {
             "control_flow_state": {
                 "flows": [
-                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -260,7 +260,7 @@
         "49": {
             "control_flow_state": {
                 "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -356,7 +356,7 @@
         "58": {
             "control_flow_state": {
                 "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -428,7 +428,7 @@
         "66": {
             "control_flow_state": {
                 "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -524,19 +524,14 @@
         "77": {
             "control_flow_state": {
                 "flows": [
-                    "node_739d10e9-9e04-448f-9210-f433ec4be161"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
             "ongoing_activities": [],
             "enabled_activities": [],
             "enabled_gateways": [],
-            "enabled_events": [
-                {
-                    "id": "node_6f5f3d59-448e-4668-810d-b935940b613c",
-                    "enabled_time": "2016-04-25 15:40:26+00:00"
-                }
-            ]
+            "enabled_events": []
         },
         "78": {
             "control_flow_state": {
@@ -889,7 +884,7 @@
         "387": {
             "control_flow_state": {
                 "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -925,7 +920,7 @@
         "395": {
             "control_flow_state": {
                 "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -937,7 +932,7 @@
         "396": {
             "control_flow_state": {
                 "flows": [
-                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
@@ -949,7 +944,7 @@
         "397": {
             "control_flow_state": {
                 "flows": [
-                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
+                    "node_636eff5a-f699-416e-b45b-06092a0d3c8b"
                 ],
                 "activities": []
             },
