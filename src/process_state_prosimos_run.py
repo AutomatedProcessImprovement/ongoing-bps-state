@@ -44,7 +44,8 @@ def run_short_term_simulation(
     out_stats_csv_path,
     out_log_csv_path,
     process_state=None,
-    simulation_horizon=None
+    simulation_horizon=None,
+    produce_events_when_simulating=False
 ):
     """
     Perform a "short-term" simulation by calling Prosimos's run_simulation(...) once,
@@ -61,7 +62,8 @@ def run_short_term_simulation(
         log_out_path=out_log_csv_path,
         starting_at=start_date,
         process_state=process_state,
-        simulation_horizon=simulation_horizon
+        simulation_horizon=simulation_horizon,
+        is_event_added_to_log=produce_events_when_simulating
     )
 
     sim_time = (datetime.datetime.now() - start_clock).total_seconds()

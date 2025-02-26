@@ -2,8 +2,8 @@
 
 import json
 import datetime
-
-import pandas as pd
+from pathlib import Path
+from typing import Tuple
 
 from src.input_handler import InputHandler
 from src.event_log_processor import EventLogProcessor
@@ -29,8 +29,9 @@ def run_process_state_and_simulation(
     simulation_horizon=None,
     total_cases=20,
     sim_stats_csv='simulation_stats.csv',
-    sim_log_csv='simulation_log.csv'
-):
+    sim_log_csv='simulation_log.csv',
+    produce_events_when_simulating=False,
+) -> Tuple[dict, Path]:
     """
     1) Compute the process state from the event log + BPMN.
     2) Optionally run a Prosimos short-term simulation using the resulting partial-state.
@@ -130,8 +131,11 @@ def run_process_state_and_simulation(
             out_stats_csv_path=sim_stats_csv,
             out_log_csv_path=sim_log_csv,
             process_state=partial_state,
-            simulation_horizon=sim_horizon_dt
+            simulation_horizon=sim_horizon_dt,
+            produce_events_when_simulating=produce_events_when_simulating
         )
         print(f"Simulation done. Duration: {sim_time} seconds. Log in '{sim_log_csv}'.")
 
     print("=== RUNNER: Done. ===")
+    # Return ongoing state & path to simulated log
+    return case_states, Path(sim_log_csv)
