@@ -8,7 +8,7 @@ from ongoing_process_state.reachability_graph import ReachabilityGraph
 from pix_framework.io.event_log import EventLogIDs
 from typing import List, Dict, Set, Tuple, Optional
 
-log_ids = EventLogIDs(
+sim_log_ids = EventLogIDs(
     case="case_id",
     activity="activity",
     enabled_time="enable_time",
@@ -109,51 +109,51 @@ def read_reachability_graph(reachability_graph_path: Path, names_are_tuples: boo
 def sorted_trace_events(trace: pd.DataFrame, start_event: str, end_event: str) -> List[dict]:
     sorted_events = []
     for _, event in trace.iterrows():
-        if event[log_ids.activity] == start_event:
+        if event[sim_log_ids.activity] == start_event:
             # Process case arrival
             processed_event = {
-                'case_id': event[log_ids.case],
+                'case_id': event[sim_log_ids.case],
                 'lifecycle': "CASE_ARRIVAL",
-                'timestamp': event[log_ids.enabled_time],
-                'node_name': event[log_ids.activity]
+                'timestamp': event[sim_log_ids.enabled_time],
+                'node_name': event[sim_log_ids.activity]
             }
             add_to_sorted_events(sorted_events, processed_event)
-        elif event[log_ids.activity] == end_event:
+        elif event[sim_log_ids.activity] == end_event:
             # Process case end
             processed_event = {
-                'case_id': event[log_ids.case],
+                'case_id': event[sim_log_ids.case],
                 'lifecycle': "CASE_END",
-                'timestamp': event[log_ids.enabled_time],
-                'node_name': event[log_ids.activity]
+                'timestamp': event[sim_log_ids.enabled_time],
+                'node_name': event[sim_log_ids.activity]
             }
             add_to_sorted_events(sorted_events, processed_event)
             pass
         else:
             # Process enablement
-            if not pd.isna(event[log_ids.enabled_time]):
+            if not pd.isna(event[sim_log_ids.enabled_time]):
                 processed_event = {
-                    'case_id': event[log_ids.case],
+                    'case_id': event[sim_log_ids.case],
                     'lifecycle': "ENABLE",
-                    'timestamp': event[log_ids.enabled_time],
-                    'node_name': event[log_ids.activity]
+                    'timestamp': event[sim_log_ids.enabled_time],
+                    'node_name': event[sim_log_ids.activity]
                 }
                 add_to_sorted_events(sorted_events, processed_event)
             # Process start
-            if not pd.isna(event[log_ids.start_time]):
+            if not pd.isna(event[sim_log_ids.start_time]):
                 processed_event = {
-                    'case_id': event[log_ids.case],
+                    'case_id': event[sim_log_ids.case],
                     'lifecycle': "START",
-                    'timestamp': event[log_ids.start_time],
-                    'node_name': event[log_ids.activity]
+                    'timestamp': event[sim_log_ids.start_time],
+                    'node_name': event[sim_log_ids.activity]
                 }
                 add_to_sorted_events(sorted_events, processed_event)
             # Process end
-            if not pd.isna(event[log_ids.end_time]):
+            if not pd.isna(event[sim_log_ids.end_time]):
                 processed_event = {
-                    'case_id': event[log_ids.case],
+                    'case_id': event[sim_log_ids.case],
                     'lifecycle': "COMPLETE",
-                    'timestamp': event[log_ids.end_time],
-                    'node_name': event[log_ids.activity]
+                    'timestamp': event[sim_log_ids.end_time],
+                    'node_name': event[sim_log_ids.activity]
                 }
                 add_to_sorted_events(sorted_events, processed_event)
     return sorted_events
