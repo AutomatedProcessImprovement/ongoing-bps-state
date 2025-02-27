@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import pandas as pd
@@ -34,12 +35,15 @@ def start_short_term_simulation(base_folder: Path):
         simulation_horizon=simulation_horizon,
         short_term_simulated_log_path=short_term_simulated_log_path,
     )
+    # TODO - [Taleh] I print it to debug now, replace this and set it to front-end
+    print(f"Frame length: {len(frame)}")
+    with open(base_folder / "initial_frame.json", "w") as frame_file:
+        json.dump(frame, frame_file, indent=4)
 
-    # TODO - [David] refactor this post-processing after Prosimos short-term is fixed
     # Post-process simulated log by:
-    # - Adding the ongoing case prefixes (activities prior to [start_time])
-    # - An artificial start event prior to the first event of ongoing cases.
-    # - [temporarily shut down due to error] The end event as Prosimos doesn't add it to the result.
+    # - Adding the ongoing case prefixes (activity instances prior to [start_time])
+    # - Adding the start event prior to the first event of each case.
+    # - Adding the end event after the last event of each case.
     post_process_simulated_log(
         ongoing_log_path=ongoing_log_path,
         ongoing_log_ids=ongoing_log_ids,
@@ -49,17 +53,6 @@ def start_short_term_simulation(base_folder: Path):
         bpmn_model_path=bpmn_model_path
     )
 
-    # TODO - [David] remove this after Prosimos short-term is fixed
-    # Recompute frame for new simulated log
-    frame = compute_bps_resumed_state(
-        bpmn_model_path=bpmn_model_path,
-        resume_timestamp=pd.Timestamp(start_time),
-        short_term_simulated_log_path=post_processed_log_path,
-        reachability_graph_path=reachability_graph_with_events_path,
-        n_gram_index_path=n_gram_index_with_events_path,
-    )
-    print(f"Frame length: {len(frame)}")  # TODO - [Taleh] this information goes to front-end
-
     # Compute token events with token movements for front-end
     events = generate_events_with_token_movements(
         bpmn_model_path=bpmn_model_path,
@@ -68,7 +61,12 @@ def start_short_term_simulation(base_folder: Path):
         reachability_graph_path=reachability_graph_path,
         frame=frame,
     )
-    print(f"Computed events: {len(events)}")  # TODO - [Taleh] this information goes to front-end
+    # TODO - [Taleh] I print it to debug now, replace this and set it to front-end
+    print(f"Computed events: {len(events)}")
+    for event in events:
+        event['timestamp'] = event['timestamp'].strftime("%Y-%m-%dT%H:%M:%S.%f%z")
+    with open(base_folder / "initial_events.json", "w") as events_file:
+        json.dump(events, events_file, indent=4)
 
 
 def post_process_simulated_log(
@@ -107,14 +105,14 @@ def post_process_simulated_log(
     start_events[sim_log_ids.activity] = start_event.name
     simulated_event_log = pd.concat([start_events, simulated_event_log], ignore_index=True)
     # Add end event
-    # idx_end_events = simulated_event_log.groupby(log_ids.case)[log_ids.end_time].idxmax()
-    # end_events = simulated_event_log.loc[idx_end_events].copy()
-    # end_events[log_ids.enabled_time] = end_events[log_ids.end_time]
-    # end_events[log_ids.start_time] = end_events[log_ids.end_time] + pd.Timedelta(milliseconds=100)
-    # end_events[log_ids.end_time] = end_events[log_ids.end_time] + pd.Timedelta(milliseconds=100)
-    # end_events[log_ids.resource] = ""
-    # end_events[log_ids.activity] = end_event.name
-    # simulated_event_log = pd.concat([simulated_event_log, end_events], ignore_index=True)
+    idx_end_events = simulated_event_log.groupby(sim_log_ids.case)[sim_log_ids.end_time].idxmax()
+    end_events = simulated_event_log.loc[idx_end_events].copy()
+    end_events[sim_log_ids.enabled_time] = end_events[sim_log_ids.end_time]
+    end_events[sim_log_ids.start_time] = end_events[sim_log_ids.end_time] + pd.Timedelta(milliseconds=100)
+    end_events[sim_log_ids.end_time] = end_events[sim_log_ids.end_time] + pd.Timedelta(milliseconds=100)
+    end_events[sim_log_ids.resource] = ""
+    end_events[sim_log_ids.activity] = end_event.name
+    simulated_event_log = pd.concat([simulated_event_log, end_events], ignore_index=True)
     # Write extended event log to file
     simulated_event_log.to_csv(post_processed_log_path, date_format="%Y-%m-%dT%H:%M:%S.%f%z", index=False)
 
@@ -125,7 +123,6 @@ def resume_short_term_simulation(base_folder: Path):
     # Path to files to store intermediate objects
     bpmn_model_path = base_folder / "bpmn_model.bpmn"
     short_term_simulated_log_path = base_folder / "short-term-simulation-processed.csv"
-    # short_term_simulated_log_path = base_folder / "short-term-simulation.csv"
     complete_reachability_graph_path = base_folder / "complete_reachability_graph.tgf"
     reachability_graph_with_events_path = base_folder / "reachability_graph_with_events.tgf"
     n_gram_index_with_events_path = base_folder / "n_gram_index_with_events.map"
@@ -138,7 +135,10 @@ def resume_short_term_simulation(base_folder: Path):
         reachability_graph_path=reachability_graph_with_events_path,
         n_gram_index_path=n_gram_index_with_events_path,
     )
-    print(f"Frame length: {len(frame)}")  # TODO - [Taleh] this information goes to front-end
+    # TODO - [Taleh] I print it to debug now, replace this and set it to front-end
+    print(f"Frame length: {len(frame)}")
+    with open(base_folder / "resume_frame.json", "w") as frame_file:
+        json.dump(frame, frame_file, indent=4)
 
     # Compute token events with token movements for front-end
     events = generate_events_with_token_movements(
@@ -148,7 +148,12 @@ def resume_short_term_simulation(base_folder: Path):
         reachability_graph_path=complete_reachability_graph_path,
         frame=frame,
     )
-    print(f"Computed events: {len(events)}")  # TODO - [Taleh] this information goes to front-end
+    # TODO - [Taleh] I print it to debug now, replace this and set it to front-end
+    print(f"Computed events: {len(events)}")
+    for event in events:
+        event['timestamp'] = event['timestamp'].strftime("%Y-%m-%dT%H:%M:%S.%f%z")
+    with open(base_folder / "resume_events.json", "w") as events_file:
+        json.dump(events, events_file, indent=4)
 
 
 if __name__ == "__main__":
