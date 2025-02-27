@@ -11,12 +11,12 @@ class EventLogProcessor:
         self.event_log_df = event_log_df
         self.start_time = pd.to_datetime(start_time, utc=True) if start_time else None
         self.event_log_ids = event_log_ids
-        self.concurrency_oracle = None  # Initialize the concurrency oracle
+        self.concurrency_oracle = None
     
     def process(self):
         """Processes the event log according to the provided starting point and computes enabled times."""
         df = self.event_log_df.copy()
-        ids = self.event_log_ids  # For convenience
+        ids = self.event_log_ids
         if self.start_time:
             # Before altering EndTime, filter out cases that are "finished" before the cut-off.
             #

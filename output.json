@@ -1,959 +1,1280 @@
 {
     "cases": {
-        "9": {
+        "347": {
             "control_flow_state": {
-                "flows": [
-                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
-                ],
-                "activities": []
+                "flows": [],
+                "activities": [
+                    "Activity_1y2vzu0"
+                ]
             },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "10": {
-            "control_flow_state": {
-                "flows": [
-                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "15": {
-            "control_flow_state": {
-                "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "16": {
-            "control_flow_state": {
-                "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "19": {
-            "control_flow_state": {
-                "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "21": {
-            "control_flow_state": {
-                "flows": [
-                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "22": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "26": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "28": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "34": {
-            "control_flow_state": {
-                "flows": [
-                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "35": {
-            "control_flow_state": {
-                "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "36": {
-            "control_flow_state": {
-                "flows": [
-                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "38": {
-            "control_flow_state": {
-                "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "40": {
-            "control_flow_state": {
-                "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "41": {
-            "control_flow_state": {
-                "flows": [
-                    "node_a72e4b2f-e92b-4a3e-a497-02f5cc96783b"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": [
+            "ongoing_activities": [
                 {
-                    "id": "Event_d78197e3-a4e7-461d-a8b4-011f08128534",
-                    "enabled_time": "2016-04-26 19:49:04+00:00"
+                    "id": "Activity_1y2vzu0",
+                    "label": "Approve Loan Offer",
+                    "start_time": "2025-03-07 10:53:27.636238+02:00",
+                    "resource": "Senior Officer_0",
+                    "enabled_time": "2025-03-07 08:53:27.636238+00:00"
                 }
-            ]
-        },
-        "42": {
-            "control_flow_state": {
-                "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
+            ],
             "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "43": {
+        "354": {
             "control_flow_state": {
                 "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
-                "activities": []
+                "activities": [
+                    "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88"
+                ]
             },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "45": {
-            "control_flow_state": {
-                "flows": [
-                    "node_d89b8fc8-435d-47e1-ac54-13c0702dab2b"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "46": {
-            "control_flow_state": {
-                "flows": [
-                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "47": {
-            "control_flow_state": {
-                "flows": [
-                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "48": {
-            "control_flow_state": {
-                "flows": [
-                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "49": {
-            "control_flow_state": {
-                "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "50": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "51": {
-            "control_flow_state": {
-                "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "52": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "53": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "54": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "55": {
-            "control_flow_state": {
-                "flows": [
-                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "56": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "58": {
-            "control_flow_state": {
-                "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "60": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "61": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "62": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "64": {
-            "control_flow_state": {
-                "flows": [
-                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "65": {
-            "control_flow_state": {
-                "flows": [
-                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "66": {
-            "control_flow_state": {
-                "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "67": {
-            "control_flow_state": {
-                "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "68": {
-            "control_flow_state": {
-                "flows": [
-                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "69": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "70": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "72": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "73": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "74": {
-            "control_flow_state": {
-                "flows": [
-                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "77": {
-            "control_flow_state": {
-                "flows": [
-                    "node_739d10e9-9e04-448f-9210-f433ec4be161"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": [
+            "ongoing_activities": [
                 {
-                    "id": "node_6f5f3d59-448e-4668-810d-b935940b613c",
-                    "enabled_time": "2016-04-25 15:40:26+00:00"
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "label": "Appraise property",
+                    "start_time": "2025-03-07 10:52:05.878434+02:00",
+                    "resource": "Appraiser_1",
+                    "enabled_time": "2025-03-06 08:32:56.781637+00:00"
                 }
-            ]
-        },
-        "78": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
+            ],
             "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "80": {
+        "371": {
             "control_flow_state": {
                 "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
                 ],
                 "activities": []
             },
             "ongoing_activities": [],
-            "enabled_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 14:27:17.640529+02:00"
+                }
+            ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "81": {
+        "386": {
             "control_flow_state": {
                 "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
                 ],
                 "activities": []
             },
             "ongoing_activities": [],
-            "enabled_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-07 10:02:41.800498+02:00"
+                }
+            ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "82": {
+        "393": {
             "control_flow_state": {
                 "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
                 ],
                 "activities": []
             },
             "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "84": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "86": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "87": {
-            "control_flow_state": {
-                "flows": [
-                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "88": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "89": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "90": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "91": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "92": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "94": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "95": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "96": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "97": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "98": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "99": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "101": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "102": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "103": {
-            "control_flow_state": {
-                "flows": [
-                    "node_68e87037-078d-4100-8cf9-8c14412f606a"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "104": {
-            "control_flow_state": {
-                "flows": [
-                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "105": {
-            "control_flow_state": {
-                "flows": [
-                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "106": {
-            "control_flow_state": {
-                "flows": [
-                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "362": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "363": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "383": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "384": {
-            "control_flow_state": {
-                "flows": [
-                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "385": {
-            "control_flow_state": {
-                "flows": [
-                    "node_f4528832-f70e-4072-af45-a1bfe8922387"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "387": {
-            "control_flow_state": {
-                "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "388": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "394": {
-            "control_flow_state": {
-                "flows": [
-                    "node_495c2084-1e67-4f37-8cac-4fbf1a65d509"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "395": {
-            "control_flow_state": {
-                "flows": [
-                    "node_91c1efbc-2f79-4deb-8ec2-de4dc774b074"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 10:39:31.126184+02:00"
+                }
+            ],
             "enabled_gateways": [],
             "enabled_events": []
         },
         "396": {
             "control_flow_state": {
                 "flows": [
-                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
                 ],
                 "activities": []
             },
             "ongoing_activities": [],
-            "enabled_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 11:39:37.615027+02:00"
+                }
+            ],
             "enabled_gateways": [],
             "enabled_events": []
         },
         "397": {
             "control_flow_state": {
                 "flows": [
-                    "node_b6d4760a-43d6-44e5-b0e1-11cb0f3c78c7"
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
                 ],
                 "activities": []
             },
             "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 11:41:51.609592+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "401": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 12:52:17.458331+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "410": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2",
+                    "sid-16B45990-F522-4EA9-A01A-70EE8D0C9EC5"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2",
+                    "label": "Prepare acceptance pack",
+                    "start_time": "2025-03-07 10:57:23.315598+02:00",
+                    "resource": "Loan Officer_4",
+                    "enabled_time": "2025-03-07 08:57:23.315598+00:00"
+                },
+                {
+                    "id": "sid-16B45990-F522-4EA9-A01A-70EE8D0C9EC5",
+                    "label": "Prepare home insurance quote",
+                    "start_time": "2025-03-07 10:57:23.315598+02:00",
+                    "resource": "Clerk_2",
+                    "enabled_time": "2025-03-07 08:57:23.315598+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "411": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "Activity_1y2vzu0"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_1y2vzu0",
+                    "label": "Approve Loan Offer",
+                    "start_time": "2025-03-07 10:58:22.382589+02:00",
+                    "resource": "Senior Officer_1",
+                    "enabled_time": "2025-03-07 08:58:22.382589+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "414": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "Activity_0wlatrq"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_0wlatrq",
+                    "label": "Consider re-design loan offer",
+                    "start_time": "2025-03-07 10:54:09.288390+02:00",
+                    "resource": "Senior Officer_2",
+                    "enabled_time": "2025-03-07 08:54:09.288390+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "416": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "Activity_1w0dur0"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_1w0dur0",
+                    "label": "Applicant completes form",
+                    "start_time": "2025-03-06 16:09:00.023055+02:00",
+                    "resource": "Applicant_9",
+                    "enabled_time": "2025-03-06 14:09:00.023055+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "418": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "Activity_1w0dur0"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_1w0dur0",
+                    "label": "Applicant completes form",
+                    "start_time": "2025-03-06 16:47:56.125449+02:00",
+                    "resource": "Applicant_11",
+                    "enabled_time": "2025-03-06 14:47:56.125449+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "419": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-BA8B9C72-48FE-4FF1-A2F9-DE78C836A612",
+                    "sid-9726C026-BDE7-4467-B613-EB951D1FE613"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-BA8B9C72-48FE-4FF1-A2F9-DE78C836A612",
+                    "label": "Approve and send acceptance pack",
+                    "start_time": "2025-03-07 10:53:28.840853+02:00",
+                    "resource": "Loan Officer_5",
+                    "enabled_time": "2025-03-07 08:53:28.840853+00:00"
+                },
+                {
+                    "id": "sid-9726C026-BDE7-4467-B613-EB951D1FE613",
+                    "label": "Approve and post home insurance quote",
+                    "start_time": "2025-03-07 10:56:51.075113+02:00",
+                    "resource": "Loan Officer_7",
+                    "enabled_time": "2025-03-07 08:56:51.075113+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "420": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2",
+                    "sid-16B45990-F522-4EA9-A01A-70EE8D0C9EC5"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2",
+                    "label": "Prepare acceptance pack",
+                    "start_time": "2025-03-07 10:50:14.906533+02:00",
+                    "resource": "Loan Officer_3",
+                    "enabled_time": "2025-03-07 08:50:14.906533+00:00"
+                },
+                {
+                    "id": "sid-16B45990-F522-4EA9-A01A-70EE8D0C9EC5",
+                    "label": "Prepare home insurance quote",
+                    "start_time": "2025-03-07 10:54:21.266022+02:00",
+                    "resource": "Clerk_7",
+                    "enabled_time": "2025-03-07 08:50:14.906533+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "423": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-07 09:56:03.247161+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "424": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-AD68767C-968B-4DCD-821E-3F5C5C3D0D04"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-AD68767C-968B-4DCD-821E-3F5C5C3D0D04",
+                    "label": "Design loan offer",
+                    "start_time": "2025-03-07 10:51:43.218621+02:00",
+                    "resource": "Loan Officer_6",
+                    "enabled_time": "2025-03-07 08:51:43.218621+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "425": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-AD68767C-968B-4DCD-821E-3F5C5C3D0D04"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-AD68767C-968B-4DCD-821E-3F5C5C3D0D04",
+                    "label": "Design loan offer",
+                    "start_time": "2025-03-07 10:52:36.677449+02:00",
+                    "resource": "Loan Officer_0",
+                    "enabled_time": "2025-03-07 08:52:36.677449+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "426": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC",
+                    "label": "Assess loan risk",
+                    "start_time": "2025-03-07 10:53:15.149460+02:00",
+                    "resource": "Loan Officer_8",
+                    "enabled_time": "2025-03-07 08:53:15.149460+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "427": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq"
+                ],
+                "activities": [
+                    "Activity_065abi2",
+                    "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_065abi2",
+                    "label": "AML Check",
+                    "start_time": "2025-03-07 10:29:38.524751+02:00",
+                    "resource": "AML Investigator_3",
+                    "enabled_time": "2025-03-07 08:29:38.524751+00:00"
+                },
+                {
+                    "id": "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
+                    "label": "Check credit history",
+                    "start_time": "2025-03-07 10:32:19.082263+02:00",
+                    "resource": "Clerk_0",
+                    "enabled_time": "2025-03-07 08:29:38.524751+00:00"
+                }
+            ],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-07 10:29:38.524751+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "428": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq"
+                ],
+                "activities": [
+                    "Activity_065abi2",
+                    "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_065abi2",
+                    "label": "AML Check",
+                    "start_time": "2025-03-07 10:35:46.634518+02:00",
+                    "resource": "AML Investigator_2",
+                    "enabled_time": "2025-03-07 08:35:46.634518+00:00"
+                },
+                {
+                    "id": "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
+                    "label": "Check credit history",
+                    "start_time": "2025-03-07 10:45:02.420669+02:00",
+                    "resource": "Clerk_6",
+                    "enabled_time": "2025-03-07 08:35:46.634518+00:00"
+                }
+            ],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-07 10:35:46.634518+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "429": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC",
+                    "label": "Assess loan risk",
+                    "start_time": "2025-03-07 10:52:05.878434+02:00",
+                    "resource": "Loan Officer_1",
+                    "enabled_time": "2025-03-07 08:52:05.878434+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "430": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "label": "Check application form completeness",
+                    "start_time": "2025-03-07 10:29:38.524751+02:00",
+                    "resource": "Clerk_5",
+                    "enabled_time": "2025-03-07 08:24:33.726693+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "431": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
+                ],
+                "activities": [
+                    "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "label": "Appraise property",
+                    "start_time": "2025-03-07 10:53:15.149460+02:00",
+                    "resource": "Appraiser_0",
+                    "enabled_time": "2025-03-06 08:35:28.452080+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "432": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 11:15:35.455712+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "433": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 11:34:50.689548+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "434": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 11:36:54.232470+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "435": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 12:10:27.545508+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "436": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 12:31:47.247894+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "437": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 12:38:36.743723+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "438": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "Activity_1w0dur0"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_1w0dur0",
+                    "label": "Applicant completes form",
+                    "start_time": "2025-03-06 12:48:46.755162+02:00",
+                    "resource": "Applicant_6",
+                    "enabled_time": "2025-03-06 10:48:46.755162+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "439": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 13:09:16.042904+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "440": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 13:12:02.185472+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "441": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 13:19:32.754968+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "442": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 13:42:58.239211+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "443": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "Activity_1w0dur0"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_1w0dur0",
+                    "label": "Applicant completes form",
+                    "start_time": "2025-03-06 13:53:14.500134+02:00",
+                    "resource": "Applicant_7",
+                    "enabled_time": "2025-03-06 11:53:14.500134+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "444": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 14:04:35.880721+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "445": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 14:16:26.905916+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "446": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 14:24:12.785545+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "447": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 14:45:53.727423+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "448": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 14:54:00.060029+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "449": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 15:09:56.654726+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "450": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 15:23:37.853658+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "451": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "Activity_1w0dur0"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_1w0dur0",
+                    "label": "Applicant completes form",
+                    "start_time": "2025-03-06 15:31:33.309833+02:00",
+                    "resource": "Applicant_8",
+                    "enabled_time": "2025-03-06 13:31:33.309833+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "452": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 15:49:26.568610+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "453": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 16:04:05.542337+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "454": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 16:18:07.570945+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "455": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "Activity_1w0dur0"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_1w0dur0",
+                    "label": "Applicant completes form",
+                    "start_time": "2025-03-06 16:31:03.586154+02:00",
+                    "resource": "Applicant_10",
+                    "enabled_time": "2025-03-06 14:31:03.586154+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "456": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-06 16:52:39.411422+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "457": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "Activity_1w0dur0"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_1w0dur0",
+                    "label": "Applicant completes form",
+                    "start_time": "2025-03-07 09:03:06.629347+02:00",
+                    "resource": "Applicant_12",
+                    "enabled_time": "2025-03-07 07:03:06.629347+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "458": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-07 09:15:31.703670+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "459": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-07 09:35:07.301923+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "460": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-07 09:50:11.654155+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "461": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-07 10:08:31.067238+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "462": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-07 10:17:22.870540+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "463": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-07 10:26:52.341790+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "464": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-07 10:37:37.901616+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "465": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-07 10:48:02.628190+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "466": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq"
+                ],
+                "activities": [
+                    "Activity_065abi2",
+                    "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_065abi2",
+                    "label": "AML Check",
+                    "start_time": "2025-03-07 10:32:19.082263+02:00",
+                    "resource": "AML Investigator_0",
+                    "enabled_time": "2025-03-07 08:32:19.082263+00:00"
+                },
+                {
+                    "id": "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
+                    "label": "Check credit history",
+                    "start_time": "2025-03-07 10:37:37.901616+02:00",
+                    "resource": "Clerk_8",
+                    "enabled_time": "2025-03-07 08:32:19.082263+00:00"
+                }
+            ],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-07 10:32:19.082263+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "467": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-B27E434D-3A46-46FE-94DE-184C179BE525"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-B27E434D-3A46-46FE-94DE-184C179BE525",
+                    "label": "Return application back to applicant",
+                    "start_time": "2025-03-07 10:50:18.114616+02:00",
+                    "resource": "Clerk_4",
+                    "enabled_time": "2025-03-07 08:45:02.420669+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "468": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "label": "Check application form completeness",
+                    "start_time": "2025-03-07 10:35:46.634518+02:00",
+                    "resource": "Clerk_1",
+                    "enabled_time": "2025-03-07 08:35:46.634518+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "469": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "label": "Check application form completeness",
+                    "start_time": "2025-03-07 10:48:02.628190+02:00",
+                    "resource": "Clerk_3",
+                    "enabled_time": "2025-03-07 08:48:02.628190+00:00"
+                }
+            ],
             "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []

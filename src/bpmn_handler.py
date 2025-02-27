@@ -18,13 +18,13 @@ class BPMNHandler:
         self.events = {}
         self.gateways = {}
         self.parse_bpmn_xml()
-
+    
     def parse_bpmn_xml(self):
         """Parses the BPMN XML file to extract sequence flows, activities, events, and gateways."""
         tree = ET.parse(self.bpmn_model_path)
         root = tree.getroot()
         ns = {'bpmn': 'http://www.omg.org/spec/BPMN/20100524/MODEL'}
-
+        
         # Extract activities (tasks)
         for task in root.findall('.//bpmn:task', ns):
             t_id = task.attrib['id']
@@ -50,7 +50,7 @@ class BPMNHandler:
                     self.events[event_id] = event_name
                     if tag == 'endEvent':
                         self.end_events.add(event_id)
-
+        
         # Extract gateways
         gateway_tags = ['exclusiveGateway', 'parallelGateway', 'inclusiveGateway', 'complexGateway', 'eventBasedGateway']
         for tag in gateway_tags:
@@ -69,7 +69,7 @@ class BPMNHandler:
             sf_id = seq_flow.attrib['id']
             self.sequence_flows[sf_id] = seq_flow.attrib['targetRef']
             self.flow_sources[sf_id] = seq_flow.attrib['sourceRef']
-
+    
     def is_end_event(self, element_id):
         """
         Returns True if the provided element_id corresponds to an end event in the BPMN model.
@@ -108,7 +108,7 @@ class BPMNHandler:
 
     def get_task_id_by_name(self, name):
         return self.task_name_to_id.get(name)
-
+    
     def get_node_type(self, element_id):
         """
         Returns the type of the BPMN element with the given ID.
@@ -172,3 +172,4 @@ def compute_extended_bpmn_model(bpmn_model: BPMNModel, treat_event_as_task: bool
         extended_bpmn_model.add_flow(flow.id, flow.name, flow_source_id, flow_target_id)
     # Return extended BPMN model
     return extended_bpmn_model
+    
