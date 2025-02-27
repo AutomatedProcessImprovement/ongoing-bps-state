@@ -1,19 +1,10 @@
-Gateway Gateway_1prgzlv is using conditions, but some are missing. Flows without conditions: Flow_0ptt0xs, Flow_1xyedm5, Flow_03auk3f
-Gateway Gateway_0nmpe12 is using conditions, but some are missing. Flows without conditions: Flow_1pcejuk, Flow_1279d43
-Gateway Gateway_1abqo5n is using conditions, but some are missing. Flows without conditions: Flow_12zi923, Flow_1bp1lvd
-TASK 'M' (ID: Activity_0vma5lg) is used more frequently than expected, in 22 out of 21 cases (104.76%).
-Flow Flow_0jtbwl8 from TASK 'M' (ID: Activity_0vma5lg) is used more frequently than expected, in 22 out of 21 cases (104.76%).
-TASK 'N' (ID: Activity_0eat6px) is used more frequently than expected, in 39 out of 21 cases (185.71%).
-Flow Flow_1dbtc82 from TASK 'N' (ID: Activity_0eat6px) is used more frequently than expected, in 39 out of 21 cases (185.71%).
-TASK 'I' (ID: Activity_1weaufy) is used more frequently than expected, in 37 out of 21 cases (176.19%).
-Flow Flow_0kkshlq from TASK 'I' (ID: Activity_1weaufy) is used more frequently than expected, in 37 out of 21 cases (176.19%).
-TASK 'P' (ID: Activity_0o2ojeh) is used more frequently than expected, in 23 out of 21 cases (109.52%).
-Flow Flow_08i82lb from TASK 'P' (ID: Activity_0o2ojeh) is used more frequently than expected, in 23 out of 21 cases (109.52%).
-END-EVENT 'End' (ID: Event_0w0qv5v) is used more frequently than expected, in 23 out of 21 cases (109.52%).
-EXCLUSIVE-GATEWAY 'XOR-split-2' (ID: Gateway_0nmpe12) is used more frequently than expected, in 37 out of 21 cases (176.19%).
-EXCLUSIVE-GATEWAY 'XOR-join-2' (ID: Gateway_146y8zs) is used more frequently than expected, in 39 out of 21 cases (185.71%).
-Flow Flow_0rajtx0 from EXCLUSIVE-GATEWAY 'XOR-join-2' (ID: Gateway_146y8zs) is used more frequently than expected, in 39 out of 21 cases (185.71%).
-EXCLUSIVE-GATEWAY 'XOR-split-loop' (ID: Gateway_1abqo5n) is used more frequently than expected, in 39 out of 21 cases (185.71%).
-Flow Flow_12zi923 from EXCLUSIVE-GATEWAY 'XOR-split-loop' (ID: Gateway_1abqo5n) is used more frequently than expected, in 22 out of 21 cases (104.76%).
-EXCLUSIVE-GATEWAY 'XOR-split-join' (ID: Gateway_0t2el1o) is used more frequently than expected, in 37 out of 21 cases (176.19%).
-Flow Flow_0a9co7f from EXCLUSIVE-GATEWAY 'XOR-split-join' (ID: Gateway_0t2el1o) is used more frequently than expected, in 37 out of 21 cases (176.19%).
+Gateway sid-D537CF9E-CB8A-4188-80DE-1CA903F38436 is using conditions, but some are missing. Flows without conditions: sid-92B5B1F2-7B5C-45A9-8C6B-BCC1E0490D99, sid-F4C85F4E-A227-4D05-AE55-5ACD9A2CF15F
+Gateway sid-79AFF435-717A-4C1E-87FA-D002372D2251 is using conditions, but some are missing. Flows without conditions: sid-B04F2DE9-EE3E-4AC6-8470-B22F242E48AE, sid-20A44905-F224-4AC2-8D6E-B25B4416D362
+Gateway Gateway_0eqakhv is using conditions, but some are missing. Flows without conditions: Flow_0mpn0oz, Flow_1ltuf1s
+Gateway Gateway_0ovqfsq is using conditions, but some are missing. Flows without conditions: Flow_1e43zqq, Flow_13axscl
+Gateway Gateway_06djhup is using conditions, but some are missing. Flows without conditions: Flow_1cces2a, Flow_0wgg1r6
+TASK 'Check application form completeness' (ID: sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130) is used more frequently than expected, in 3499 out of 2837 cases (123.33%).
+Flow sid-2210D909-6E46-4781-901B-04E0C16D5797 from TASK 'Check application form completeness' (ID: sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130) is used more frequently than expected, in 3499 out of 2837 cases (123.33%).
+EXCLUSIVE-GATEWAY 'sid-112BF415-63F3-473C-B4DA-440EBF13D7D8' (ID: sid-112BF415-63F3-473C-B4DA-440EBF13D7D8) is used more frequently than expected, in 3496 out of 2837 cases (123.23%).
+Flow sid-BCF61F61-A6CF-4966-A388-3AE2E521BF21 from EXCLUSIVE-GATEWAY 'sid-112BF415-63F3-473C-B4DA-440EBF13D7D8' (ID: sid-112BF415-63F3-473C-B4DA-440EBF13D7D8) is used more frequently than expected, in 3496 out of 2837 cases (123.23%).
+EXCLUSIVE-GATEWAY 'sid-D537CF9E-CB8A-4188-80DE-1CA903F38436' (ID: sid-D537CF9E-CB8A-4188-80DE-1CA903F38436) is used more frequently than expected, in 3499 out of 2837 cases (123.33%).

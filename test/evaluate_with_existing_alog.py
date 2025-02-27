@@ -45,8 +45,8 @@ def main():
     # WARMUP_START_DATE   = "2011-12-24T10:00:00.000Z"
 
     # NUM_RUNS = 10
-    # PROC_TOTAL_CASES = 3500
-    # WARMUP_TOTAL_CASES = 3500
+    # PROC_TOTAL_CASES = 4000
+    # WARMUP_TOTAL_CASES = 4000
 
 
     # Column renaming

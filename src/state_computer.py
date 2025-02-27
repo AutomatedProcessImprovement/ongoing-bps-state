@@ -94,17 +94,23 @@ class StateComputer:
                         "enabled_time": enabled_time
                     })
 
-            # Now compute enabled gateways, skipping those that have upstream tasks still ongoing
+            # Compute enabled gateways, skipping those that have upstream tasks still ongoing
             enabled_gateways = []
             for flow_id in state_flows:
                 gw_id = self.bpmn_handler.sequence_flows.get(flow_id, None)
-                if gw_id and self.bpmn_handler.get_node_type(gw_id) == 'ExclusiveGateway':
-                    # Get upstream tasks for this gateway
+                # Only consider if the target is an exclusive gateway.
+                if gw_id and self.bpmn_handler.get_node_type(gw_id) == 'exclusiveGateway':
+                    # Get upstream tasks for this gateway.
                     tasks_upstream = self.bpmn_handler.get_upstream_tasks_through_gateways(gw_id)
-                    # If any upstream task is still ongoing, skip this gateway
+                    # If any upstream task is still ongoing (i.e. token present in state_activities), skip this gateway.
                     if tasks_upstream.intersection(state_activities):
                         continue
-                    gw_enabled_time = self._compute_gateway_enabled_time(gw_id, group, finished_activities)
+                    # If there are finished activities, use them to compute the enabled time;
+                    # otherwise, default to the earliest start time in the case.
+                    if not finished_activities.empty:
+                        gw_enabled_time = self._compute_gateway_enabled_time(gw_id, group, finished_activities)
+                    else:
+                        gw_enabled_time = min(group[ids.start_time])
                     if pd.notna(gw_enabled_time):
                         enabled_gateways.append({
                             "id": gw_id,
