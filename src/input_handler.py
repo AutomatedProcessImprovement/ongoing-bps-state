@@ -62,7 +62,7 @@ class InputHandler:
         self.start_time = args.start_time
         self.column_mapping_str = args.column_mapping
         self.column_mapping = self.parse_column_mapping()
-        self.event_log_df = self.read_event_log()  # Read the event log here
+        self.event_log_df = self.read_event_log() 
         self.event_log_ids = self.get_event_log_ids()
     
     def parse_column_mapping(self):
@@ -118,22 +118,11 @@ class InputHandler:
             if col not in df.columns:
                 raise ValueError(f"Missing required column: {col}")
 
-        # If your log also has an 'enabled_time' or 'EnableTime' that needs parsing, handle that similarly.
-        # e.g., if 'enabled_time' in df.columns:
-        #   df['enabled_time'] = df['enabled_time'].astype(str).apply(ensure_fractional_seconds)
-        #   df['enabled_time'] = pd.to_datetime(
-        #       df['enabled_time'],
-        #       infer_datetime_format=True,
-        #       utc=True,
-        #       errors='coerce'
-        #   )
-
         # Convert StartTime to string, ensure fractional seconds, then parse
         df['StartTime'] = df['StartTime'].astype(str).apply(ensure_fractional_seconds)
         df['StartTime'] = pd.to_datetime(
             df['StartTime'],
-            utc=True,
-            # errors='coerce'
+            utc=False,
         )
 
         # Convert EndTime to string, ensure fractional seconds, then parse
@@ -141,10 +130,10 @@ class InputHandler:
         missing_end = df['EndTime'].isna()
         if missing_end.any():
             print(f"There are {missing_end.sum()} rows with missing/invalid EndTime.")
-            print(df[missing_end].head())  # see some examples
+            print(df[missing_end].head()) 
         df['EndTime'] = pd.to_datetime(
             df['EndTime'],
-            utc=True,
+            utc=False,
         )
         
         return df

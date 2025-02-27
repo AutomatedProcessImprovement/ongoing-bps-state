@@ -17,7 +17,7 @@ class StateComputer:
     def compute_case_states(self):
         """Computes states and active activities for all cases."""
         case_states = {}
-        ids = self.event_log_ids  # For convenience
+        ids = self.event_log_ids 
         # Group the event log by CaseId
         grouped = self.event_log_df.groupby(ids.case)
         for case_id, group in grouped:
@@ -39,7 +39,7 @@ class StateComputer:
                         enabled_time = None
                     else:
                         temp_event = pd.Series({
-                            ids.activity: original_activity,  # using name here
+                            ids.activity: original_activity,
                             ids.start_time: stime,
                             ids.end_time: stime
                         })
@@ -84,7 +84,7 @@ class StateComputer:
                             self.concurrency_oracle.concurrency[activity_name] = {}
                         max_end_time = finished_activities[ids.end_time].max() if not finished_activities.empty else None
                         temp_event = pd.Series({
-                            ids.activity: activity_name,  # using name for lookup
+                            ids.activity: activity_name,
                             ids.start_time: max_end_time + pd.Timedelta(seconds=1),
                             ids.end_time: max_end_time+ pd.Timedelta(seconds=1),
                         })
