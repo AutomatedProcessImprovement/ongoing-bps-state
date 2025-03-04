@@ -3,6 +3,7 @@
 from ongoing_process_state.bpmn_model import BPMNModel
 from ongoing_process_state.n_gram_index import NGramIndex
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 class BPMNHandler:
     """Handles BPMN model operations."""
@@ -99,6 +100,7 @@ class BPMNHandler:
         reachability_graph = extended_bpmn_model.get_reachability_graph()
         n_gram_index = NGramIndex(reachability_graph, n_gram_size_limit)
         n_gram_index.build()
+        # n_gram_index.to_self_contained_map_file(Path("./n_gram_index.map"))
         self.reachability_graph = reachability_graph
         return n_gram_index
 
@@ -129,6 +131,16 @@ class BPMNHandler:
         if element_id in self.gateways:
             return self.gateways[element_id]
         return None
+    
+    def get_incoming_flows(self, activity_id):
+        """
+        Returns the list of sequence flow IDs whose targetRef is the given activity (activity_id).
+        """
+        incoming_flows = []
+        for flow_id, target_ref in self.sequence_flows.items():
+            if target_ref == activity_id:
+                incoming_flows.append(flow_id)
+        return incoming_flows
 
 
 def compute_extended_bpmn_model(bpmn_model: BPMNModel, treat_event_as_task: bool = False) -> BPMNModel:

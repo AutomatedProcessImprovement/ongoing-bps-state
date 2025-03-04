@@ -122,7 +122,7 @@ class InputHandler:
         df['StartTime'] = df['StartTime'].astype(str).apply(ensure_fractional_seconds)
         df['StartTime'] = pd.to_datetime(
             df['StartTime'],
-            utc=False,
+            utc=True,
         )
 
         # Convert EndTime to string, ensure fractional seconds, then parse
@@ -133,7 +133,7 @@ class InputHandler:
             print(df[missing_end].head()) 
         df['EndTime'] = pd.to_datetime(
             df['EndTime'],
-            utc=False,
+            utc=True,
         )
         
         return df

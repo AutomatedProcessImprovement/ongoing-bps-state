@@ -70,6 +70,21 @@ class StateComputer:
             state_flows = {el_id for el_id in state_marking if el_id in self.bpmn_handler.sequence_flows}
             state_activities = {el_id for el_id in state_marking if el_id in self.bpmn_handler.activities}
 
+            # Repair fake n-gram-marking ongoing activities
+            ongoing_activities_ids = {ongoing_activity['id'] for ongoing_activity in ongoing_activities}
+            filtered_state_activities = set()
+            for state_activity in state_activities:
+                if state_activity in ongoing_activities_ids:
+                    # It is ongoing in the log, keep
+                    filtered_state_activities.add(state_activity)
+                else:
+                    # It is not ongoing in the log, replace by its incoming edge(s)
+                    incoming_flow_ids = self.bpmn_handler.get_incoming_flows(state_activity)
+                    for flow_id in incoming_flow_ids:
+                        state_flows.add(flow_id)
+
+            state_activities = filtered_state_activities
+
             # Compute enabled activities
             finished_activities = group[group[ids.end_time].notna()]
             enabled_activities = []
