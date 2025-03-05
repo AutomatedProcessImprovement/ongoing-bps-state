@@ -435,6 +435,136 @@ def evaluate_warmup_simulation(
     )
     return result_metrics
 
+###############################################################################
+# Evaluate Warm-Up Simulation (New Variation)
+###############################################################################
+def evaluate_warmup_simulation_variable_start(
+    run_output_dir: str,
+    bpmn_model: str,
+    bpmn_parameters: str,
+    warmup_start: pd.Timestamp,
+    simulation_cut: pd.Timestamp,
+    evaluation_end: pd.Timestamp,
+    total_cases: int,
+    A_event_filter_ref: pd.DataFrame,
+    A_ongoing_ref: pd.DataFrame,
+    A_complete_ref: pd.DataFrame,
+    rename_map: dict,
+    required_columns: list,
+    simulate: bool = True,
+    verbose: bool = True
+) -> dict:
+    """
+    New warm-up approach:
+      1) Run the simulation from warmup_start (standard).
+      2) Count how many ongoing cases are in the reference at 'simulation_cut' -> call this ref_ongoing_count
+      3) In the simulated log, go arrival by arrival, checking the number of active cases. 
+         If we find a time T when #active = ref_ongoing_count, record it.
+      4) SHIFT the entire log so that T aligns with 'simulation_cut'. (Add (simulation_cut - T) to all timestamps.)
+         If no such T found, do nothing special (fallback).
+      5) Filter the (shifted) log with event/ongoing/complete filters as usual.
+    """
+    sim_stats_csv = os.path.join(run_output_dir, "warmup2_sim_stats.csv")
+    sim_log_csv = os.path.join(run_output_dir, "warmup2_sim_log.csv")
+
+    # 1) Run simulation
+    if simulate:
+        if verbose:
+            print("=== [Warm-up Variation] Running simulation ===")
+        sim_func_kwargs = {
+            "bpmn_model": bpmn_model,
+            "json_sim_params": bpmn_parameters,
+            "total_cases": total_cases,
+            "out_stats_csv_path": sim_stats_csv,
+            "out_log_csv_path": sim_log_csv,
+            "start_date": str(warmup_start.isoformat())
+        }
+        run_simulation_with_retries(run_basic_simulation, sim_func_kwargs, max_attempts=3, verbose=verbose)
+    else:
+        if verbose:
+            print("[Warm-up Variation] Skipping simulation (simulate=False).")
+
+    # 2) Load simulated log
+    if verbose:
+        print("=== [Warm-up Variation] Reading simulation log ===")
+    sim_df = read_event_log(
+        csv_path=sim_log_csv,
+        rename_map=rename_map,
+        required_columns=None,
+        verbose=verbose
+    )
+
+    # Count reference ongoing cases at the cutoff
+    ref_ongoing_count = A_ongoing_ref["case_id"].nunique()
+
+    # 3) In the simulated log, check if at some time T we have #active = ref_ongoing_count
+    #    We'll do this at each case arrival time, i.e. the earliest start_time for each case.
+    sim_df["arrival_time"] = sim_df.groupby("case_id")["start_time"].transform("min")
+    # Sorting by arrival_time
+    sim_df_sorted = sim_df.drop_duplicates(subset=["case_id"], keep="first").sort_values("arrival_time")
+
+    def num_active_cases_at_time(df: pd.DataFrame, t: pd.Timestamp) -> int:
+        """Number of active cases at time t in the simulated log df."""
+        # A case is active if start_time_of_case < t < end_time_of_case
+        # or at least if the case has started but not finished by t
+        # We'll define a case’s earliest start = min start, last end = max end
+        grouped = df.groupby("case_id").agg({
+            "start_time": "min",
+            "end_time": "max"
+        }).reset_index()
+        return sum((grouped["start_time"] <= t) & (grouped["end_time"] > t))
+
+    found_cutoff_time = None
+    # Only consider arrivals that are within [warmup_start, simulation_cut] for searching, 
+    # because beyond simulation_cut doesn't help us “align” that moment.
+    arrivals_to_check = sim_df_sorted[sim_df_sorted["arrival_time"] <= simulation_cut]["arrival_time"].unique()
+
+    for arr_time in sorted(arrivals_to_check):
+        cnt = num_active_cases_at_time(sim_df, arr_time)
+        if cnt == ref_ongoing_count:
+            found_cutoff_time = arr_time
+            break
+
+    # 4) SHIFT the entire log if we found T
+    shifted_df = sim_df.copy()
+    if found_cutoff_time is not None:
+        time_diff = simulation_cut - found_cutoff_time
+        if verbose:
+            print(f"[Warm-up Variation] SHIFTING log by {time_diff}, because at {found_cutoff_time} we had {ref_ongoing_count} active cases.")
+        # Add time_diff to every timestamp
+        for col in ["enable_time", "start_time", "end_time"]:
+            if col in shifted_df.columns:
+                shifted_df[col] = shifted_df[col] + time_diff
+    else:
+        if verbose:
+            print("[Warm-up Variation] Did NOT find a time with matching #active cases. No shift applied.")
+
+    # Save the possibly-shifted log to CSV for debugging
+    shifted_csv = os.path.join(run_output_dir, "warmup2_sim_log_shifted.csv")
+    shifted_df.to_csv(shifted_csv, index=False)
+
+    # 5) Filter the SHIFTED log
+    G_event_filter = trim_events_to_eval_window(shifted_df, simulation_cut, evaluation_end)
+    G_ongoing = filter_ongoing_cases(shifted_df, simulation_cut, evaluation_end)
+    G_complete = filter_complete_cases(shifted_df, simulation_cut, evaluation_end)
+
+    # Save these G subsets
+    G_event_filter.to_csv(os.path.join(run_output_dir, "WU2_event_G.csv"), index=False)
+    G_ongoing.to_csv(os.path.join(run_output_dir, "WU2_ongoing_G.csv"), index=False)
+    G_complete.to_csv(os.path.join(run_output_dir, "WU2_complete_G.csv"), index=False)
+
+    # Finally, compute metrics
+    result_metrics = compute_custom_metrics(
+        A_event_filter_ref, 
+        A_ongoing_ref,
+        A_complete_ref,
+        G_event_filter, 
+        G_ongoing, 
+        G_complete,
+        ongoing_reference_point=simulation_cut,
+        verbose=verbose
+    )
+    return result_metrics
 
 ###############################################################################
 # Aggregation and Comparison

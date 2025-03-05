@@ -54,8 +54,8 @@ def main():
     # --- Step 2: Parse start_time and end_time for concurrency calculations ---
     # We do not want to change the original text for these columns, so we use our own parsed copies.
     # Use pd.to_datetime without specifying a strict format so that various ISO-like strings are accepted.
-    df['start_time_parsed'] = pd.to_datetime(df['start_time'], utc=True)
-    df['end_time_parsed'] = pd.to_datetime(df['end_time'], utc=True)
+    df['start_time_parsed'] = pd.to_datetime(df['start_time'])
+    df['end_time_parsed'] = pd.to_datetime(df['end_time'])
 
     # --- Step 3: Prepare pix-framework’s EventLogIDs ---
     ids = EventLogIDs(

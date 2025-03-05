@@ -15,6 +15,7 @@ from test.helper import (
 from test.evaluation import (
     evaluate_partial_state_simulation,
     evaluate_warmup_simulation,
+    evaluate_warmup_simulation_variable_start,
     aggregate_metrics,
     compare_results
 )
@@ -22,9 +23,22 @@ from test.evaluation import (
 
 def main():
     # ----------- CONFIG -----------
+    # EXISTING_ALOG_PATH = "samples/real_life/AcademicCredentials_fixed.csv"
+    # BPMN_MODEL = "samples/real_life/AcademicCredentials.bpmn"
+    # BPMN_PARAMS = "samples/real_life/AcademicCredentials.json"
+
+    # SIMULATION_CUT_DATE = "2016-04-28T10:10:00.000Z"  
+    # EVALUATION_END_DATE = "2016-06-29T23:20:30.000Z"  
+    # SIMULATION_HORIZON  = "2016-07-29T23:20:30.000Z"  
+    # WARMUP_START_DATE   = "2016-04-16T09:04:12.000Z"
+
+    # NUM_RUNS = 10
+    # PROC_TOTAL_CASES = 600
+    # WARMUP_TOTAL_CASES = 600
+
     EXISTING_ALOG_PATH = "samples/real_life/AcademicCredentials_fixed.csv"
-    BPMN_MODEL = "samples/real_life/AcademicCredentials.bpmn"
-    BPMN_PARAMS = "samples/real_life/AcademicCredentials.json"
+    BPMN_MODEL = "samples/real_life/academic_diff_extr/best_result/AcademicCredentials_train.bpmn"
+    BPMN_PARAMS = "samples/real_life/academic_diff_extr/best_result/AcademicCredentials_train.json"
 
     SIMULATION_CUT_DATE = "2016-04-28T10:10:00.000Z"  
     EVALUATION_END_DATE = "2016-06-29T23:20:30.000Z"  
@@ -45,9 +59,47 @@ def main():
     # WARMUP_START_DATE   = "2011-12-24T10:00:00.000Z"
 
     # NUM_RUNS = 10
-    # PROC_TOTAL_CASES = 4000
-    # WARMUP_TOTAL_CASES = 4000
+    # PROC_TOTAL_CASES = 7500
+    # WARMUP_TOTAL_CASES = 7500
 
+    # EXISTING_ALOG_PATH = "samples/real_life/BPIC_2012_new.csv"
+    # BPMN_MODEL = "samples/real_life/2012_diff_extr/best_result/BPIC_2012_train.bpmn"
+    # BPMN_PARAMS = "samples/real_life/2012_diff_extr/best_result/BPIC_2012_train.json"
+
+    # SIMULATION_CUT_DATE = "2012-01-11T10:00:00.000Z"  
+    # EVALUATION_END_DATE = "2012-02-01T10:00:00.000Z"  
+    # SIMULATION_HORIZON  = "2012-03-05T10:00:00.000Z"  
+    # WARMUP_START_DATE   = "2011-12-24T10:00:00.000Z"
+
+    # NUM_RUNS = 10
+    # PROC_TOTAL_CASES = 7500
+    # WARMUP_TOTAL_CASES = 7500
+
+    # EXISTING_ALOG_PATH = "samples/Loan_Application_log.csv"
+    # BPMN_MODEL = "samples/Loan_Application.bpmn"
+    # BPMN_PARAMS = "samples/Loan_Application.json"
+
+    # SIMULATION_CUT_DATE = "2025-02-24T10:00:00.000Z"  
+    # EVALUATION_END_DATE = "2025-03-20T18:00:00.000Z"  
+    # SIMULATION_HORIZON  = "2025-08-04T10:00:00.000Z"  
+    # WARMUP_START_DATE   = "2025-02-17T07:00:00.000Z"
+
+    # NUM_RUNS = 10
+    # PROC_TOTAL_CASES = 2500
+    # WARMUP_TOTAL_CASES = 2500
+
+    # EXISTING_ALOG_PATH = "samples/P2P-no-steady-state.csv"
+    # BPMN_MODEL = "samples/P2P-no-steady-state.bpmn"
+    # BPMN_PARAMS = "samples/P2P-no-steady-state.json"
+
+    # SIMULATION_CUT_DATE = "2020-01-14T10:00:00.000Z"  
+    # EVALUATION_END_DATE = "2020-02-07T18:00:00.000Z"  
+    # SIMULATION_HORIZON  = "2020-02-21T13:00:00.000Z"  
+    # WARMUP_START_DATE   = "2020-01-07T10:00:00.000Z"
+
+    # NUM_RUNS = 10
+    # PROC_TOTAL_CASES = 2100
+    # WARMUP_TOTAL_CASES = 2100
 
     # Column renaming
     rename_alog_dict_eval = {
@@ -111,6 +163,7 @@ def main():
     # ----------- STEP 2: Run experiments -----------
     proc_run_distances = []
     warmup_run_distances = []
+    warmup2_run_distances = []
 
     horizon_dt = pd.to_datetime(SIMULATION_HORIZON, utc=True)
     warmup_start_dt = pd.to_datetime(WARMUP_START_DATE, utc=True)
@@ -159,6 +212,25 @@ def main():
         )
         warmup_run_distances.append(warmup_result)
 
+        # (C) Evaluate NEW Warm-Up Variation
+        warmup2_result = evaluate_warmup_simulation_variable_start(
+            run_output_dir=run_subfolder,
+            bpmn_model=BPMN_MODEL,
+            bpmn_parameters=BPMN_PARAMS,
+            warmup_start=warmup_start_dt,
+            simulation_cut=eval_start_dt,
+            evaluation_end=eval_end_dt,
+            total_cases=WARMUP_TOTAL_CASES,
+            A_event_filter_ref=A_event_filter_ref,
+            A_ongoing_ref=A_ongoing_ref,
+            A_complete_ref=A_complete_ref,
+            rename_map=rename_alog_dict_sim_inv,
+            required_columns=required_columns,
+            simulate=True,
+            verbose=True
+        )
+        warmup2_run_distances.append(warmup2_result)
+
     # ----------- STEP 3: Aggregate & Compare -----------
     print("\n=== Aggregating Process-State metrics ===")
     proc_agg = aggregate_metrics(proc_run_distances)
@@ -166,8 +238,14 @@ def main():
     print("\n=== Aggregating Warm-Up metrics ===")
     warmup_agg = aggregate_metrics(warmup_run_distances)
 
+    print("\n=== Aggregating Warm-Up v2 metrics ===")
+    warmup2_agg = aggregate_metrics(warmup2_run_distances)
+
     print("\n=== Comparing Process-State vs. Warm-Up ===")
     comparison = compare_results(proc_agg, warmup_agg)
+
+    comparison_proc_vs_wu2 = compare_results(proc_agg, warmup2_agg)
+
 
     # ----------- STEP 4: Save final output -----------
     final_output = {
@@ -181,6 +259,7 @@ def main():
             "all_runs": warmup_run_distances
         },
         "comparison_summary": comparison,
+        "comparison_proc_vs_wu2": comparison_proc_vs_wu2
     }
 
     results_path = os.path.join(out_dir, "final_results.json")
