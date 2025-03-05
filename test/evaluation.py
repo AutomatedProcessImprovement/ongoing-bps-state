@@ -139,7 +139,6 @@ def compute_custom_metrics(
             print("[compute_custom_metrics] Error computing RTD for ongoing_filter:", e)
         results["ongoing_filter"]["RTD"] = None
 
-    # Additional metric: Normalized difference in average remaining cycle time.
     try:
         # Compute average remaining time (in seconds) for the reference and simulated ongoing logs.
         avg_remaining_A = compute_avg_remaining_time(A_ongoing_ref, ongoing_reference_point, custom_ids)
@@ -243,13 +242,13 @@ def build_partial_state_subsets(
     # (1) Event filter.
     G_event_filter = trim_events_to_eval_window(glog_df, cutoff, evaluation_end)
 
-    # (2) Ongoing: keep only events from cases in partial_ids.
+    # (2) Ongoing filter: keep only events from cases in partial_ids.
     G_ongoing = glog_df[glog_df["case_id"].astype(str).isin(partial_ids)].copy()
     # Clip event times to [cutoff, evaluation_end].
     G_ongoing.loc[G_ongoing["start_time"] < cutoff, "start_time"] = cutoff
     # G_ongoing.loc[G_ongoing["end_time"] > evaluation_end, "end_time"] = evaluation_end
 
-    # (3) Complete: exclude partial_ids and keep only cases whose earliest start is between cutoff (inclusive)
+    # (3) Complete filter: exclude partial_ids and keep only cases whose earliest start is between cutoff (inclusive)
     # and evaluation_end (exclusive).
     remainder_df = glog_df[~glog_df["case_id"].astype(str).isin(partial_ids)].copy()
     group_min_start = remainder_df.groupby("case_id")["start_time"].transform("min")
@@ -449,6 +448,7 @@ def evaluate_warmup_simulation_variable_start(
     A_event_filter_ref: pd.DataFrame,
     A_ongoing_ref: pd.DataFrame,
     A_complete_ref: pd.DataFrame,
+    A_full: pd.DataFrame,
     rename_map: dict,
     required_columns: list,
     simulate: bool = True,
@@ -495,7 +495,7 @@ def evaluate_warmup_simulation_variable_start(
     )
 
     # Count reference ongoing cases at the cutoff
-    ref_ongoing_count = A_ongoing_ref["case_id"].nunique()
+    ref_ongoing_count = A_full["case_id"].nunique()
 
     # 3) In the simulated log, check if at some time T we have #active = ref_ongoing_count
     #    We'll do this at each case arrival time, i.e. the earliest start_time for each case.
@@ -539,7 +539,6 @@ def evaluate_warmup_simulation_variable_start(
         if verbose:
             print("[Warm-up Variation] Did NOT find a time with matching #active cases. No shift applied.")
 
-    # Save the possibly-shifted log to CSV for debugging
     shifted_csv = os.path.join(run_output_dir, "warmup2_sim_log_shifted.csv")
     shifted_df.to_csv(shifted_csv, index=False)
 
@@ -594,7 +593,7 @@ def aggregate_metrics(all_runs: list) -> dict:
     aggregated = {}
     sub_filters = set()
     for run_res in all_runs:
-        sub_filters.update(run_res.keys())  # gather sub-filter keys
+        sub_filters.update(run_res.keys())
 
     for sf in sub_filters:
         aggregated[sf] = {}

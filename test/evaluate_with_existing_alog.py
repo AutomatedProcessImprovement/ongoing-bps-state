@@ -36,18 +36,18 @@ def main():
     # PROC_TOTAL_CASES = 600
     # WARMUP_TOTAL_CASES = 600
 
-    EXISTING_ALOG_PATH = "samples/real_life/AcademicCredentials_fixed.csv"
-    BPMN_MODEL = "samples/real_life/academic_diff_extr/best_result/AcademicCredentials_train.bpmn"
-    BPMN_PARAMS = "samples/real_life/academic_diff_extr/best_result/AcademicCredentials_train.json"
+    # EXISTING_ALOG_PATH = "samples/real_life/AcademicCredentials_fixed.csv"
+    # BPMN_MODEL = "samples/real_life/academic_diff_extr/best_result/AcademicCredentials_train.bpmn"
+    # BPMN_PARAMS = "samples/real_life/academic_diff_extr/best_result/AcademicCredentials_train.json"
 
-    SIMULATION_CUT_DATE = "2016-04-28T10:10:00.000Z"  
-    EVALUATION_END_DATE = "2016-06-29T23:20:30.000Z"  
-    SIMULATION_HORIZON  = "2016-07-29T23:20:30.000Z"  
-    WARMUP_START_DATE   = "2016-04-16T09:04:12.000Z"
+    # SIMULATION_CUT_DATE = "2016-04-28T10:10:00.000Z"  
+    # EVALUATION_END_DATE = "2016-06-29T23:20:30.000Z"  
+    # SIMULATION_HORIZON  = "2016-07-29T23:20:30.000Z"  
+    # WARMUP_START_DATE   = "2016-04-16T09:04:12.000Z"
 
-    NUM_RUNS = 10
-    PROC_TOTAL_CASES = 600
-    WARMUP_TOTAL_CASES = 600
+    # NUM_RUNS = 10
+    # PROC_TOTAL_CASES = 600
+    # WARMUP_TOTAL_CASES = 600
 
     # EXISTING_ALOG_PATH = "samples/real_life/BPIC_2012_new.csv"
     # BPMN_MODEL = "samples/real_life/BPIC_2012.bpmn"
@@ -75,18 +75,18 @@ def main():
     # PROC_TOTAL_CASES = 7500
     # WARMUP_TOTAL_CASES = 7500
 
-    # EXISTING_ALOG_PATH = "samples/Loan_Application_log.csv"
-    # BPMN_MODEL = "samples/Loan_Application.bpmn"
-    # BPMN_PARAMS = "samples/Loan_Application.json"
+    EXISTING_ALOG_PATH = "samples/Loan_Application_log.csv"
+    BPMN_MODEL = "samples/Loan_Application.bpmn"
+    BPMN_PARAMS = "samples/Loan_Application.json"
 
-    # SIMULATION_CUT_DATE = "2025-02-24T10:00:00.000Z"  
-    # EVALUATION_END_DATE = "2025-03-20T18:00:00.000Z"  
-    # SIMULATION_HORIZON  = "2025-08-04T10:00:00.000Z"  
-    # WARMUP_START_DATE   = "2025-02-17T07:00:00.000Z"
+    SIMULATION_CUT_DATE = "2025-02-24T10:00:00.000Z"  
+    EVALUATION_END_DATE = "2025-03-20T18:00:00.000Z"  
+    SIMULATION_HORIZON  = "2025-08-04T10:00:00.000Z"  
+    WARMUP_START_DATE   = "2025-02-17T07:00:00.000Z"
 
-    # NUM_RUNS = 10
-    # PROC_TOTAL_CASES = 2500
-    # WARMUP_TOTAL_CASES = 2500
+    NUM_RUNS = 10
+    PROC_TOTAL_CASES = 2500
+    WARMUP_TOTAL_CASES = 2500
 
     # EXISTING_ALOG_PATH = "samples/P2P-no-steady-state.csv"
     # BPMN_MODEL = "samples/P2P-no-steady-state.bpmn"
@@ -151,11 +151,9 @@ def main():
     # 1C) Complete subset
     #    "complete" if min(start_time) >= eval_start
     #    keep entire case
-    start = alog_df[alog_df["case_id"]==140]["start_time"].min()
     # print(f"Filtering complete cases... {start} {eval_start_dt} {eval_end_dt}")
     A_complete_ref = filter_complete_cases(alog_df, eval_start_dt, eval_end_dt)
 
-    # Optionally, save these references in top-level output folder
     A_event_filter_ref.to_csv(os.path.join(out_dir, "A_event_filter_ref.csv"), index=False)
     A_ongoing_ref.to_csv(os.path.join(out_dir, "A_ongoing_ref.csv"), index=False)
     A_complete_ref.to_csv(os.path.join(out_dir, "A_complete_ref.csv"), index=False)
@@ -224,6 +222,7 @@ def main():
             A_event_filter_ref=A_event_filter_ref,
             A_ongoing_ref=A_ongoing_ref,
             A_complete_ref=A_complete_ref,
+            A_full=alog_df,
             rename_map=rename_alog_dict_sim_inv,
             required_columns=required_columns,
             simulate=True,

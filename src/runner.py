@@ -29,7 +29,7 @@ def run_process_state_and_simulation(
     simulation_horizon=None,
     total_cases=20,
     sim_stats_csv='simulation_stats.csv',
-    sim_log_csv='simulation_log.csv'
+    sim_log_csv='simulation_log.csv',
 ):
     """
     1) Compute the process state from the event log + BPMN.
@@ -66,12 +66,6 @@ def run_process_state_and_simulation(
     bpmn_model_obj = input_handler.read_bpmn_model()
     bpmn_params = input_handler.parse_bpmn_parameters()
 
-    # df = input_handler.event_log_df.copy()
-    # print("Shape after reading event log:", df.shape)
-    # print("Any StartTime missing?", df["StartTime"].isna().sum())
-    # print("Any EndTime missing?", df["EndTime"].isna().sum())
-    # df.to_csv("debug_after_input_handler.csv", index=False)
-
     print("=== RUNNER: Step C: Process event log ===")
     event_log_processor = EventLogProcessor(event_log_df, start_time, event_log_ids)
     processed_event_log = event_log_processor.process()
@@ -81,13 +75,6 @@ def run_process_state_and_simulation(
     bpmn_handler = BPMNHandler(bpmn_model_obj, bpmn_params, input_handler.bpmn_model_path)
     n_gram_index = bpmn_handler.build_n_gram_index(n_gram_size_limit=20)
     reachability_graph = bpmn_handler.get_reachability_graph()
-
-    # grouped_traces = df.groupby("CaseId")  # then loops over them
-    # # or maybe you store them in a dictionary trace[case_id] = ...
-    # # Right after this grouping, do:
-    # print("Number of rows in the grouped DataFrame:", len(df))
-    # print("Missing StartTimes in grouped DF:", df["StartTime"].isna().sum())
-    # print("Missing EndTimes in grouped DF:", df["EndTime"].isna().sum())
 
     print("=== RUNNER: Step E: Compute process state ===")
     state_computer = StateComputer(

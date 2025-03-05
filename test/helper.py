@@ -123,7 +123,6 @@ def filter_ongoing_cases(df: pd.DataFrame, eval_start: pd.Timestamp, eval_end: p
     
     # Clip event times to the evaluation window.
     out.loc[out["start_time"] < eval_start, "start_time"] = eval_start
-    # out.loc[out["end_time"] > eval_end, "end_time"] = eval_end
 
     is_anomaly = out["start_time"] > out["end_time"]
     if is_anomaly.any():
