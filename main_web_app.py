@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-
+from fastapi import FastAPI, Form, UploadFile, File
 import pandas as pd
 from ongoing_process_state.utils import read_bpmn_model
 from pix_framework.io.event_log import read_csv_log, EventLogIDs
@@ -9,22 +9,41 @@ from src.compute_bps_state_and_run_simulation import compute_bps_state_and_run_s
     generate_events_with_token_movements
 from src.compute_frontend_events_from_trace import sim_log_ids
 
+app = FastAPI()
 
-def start_short_term_simulation(base_folder: Path):
-    # Input params of the call
-    ongoing_log_path = base_folder / "ongoing_event_log.csv"
+@app.post("/start-simulation")
+async def start_short_term_simulation(
+    process_id: str = Form(...),
+    start_time: str = Form(...),
+    simulation_horizon: str = Form(...),
+    event_log: UploadFile = File(...),
+    bpmn_model: UploadFile = File(...),
+    json_parameters: UploadFile = File(...),
+):
+    process_folder = Path(f"./processes/{process_id}/")
+    process_folder.mkdir(parents=True, exist_ok=True)
+
+    ongoing_log_path = process_folder / "ongoing_event_log.csv"
+    with open(ongoing_log_path, "wb") as f:
+        f.write(await event_log.read())
+
     ongoing_log_ids = EventLogIDs(case="CaseId", activity="Activity", resource="Resource", start_time="StartTime",
                                   end_time="EndTime", enabled_time="enabled_time")
-    bpmn_model_path = base_folder / "bpmn_model.bpmn"
-    bpmn_parameters_path = base_folder / "json_parameters.json"
-    start_time = "2025-03-07T11:00:00.000+02:00"
-    simulation_horizon = "2025-04-07T11:00:00.000+02:00"
+
+    bpmn_model_path = process_folder / "bpmn_model.bpmn"
+    with open(bpmn_model_path, "wb") as f:
+        f.write(await bpmn_model.read())
+
+    bpmn_parameters_path = process_folder / "json_parameters.json"
+    with open(bpmn_parameters_path, "wb") as f:
+        f.write(await json_parameters.read())
+
     # Path to files to store intermediate objects
-    short_term_simulated_log_path = base_folder / "short-term-simulation.csv"
-    post_processed_log_path = base_folder / "short-term-simulation-processed.csv"
-    reachability_graph_path = base_folder / "complete_reachability_graph.tgf"
-    reachability_graph_with_events_path = base_folder / "reachability_graph_with_events.tgf"
-    n_gram_index_with_events_path = base_folder / "n_gram_index_with_events.map"
+    short_term_simulated_log_path = process_folder / "short-term-simulation.csv"
+    post_processed_log_path = process_folder / "short-term-simulation-processed.csv"
+    reachability_graph_path = process_folder / "complete_reachability_graph.tgf"
+    reachability_graph_with_events_path = process_folder / "reachability_graph_with_events.tgf"
+    n_gram_index_with_events_path = process_folder / "n_gram_index_with_events.map"
 
     # Compute the initial frame and run short-term simulation
     frame, short_term_simulated_log_path = compute_bps_state_and_run_simulation(
@@ -35,9 +54,8 @@ def start_short_term_simulation(base_folder: Path):
         simulation_horizon=simulation_horizon,
         short_term_simulated_log_path=short_term_simulated_log_path,
     )
-    # TODO - [Taleh] I print it to debug now, replace this and set it to front-end
-    print(f"Frame length: {len(frame)}")
-    with open(base_folder / "initial_frame.json", "w") as frame_file:
+
+    with open(process_folder / "initial_frame.json", "w") as frame_file:
         json.dump(frame, frame_file, indent=4)
 
     # Post-process simulated log by:
@@ -61,12 +79,16 @@ def start_short_term_simulation(base_folder: Path):
         reachability_graph_path=reachability_graph_path,
         frame=frame,
     )
-    # TODO - [Taleh] I print it to debug now, replace this and set it to front-end
-    print(f"Computed events: {len(events)}")
+
     for event in events:
         event['timestamp'] = event['timestamp'].strftime("%Y-%m-%dT%H:%M:%S.%f%z")
-    with open(base_folder / "initial_events.json", "w") as events_file:
+    with open(process_folder / "initial_events.json", "w") as events_file:
         json.dump(events, events_file, indent=4)
+
+    return {
+        "frames": frame,
+        "events": events
+    }
 
 
 def post_process_simulated_log(
@@ -154,16 +176,3 @@ def resume_short_term_simulation(base_folder: Path):
         event['timestamp'] = event['timestamp'].strftime("%Y-%m-%dT%H:%M:%S.%f%z")
     with open(base_folder / "resume_events.json", "w") as events_file:
         json.dump(events, events_file, indent=4)
-
-
-if __name__ == "__main__":
-    # TODO - [Taleh] For each job, I would create a unique ID, a folder with that ID, and all
-    #  paths you generate are inside that folder, in this way even if you have multiple jobs
-    #  they won't override same files.
-    folder_this_process = Path("./process-1/")
-    # User launches the app from start
-    print("Starting short-term simulation")
-    start_short_term_simulation(folder_this_process)
-    # User clicks on a timeline point
-    print("Resuming log animation")
-    resume_short_term_simulation(folder_this_process)

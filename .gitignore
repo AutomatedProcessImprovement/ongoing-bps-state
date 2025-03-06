@@ -135,5 +135,6 @@ dmypy.json
 .idea/
 poetry.lock
 .DS_Store
+/processes
 
 output.json
