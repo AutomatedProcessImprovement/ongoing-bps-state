@@ -1,0 +1,7 @@
+fastapi[standard]==0.113.0
+pandas
+lxml
+networkx
+xmltodict
+poetry
+ongoing_process_state
