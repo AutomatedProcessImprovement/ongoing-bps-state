@@ -16,6 +16,7 @@ async def start_short_term_simulation(
     process_id: str = Form(...),
     start_time: str = Form(...),
     simulation_horizon: str = Form(...),
+    column_mapping: str = Form(...),
     event_log: UploadFile = File(...),
     bpmn_model: UploadFile = File(...),
     json_parameters: UploadFile = File(...),
@@ -27,8 +28,15 @@ async def start_short_term_simulation(
     with open(ongoing_log_path, "wb") as f:
         f.write(await event_log.read())
 
-    ongoing_log_ids = EventLogIDs(case="CaseId", activity="Activity", resource="Resource", start_time="StartTime",
-                                  end_time="EndTime", enabled_time="enabled_time")
+    column_mapping = json.loads(column_mapping)
+    ongoing_log_ids = EventLogIDs(
+        case=column_mapping.get("case", "CaseId"),
+        activity=column_mapping.get("activity", "Activity"),
+        resource=column_mapping.get("resource", "Resource"),
+        start_time=column_mapping.get("start", "StartTime"),
+        end_time=column_mapping.get("end", "EndTime"),
+        enabled_time=column_mapping.get("enablement", "enabled_time"),
+    )
 
     bpmn_model_path = process_folder / "bpmn_model.bpmn"
     with open(bpmn_model_path, "wb") as f:
