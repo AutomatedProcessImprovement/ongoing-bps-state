@@ -4,6 +4,7 @@ from fastapi import FastAPI, Form, UploadFile, File
 import pandas as pd
 from ongoing_process_state.utils import read_bpmn_model
 from pix_framework.io.event_log import read_csv_log, EventLogIDs
+from pydantic import BaseModel
 
 from src.compute_bps_state_and_run_simulation import compute_bps_state_and_run_simulation, compute_bps_resumed_state, \
     generate_events_with_token_movements
@@ -11,7 +12,7 @@ from src.compute_frontend_events_from_trace import sim_log_ids
 
 app = FastAPI()
 
-@app.post("/start-simulation")
+@app.post("/start")
 async def start_short_term_simulation(
     process_id: str = Form(...),
     start_time: str = Form(...),
@@ -95,9 +96,55 @@ async def start_short_term_simulation(
 
     return {
         "frames": frame,
-        "events": events
+        "events": events,
     }
 
+class ResumeRequest(BaseModel):
+    process_id: str
+    timestamp: str
+
+@app.post("/resumption")
+def resume_short_term_simulation(request: ResumeRequest):
+    process_folder = Path(f"./processes/{request.process_id}/")
+    # Input params of the call
+    resume_timestamp = pd.Timestamp(request.timestamp)
+    # Path to files to store intermediate objects
+    bpmn_model_path = process_folder / "bpmn_model.bpmn"
+    short_term_simulated_log_path = process_folder / "short-term-simulation-processed.csv"
+    complete_reachability_graph_path = process_folder / "complete_reachability_graph.tgf"
+    reachability_graph_with_events_path = process_folder / "reachability_graph_with_events.tgf"
+    n_gram_index_with_events_path = process_folder / "n_gram_index_with_events.map"
+
+    # Compute initial frame
+    frame = compute_bps_resumed_state(
+        bpmn_model_path=bpmn_model_path,
+        resume_timestamp=resume_timestamp,
+        short_term_simulated_log_path=short_term_simulated_log_path,
+        reachability_graph_path=reachability_graph_with_events_path,
+        n_gram_index_path=n_gram_index_with_events_path,
+    )
+
+    with open(process_folder / "resume_frame.json", "w") as frame_file:
+        json.dump(frame, frame_file, indent=4)
+
+    # Compute token events with token movements for front-end
+    events = generate_events_with_token_movements(
+        bpmn_model_path=bpmn_model_path,
+        start_timestamp=resume_timestamp,
+        short_term_simulation_path=short_term_simulated_log_path,
+        reachability_graph_path=complete_reachability_graph_path,
+        frame=frame,
+    )
+
+    for event in events:
+        event['timestamp'] = event['timestamp'].strftime("%Y-%m-%dT%H:%M:%S.%f%z")
+    with open(process_folder / "resume_events.json", "w") as events_file:
+        json.dump(events, events_file, indent=4)
+
+    return {
+        "frames": frame,
+        "events": events,
+    }
 
 def post_process_simulated_log(
         ongoing_log_path: Path,
@@ -145,42 +192,3 @@ def post_process_simulated_log(
     simulated_event_log = pd.concat([simulated_event_log, end_events], ignore_index=True)
     # Write extended event log to file
     simulated_event_log.to_csv(post_processed_log_path, date_format="%Y-%m-%dT%H:%M:%S.%f%z", index=False)
-
-
-def resume_short_term_simulation(base_folder: Path):
-    # Input params of the call
-    resume_timestamp = pd.Timestamp("2025-03-25T11:00:00.000+02:00")
-    # Path to files to store intermediate objects
-    bpmn_model_path = base_folder / "bpmn_model.bpmn"
-    short_term_simulated_log_path = base_folder / "short-term-simulation-processed.csv"
-    complete_reachability_graph_path = base_folder / "complete_reachability_graph.tgf"
-    reachability_graph_with_events_path = base_folder / "reachability_graph_with_events.tgf"
-    n_gram_index_with_events_path = base_folder / "n_gram_index_with_events.map"
-
-    # Compute initial frame
-    frame = compute_bps_resumed_state(
-        bpmn_model_path=bpmn_model_path,
-        resume_timestamp=resume_timestamp,
-        short_term_simulated_log_path=short_term_simulated_log_path,
-        reachability_graph_path=reachability_graph_with_events_path,
-        n_gram_index_path=n_gram_index_with_events_path,
-    )
-    # TODO - [Taleh] I print it to debug now, replace this and set it to front-end
-    print(f"Frame length: {len(frame)}")
-    with open(base_folder / "resume_frame.json", "w") as frame_file:
-        json.dump(frame, frame_file, indent=4)
-
-    # Compute token events with token movements for front-end
-    events = generate_events_with_token_movements(
-        bpmn_model_path=bpmn_model_path,
-        start_timestamp=resume_timestamp,
-        short_term_simulation_path=short_term_simulated_log_path,
-        reachability_graph_path=complete_reachability_graph_path,
-        frame=frame,
-    )
-    # TODO - [Taleh] I print it to debug now, replace this and set it to front-end
-    print(f"Computed events: {len(events)}")
-    for event in events:
-        event['timestamp'] = event['timestamp'].strftime("%Y-%m-%dT%H:%M:%S.%f%z")
-    with open(base_folder / "resume_events.json", "w") as events_file:
-        json.dump(events, events_file, indent=4)
