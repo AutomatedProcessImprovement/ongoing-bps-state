@@ -1,6 +1,88 @@
 {
     "cases": {
-        "347": {
+        "418": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_00xqg8n"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "Gateway_0ovqfsq",
+                    "enabled_time": "2025-03-13 12:30:39.185602+02:00"
+                }
+            ],
+            "enabled_events": []
+        },
+        "470": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0rrwllu"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "Gateway_06djhup",
+                    "enabled_time": "2025-03-13 12:45:08.607374+02:00"
+                }
+            ],
+            "enabled_events": []
+        },
+        "498": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-43A3A3DC-EAE7-42F0-946E-845B3C981850"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-43A3A3DC-EAE7-42F0-946E-845B3C981850",
+                    "label": "Cancel application",
+                    "start_time": "2025-03-13 12:45:23.243384+02:00",
+                    "resource": "Clerk_4",
+                    "enabled_time": "2025-03-13 09:57:23.130203+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "499": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-9726C026-BDE7-4467-B613-EB951D1FE613",
+                    "sid-BA8B9C72-48FE-4FF1-A2F9-DE78C836A612"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-BA8B9C72-48FE-4FF1-A2F9-DE78C836A612",
+                    "label": "Approve and send acceptance pack",
+                    "start_time": "2025-03-13 12:26:53.479932+02:00",
+                    "resource": "Loan Officer_2",
+                    "enabled_time": "2025-03-13 10:08:18.225446+00:00"
+                },
+                {
+                    "id": "sid-9726C026-BDE7-4467-B613-EB951D1FE613",
+                    "label": "Approve and post home insurance quote",
+                    "start_time": "2025-03-13 12:38:42.839936+02:00",
+                    "resource": "Loan Officer_0",
+                    "enabled_time": "2025-03-13 10:33:37.886526+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "502": {
             "control_flow_state": {
                 "flows": [],
                 "activities": [
@@ -11,20 +93,108 @@
                 {
                     "id": "Activity_1y2vzu0",
                     "label": "Approve Loan Offer",
-                    "start_time": "2025-03-07 10:53:27.636238+02:00",
-                    "resource": "Senior Officer_0",
-                    "enabled_time": "2025-03-07 08:53:27.636238+00:00"
+                    "start_time": "2025-03-13 12:30:39.185602+02:00",
+                    "resource": "Senior Officer_1",
+                    "enabled_time": "2025-03-13 09:44:36.788745+00:00"
                 }
             ],
             "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "354": {
+        "504": {
             "control_flow_state": {
                 "flows": [
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "Flow_0i6edvn"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "Activity_1y2vzu0",
+                    "enabled_time": "2025-03-13 12:15:01.661025+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "505": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_00xqg8n"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "Gateway_0ovqfsq",
+                    "enabled_time": "2025-03-13 12:08:26.043676+02:00"
+                }
+            ],
+            "enabled_events": []
+        },
+        "507": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0i6edvn"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "Activity_1y2vzu0",
+                    "enabled_time": "2025-03-13 12:38:29.359797+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "510": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-5A3C5593-7202-4B95-84E7-3C73EF2C0961"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "sid-79AFF435-717A-4C1E-87FA-D002372D2251",
+                    "enabled_time": "2025-03-13 12:31:19.529525+02:00"
+                }
+            ],
+            "enabled_events": []
+        },
+        "511": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "Activity_1w0dur0"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_1w0dur0",
+                    "label": "Applicant completes form",
+                    "start_time": "2025-03-13 11:38:30.507412+02:00",
+                    "resource": "Applicant_12",
+                    "enabled_time": "2025-03-13 09:38:30.507412+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "518": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": [
                     "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88"
@@ -34,21 +204,21 @@
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
                     "label": "Appraise property",
-                    "start_time": "2025-03-07 10:52:05.878434+02:00",
-                    "resource": "Appraiser_1",
-                    "enabled_time": "2025-03-06 08:32:56.781637+00:00"
+                    "start_time": "2025-03-13 12:50:35.860008+02:00",
+                    "resource": "Appraiser_0",
+                    "enabled_time": "2025-03-12 08:39:45.195502+00:00"
                 }
             ],
             "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "371": {
+        "520": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -56,18 +226,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 14:27:17.640529+02:00"
+                    "enabled_time": "2025-03-12 10:50:43.600680+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "386": {
+        "523": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -75,18 +245,57 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-07 10:02:41.800498+02:00"
+                    "enabled_time": "2025-03-12 11:40:10.555439+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "393": {
+        "524": {
             "control_flow_state": {
                 "flows": [
+                    "sid-155C7318-5641-4BD7-9DCC-ECB589B484D9"
+                ],
+                "activities": [
+                    "sid-9726C026-BDE7-4467-B613-EB951D1FE613"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-9726C026-BDE7-4467-B613-EB951D1FE613",
+                    "label": "Approve and post home insurance quote",
+                    "start_time": "2025-03-13 12:33:00.799456+02:00",
+                    "resource": "Loan Officer_6",
+                    "enabled_time": "2025-03-13 10:32:40.450163+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "525": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-BCF61F61-A6CF-4966-A388-3AE2E521BF21"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "enabled_time": "2025-03-13 12:28:01.132061+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "526": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -94,18 +303,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 10:39:31.126184+02:00"
+                    "enabled_time": "2025-03-12 12:32:47.392183+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "396": {
+        "527": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -113,99 +322,114 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 11:39:37.615027+02:00"
+                    "enabled_time": "2025-03-12 12:59:11.766307+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "397": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 11:41:51.609592+02:00"
-                }
-            ],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "401": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 12:52:17.458331+02:00"
-                }
-            ],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "410": {
+        "529": {
             "control_flow_state": {
                 "flows": [],
                 "activities": [
-                    "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2",
+                    "sid-BA8B9C72-48FE-4FF1-A2F9-DE78C836A612",
                     "sid-16B45990-F522-4EA9-A01A-70EE8D0C9EC5"
                 ]
             },
             "ongoing_activities": [
                 {
-                    "id": "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2",
-                    "label": "Prepare acceptance pack",
-                    "start_time": "2025-03-07 10:57:23.315598+02:00",
-                    "resource": "Loan Officer_4",
-                    "enabled_time": "2025-03-07 08:57:23.315598+00:00"
-                },
-                {
                     "id": "sid-16B45990-F522-4EA9-A01A-70EE8D0C9EC5",
                     "label": "Prepare home insurance quote",
-                    "start_time": "2025-03-07 10:57:23.315598+02:00",
-                    "resource": "Clerk_2",
-                    "enabled_time": "2025-03-07 08:57:23.315598+00:00"
+                    "start_time": "2025-03-13 12:32:40.450163+02:00",
+                    "resource": "Clerk_7",
+                    "enabled_time": "2025-03-13 09:45:57.785319+00:00"
+                },
+                {
+                    "id": "sid-BA8B9C72-48FE-4FF1-A2F9-DE78C836A612",
+                    "label": "Approve and send acceptance pack",
+                    "start_time": "2025-03-13 12:38:29.359797+02:00",
+                    "resource": "Loan Officer_1",
+                    "enabled_time": "2025-03-13 10:33:00.799456+00:00"
                 }
             ],
             "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "411": {
+        "530": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-12 13:33:37.818377+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "537": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0i6edvn"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "Activity_1y2vzu0",
+                    "enabled_time": "2025-03-13 12:31:04.408521+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "538": {
             "control_flow_state": {
                 "flows": [],
                 "activities": [
-                    "Activity_1y2vzu0"
+                    "Activity_1w0dur0"
                 ]
             },
             "ongoing_activities": [
                 {
-                    "id": "Activity_1y2vzu0",
-                    "label": "Approve Loan Offer",
-                    "start_time": "2025-03-07 10:58:22.382589+02:00",
-                    "resource": "Senior Officer_1",
-                    "enabled_time": "2025-03-07 08:58:22.382589+00:00"
+                    "id": "Activity_1w0dur0",
+                    "label": "Applicant completes form",
+                    "start_time": "2025-03-12 15:51:14.737708+02:00",
+                    "resource": "Applicant_8",
+                    "enabled_time": "2025-03-12 13:51:14.737708+00:00"
                 }
             ],
             "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "414": {
+        "540": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_00xqg8n"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "Gateway_0ovqfsq",
+                    "enabled_time": "2025-03-13 12:47:36.726637+02:00"
+                }
+            ],
+            "enabled_events": []
+        },
+        "541": {
             "control_flow_state": {
                 "flows": [],
                 "activities": [
@@ -216,117 +440,75 @@
                 {
                     "id": "Activity_0wlatrq",
                     "label": "Consider re-design loan offer",
-                    "start_time": "2025-03-07 10:54:09.288390+02:00",
+                    "start_time": "2025-03-13 12:39:23.623150+02:00",
+                    "resource": "Senior Officer_0",
+                    "enabled_time": "2025-03-13 10:02:35.418961+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "542": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "Activity_0wlatrq"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_0wlatrq",
+                    "label": "Consider re-design loan offer",
+                    "start_time": "2025-03-13 12:47:36.726637+02:00",
                     "resource": "Senior Officer_2",
-                    "enabled_time": "2025-03-07 08:54:09.288390+00:00"
+                    "enabled_time": "2025-03-13 10:07:24.182791+00:00"
                 }
             ],
             "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "416": {
-            "control_flow_state": {
-                "flows": [],
-                "activities": [
-                    "Activity_1w0dur0"
-                ]
-            },
-            "ongoing_activities": [
-                {
-                    "id": "Activity_1w0dur0",
-                    "label": "Applicant completes form",
-                    "start_time": "2025-03-06 16:09:00.023055+02:00",
-                    "resource": "Applicant_9",
-                    "enabled_time": "2025-03-06 14:09:00.023055+00:00"
-                }
-            ],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "418": {
-            "control_flow_state": {
-                "flows": [],
-                "activities": [
-                    "Activity_1w0dur0"
-                ]
-            },
-            "ongoing_activities": [
-                {
-                    "id": "Activity_1w0dur0",
-                    "label": "Applicant completes form",
-                    "start_time": "2025-03-06 16:47:56.125449+02:00",
-                    "resource": "Applicant_11",
-                    "enabled_time": "2025-03-06 14:47:56.125449+00:00"
-                }
-            ],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "419": {
-            "control_flow_state": {
-                "flows": [],
-                "activities": [
-                    "sid-BA8B9C72-48FE-4FF1-A2F9-DE78C836A612",
-                    "sid-9726C026-BDE7-4467-B613-EB951D1FE613"
-                ]
-            },
-            "ongoing_activities": [
-                {
-                    "id": "sid-BA8B9C72-48FE-4FF1-A2F9-DE78C836A612",
-                    "label": "Approve and send acceptance pack",
-                    "start_time": "2025-03-07 10:53:28.840853+02:00",
-                    "resource": "Loan Officer_5",
-                    "enabled_time": "2025-03-07 08:53:28.840853+00:00"
-                },
-                {
-                    "id": "sid-9726C026-BDE7-4467-B613-EB951D1FE613",
-                    "label": "Approve and post home insurance quote",
-                    "start_time": "2025-03-07 10:56:51.075113+02:00",
-                    "resource": "Loan Officer_7",
-                    "enabled_time": "2025-03-07 08:56:51.075113+00:00"
-                }
-            ],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "420": {
-            "control_flow_state": {
-                "flows": [],
-                "activities": [
-                    "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2",
-                    "sid-16B45990-F522-4EA9-A01A-70EE8D0C9EC5"
-                ]
-            },
-            "ongoing_activities": [
-                {
-                    "id": "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2",
-                    "label": "Prepare acceptance pack",
-                    "start_time": "2025-03-07 10:50:14.906533+02:00",
-                    "resource": "Loan Officer_3",
-                    "enabled_time": "2025-03-07 08:50:14.906533+00:00"
-                },
-                {
-                    "id": "sid-16B45990-F522-4EA9-A01A-70EE8D0C9EC5",
-                    "label": "Prepare home insurance quote",
-                    "start_time": "2025-03-07 10:54:21.266022+02:00",
-                    "resource": "Clerk_7",
-                    "enabled_time": "2025-03-07 08:50:14.906533+00:00"
-                }
-            ],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "423": {
+        "543": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0rrwllu"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "Gateway_06djhup",
+                    "enabled_time": "2025-03-13 12:23:30.169980+02:00"
+                }
+            ],
+            "enabled_events": []
+        },
+        "544": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_05m7cd8"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "Gateway_0eqakhv",
+                    "enabled_time": "2025-03-13 12:39:23.623150+02:00"
+                }
+            ],
+            "enabled_events": []
+        },
+        "546": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -334,143 +516,100 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-07 09:56:03.247161+02:00"
+                    "enabled_time": "2025-03-13 09:53:06.017527+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "424": {
+        "547": {
             "control_flow_state": {
-                "flows": [],
+                "flows": [
+                    "sid-F6544060-A4E6-47E2-BC4A-4028127A1EE1"
+                ],
                 "activities": [
-                    "sid-AD68767C-968B-4DCD-821E-3F5C5C3D0D04"
+                    "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2"
                 ]
             },
             "ongoing_activities": [
                 {
-                    "id": "sid-AD68767C-968B-4DCD-821E-3F5C5C3D0D04",
-                    "label": "Design loan offer",
-                    "start_time": "2025-03-07 10:51:43.218621+02:00",
-                    "resource": "Loan Officer_6",
-                    "enabled_time": "2025-03-07 08:51:43.218621+00:00"
-                }
-            ],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "425": {
-            "control_flow_state": {
-                "flows": [],
-                "activities": [
-                    "sid-AD68767C-968B-4DCD-821E-3F5C5C3D0D04"
-                ]
-            },
-            "ongoing_activities": [
-                {
-                    "id": "sid-AD68767C-968B-4DCD-821E-3F5C5C3D0D04",
-                    "label": "Design loan offer",
-                    "start_time": "2025-03-07 10:52:36.677449+02:00",
-                    "resource": "Loan Officer_0",
-                    "enabled_time": "2025-03-07 08:52:36.677449+00:00"
-                }
-            ],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "426": {
-            "control_flow_state": {
-                "flows": [],
-                "activities": [
-                    "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC"
-                ]
-            },
-            "ongoing_activities": [
-                {
-                    "id": "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC",
-                    "label": "Assess loan risk",
-                    "start_time": "2025-03-07 10:53:15.149460+02:00",
+                    "id": "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2",
+                    "label": "Prepare acceptance pack",
+                    "start_time": "2025-03-13 12:31:04.408521+02:00",
                     "resource": "Loan Officer_8",
-                    "enabled_time": "2025-03-07 08:53:15.149460+00:00"
+                    "enabled_time": "2025-03-13 10:17:18.338053+00:00"
+                }
+            ],
+            "enabled_activities": [
+                {
+                    "id": "sid-16B45990-F522-4EA9-A01A-70EE8D0C9EC5",
+                    "enabled_time": "2025-03-13 12:17:18.338053+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "550": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-5CEDFABE-7E6F-450C-B84E-11C9917AB563"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-5CEDFABE-7E6F-450C-B84E-11C9917AB563",
+                    "label": "Reject application",
+                    "start_time": "2025-03-13 12:33:37.886526+02:00",
+                    "resource": "Clerk_6",
+                    "enabled_time": "2025-03-13 09:53:25.223233+00:00"
                 }
             ],
             "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "427": {
+        "551": {
             "control_flow_state": {
-                "flows": [
-                    "Flow_0m3b6vq"
-                ],
+                "flows": [],
                 "activities": [
-                    "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
-                    "Activity_065abi2"
+                    "Activity_1w0dur0"
                 ]
             },
             "ongoing_activities": [
                 {
-                    "id": "Activity_065abi2",
-                    "label": "AML Check",
-                    "start_time": "2025-03-07 10:29:38.524751+02:00",
-                    "resource": "AML Investigator_3",
-                    "enabled_time": "2025-03-07 08:29:38.524751+00:00"
-                },
-                {
-                    "id": "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
-                    "label": "Check credit history",
-                    "start_time": "2025-03-07 10:32:19.082263+02:00",
-                    "resource": "Clerk_0",
-                    "enabled_time": "2025-03-07 08:29:38.524751+00:00"
+                    "id": "Activity_1w0dur0",
+                    "label": "Applicant completes form",
+                    "start_time": "2025-03-13 10:59:02.876277+02:00",
+                    "resource": "Applicant_11",
+                    "enabled_time": "2025-03-13 08:59:02.876277+00:00"
                 }
             ],
-            "enabled_activities": [
-                {
-                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-07 10:29:38.524751+02:00"
-                }
-            ],
+            "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "428": {
+        "552": {
             "control_flow_state": {
-                "flows": [
-                    "Flow_0m3b6vq"
-                ],
+                "flows": [],
                 "activities": [
-                    "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
-                    "Activity_065abi2"
+                    "sid-AD68767C-968B-4DCD-821E-3F5C5C3D0D04"
                 ]
             },
             "ongoing_activities": [
                 {
-                    "id": "Activity_065abi2",
-                    "label": "AML Check",
-                    "start_time": "2025-03-07 10:35:46.634518+02:00",
-                    "resource": "AML Investigator_2",
-                    "enabled_time": "2025-03-07 08:35:46.634518+00:00"
-                },
-                {
-                    "id": "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
-                    "label": "Check credit history",
-                    "start_time": "2025-03-07 10:45:02.420669+02:00",
-                    "resource": "Clerk_6",
-                    "enabled_time": "2025-03-07 08:35:46.634518+00:00"
+                    "id": "sid-AD68767C-968B-4DCD-821E-3F5C5C3D0D04",
+                    "label": "Design loan offer",
+                    "start_time": "2025-03-13 12:31:19.529525+02:00",
+                    "resource": "Loan Officer_7",
+                    "enabled_time": "2025-03-13 10:26:53.479932+00:00"
                 }
             ],
-            "enabled_activities": [
-                {
-                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-07 10:35:46.634518+02:00"
-                }
-            ],
+            "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "429": {
+        "553": {
             "control_flow_state": {
                 "flows": [],
                 "activities": [
@@ -481,40 +620,124 @@
                 {
                     "id": "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC",
                     "label": "Assess loan risk",
-                    "start_time": "2025-03-07 10:52:05.878434+02:00",
-                    "resource": "Loan Officer_1",
-                    "enabled_time": "2025-03-07 08:52:05.878434+00:00"
+                    "start_time": "2025-03-13 12:23:30.169980+02:00",
+                    "resource": "Loan Officer_4",
+                    "enabled_time": "2025-03-13 10:06:21.511447+00:00"
                 }
             ],
             "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "430": {
+        "554": {
             "control_flow_state": {
                 "flows": [],
                 "activities": [
-                    "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130"
+                    "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC"
                 ]
             },
             "ongoing_activities": [
                 {
-                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
-                    "label": "Check application form completeness",
-                    "start_time": "2025-03-07 10:29:38.524751+02:00",
-                    "resource": "Clerk_5",
-                    "enabled_time": "2025-03-07 08:24:33.726693+00:00"
+                    "id": "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC",
+                    "label": "Assess loan risk",
+                    "start_time": "2025-03-13 12:29:19.517023+02:00",
+                    "resource": "Loan Officer_3",
+                    "enabled_time": "2025-03-13 10:15:32.583909+00:00"
                 }
             ],
             "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "431": {
+        "555": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC",
+                    "label": "Assess loan risk",
+                    "start_time": "2025-03-13 12:45:08.607374+02:00",
+                    "resource": "Loan Officer_5",
+                    "enabled_time": "2025-03-13 10:38:58.085559+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "556": {
             "control_flow_state": {
                 "flows": [
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "Flow_0xfev5g",
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-13 12:25:01.274628+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "557": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_1f1wk9v"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC",
+                    "enabled_time": "2025-03-13 12:50:35.860008+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "558": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": [
+                    "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
+                    "label": "Check credit history",
+                    "start_time": "2025-03-13 12:39:28.516210+02:00",
+                    "resource": "Clerk_5",
+                    "enabled_time": "2025-03-13 10:25:50.940766+00:00"
+                }
+            ],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-13 12:25:50.940766+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "559": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": [
                     "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88"
@@ -524,21 +747,21 @@
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
                     "label": "Appraise property",
-                    "start_time": "2025-03-07 10:53:15.149460+02:00",
-                    "resource": "Appraiser_0",
-                    "enabled_time": "2025-03-06 08:35:28.452080+00:00"
+                    "start_time": "2025-03-13 12:38:58.085559+02:00",
+                    "resource": "Appraiser_1",
+                    "enabled_time": "2025-03-12 08:39:14.198105+00:00"
                 }
             ],
             "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "432": {
+        "560": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -546,18 +769,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 11:15:35.455712+02:00"
+                    "enabled_time": "2025-03-12 11:01:40.377138+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "433": {
+        "561": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -565,18 +788,38 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 11:34:50.689548+02:00"
+                    "enabled_time": "2025-03-12 11:10:02.822488+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "434": {
+        "562": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "label": "Check application form completeness",
+                    "start_time": "2025-03-13 12:21:32.573158+02:00",
+                    "resource": "Clerk_3",
+                    "enabled_time": "2025-03-13 09:32:44.057240+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "563": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -584,18 +827,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 11:36:54.232470+02:00"
+                    "enabled_time": "2025-03-12 11:40:50.309721+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "435": {
+        "564": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -603,18 +846,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 12:10:27.545508+02:00"
+                    "enabled_time": "2025-03-12 12:11:39.759191+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "436": {
+        "565": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -622,18 +865,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 12:31:47.247894+02:00"
+                    "enabled_time": "2025-03-12 12:31:27.329011+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "437": {
+        "566": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -641,13 +884,51 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 12:38:36.743723+02:00"
+                    "enabled_time": "2025-03-12 13:09:40.386686+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "438": {
+        "567": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-12 13:11:23.241313+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "568": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-12 13:41:24.954622+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "569": {
             "control_flow_state": {
                 "flows": [],
                 "activities": [
@@ -658,117 +939,21 @@
                 {
                     "id": "Activity_1w0dur0",
                     "label": "Applicant completes form",
-                    "start_time": "2025-03-06 12:48:46.755162+02:00",
-                    "resource": "Applicant_6",
-                    "enabled_time": "2025-03-06 10:48:46.755162+00:00"
-                }
-            ],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "439": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 13:09:16.042904+02:00"
-                }
-            ],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "440": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 13:12:02.185472+02:00"
-                }
-            ],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "441": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 13:19:32.754968+02:00"
-                }
-            ],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "442": {
-            "control_flow_state": {
-                "flows": [
-                    "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 13:42:58.239211+02:00"
-                }
-            ],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "443": {
-            "control_flow_state": {
-                "flows": [],
-                "activities": [
-                    "Activity_1w0dur0"
-                ]
-            },
-            "ongoing_activities": [
-                {
-                    "id": "Activity_1w0dur0",
-                    "label": "Applicant completes form",
-                    "start_time": "2025-03-06 13:53:14.500134+02:00",
+                    "start_time": "2025-03-12 13:46:43.235022+02:00",
                     "resource": "Applicant_7",
-                    "enabled_time": "2025-03-06 11:53:14.500134+00:00"
+                    "enabled_time": "2025-03-12 11:46:43.235022+00:00"
                 }
             ],
             "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "444": {
+        "570": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -776,18 +961,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 14:04:35.880721+02:00"
+                    "enabled_time": "2025-03-12 14:15:17.716361+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "445": {
+        "571": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -795,18 +980,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 14:16:26.905916+02:00"
+                    "enabled_time": "2025-03-12 14:37:42.982279+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "446": {
+        "572": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -814,18 +999,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 14:24:12.785545+02:00"
+                    "enabled_time": "2025-03-12 14:40:21.514985+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "447": {
+        "573": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -833,18 +1018,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 14:45:53.727423+02:00"
+                    "enabled_time": "2025-03-12 14:48:04.183891+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "448": {
+        "574": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -852,18 +1037,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 14:54:00.060029+02:00"
+                    "enabled_time": "2025-03-12 15:02:46.298899+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "449": {
+        "575": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -871,18 +1056,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 15:09:56.654726+02:00"
+                    "enabled_time": "2025-03-12 15:30:01.610403+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "450": {
+        "576": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -890,13 +1075,127 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 15:23:37.853658+02:00"
+                    "enabled_time": "2025-03-12 15:40:30.127578+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "451": {
+        "577": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-12 15:48:22.706368+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "578": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-12 16:00:17.901086+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "579": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-12 16:10:49.590938+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "580": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-12 16:15:44.883248+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "581": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-12 16:35:19.228862+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "582": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-12 16:52:47.808342+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "583": {
             "control_flow_state": {
                 "flows": [],
                 "activities": [
@@ -907,21 +1206,21 @@
                 {
                     "id": "Activity_1w0dur0",
                     "label": "Applicant completes form",
-                    "start_time": "2025-03-06 15:31:33.309833+02:00",
-                    "resource": "Applicant_8",
-                    "enabled_time": "2025-03-06 13:31:33.309833+00:00"
+                    "start_time": "2025-03-12 16:59:08.621194+02:00",
+                    "resource": "Applicant_9",
+                    "enabled_time": "2025-03-12 14:59:08.621194+00:00"
                 }
             ],
             "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "452": {
+        "584": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -929,18 +1228,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 15:49:26.568610+02:00"
+                    "enabled_time": "2025-03-13 09:16:46.418977+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "453": {
+        "585": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -948,18 +1247,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 16:04:05.542337+02:00"
+                    "enabled_time": "2025-03-13 09:32:00.848512+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "454": {
+        "586": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -967,13 +1266,89 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 16:18:07.570945+02:00"
+                    "enabled_time": "2025-03-13 09:44:48.276101+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "455": {
+        "587": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-13 10:05:10.221280+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "588": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-13 10:07:17.052833+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "589": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-13 10:27:27.801175+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "590": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-13 10:42:44.105664+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "591": {
             "control_flow_state": {
                 "flows": [],
                 "activities": [
@@ -984,21 +1359,21 @@
                 {
                     "id": "Activity_1w0dur0",
                     "label": "Applicant completes form",
-                    "start_time": "2025-03-06 16:31:03.586154+02:00",
+                    "start_time": "2025-03-13 10:55:20.285678+02:00",
                     "resource": "Applicant_10",
-                    "enabled_time": "2025-03-06 14:31:03.586154+00:00"
+                    "enabled_time": "2025-03-13 08:55:20.285678+00:00"
                 }
             ],
             "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "456": {
+        "592": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -1006,38 +1381,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-06 16:52:39.411422+02:00"
+                    "enabled_time": "2025-03-13 11:07:20.864616+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "457": {
-            "control_flow_state": {
-                "flows": [],
-                "activities": [
-                    "Activity_1w0dur0"
-                ]
-            },
-            "ongoing_activities": [
-                {
-                    "id": "Activity_1w0dur0",
-                    "label": "Applicant completes form",
-                    "start_time": "2025-03-07 09:03:06.629347+02:00",
-                    "resource": "Applicant_12",
-                    "enabled_time": "2025-03-07 07:03:06.629347+00:00"
-                }
-            ],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "458": {
+        "593": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -1045,18 +1400,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-07 09:15:31.703670+02:00"
+                    "enabled_time": "2025-03-13 11:25:40.027734+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "459": {
+        "594": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -1064,18 +1419,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-07 09:35:07.301923+02:00"
+                    "enabled_time": "2025-03-13 11:26:11.115391+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "460": {
+        "595": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -1083,18 +1438,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-07 09:50:11.654155+02:00"
+                    "enabled_time": "2025-03-13 11:44:35.932116+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "461": {
+        "596": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -1102,18 +1457,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-07 10:08:31.067238+02:00"
+                    "enabled_time": "2025-03-13 11:50:19.342417+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "462": {
+        "597": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -1121,18 +1476,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-07 10:17:22.870540+02:00"
+                    "enabled_time": "2025-03-13 12:13:44.451308+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "463": {
+        "598": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -1140,18 +1495,18 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-07 10:26:52.341790+02:00"
+                    "enabled_time": "2025-03-13 12:21:32.573158+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "464": {
+        "599": {
             "control_flow_state": {
                 "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5"
                 ],
                 "activities": []
             },
@@ -1159,38 +1514,98 @@
             "enabled_activities": [
                 {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-07 10:37:37.901616+02:00"
+                    "enabled_time": "2025-03-13 12:39:28.516210+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "465": {
+        "600": {
             "control_flow_state": {
                 "flows": [
-                    "Flow_0m3b6vq",
-                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
-                    "Flow_0xfev5g"
-                ],
-                "activities": []
-            },
-            "ongoing_activities": [],
-            "enabled_activities": [
-                {
-                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-07 10:48:02.628190+02:00"
-                }
-            ],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "466": {
-            "control_flow_state": {
-                "flows": [
+                    "Flow_0xfev5g",
                     "Flow_0m3b6vq"
                 ],
                 "activities": [
-                    "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
+                    "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
+                    "label": "Check credit history",
+                    "start_time": "2025-03-13 12:25:01.274628+02:00",
+                    "resource": "Clerk_2",
+                    "enabled_time": "2025-03-13 10:12:11.073440+00:00"
+                }
+            ],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-13 12:12:11.073440+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "601": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": [
+                    "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
+                    "label": "Check credit history",
+                    "start_time": "2025-03-13 12:45:07.707857+02:00",
+                    "resource": "Clerk_1",
+                    "enabled_time": "2025-03-13 10:30:34.157874+00:00"
+                }
+            ],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-13 12:30:34.157874+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "602": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "Flow_1c6l3pq",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
+                    "enabled_time": "2025-03-13 12:48:52.599652+02:00"
+                },
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-13 12:48:52.599652+02:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "603": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_1c6l3pq",
+                    "Flow_0m3b6vq"
+                ],
+                "activities": [
                     "Activity_065abi2"
                 ]
             },
@@ -1198,68 +1613,57 @@
                 {
                     "id": "Activity_065abi2",
                     "label": "AML Check",
-                    "start_time": "2025-03-07 10:32:19.082263+02:00",
-                    "resource": "AML Investigator_0",
-                    "enabled_time": "2025-03-07 08:32:19.082263+00:00"
-                },
-                {
-                    "id": "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
-                    "label": "Check credit history",
-                    "start_time": "2025-03-07 10:37:37.901616+02:00",
-                    "resource": "Clerk_8",
-                    "enabled_time": "2025-03-07 08:32:19.082263+00:00"
+                    "start_time": "2025-03-13 12:28:04.634003+02:00",
+                    "resource": "AML Investigator_1",
+                    "enabled_time": "2025-03-13 10:28:04.634003+00:00"
                 }
             ],
             "enabled_activities": [
                 {
+                    "id": "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
+                    "enabled_time": "2025-03-13 12:28:04.634003+02:00"
+                },
+                {
                     "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
-                    "enabled_time": "2025-03-07 10:32:19.082263+02:00"
+                    "enabled_time": "2025-03-13 12:28:04.634003+02:00"
                 }
             ],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "467": {
+        "604": {
             "control_flow_state": {
-                "flows": [],
+                "flows": [
+                    "Flow_1c6l3pq",
+                    "Flow_0m3b6vq"
+                ],
                 "activities": [
-                    "sid-B27E434D-3A46-46FE-94DE-184C179BE525"
+                    "Activity_065abi2"
                 ]
             },
             "ongoing_activities": [
                 {
-                    "id": "sid-B27E434D-3A46-46FE-94DE-184C179BE525",
-                    "label": "Return application back to applicant",
-                    "start_time": "2025-03-07 10:50:18.114616+02:00",
-                    "resource": "Clerk_4",
-                    "enabled_time": "2025-03-07 08:45:02.420669+00:00"
+                    "id": "Activity_065abi2",
+                    "label": "AML Check",
+                    "start_time": "2025-03-13 12:45:23.243384+02:00",
+                    "resource": "AML Investigator_3",
+                    "enabled_time": "2025-03-13 10:45:23.243384+00:00"
                 }
             ],
-            "enabled_activities": [],
-            "enabled_gateways": [],
-            "enabled_events": []
-        },
-        "468": {
-            "control_flow_state": {
-                "flows": [],
-                "activities": [
-                    "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130"
-                ]
-            },
-            "ongoing_activities": [
+            "enabled_activities": [
                 {
-                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
-                    "label": "Check application form completeness",
-                    "start_time": "2025-03-07 10:35:46.634518+02:00",
-                    "resource": "Clerk_1",
-                    "enabled_time": "2025-03-07 08:35:46.634518+00:00"
+                    "id": "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
+                    "enabled_time": "2025-03-13 12:45:23.243384+02:00"
+                },
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-03-13 12:45:23.243384+02:00"
                 }
             ],
-            "enabled_activities": [],
             "enabled_gateways": [],
             "enabled_events": []
         },
-        "469": {
+        "605": {
             "control_flow_state": {
                 "flows": [],
                 "activities": [
@@ -1270,9 +1674,29 @@
                 {
                     "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
                     "label": "Check application form completeness",
-                    "start_time": "2025-03-07 10:48:02.628190+02:00",
-                    "resource": "Clerk_3",
-                    "enabled_time": "2025-03-07 08:48:02.628190+00:00"
+                    "start_time": "2025-03-13 12:28:04.634003+02:00",
+                    "resource": "Clerk_8",
+                    "enabled_time": "2025-03-13 10:28:04.634003+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "606": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "label": "Check application form completeness",
+                    "start_time": "2025-03-13 12:49:08.263705+02:00",
+                    "resource": "Clerk_0",
+                    "enabled_time": "2025-03-13 10:49:08.263705+00:00"
                 }
             ],
             "enabled_activities": [],
