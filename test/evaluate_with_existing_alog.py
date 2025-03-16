@@ -23,70 +23,82 @@ from test.evaluation import (
 
 def main():
     # ----------- CONFIG -----------
-    # EXISTING_ALOG_PATH = "samples/real_life/AcademicCredentials_fixed.csv"
-    # BPMN_MODEL = "samples/real_life/AcademicCredentials.bpmn"
-    # BPMN_PARAMS = "samples/real_life/AcademicCredentials.json"
-
-    # SIMULATION_CUT_DATE = "2016-04-28T10:10:00.000Z"  
-    # EVALUATION_END_DATE = "2016-06-29T23:20:30.000Z"  
-    # SIMULATION_HORIZON  = "2016-07-29T23:20:30.000Z"  
-    # WARMUP_START_DATE   = "2016-04-16T09:04:12.000Z"
-
-    # NUM_RUNS = 10
-    # PROC_TOTAL_CASES = 600
-    # WARMUP_TOTAL_CASES = 600
-
-    # EXISTING_ALOG_PATH = "samples/real_life/AcademicCredentials_fixed.csv"
-    # BPMN_MODEL = "samples/real_life/academic_diff_extr/best_result/AcademicCredentials_train.bpmn"
-    # BPMN_PARAMS = "samples/real_life/academic_diff_extr/best_result/AcademicCredentials_train.json"
-
-    # SIMULATION_CUT_DATE = "2016-04-28T10:10:00.000Z"  
-    # EVALUATION_END_DATE = "2016-06-29T23:20:30.000Z"  
-    # SIMULATION_HORIZON  = "2016-07-29T23:20:30.000Z"  
-    # WARMUP_START_DATE   = "2016-04-16T09:04:12.000Z"
-
-    # NUM_RUNS = 10
-    # PROC_TOTAL_CASES = 600
-    # WARMUP_TOTAL_CASES = 600
-
-    # EXISTING_ALOG_PATH = "samples/real_life/BPIC_2012_new.csv"
-    # BPMN_MODEL = "samples/real_life/BPIC_2012.bpmn"
-    # BPMN_PARAMS = "samples/real_life/BPIC_2012.json"
-
-    # SIMULATION_CUT_DATE = "2012-01-11T10:00:00.000Z"  
-    # EVALUATION_END_DATE = "2012-02-01T10:00:00.000Z"  
-    # SIMULATION_HORIZON  = "2012-03-05T10:00:00.000Z"  
-    # WARMUP_START_DATE   = "2011-12-24T10:00:00.000Z"
-
-    # NUM_RUNS = 10
-    # PROC_TOTAL_CASES = 7500
-    # WARMUP_TOTAL_CASES = 7500
-
-    # EXISTING_ALOG_PATH = "samples/real_life/BPIC_2012_new.csv"
-    # BPMN_MODEL = "samples/real_life/2012_diff_extr/best_result/BPIC_2012_train.bpmn"
-    # BPMN_PARAMS = "samples/real_life/2012_diff_extr/best_result/BPIC_2012_train.json"
-
-    # SIMULATION_CUT_DATE = "2012-01-11T10:00:00.000Z"  
-    # EVALUATION_END_DATE = "2012-02-01T10:00:00.000Z"  
-    # SIMULATION_HORIZON  = "2012-03-05T10:00:00.000Z"  
-    # WARMUP_START_DATE   = "2011-12-24T10:00:00.000Z"
-
-    # NUM_RUNS = 10
-    # PROC_TOTAL_CASES = 7500
-    # WARMUP_TOTAL_CASES = 7500
-
-    EXISTING_ALOG_PATH = "samples/dev-samples/Loan_Application_log.csv"
-    BPMN_MODEL = "samples/dev-samples/Loan_Application.bpmn"
-    BPMN_PARAMS = "samples/dev-samples/Loan_Application.json"
-
-    SIMULATION_CUT_DATE = "2025-02-24T10:00:00.000Z"  
-    EVALUATION_END_DATE = "2025-03-20T18:00:00.000Z"  
-    SIMULATION_HORIZON  = "2025-08-04T10:00:00.000Z"  
-    WARMUP_START_DATE   = "2025-02-17T07:00:00.000Z"
-
     NUM_RUNS = 10
-    PROC_TOTAL_CASES = 2500
-    WARMUP_TOTAL_CASES = 2500
+
+    # # # # # # #
+    # BPIC 2012 #
+    # # # # # # #
+
+    # EXISTING_ALOG_PATH = "samples/bpm-2025/real-life-configuration-and-logs/BPIC_2012_W.csv"
+    # BPMN_MODEL = "samples/bpm-2025/real-life-configuration-and-logs/2012_diff_extr/best_result/BPIC_2012_train.bpmn"
+    # BPMN_PARAMS = "samples/bpm-2025/real-life-configuration-and-logs/2012_diff_extr/best_result/BPIC_2012_train.json"
+    # PROC_TOTAL_CASES = 5000
+    # WARMUP_TOTAL_CASES = 5000
+    # # Split point
+    # SIMULATION_CUT_DATE = pd.to_datetime("2012-01-16T13:00:00.000Z", utc=True)
+    # # Horizon:
+    # horizon = pd.Timedelta(days=23)  # 90% percentile of trace durations
+
+    # # # # # # #
+    # BPIC 2017 #
+    # # # # # # #
+
+    # EXISTING_ALOG_PATH = "samples/bpm-2025/real-life-configuration-and-logs/BPIC_2017_W.csv"
+    # BPMN_MODEL = "samples/bpm-2025/real-life-configuration-and-logs/2017_diff_extr/best_result/BPIC_2017_W_train.bpmn"
+    # BPMN_PARAMS = "samples/bpm-2025/real-life-configuration-and-logs/2017_diff_extr/best_result/BPIC_2017_W_train.json"
+    # PROC_TOTAL_CASES = 10000
+    # WARMUP_TOTAL_CASES = 10000
+    # # Split point
+    # SIMULATION_CUT_DATE = pd.to_datetime("2016-10-10T13:00:00.000Z", utc=True)
+    # # Horizon:
+    # horizon = pd.Timedelta(days=26)  # 90% percentile of trace durations
+
+    # # # # # # # # # # # # #
+    # Academic  credentials #
+    # # # # # # # # # # # # #
+
+    # EXISTING_ALOG_PATH = "samples/bpm-2025/real-life-configuration-and-logs/AcademicCredentials.csv"
+    # BPMN_MODEL = "samples/bpm-2025/real-life-configuration-and-logs/academic_diff_extr/best_result/AcademicCredentials_train.bpmn"
+    # BPMN_PARAMS = "samples/bpm-2025/real-life-configuration-and-logs/academic_diff_extr/best_result/AcademicCredentials_train.json"
+    # PROC_TOTAL_CASES = 5000
+    # WARMUP_TOTAL_CASES = 5000
+    # # Split point
+    # SIMULATION_CUT_DATE = pd.to_datetime("2016-05-02T13:00:00.000Z", utc=True)  # Monday
+    # # Horizon:
+    # horizon = pd.Timedelta(days=46)  # 90% percentile of trace durations
+
+    # # # # # # # #
+    # Work Orders #
+    # # # # # # # #
+
+    EXISTING_ALOG_PATH = "samples/bpm-2025/real-life-configuration-and-logs/work_orders.csv.gz"
+    BPMN_MODEL = "samples/bpm-2025/real-life-configuration-and-logs/workorders_diff_extr/best_result/work_orders_train.bpmn"
+    BPMN_PARAMS = "samples/bpm-2025/real-life-configuration-and-logs/workorders_diff_extr/best_result/work_orders_train.json"
+    PROC_TOTAL_CASES = 20000
+    WARMUP_TOTAL_CASES = 20000
+    # Split point
+    SIMULATION_CUT_DATE = pd.to_datetime("2022-12-19T07:00:00.000Z", utc=True)  # Monday
+    # Horizon:
+    horizon = pd.Timedelta(days=24)  # 90% percentile of trace durations
+
+    # Compute rest of instants
+    WARMUP_START_DATE = SIMULATION_CUT_DATE - horizon
+    EVALUATION_END_DATE = SIMULATION_CUT_DATE + horizon
+    SIMULATION_HORIZON = SIMULATION_CUT_DATE + (2 * horizon)
+
+
+    # EXISTING_ALOG_PATH = "samples/dev-samples/Loan_Application_log.csv"
+    # BPMN_MODEL = "samples/dev-samples/Loan_Application.bpmn"
+    # BPMN_PARAMS = "samples/dev-samples/Loan_Application.json"
+
+    # SIMULATION_CUT_DATE = "2025-02-24T10:00:00.000Z"  
+    # EVALUATION_END_DATE = "2025-03-20T18:00:00.000Z"  
+    # SIMULATION_HORIZON  = "2025-08-04T10:00:00.000Z"  
+    # WARMUP_START_DATE   = "2025-02-17T07:00:00.000Z"
+
+    # NUM_RUNS = 10
+    # PROC_TOTAL_CASES = 2500
+    # WARMUP_TOTAL_CASES = 2500
 
     # EXISTING_ALOG_PATH = "samples/dev-samples/P2P-no-steady-state.csv"
     # BPMN_MODEL = "samples/dev-samples/P2P-no-steady-state.bpmn"
