@@ -495,7 +495,7 @@ def evaluate_warmup_simulation_variable_start(
     )
 
     # Count reference ongoing cases at the cutoff
-    ref_ongoing_count = A_full["case_id"].nunique()
+    ref_ongoing_count = A_ongoing_ref["case_id"].nunique()
 
     # 3) In the simulated log, check if at some time T we have #active = ref_ongoing_count
     #    We'll do this at each case arrival time, i.e. the earliest start_time for each case.
