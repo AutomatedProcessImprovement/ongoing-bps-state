@@ -21,9 +21,9 @@ if __name__ == "__main__":
     }
 
     result_json = evaluation.evaluate_partial_state_simulation(
-        event_log="samples/synthetic_xor_loop_ongoing.csv",
-        bpmn_model="samples/synthetic_xor_loop.bpmn",
-        bpmn_parameters="samples/synthetic_xor_loop.json",
+        event_log="samples/dev-samples/synthetic_xor_loop_ongoing.csv",
+        bpmn_model="samples/dev-samples/synthetic_xor_loop.bpmn",
+        bpmn_parameters="samples/dev-samples/synthetic_xor_loop.json",
         start_time="2012-03-21T10:10:00.000Z",
         simulation_horizon="2012-04-25T23:10:30.000Z",
         column_mapping=colmap_str,

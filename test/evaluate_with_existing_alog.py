@@ -75,9 +75,9 @@ def main():
     # PROC_TOTAL_CASES = 7500
     # WARMUP_TOTAL_CASES = 7500
 
-    EXISTING_ALOG_PATH = "samples/Loan_Application_log.csv"
-    BPMN_MODEL = "samples/Loan_Application.bpmn"
-    BPMN_PARAMS = "samples/Loan_Application.json"
+    EXISTING_ALOG_PATH = "samples/dev-samples/Loan_Application_log.csv"
+    BPMN_MODEL = "samples/dev-samples/Loan_Application.bpmn"
+    BPMN_PARAMS = "samples/dev-samples/Loan_Application.json"
 
     SIMULATION_CUT_DATE = "2025-02-24T10:00:00.000Z"  
     EVALUATION_END_DATE = "2025-03-20T18:00:00.000Z"  
@@ -88,9 +88,9 @@ def main():
     PROC_TOTAL_CASES = 2500
     WARMUP_TOTAL_CASES = 2500
 
-    # EXISTING_ALOG_PATH = "samples/P2P-no-steady-state.csv"
-    # BPMN_MODEL = "samples/P2P-no-steady-state.bpmn"
-    # BPMN_PARAMS = "samples/P2P-no-steady-state.json"
+    # EXISTING_ALOG_PATH = "samples/dev-samples/P2P-no-steady-state.csv"
+    # BPMN_MODEL = "samples/dev-samples/P2P-no-steady-state.bpmn"
+    # BPMN_PARAMS = "samples/dev-samples/P2P-no-steady-state.json"
 
     # SIMULATION_CUT_DATE = "2020-01-14T10:00:00.000Z"  
     # EVALUATION_END_DATE = "2020-02-07T18:00:00.000Z"  
