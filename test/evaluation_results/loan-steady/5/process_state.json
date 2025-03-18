@@ -1,0 +1,946 @@
+{
+    "cases": {
+        "77": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-884188CC-CBC0-49E7-B949-1B6D847EAF32",
+                    "sid-D4E73A93-B368-4705-B371-1734E40C7A51"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-BA8B9C72-48FE-4FF1-A2F9-DE78C836A612",
+                    "enabled_time": "2025-02-21 14:49:04.792239+00:00"
+                },
+                {
+                    "id": "sid-9726C026-BDE7-4467-B613-EB951D1FE613",
+                    "enabled_time": "2025-02-21 14:49:04.792239+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "79": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0xfev5g"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-02-21 14:37:24.440187+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "80": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0xfev5g"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-02-21 14:25:35.446738+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "92": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-BA8B9C72-48FE-4FF1-A2F9-DE78C836A612",
+                    "sid-9726C026-BDE7-4467-B613-EB951D1FE613"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-9726C026-BDE7-4467-B613-EB951D1FE613",
+                    "label": "Approve and post home insurance quote",
+                    "start_time": "2025-02-21 14:37:33.358582+00:00",
+                    "resource": "Loan Officer_7",
+                    "enabled_time": "2025-02-21 14:15:43.968210+00:00"
+                },
+                {
+                    "id": "sid-BA8B9C72-48FE-4FF1-A2F9-DE78C836A612",
+                    "label": "Approve and send acceptance pack",
+                    "start_time": "2025-02-21 14:50:18.896448+00:00",
+                    "resource": "Loan Officer_8",
+                    "enabled_time": "2025-02-21 14:40:25.048525+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "95": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-6679C7E9-FA5B-4594-92D6-43AFB63E88A5"
+                ],
+                "activities": [
+                    "sid-16B45990-F522-4EA9-A01A-70EE8D0C9EC5"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-16B45990-F522-4EA9-A01A-70EE8D0C9EC5",
+                    "label": "Prepare home insurance quote",
+                    "start_time": "2025-02-21 14:46:45.496579+00:00",
+                    "resource": "Clerk_7",
+                    "enabled_time": "2025-02-21 14:40:43.269214+00:00"
+                }
+            ],
+            "enabled_activities": [
+                {
+                    "id": "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2",
+                    "enabled_time": "2025-02-21 14:40:43.269214+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "97": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "Activity_1y2vzu0"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_1y2vzu0",
+                    "label": "Approve Loan Offer",
+                    "start_time": "2025-02-21 14:49:43.232451+00:00",
+                    "resource": "Senior Officer_0",
+                    "enabled_time": "2025-02-21 14:18:00.815341+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "101": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-BCF61F61-A6CF-4966-A388-3AE2E521BF21"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "enabled_time": "2025-02-22 09:59:41.771684+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "106": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC",
+                    "label": "Assess loan risk",
+                    "start_time": "2025-02-21 14:49:39.280709+00:00",
+                    "resource": "Loan Officer_2",
+                    "enabled_time": "2025-02-21 14:38:39.612519+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "119": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-884188CC-CBC0-49E7-B949-1B6D847EAF32"
+                ],
+                "activities": [
+                    "sid-9726C026-BDE7-4467-B613-EB951D1FE613"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-9726C026-BDE7-4467-B613-EB951D1FE613",
+                    "label": "Approve and post home insurance quote",
+                    "start_time": "2025-02-21 14:45:18.478715+00:00",
+                    "resource": "Loan Officer_6",
+                    "enabled_time": "2025-02-21 14:45:06.123262+00:00"
+                }
+            ],
+            "enabled_activities": [
+                {
+                    "id": "sid-BA8B9C72-48FE-4FF1-A2F9-DE78C836A612",
+                    "enabled_time": "2025-02-21 14:45:06.123262+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "120": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_00xqg8n"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "Gateway_0ovqfsq",
+                    "enabled_time": "2025-02-21 14:50:20.766390+00:00"
+                }
+            ],
+            "enabled_events": []
+        },
+        "122": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "Activity_0wlatrq"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_0wlatrq",
+                    "label": "Consider re-design loan offer",
+                    "start_time": "2025-02-21 14:50:20.766390+00:00",
+                    "resource": "Senior Officer_2",
+                    "enabled_time": "2025-02-21 14:42:44.453055+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "123": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "label": "Check application form completeness",
+                    "start_time": "2025-02-21 14:37:24.440187+00:00",
+                    "resource": "Clerk_0",
+                    "enabled_time": "2025-02-21 14:24:43.750632+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "124": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "Activity_1y2vzu0"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_1y2vzu0",
+                    "label": "Approve Loan Offer",
+                    "start_time": "2025-02-21 14:40:43.269214+00:00",
+                    "resource": "Senior Officer_1",
+                    "enabled_time": "2025-02-21 14:07:28.572168+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "125": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-BCF61F61-A6CF-4966-A388-3AE2E521BF21"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "enabled_time": "2025-02-21 14:56:49.766650+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "126": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-AD68767C-968B-4DCD-821E-3F5C5C3D0D04"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-AD68767C-968B-4DCD-821E-3F5C5C3D0D04",
+                    "label": "Design loan offer",
+                    "start_time": "2025-02-21 14:45:06.123262+00:00",
+                    "resource": "Loan Officer_4",
+                    "enabled_time": "2025-02-21 14:19:04.217772+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "128": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0rrwllu"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "Gateway_06djhup",
+                    "enabled_time": "2025-02-21 14:45:18.478715+00:00"
+                }
+            ],
+            "enabled_events": []
+        },
+        "132": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-BCF61F61-A6CF-4966-A388-3AE2E521BF21"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "enabled_time": "2025-02-22 08:27:21.325541+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "133": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-D4E73A93-B368-4705-B371-1734E40C7A51"
+                ],
+                "activities": [
+                    "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2",
+                    "label": "Prepare acceptance pack",
+                    "start_time": "2025-02-21 14:42:44.453055+00:00",
+                    "resource": "Loan Officer_3",
+                    "enabled_time": "2025-02-21 14:18:57.825959+00:00"
+                }
+            ],
+            "enabled_activities": [
+                {
+                    "id": "sid-9726C026-BDE7-4467-B613-EB951D1FE613",
+                    "enabled_time": "2025-02-21 14:54:33.834179+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "135": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-6679C7E9-FA5B-4594-92D6-43AFB63E88A5"
+                ],
+                "activities": [
+                    "sid-16B45990-F522-4EA9-A01A-70EE8D0C9EC5"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-16B45990-F522-4EA9-A01A-70EE8D0C9EC5",
+                    "label": "Prepare home insurance quote",
+                    "start_time": "2025-02-21 14:52:06.936708+00:00",
+                    "resource": "Clerk_5",
+                    "enabled_time": "2025-02-21 14:49:43.232451+00:00"
+                }
+            ],
+            "enabled_activities": [
+                {
+                    "id": "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2",
+                    "enabled_time": "2025-02-21 14:49:43.232451+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "137": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-AD68767C-968B-4DCD-821E-3F5C5C3D0D04"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-AD68767C-968B-4DCD-821E-3F5C5C3D0D04",
+                    "label": "Design loan offer",
+                    "start_time": "2025-02-21 14:40:25.048525+00:00",
+                    "resource": "Loan Officer_1",
+                    "enabled_time": "2025-02-21 14:17:51.082065+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "138": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-AD68767C-968B-4DCD-821E-3F5C5C3D0D04"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-AD68767C-968B-4DCD-821E-3F5C5C3D0D04",
+                    "label": "Design loan offer",
+                    "start_time": "2025-02-21 14:39:52.740321+00:00",
+                    "resource": "Loan Officer_0",
+                    "enabled_time": "2025-02-21 14:17:22.345233+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "139": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-5CEDFABE-7E6F-450C-B84E-11C9917AB563"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-5CEDFABE-7E6F-450C-B84E-11C9917AB563",
+                    "label": "Reject application",
+                    "start_time": "2025-02-21 14:54:15.320870+00:00",
+                    "resource": "Clerk_3",
+                    "enabled_time": "2025-02-21 14:50:18.896448+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "140": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-BCF61F61-A6CF-4966-A388-3AE2E521BF21"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "enabled_time": "2025-02-22 10:26:42.004953+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "141": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-5A3C5593-7202-4B95-84E7-3C73EF2C0961"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "sid-79AFF435-717A-4C1E-87FA-D002372D2251",
+                    "enabled_time": "2025-02-21 14:49:39.280709+00:00"
+                }
+            ],
+            "enabled_events": []
+        },
+        "142": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC",
+                    "label": "Assess loan risk",
+                    "start_time": "2025-02-21 14:49:04.792239+00:00",
+                    "resource": "Loan Officer_5",
+                    "enabled_time": "2025-02-21 14:36:44.149024+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "143": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-BCF61F61-A6CF-4966-A388-3AE2E521BF21"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "enabled_time": "2025-02-22 10:58:52.024539+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "144": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0xfev5g"
+                ],
+                "activities": [
+                    "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "label": "Appraise property",
+                    "start_time": "2025-02-21 14:36:44.149024+00:00",
+                    "resource": "Appraiser_0",
+                    "enabled_time": "2025-02-21 11:16:43.650701+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "145": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0xfev5g"
+                ],
+                "activities": [
+                    "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "label": "Appraise property",
+                    "start_time": "2025-02-21 14:38:39.612519+00:00",
+                    "resource": "Appraiser_1",
+                    "enabled_time": "2025-02-21 11:29:09.347212+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "146": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-BCF61F61-A6CF-4966-A388-3AE2E521BF21"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "enabled_time": "2025-02-22 11:40:21.257831+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "147": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0xfev5g"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-02-21 11:59:28.296298+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "148": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-BCF61F61-A6CF-4966-A388-3AE2E521BF21"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "enabled_time": "2025-02-22 12:04:41.125696+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "149": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-BCF61F61-A6CF-4966-A388-3AE2E521BF21"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "enabled_time": "2025-02-22 12:27:54.440664+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "150": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0xfev5g"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-02-21 12:36:14.930007+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "151": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0xfev5g"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-02-21 12:47:19.625909+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "152": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0xfev5g"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-02-21 13:09:36.762902+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "153": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0xfev5g"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-02-21 13:17:02.654038+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "154": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0xfev5g"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-02-21 13:35:09.933517+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "155": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0xfev5g"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-02-21 13:47:20.899189+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "156": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0xfev5g"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-02-21 14:07:47.334603+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "157": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0xfev5g"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-02-21 14:18:22.504995+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "158": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq",
+                    "sid-3CB73C6E-F3C8-4677-B8D1-8094891038D5",
+                    "Flow_0xfev5g"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-02-21 14:46:45.496579+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "159": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq",
+                    "Flow_0xfev5g"
+                ],
+                "activities": [
+                    "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
+                    "label": "Check credit history",
+                    "start_time": "2025-02-21 14:35:23.160206+00:00",
+                    "resource": "Clerk_6",
+                    "enabled_time": "2025-02-21 14:19:29.980827+00:00"
+                }
+            ],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-02-21 14:49:53.283234+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "160": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0m3b6vq"
+                ],
+                "activities": [
+                    "Activity_065abi2",
+                    "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_065abi2",
+                    "label": "AML Check",
+                    "start_time": "2025-02-21 14:35:23.160206+00:00",
+                    "resource": "AML Investigator_0",
+                    "enabled_time": "2025-02-21 14:35:23.160206+00:00"
+                },
+                {
+                    "id": "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
+                    "label": "Check credit history",
+                    "start_time": "2025-02-21 14:43:06.222690+00:00",
+                    "resource": "Clerk_1",
+                    "enabled_time": "2025-02-21 14:35:23.160206+00:00"
+                }
+            ],
+            "enabled_activities": [
+                {
+                    "id": "sid-9F775FDB-CD87-40D7-8B8D-DFD50176CE88",
+                    "enabled_time": "2025-02-21 14:35:23.160206+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "161": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-B27E434D-3A46-46FE-94DE-184C179BE525"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-B27E434D-3A46-46FE-94DE-184C179BE525",
+                    "label": "Return application back to applicant",
+                    "start_time": "2025-02-21 14:54:33.834179+00:00",
+                    "resource": "Clerk_8",
+                    "enabled_time": "2025-02-21 14:54:15.320870+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "162": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "label": "Check application form completeness",
+                    "start_time": "2025-02-21 14:40:49.301966+00:00",
+                    "resource": "Clerk_4",
+                    "enabled_time": "2025-02-21 14:40:49.301966+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "163": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "label": "Check application form completeness",
+                    "start_time": "2025-02-21 14:50:36.566468+00:00",
+                    "resource": "Clerk_2",
+                    "enabled_time": "2025-02-21 14:50:36.566468+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        }
+    }
+}

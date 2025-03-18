@@ -44,8 +44,8 @@ def main():
     # # # # # # #
 
     # EXISTING_ALOG_PATH = "samples/bpm-2025/real-life-configuration-and-logs/BPIC_2017_W.csv"
-    # BPMN_MODEL = "samples/bpm-2025/real-life-configuration-and-logs/2017_diff_extr/best_result/BPIC_2017_W_train.bpmn"
-    # BPMN_PARAMS = "samples/bpm-2025/real-life-configuration-and-logs/2017_diff_extr/best_result/BPIC_2017_W_train.json"
+    # BPMN_MODEL = "samples/bpm-2025/real-life-configuration-and-logs/2017_diff_extr/best_result/BPIC_2017_train.bpmn"
+    # BPMN_PARAMS = "samples/bpm-2025/real-life-configuration-and-logs/2017_diff_extr/best_result/BPIC_2017_train.json"
     # PROC_TOTAL_CASES = 10000
     # WARMUP_TOTAL_CASES = 10000
     # # Split point
@@ -71,47 +71,76 @@ def main():
     # Work Orders #
     # # # # # # # #
 
-    EXISTING_ALOG_PATH = "samples/bpm-2025/real-life-configuration-and-logs/work_orders.csv.gz"
-    BPMN_MODEL = "samples/bpm-2025/real-life-configuration-and-logs/workorders_diff_extr/best_result/work_orders_train.bpmn"
-    BPMN_PARAMS = "samples/bpm-2025/real-life-configuration-and-logs/workorders_diff_extr/best_result/work_orders_train.json"
-    PROC_TOTAL_CASES = 20000
-    WARMUP_TOTAL_CASES = 20000
-    # Split point
-    SIMULATION_CUT_DATE = pd.to_datetime("2022-12-19T07:00:00.000Z", utc=True)  # Monday
-    # Horizon:
-    horizon = pd.Timedelta(days=24)  # 90% percentile of trace durations
+    # EXISTING_ALOG_PATH = "samples/bpm-2025/real-life-configuration-and-logs/work_orders.csv.gz"
+    # BPMN_MODEL = "samples/bpm-2025/real-life-configuration-and-logs/workorders_diff_extr/best_result/work_orders_train.bpmn"
+    # BPMN_PARAMS = "samples/bpm-2025/real-life-configuration-and-logs/workorders_diff_extr/best_result/work_orders_train.json"
+    # PROC_TOTAL_CASES = 20000
+    # WARMUP_TOTAL_CASES = 20000
+    # # Split point
+    # SIMULATION_CUT_DATE = pd.to_datetime("2022-12-19T07:00:00.000Z", utc=True)  # Monday
+    # # Horizon:
+    # horizon = pd.Timedelta(days=24)  # 90% percentile of trace durations
 
-    # Compute rest of instants
+    # # # # # # # # # # # # # #
+    # Loan Application steady #
+    # # # # # # # # # # # # # #
+
+    # EXISTING_ALOG_PATH = "samples/bpm-2025/synthetic-configuration-and-logs/Loan_steady/Loan_Application_log.csv"
+    # BPMN_MODEL = "samples/bpm-2025/synthetic-configuration-and-logs/Loan_steady/Loan_Application.bpmn"
+    # BPMN_PARAMS = "samples/bpm-2025/synthetic-configuration-and-logs/Loan_steady/Loan_Application.json"
+    # PROC_TOTAL_CASES = 1000
+    # WARMUP_TOTAL_CASES = 1000
+    # # Split point
+    # SIMULATION_CUT_DATE = pd.to_datetime("2025-02-24T07:00:00.000Z", utc=True)
+    # # Horizon:
+    # horizon = pd.Timedelta(days=35)  # 90% percentile of trace durations
+
+    # # # # # # # # # # # # # #
+    # Loan Application wobbly #
+    # # # # # # # # # # # # # #
+
+    # EXISTING_ALOG_PATH = "samples/bpm-2025/synthetic-configuration-and-logs/Loan_wobbly/Loan_Application_log_wobbly.csv"
+    # BPMN_MODEL = "samples/bpm-2025/synthetic-configuration-and-logs/Loan_wobbly/Loan_Application.bpmn"
+    # BPMN_PARAMS = "samples/bpm-2025/synthetic-configuration-and-logs/Loan_wobbly/Loan_Application.json"
+    # PROC_TOTAL_CASES = 3000
+    # WARMUP_TOTAL_CASES = 3000
+    # # Split point
+    # SIMULATION_CUT_DATE = pd.to_datetime("2025-02-21T07:00:00.000Z", utc=True)  # Friday
+    # # Horizon:
+    # horizon = pd.Timedelta(days=60)  # 90% percentile of trace durations
+
+    # # # # # # # #
+    # P2P wobbly  #
+    # # # # # # # #
+
+    # EXISTING_ALOG_PATH = "samples/bpm-2025/synthetic-configuration-and-logs/P2P_wobbly/P2P no-steady-state.csv"
+    # BPMN_MODEL = "samples/bpm-2025/synthetic-configuration-and-logs/P2P_wobbly/P2P no-steady-state.bpmn"
+    # BPMN_PARAMS = "samples/bpm-2025/synthetic-configuration-and-logs/P2P_wobbly/P2P-no-steady-state.json"
+    # PROC_TOTAL_CASES = 3000
+    # WARMUP_TOTAL_CASES = 3000
+    # # Split point
+    # SIMULATION_CUT_DATE = pd.to_datetime("2020-01-14T10:00:00.000Z", utc=True)  
+    # # Horizon:
+    # horizon = pd.Timedelta(days=30)  # 90% percentile of trace durations
+
+    # # # # # # # #
+    # P2P steady  #
+    # # # # # # # #
+
+    EXISTING_ALOG_PATH = "samples/bpm-2025/synthetic-configuration-and-logs/P2P_wobbly/P2P no-steady-state.csv"
+    BPMN_MODEL = "samples/bpm-2025/synthetic-configuration-and-logs/P2P_wobbly/P2P no-steady-state.bpmn"
+    BPMN_PARAMS = "samples/bpm-2025/synthetic-configuration-and-logs/P2P_wobbly/P2P-no-steady-state.json"
+    PROC_TOTAL_CASES = 3500
+    WARMUP_TOTAL_CASES = 3500
+    # Split point
+    SIMULATION_CUT_DATE = pd.to_datetime("2020-02-16T10:00:00.000Z", utc=True)  
+    # Horizon:
+    horizon = pd.Timedelta(days=45)
+
+    # # Compute rest of instants
     WARMUP_START_DATE = SIMULATION_CUT_DATE - horizon
     EVALUATION_END_DATE = SIMULATION_CUT_DATE + horizon
     SIMULATION_HORIZON = SIMULATION_CUT_DATE + (2 * horizon)
-
-
-    # EXISTING_ALOG_PATH = "samples/dev-samples/Loan_Application_log.csv"
-    # BPMN_MODEL = "samples/dev-samples/Loan_Application.bpmn"
-    # BPMN_PARAMS = "samples/dev-samples/Loan_Application.json"
-
-    # SIMULATION_CUT_DATE = "2025-02-24T10:00:00.000Z"  
-    # EVALUATION_END_DATE = "2025-03-20T18:00:00.000Z"  
-    # SIMULATION_HORIZON  = "2025-08-04T10:00:00.000Z"  
-    # WARMUP_START_DATE   = "2025-02-17T07:00:00.000Z"
-
-    # NUM_RUNS = 10
-    # PROC_TOTAL_CASES = 2500
-    # WARMUP_TOTAL_CASES = 2500
-
-    # EXISTING_ALOG_PATH = "samples/dev-samples/P2P-no-steady-state.csv"
-    # BPMN_MODEL = "samples/dev-samples/P2P-no-steady-state.bpmn"
-    # BPMN_PARAMS = "samples/dev-samples/P2P-no-steady-state.json"
-
-    # SIMULATION_CUT_DATE = "2020-01-14T10:00:00.000Z"  
-    # EVALUATION_END_DATE = "2020-02-07T18:00:00.000Z"  
-    # SIMULATION_HORIZON  = "2020-02-21T13:00:00.000Z"  
-    # WARMUP_START_DATE   = "2020-01-07T10:00:00.000Z"
-
-    # NUM_RUNS = 10
-    # PROC_TOTAL_CASES = 2100
-    # WARMUP_TOTAL_CASES = 2100
 
     # Column renaming
     rename_alog_dict_eval = {
@@ -203,6 +232,11 @@ def main():
         )
         proc_run_distances.append(proc_result)
 
+        # Copy process state file to run output directory
+        if os.path.exists("output.json"):
+            import shutil
+            shutil.copy2("output.json", os.path.join(run_subfolder, "process_state.json"))
+
         # Evaluate Warm-Up approach
         warmup_result = evaluate_warmup_simulation(
             run_output_dir=run_subfolder,
@@ -263,14 +297,18 @@ def main():
         "num_runs": NUM_RUNS,
         "process_state": {
             "aggregated_results": proc_agg,
-            "all_runs": proc_run_distances
+            # "all_runs": proc_run_distances
         },
         "warmup": {
             "aggregated_results": warmup_agg,
-            "all_runs": warmup_run_distances
+            # "all_runs": warmup_run_distances
         },
-        "comparison_summary": comparison,
-        "comparison_proc_vs_wu2": comparison_proc_vs_wu2
+        "warmup2": {
+            "aggregated_results": warmup2_agg,
+            # "all_runs": warmup2_run_distances
+        },
+        # "comparison_summary": comparison,
+        # "comparison_proc_vs_wu2": comparison_proc_vs_wu2
     }
 
     results_path = os.path.join(out_dir, "final_results.json")

@@ -1,0 +1,998 @@
+{
+    "cases": {
+        "59": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-09 14:58:34.197000+00:00",
+                    "resource": "Purchasing Agent-000015",
+                    "enabled_time": "2020-01-09 14:57:34.410000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "104": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-13 16:10:02.575000+00:00",
+                    "resource": "Purchasing Agent-000020",
+                    "enabled_time": "2020-01-13 16:09:39.500000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "111": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-10 16:45:24.910000+00:00",
+                    "resource": "Purchasing Agent-000017",
+                    "enabled_time": "2020-01-10 16:45:24.910000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "112": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node28"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node28",
+                    "label": "Approve Purchase Order",
+                    "start_time": "2020-01-13 17:53:14.628000+00:00",
+                    "resource": "Purchasing Manager-000007",
+                    "enabled_time": "2020-01-13 17:53:14.628000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "121": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-13 10:44:44.601000+00:00",
+                    "resource": "Purchasing Agent-000021",
+                    "enabled_time": "2020-01-13 10:38:55.023000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "122": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-13 13:40:55.107000+00:00",
+                    "resource": "Purchasing Agent-000012",
+                    "enabled_time": "2020-01-13 13:40:55.107000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "126": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-13 13:04:14.282000+00:00",
+                    "resource": "Purchasing Agent-000022",
+                    "enabled_time": "2020-01-13 13:04:14.282000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "128": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-13 14:52:18.533000+00:00",
+                    "resource": "Purchasing Agent-000002",
+                    "enabled_time": "2020-01-13 14:50:59.750000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "130": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node9"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node9",
+                    "label": "Confirm Purchase Order",
+                    "start_time": "2020-01-13 17:53:14.628000+00:00",
+                    "resource": "Supplier-000001",
+                    "enabled_time": "2020-01-13 17:15:42.342000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "131": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-13 13:15:14.282000+00:00",
+                    "resource": "Purchasing Agent-000007",
+                    "enabled_time": "2020-01-13 13:15:14.282000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "132": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-13 16:59:28.403000+00:00",
+                    "resource": "Purchasing Agent-000010",
+                    "enabled_time": "2020-01-13 16:54:36.656000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "133": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-13 13:04:30.581000+00:00",
+                    "resource": "Purchasing Agent-000014",
+                    "enabled_time": "2020-01-13 13:04:30.581000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "136": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-13 14:01:53.808000+00:00",
+                    "resource": "Purchasing Agent-000008",
+                    "enabled_time": "2020-01-13 13:58:55.107000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "137": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-13 13:50:55.107000+00:00",
+                    "resource": "Purchasing Agent-000006",
+                    "enabled_time": "2020-01-13 13:50:55.107000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "139": {
+            "control_flow_state": {
+                "flows": [
+                    "edge9"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node9",
+                    "enabled_time": "2020-01-13 17:49:50.645000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "140": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-13 14:37:01.613000+00:00",
+                    "resource": "Purchasing Agent-000001",
+                    "enabled_time": "2020-01-13 14:27:06.946000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "141": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node31"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node31",
+                    "label": "Settle PO dispute with supplier",
+                    "start_time": "2020-01-13 17:15:42.342000+00:00",
+                    "resource": "Purchasing Agent-000019",
+                    "enabled_time": "2020-01-13 17:11:18.087000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "142": {
+            "control_flow_state": {
+                "flows": [
+                    "edge9"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node9",
+                    "enabled_time": "2020-01-13 17:10:44.972000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "143": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node18"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node18",
+                    "label": "Pay invoice",
+                    "start_time": "2020-01-13 17:58:47.329000+00:00",
+                    "resource": "Financial Manager-000003",
+                    "enabled_time": "2020-01-13 17:58:47.329000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "144": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-13 14:42:39.678000+00:00",
+                    "resource": "Purchasing Agent-000018",
+                    "enabled_time": "2020-01-13 14:42:39.678000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "145": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node24"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node24",
+                    "label": "Request Additional Info from Vendor",
+                    "start_time": "2020-01-13 17:50:27.582000+00:00",
+                    "resource": "Requester Manager-000003",
+                    "enabled_time": "2020-01-13 17:46:53.576000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "146": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-13 16:28:57.890000+00:00",
+                    "resource": "Purchasing Agent-000003",
+                    "enabled_time": "2020-01-13 16:23:18.158000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "147": {
+            "control_flow_state": {
+                "flows": [
+                    "edge9"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node9",
+                    "enabled_time": "2020-01-13 17:38:01.636000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "148": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-13 17:19:26.570000+00:00",
+                    "resource": "Purchasing Agent-000013",
+                    "enabled_time": "2020-01-13 17:12:18.882000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "149": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-13 17:38:01.949000+00:00",
+                    "resource": "Purchasing Agent-000009",
+                    "enabled_time": "2020-01-13 17:36:55.982000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "150": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node23"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node23",
+                    "label": "Settle conditions with supplier",
+                    "start_time": "2020-01-13 17:10:44.972000+00:00",
+                    "resource": "Purchasing Agent-000004",
+                    "enabled_time": "2020-01-13 17:10:18.087000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "151": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node3"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node3",
+                    "label": "Analyze Quotation comparison Map",
+                    "start_time": "2020-01-13 17:53:16.566000+00:00",
+                    "resource": "Requester-000001",
+                    "enabled_time": "2020-01-13 17:53:16.566000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "152": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node14"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node14",
+                    "label": "Analyze Request for Quotation",
+                    "start_time": "2020-01-13 17:49:50.645000+00:00",
+                    "resource": "Purchasing Agent-000011",
+                    "enabled_time": "2020-01-13 17:46:31.096000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "153": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node14"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node14",
+                    "label": "Analyze Request for Quotation",
+                    "start_time": "2020-01-13 17:44:02.647000+00:00",
+                    "resource": "Purchasing Agent-000005",
+                    "enabled_time": "2020-01-13 17:35:28.915000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "154": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node3"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node3",
+                    "label": "Analyze Quotation comparison Map",
+                    "start_time": "2020-01-13 17:57:51.988000+00:00",
+                    "resource": "Requester-000003",
+                    "enabled_time": "2020-01-13 17:57:51.988000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "155": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node14"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node14",
+                    "label": "Analyze Request for Quotation",
+                    "start_time": "2020-01-13 17:57:51.988000+00:00",
+                    "resource": "Purchasing Agent-000016",
+                    "enabled_time": "2020-01-13 17:38:17.329000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "156": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 15:51:48.654000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "157": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 15:44:41.444000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "158": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 16:05:43.661000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "159": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 16:03:39.500000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "160": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 16:36:05.067000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "161": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 16:32:52.447000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "162": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 16:55:19.940000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "163": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 16:51:20.787000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "164": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 16:54:38.127000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "165": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 17:06:56.909000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "166": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 17:08:54.396000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "167": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 17:17:06.299000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "168": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 17:05:18.087000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "169": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 17:50:27.582000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "170": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 17:58:46.875000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "171": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 17:52:03.906000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "172": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node6"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node6",
+                    "label": "Analyze Purchase Requisition",
+                    "start_time": "2020-01-13 17:52:03.906000+00:00",
+                    "resource": "Requester Manager-000002",
+                    "enabled_time": "2020-01-13 17:12:47.009000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "173": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 17:33:29.562000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "174": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node8"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node8",
+                    "label": "Create Large Request for Quotation",
+                    "start_time": "2020-01-13 17:58:46.875000+00:00",
+                    "resource": "Requester Manager-000001",
+                    "enabled_time": "2020-01-13 17:53:10.266000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "175": {
+            "control_flow_state": {
+                "flows": [
+                    "edge34"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "node14",
+                    "enabled_time": "2020-01-13 17:49:00.486000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "176": {
+            "control_flow_state": {
+                "flows": [
+                    "edge14"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [],
+            "enabled_gateways": [
+                {
+                    "id": "node5",
+                    "enabled_time": "2020-01-13 17:37:27.585000+00:00"
+                }
+            ],
+            "enabled_events": []
+        },
+        "177": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "node29"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "node29",
+                    "label": "Create Purchase Requisition",
+                    "start_time": "2020-01-13 17:48:00+00:00",
+                    "resource": "Requester-000002",
+                    "enabled_time": "2020-01-13 17:48:00+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        }
+    }
+}

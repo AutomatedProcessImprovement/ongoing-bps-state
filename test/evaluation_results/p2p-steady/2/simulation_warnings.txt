@@ -1,0 +1,102 @@
+Gateway node1 is using conditions, but some are missing. Flows without conditions: edge24, edge25
+Gateway node5 is using conditions, but some are missing. Flows without conditions: edge15, edge28
+Gateway node19 is using conditions, but some are missing. Flows without conditions: edge20, edge21, edge22
+Gateway node32 is using conditions, but some are missing. Flows without conditions: edge17, edge18
+TASK 'Release Purchase Order' (ID: node4) is used more frequently than expected, in 5077 out of 4773 cases (106.37%).
+Flow edge23 from TASK 'Release Purchase Order' (ID: node4) is used more frequently than expected, in 5077 out of 4773 cases (106.37%).
+TASK 'Analyze Request for Quotation' (ID: node14) is used more frequently than expected, in 11742 out of 4773 cases (246.01%).
+Flow edge19 from TASK 'Analyze Request for Quotation' (ID: node14) is used more frequently than expected, in 11742 out of 4773 cases (246.01%).
+TASK 'Amend Request for Quotation' (ID: node15) is used more frequently than expected, in 6373 out of 4773 cases (133.52%).
+Flow edge37 from TASK 'Amend Request for Quotation' (ID: node15) is used more frequently than expected, in 6373 out of 4773 cases (133.52%).
+EXCLUSIVE-GATEWAY 'node1' (ID: node1) is used more frequently than expected, in 5077 out of 4773 cases (106.37%).
+EXCLUSIVE-GATEWAY 'node16' (ID: node16) is used more frequently than expected, in 5077 out of 4773 cases (106.37%).
+Flow edge31 from EXCLUSIVE-GATEWAY 'node16' (ID: node16) is used more frequently than expected, in 5077 out of 4773 cases (106.37%).
+EXCLUSIVE-GATEWAY 'node19' (ID: node19) is used more frequently than expected, in 11743 out of 4773 cases (246.03%).
+Flow edge20 from EXCLUSIVE-GATEWAY 'node19' (ID: node19) is used more frequently than expected, in 6372 out of 4773 cases (133.50%).
+EXCLUSIVE-GATEWAY 'node20' (ID: node20) is used more frequently than expected, in 11739 out of 4773 cases (245.95%).
+Flow edge34 from EXCLUSIVE-GATEWAY 'node20' (ID: node20) is used more frequently than expected, in 11739 out of 4773 cases (245.95%).
+Gateway node1 is using conditions, but some are missing. Flows without conditions: edge24, edge25
+Gateway node5 is using conditions, but some are missing. Flows without conditions: edge15, edge28
+Gateway node19 is using conditions, but some are missing. Flows without conditions: edge20, edge21, edge22
+Gateway node32 is using conditions, but some are missing. Flows without conditions: edge17, edge18
+TASK 'Release Purchase Order' (ID: node4) is used more frequently than expected, in 3724 out of 3500 cases (106.40%).
+Flow edge23 from TASK 'Release Purchase Order' (ID: node4) is used more frequently than expected, in 3724 out of 3500 cases (106.40%).
+TASK 'Analyze Request for Quotation' (ID: node14) is used more frequently than expected, in 8386 out of 3500 cases (239.60%).
+Flow edge19 from TASK 'Analyze Request for Quotation' (ID: node14) is used more frequently than expected, in 8386 out of 3500 cases (239.60%).
+TASK 'Amend Request for Quotation' (ID: node15) is used more frequently than expected, in 4421 out of 3500 cases (126.31%).
+Flow edge37 from TASK 'Amend Request for Quotation' (ID: node15) is used more frequently than expected, in 4421 out of 3500 cases (126.31%).
+EXCLUSIVE-GATEWAY 'node1' (ID: node1) is used more frequently than expected, in 3724 out of 3500 cases (106.40%).
+EXCLUSIVE-GATEWAY 'node16' (ID: node16) is used more frequently than expected, in 3724 out of 3500 cases (106.40%).
+Flow edge31 from EXCLUSIVE-GATEWAY 'node16' (ID: node16) is used more frequently than expected, in 3724 out of 3500 cases (106.40%).
+EXCLUSIVE-GATEWAY 'node19' (ID: node19) is used more frequently than expected, in 8386 out of 3500 cases (239.60%).
+Flow edge20 from EXCLUSIVE-GATEWAY 'node19' (ID: node19) is used more frequently than expected, in 4421 out of 3500 cases (126.31%).
+EXCLUSIVE-GATEWAY 'node20' (ID: node20) is used more frequently than expected, in 8386 out of 3500 cases (239.60%).
+Flow edge34 from EXCLUSIVE-GATEWAY 'node20' (ID: node20) is used more frequently than expected, in 8386 out of 3500 cases (239.60%).
+Gateway node1 is using conditions, but some are missing. Flows without conditions: edge24, edge25
+Gateway node5 is using conditions, but some are missing. Flows without conditions: edge15, edge28
+Gateway node19 is using conditions, but some are missing. Flows without conditions: edge20, edge21, edge22
+Gateway node32 is using conditions, but some are missing. Flows without conditions: edge17, edge18
+TASK 'Release Purchase Order' (ID: node4) is used more frequently than expected, in 3737 out of 3500 cases (106.77%).
+Flow edge23 from TASK 'Release Purchase Order' (ID: node4) is used more frequently than expected, in 3737 out of 3500 cases (106.77%).
+TASK 'Analyze Request for Quotation' (ID: node14) is used more frequently than expected, in 8545 out of 3500 cases (244.14%).
+Flow edge19 from TASK 'Analyze Request for Quotation' (ID: node14) is used more frequently than expected, in 8545 out of 3500 cases (244.14%).
+TASK 'Amend Request for Quotation' (ID: node15) is used more frequently than expected, in 4617 out of 3500 cases (131.91%).
+Flow edge37 from TASK 'Amend Request for Quotation' (ID: node15) is used more frequently than expected, in 4617 out of 3500 cases (131.91%).
+EXCLUSIVE-GATEWAY 'node1' (ID: node1) is used more frequently than expected, in 3737 out of 3500 cases (106.77%).
+EXCLUSIVE-GATEWAY 'node16' (ID: node16) is used more frequently than expected, in 3737 out of 3500 cases (106.77%).
+Flow edge31 from EXCLUSIVE-GATEWAY 'node16' (ID: node16) is used more frequently than expected, in 3737 out of 3500 cases (106.77%).
+EXCLUSIVE-GATEWAY 'node19' (ID: node19) is used more frequently than expected, in 8545 out of 3500 cases (244.14%).
+Flow edge20 from EXCLUSIVE-GATEWAY 'node19' (ID: node19) is used more frequently than expected, in 4617 out of 3500 cases (131.91%).
+EXCLUSIVE-GATEWAY 'node20' (ID: node20) is used more frequently than expected, in 8545 out of 3500 cases (244.14%).
+Flow edge34 from EXCLUSIVE-GATEWAY 'node20' (ID: node20) is used more frequently than expected, in 8545 out of 3500 cases (244.14%).
+Gateway node1 is using conditions, but some are missing. Flows without conditions: edge24, edge25
+Gateway node5 is using conditions, but some are missing. Flows without conditions: edge15, edge28
+Gateway node19 is using conditions, but some are missing. Flows without conditions: edge20, edge21, edge22
+Gateway node32 is using conditions, but some are missing. Flows without conditions: edge17, edge18
+TASK 'Release Purchase Order' (ID: node4) is used more frequently than expected, in 5272 out of 4946 cases (106.59%).
+Flow edge23 from TASK 'Release Purchase Order' (ID: node4) is used more frequently than expected, in 5272 out of 4946 cases (106.59%).
+TASK 'Analyze Request for Quotation' (ID: node14) is used more frequently than expected, in 12131 out of 4946 cases (245.27%).
+Flow edge19 from TASK 'Analyze Request for Quotation' (ID: node14) is used more frequently than expected, in 12131 out of 4946 cases (245.27%).
+TASK 'Amend Request for Quotation' (ID: node15) is used more frequently than expected, in 6576 out of 4946 cases (132.96%).
+Flow edge37 from TASK 'Amend Request for Quotation' (ID: node15) is used more frequently than expected, in 6576 out of 4946 cases (132.96%).
+EXCLUSIVE-GATEWAY 'node1' (ID: node1) is used more frequently than expected, in 5272 out of 4946 cases (106.59%).
+EXCLUSIVE-GATEWAY 'node16' (ID: node16) is used more frequently than expected, in 5272 out of 4946 cases (106.59%).
+Flow edge31 from EXCLUSIVE-GATEWAY 'node16' (ID: node16) is used more frequently than expected, in 5272 out of 4946 cases (106.59%).
+EXCLUSIVE-GATEWAY 'node19' (ID: node19) is used more frequently than expected, in 12132 out of 4946 cases (245.29%).
+Flow edge20 from EXCLUSIVE-GATEWAY 'node19' (ID: node19) is used more frequently than expected, in 6575 out of 4946 cases (132.94%).
+EXCLUSIVE-GATEWAY 'node20' (ID: node20) is used more frequently than expected, in 12128 out of 4946 cases (245.21%).
+Flow edge34 from EXCLUSIVE-GATEWAY 'node20' (ID: node20) is used more frequently than expected, in 12128 out of 4946 cases (245.21%).
+Gateway node1 is using conditions, but some are missing. Flows without conditions: edge24, edge25
+Gateway node5 is using conditions, but some are missing. Flows without conditions: edge15, edge28
+Gateway node19 is using conditions, but some are missing. Flows without conditions: edge20, edge21, edge22
+Gateway node32 is using conditions, but some are missing. Flows without conditions: edge17, edge18
+TASK 'Release Purchase Order' (ID: node4) is used more frequently than expected, in 3711 out of 3500 cases (106.03%).
+Flow edge23 from TASK 'Release Purchase Order' (ID: node4) is used more frequently than expected, in 3711 out of 3500 cases (106.03%).
+TASK 'Analyze Request for Quotation' (ID: node14) is used more frequently than expected, in 8460 out of 3500 cases (241.71%).
+Flow edge19 from TASK 'Analyze Request for Quotation' (ID: node14) is used more frequently than expected, in 8460 out of 3500 cases (241.71%).
+TASK 'Amend Request for Quotation' (ID: node15) is used more frequently than expected, in 4495 out of 3500 cases (128.43%).
+Flow edge37 from TASK 'Amend Request for Quotation' (ID: node15) is used more frequently than expected, in 4495 out of 3500 cases (128.43%).
+EXCLUSIVE-GATEWAY 'node1' (ID: node1) is used more frequently than expected, in 3711 out of 3500 cases (106.03%).
+EXCLUSIVE-GATEWAY 'node16' (ID: node16) is used more frequently than expected, in 3711 out of 3500 cases (106.03%).
+Flow edge31 from EXCLUSIVE-GATEWAY 'node16' (ID: node16) is used more frequently than expected, in 3711 out of 3500 cases (106.03%).
+EXCLUSIVE-GATEWAY 'node19' (ID: node19) is used more frequently than expected, in 8460 out of 3500 cases (241.71%).
+Flow edge20 from EXCLUSIVE-GATEWAY 'node19' (ID: node19) is used more frequently than expected, in 4495 out of 3500 cases (128.43%).
+EXCLUSIVE-GATEWAY 'node20' (ID: node20) is used more frequently than expected, in 8460 out of 3500 cases (241.71%).
+Flow edge34 from EXCLUSIVE-GATEWAY 'node20' (ID: node20) is used more frequently than expected, in 8460 out of 3500 cases (241.71%).
+Gateway node1 is using conditions, but some are missing. Flows without conditions: edge24, edge25
+Gateway node5 is using conditions, but some are missing. Flows without conditions: edge15, edge28
+Gateway node19 is using conditions, but some are missing. Flows without conditions: edge20, edge21, edge22
+Gateway node32 is using conditions, but some are missing. Flows without conditions: edge17, edge18
+TASK 'Release Purchase Order' (ID: node4) is used more frequently than expected, in 3736 out of 3500 cases (106.74%).
+Flow edge23 from TASK 'Release Purchase Order' (ID: node4) is used more frequently than expected, in 3736 out of 3500 cases (106.74%).
+TASK 'Analyze Request for Quotation' (ID: node14) is used more frequently than expected, in 8258 out of 3500 cases (235.94%).
+Flow edge19 from TASK 'Analyze Request for Quotation' (ID: node14) is used more frequently than expected, in 8258 out of 3500 cases (235.94%).
+TASK 'Amend Request for Quotation' (ID: node15) is used more frequently than expected, in 4292 out of 3500 cases (122.63%).
+Flow edge37 from TASK 'Amend Request for Quotation' (ID: node15) is used more frequently than expected, in 4292 out of 3500 cases (122.63%).
+EXCLUSIVE-GATEWAY 'node1' (ID: node1) is used more frequently than expected, in 3736 out of 3500 cases (106.74%).
+EXCLUSIVE-GATEWAY 'node16' (ID: node16) is used more frequently than expected, in 3736 out of 3500 cases (106.74%).
+Flow edge31 from EXCLUSIVE-GATEWAY 'node16' (ID: node16) is used more frequently than expected, in 3736 out of 3500 cases (106.74%).
+EXCLUSIVE-GATEWAY 'node19' (ID: node19) is used more frequently than expected, in 8258 out of 3500 cases (235.94%).
+Flow edge20 from EXCLUSIVE-GATEWAY 'node19' (ID: node19) is used more frequently than expected, in 4292 out of 3500 cases (122.63%).
+EXCLUSIVE-GATEWAY 'node20' (ID: node20) is used more frequently than expected, in 8258 out of 3500 cases (235.94%).
+Flow edge34 from EXCLUSIVE-GATEWAY 'node20' (ID: node20) is used more frequently than expected, in 8258 out of 3500 cases (235.94%).

@@ -1,0 +1,392 @@
+activity,case_id,resource,Activity_1,Resource_1,creator,variant,variant_index,end_time,start_time
+Notificacion estudiante cancelacion soli,84857,22491,Notificacion estudiante cancelacion soli,22491,Fluxicon Disco,Variant 45,45,2016-06-24 18:06:42+00:00,2016-06-24 18:06:42+00:00
+Notificacion estudiante cancelacion soli,85902,18929,Notificacion estudiante cancelacion soli,18929,Fluxicon Disco,Variant 9,9,2016-06-28 20:55:25+00:00,2016-06-28 20:55:25+00:00
+Evaluacion curso,100952,1707,Evaluacion curso,1707,Fluxicon Disco,Variant 3,3,2016-05-02 17:48:36+00:00,2016-05-02 14:53:02+00:00
+Validacion final,100952,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-06-03 14:27:14+00:00,2016-06-03 14:27:05+00:00
+Visto Bueno Cierre Proceso,100952,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-06-03 15:00:01+00:00,2016-06-03 14:36:38+00:00
+Homologacion por grupo de cursos,101101,186,Homologacion por grupo de cursos,186,Fluxicon Disco,Variant 2,2,2016-05-10 02:57:40+00:00,2016-05-10 02:42:02+00:00
+Evaluacion curso,101207,1707,Evaluacion curso,1707,Fluxicon Disco,Variant 12,12,2016-05-02 15:03:31+00:00,2016-05-02 14:48:20+00:00
+Validacion final,101207,49,Validacion final,49,Fluxicon Disco,Variant 12,12,2016-05-04 13:08:41+00:00,2016-05-04 12:57:34+00:00
+Visto Bueno Cierre Proceso,101207,2541,Visto Bueno Cierre Proceso,2541,Fluxicon Disco,Variant 12,12,2016-05-05 17:07:37+00:00,2016-05-05 17:07:06+00:00
+Transferir Creditos,101207,2541,Transferir Creditos,2541,Fluxicon Disco,Variant 12,12,2016-05-05 17:38:37+00:00,2016-05-05 17:38:37+00:00
+Notificacion estudiante cancelacion soli,101251,25141,Notificacion estudiante cancelacion soli,25141,Fluxicon Disco,Variant 1,1,2016-05-10 19:08:41+00:00,2016-05-10 19:08:41+00:00
+Notificacion estudiante cancelacion soli,101301,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 41,41,2016-06-01 15:36:32+00:00,2016-06-01 15:36:32+00:00
+Notificacion estudiante cancelacion soli,101801,9335,Notificacion estudiante cancelacion soli,9335,Fluxicon Disco,Variant 7,7,2016-05-17 21:12:19+00:00,2016-05-17 21:12:19+00:00
+Evaluacion curso,112363,26762,Evaluacion curso,26762,Fluxicon Disco,Variant 3,3,2016-05-17 19:02:26+00:00,2016-05-17 18:53:59+00:00
+Validacion final,112363,18929,Validacion final,18929,Fluxicon Disco,Variant 3,3,2016-05-18 20:37:14+00:00,2016-05-18 20:27:32+00:00
+Visto Bueno Cierre Proceso,112363,957,Visto Bueno Cierre Proceso,957,Fluxicon Disco,Variant 3,3,2016-05-19 23:21:25+00:00,2016-05-19 22:09:34+00:00
+Validacion final,112401,677,Validacion final,677,Fluxicon Disco,Variant 20,20,2016-06-07 19:32:55+00:00,2016-06-07 19:24:21+00:00
+Visto Bueno Cierre Proceso,112401,3445,Visto Bueno Cierre Proceso,3445,Fluxicon Disco,Variant 20,20,2016-06-08 20:34:55+00:00,2016-06-08 20:34:17+00:00
+Transferir Creditos,112401,3445,Transferir Creditos,3445,Fluxicon Disco,Variant 20,20,2016-06-08 21:12:44+00:00,2016-06-08 21:12:44+00:00
+Transferir creditos homologables,112401,3445,Transferir creditos homologables,3445,Fluxicon Disco,Variant 20,20,2016-06-08 21:12:45+00:00,2016-06-08 21:12:45+00:00
+Transferir creditos homologables,112401,3445,Transferir creditos homologables,3445,Fluxicon Disco,Variant 20,20,2016-06-08 21:12:45+00:00,2016-06-08 21:12:45+00:00
+Homologacion por grupo de cursos,112451,18929,Homologacion por grupo de cursos,18929,Fluxicon Disco,Variant 2,2,2016-05-17 19:55:15+00:00,2016-05-17 19:55:15+00:00
+Validar solicitud / pre-homologacion,112501,7320,Validar solicitud / pre-homologacion,7320,Fluxicon Disco,Variant 87,87,2016-06-01 21:09:43+00:00,2016-06-01 20:42:26+00:00
+Avanzar recepcion documentos,112501,26789,Avanzar recepcion documentos,26789,Fluxicon Disco,Variant 87,87,2016-06-08 01:45:55+00:00,2016-06-08 01:44:59+00:00
+Validacion final,112501,7320,Validacion final,7320,Fluxicon Disco,Variant 87,87,2016-06-08 15:27:50+00:00,2016-06-08 14:56:47+00:00
+Visto Bueno Cierre Proceso,112501,6952,Visto Bueno Cierre Proceso,6952,Fluxicon Disco,Variant 87,87,2016-06-14 13:13:07+00:00,2016-06-14 13:07:33+00:00
+Transferir Creditos,112501,6952,Transferir Creditos,6952,Fluxicon Disco,Variant 87,87,2016-06-14 21:35:01+00:00,2016-06-14 21:35:01+00:00
+Transferir creditos homologables,112501,6952,Transferir creditos homologables,6952,Fluxicon Disco,Variant 87,87,2016-06-14 21:35:02+00:00,2016-06-14 21:35:02+00:00
+Validacion final,112501,7320,Validacion final,7320,Fluxicon Disco,Variant 87,87,2016-06-21 17:59:31+00:00,2016-06-21 17:59:31+00:00
+Visto Bueno Cierre Proceso,112501,6952,Visto Bueno Cierre Proceso,6952,Fluxicon Disco,Variant 87,87,2016-06-21 18:00:58+00:00,2016-06-21 18:00:01+00:00
+Validar solicitud / pre-homologacion,112501,7320,Validar solicitud / pre-homologacion,7320,Fluxicon Disco,Variant 87,87,2016-06-21 19:54:17+00:00,2016-06-21 19:54:17+00:00
+Transferir Creditos,112501,6952,Transferir Creditos,6952,Fluxicon Disco,Variant 87,87,2016-06-21 20:57:28+00:00,2016-06-21 20:57:28+00:00
+Transferir creditos homologables,112501,6952,Transferir creditos homologables,6952,Fluxicon Disco,Variant 87,87,2016-06-21 20:57:28+00:00,2016-06-21 20:57:28+00:00
+Transferir creditos homologables,112501,6952,Transferir creditos homologables,6952,Fluxicon Disco,Variant 87,87,2016-06-21 20:57:28+00:00,2016-06-21 20:57:28+00:00
+Validar solicitud,112503,186,Validar solicitud,186,Fluxicon Disco,Variant 2,2,2016-05-06 14:06:25+00:00,2016-05-06 13:58:25+00:00
+Homologacion por grupo de cursos,112503,186,Homologacion por grupo de cursos,186,Fluxicon Disco,Variant 2,2,2016-05-10 02:23:47+00:00,2016-05-10 02:08:09+00:00
+Homologacion por grupo de cursos,112512,18929,Homologacion por grupo de cursos,18929,Fluxicon Disco,Variant 2,2,2016-05-04 18:18:04+00:00,2016-05-04 16:54:54+00:00
+Validacion final,112603,19019,Validacion final,19019,Fluxicon Disco,Variant 3,3,2016-05-03 20:39:14+00:00,2016-05-03 20:33:40+00:00
+Visto Bueno Cierre Proceso,112603,7324,Visto Bueno Cierre Proceso,7324,Fluxicon Disco,Variant 3,3,2016-05-04 18:17:51+00:00,2016-05-04 16:07:59+00:00
+Homologacion por grupo de cursos,112652,186,Homologacion por grupo de cursos,186,Fluxicon Disco,Variant 2,2,2016-05-10 04:01:12+00:00,2016-05-10 03:45:12+00:00
+Homologacion por grupo de cursos,112702,957,Homologacion por grupo de cursos,957,Fluxicon Disco,Variant 2,2,2016-05-17 20:10:35+00:00,2016-05-17 18:40:33+00:00
+Cancelar Solicitud,112706,241,Cancelar Solicitud,241,Fluxicon Disco,Variant 1,1,2016-05-04 16:12:25+00:00,2016-05-04 15:33:59+00:00
+Notificacion estudiante cancelacion soli,112706,241,Notificacion estudiante cancelacion soli,241,Fluxicon Disco,Variant 1,1,2016-05-12 01:39:38+00:00,2016-05-12 01:39:38+00:00
+Validar solicitud / pre-homologacion,112802,22475,Validar solicitud / pre-homologacion,22475,Fluxicon Disco,Variant 4,4,2016-05-24 14:54:06+00:00,2016-05-24 14:46:53+00:00
+Validar solicitud / pre-homologacion,112852,22475,Validar solicitud / pre-homologacion,22475,Fluxicon Disco,Variant 89,89,2016-05-03 13:09:13+00:00,2016-05-03 13:09:13+00:00
+Validacion final,96501,1646,Validacion final,1646,Fluxicon Disco,Variant 63,63,2016-05-18 22:10:54+00:00,2016-05-18 21:56:12+00:00
+Visto Bueno Cierre Proceso,96501,12535,Visto Bueno Cierre Proceso,12535,Fluxicon Disco,Variant 63,63,2016-05-20 21:01:14+00:00,2016-05-20 20:38:26+00:00
+Transferir Creditos,96501,12535,Transferir Creditos,12535,Fluxicon Disco,Variant 63,63,2016-05-25 17:26:44+00:00,2016-05-25 17:26:44+00:00
+Transferir creditos homologables,96501,12535,Transferir creditos homologables,12535,Fluxicon Disco,Variant 63,63,2016-05-25 17:26:44+00:00,2016-05-25 17:26:44+00:00
+Transferir creditos homologables,96501,12535,Transferir creditos homologables,12535,Fluxicon Disco,Variant 63,63,2016-05-25 17:26:44+00:00,2016-05-25 17:26:44+00:00
+Transferir creditos homologables,96501,12535,Transferir creditos homologables,12535,Fluxicon Disco,Variant 63,63,2016-05-25 17:26:44+00:00,2016-05-25 17:26:44+00:00
+Transferir creditos homologables,96501,12535,Transferir creditos homologables,12535,Fluxicon Disco,Variant 63,63,2016-05-25 17:26:44+00:00,2016-05-25 17:26:44+00:00
+Validar solicitud / pre-homologacion,96601,6767,Validar solicitud / pre-homologacion,6767,Fluxicon Disco,Variant 64,64,2016-05-16 19:24:31+00:00,2016-05-16 19:19:56+00:00
+Evaluacion curso,97255,1707,Evaluacion curso,1707,Fluxicon Disco,Variant 3,3,2016-05-02 15:05:14+00:00,2016-05-02 14:50:05+00:00
+Validacion final,97255,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-05-04 12:58:30+00:00,2016-05-04 12:58:30+00:00
+Visto Bueno Cierre Proceso,97255,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-05-04 13:08:26+00:00,2016-05-04 13:00:26+00:00
+Notificacion estudiante cancelacion soli,97457,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 8,8,2016-06-01 14:38:21+00:00,2016-06-01 14:38:21+00:00
+Notificacion estudiante cancelacion soli,97503,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 8,8,2016-06-01 14:46:23+00:00,2016-06-01 14:46:23+00:00
+Validar solicitud / pre-homologacion,104351,1646,Validar solicitud / pre-homologacion,1646,Fluxicon Disco,Variant 72,72,2016-05-03 00:43:26+00:00,2016-05-02 22:45:12+00:00
+Evaluacion curso,104351,26757,Evaluacion curso,26757,Fluxicon Disco,Variant 72,72,2016-05-05 20:46:28+00:00,2016-05-05 20:46:07+00:00
+Validar solicitud / pre-homologacion,104351,1646,Validar solicitud / pre-homologacion,1646,Fluxicon Disco,Variant 72,72,2016-05-05 22:43:38+00:00,2016-05-05 21:07:47+00:00
+Avanzar recepcion documentos,104351,26789,Avanzar recepcion documentos,26789,Fluxicon Disco,Variant 72,72,2016-05-24 22:06:25+00:00,2016-05-24 20:58:21+00:00
+Validacion final,104351,1646,Validacion final,1646,Fluxicon Disco,Variant 72,72,2016-06-08 15:53:36+00:00,2016-06-08 15:02:39+00:00
+Visto Bueno Cierre Proceso,104351,12535,Visto Bueno Cierre Proceso,12535,Fluxicon Disco,Variant 72,72,2016-06-16 19:28:19+00:00,2016-06-16 19:28:19+00:00
+Transferir Creditos,104351,12535,Transferir Creditos,12535,Fluxicon Disco,Variant 72,72,2016-06-16 19:29:44+00:00,2016-06-16 19:29:44+00:00
+Transferir creditos homologables,104351,12535,Transferir creditos homologables,12535,Fluxicon Disco,Variant 72,72,2016-06-16 19:29:45+00:00,2016-06-16 19:29:45+00:00
+Transferir creditos homologables,104351,12535,Transferir creditos homologables,12535,Fluxicon Disco,Variant 72,72,2016-06-16 19:29:45+00:00,2016-06-16 19:29:45+00:00
+Evaluacion curso,108057,7010,Evaluacion curso,7010,Fluxicon Disco,Variant 11,11,2016-05-02 17:50:46+00:00,2016-05-02 14:56:24+00:00
+Validacion final,108057,1707,Validacion final,1707,Fluxicon Disco,Variant 11,11,2016-06-02 23:20:26+00:00,2016-06-02 23:19:08+00:00
+Visto Bueno Cierre Proceso,108057,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 11,11,2016-06-03 15:01:19+00:00,2016-06-03 14:37:57+00:00
+Transferir Creditos,108057,15930,Transferir Creditos,15930,Fluxicon Disco,Variant 11,11,2016-06-09 02:28:00+00:00,2016-06-09 02:28:00+00:00
+Transferir creditos homologables,108057,15930,Transferir creditos homologables,15930,Fluxicon Disco,Variant 11,11,2016-06-09 02:28:00+00:00,2016-06-09 02:28:00+00:00
+Validacion final,108551,677,Validacion final,677,Fluxicon Disco,Variant 3,3,2016-05-17 14:16:37+00:00,2016-05-17 14:14:15+00:00
+Visto Bueno Cierre Proceso,108551,3445,Visto Bueno Cierre Proceso,3445,Fluxicon Disco,Variant 3,3,2016-05-17 16:45:17+00:00,2016-05-17 16:36:46+00:00
+Notificacion estudiante cancelacion soli,108703,294,Notificacion estudiante cancelacion soli,294,Fluxicon Disco,Variant 1,1,2016-05-20 00:26:22+00:00,2016-05-20 00:26:22+00:00
+Transferir Creditos,108901,4560,Transferir Creditos,4560,Fluxicon Disco,Variant 82,82,2016-05-17 22:23:43+00:00,2016-05-17 22:23:43+00:00
+Evaluacion curso,109205,7763,Evaluacion curso,7763,Fluxicon Disco,Variant 3,3,2016-05-02 19:43:49+00:00,2016-05-02 14:56:46+00:00
+Validacion final,109205,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-06-24 03:28:43+00:00,2016-06-24 03:28:43+00:00
+Visto Bueno Cierre Proceso,109205,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-06-24 13:02:02+00:00,2016-06-24 12:51:15+00:00
+Transferir Creditos,107006,1343,Transferir Creditos,1343,Fluxicon Disco,Variant 77,77,2016-05-20 17:07:06+00:00,2016-05-20 17:07:06+00:00
+Transferir Creditos,107153,1343,Transferir Creditos,1343,Fluxicon Disco,Variant 11,11,2016-05-20 17:08:06+00:00,2016-05-20 17:08:06+00:00
+Transferir creditos homologables,107153,1343,Transferir creditos homologables,1343,Fluxicon Disco,Variant 11,11,2016-05-20 17:08:07+00:00,2016-05-20 17:08:07+00:00
+Transferir Creditos,107154,1343,Transferir Creditos,1343,Fluxicon Disco,Variant 12,12,2016-05-20 17:07:51+00:00,2016-05-20 17:07:51+00:00
+Evaluacion curso,91951,26788,Evaluacion curso,26788,Fluxicon Disco,Variant 34,34,2016-05-11 18:09:39+00:00,2016-05-11 18:07:20+00:00
+Validar solicitud / pre-homologacion,91951,186,Validar solicitud / pre-homologacion,186,Fluxicon Disco,Variant 34,34,2016-05-11 22:20:47+00:00,2016-05-11 22:19:07+00:00
+Avanzar recepcion documentos,91951,26789,Avanzar recepcion documentos,26789,Fluxicon Disco,Variant 34,34,2016-05-12 02:44:50+00:00,2016-05-12 00:27:42+00:00
+Validacion final,91951,186,Validacion final,186,Fluxicon Disco,Variant 34,34,2016-06-08 16:11:42+00:00,2016-06-08 15:08:51+00:00
+Visto Bueno Cierre Proceso,91951,26788,Visto Bueno Cierre Proceso,26788,Fluxicon Disco,Variant 34,34,2016-06-20 14:15:04+00:00,2016-06-20 13:35:04+00:00
+Transferir Creditos,91951,26788,Transferir Creditos,26788,Fluxicon Disco,Variant 34,34,2016-06-27 13:32:40+00:00,2016-06-27 13:32:40+00:00
+Transferir creditos homologables,91951,26788,Transferir creditos homologables,26788,Fluxicon Disco,Variant 34,34,2016-06-27 13:32:40+00:00,2016-06-27 13:32:40+00:00
+Validar solicitud / pre-homologacion,92002,186,Validar solicitud / pre-homologacion,186,Fluxicon Disco,Variant 51,51,2016-06-21 11:40:28+00:00,2016-06-21 11:36:28+00:00
+Validacion final,92002,186,Validacion final,186,Fluxicon Disco,Variant 51,51,2016-06-21 18:30:16+00:00,2016-06-21 18:30:16+00:00
+Visto Bueno Cierre Proceso,92002,26788,Visto Bueno Cierre Proceso,26788,Fluxicon Disco,Variant 51,51,2016-06-21 18:58:24+00:00,2016-06-21 18:30:24+00:00
+Transferir Creditos,92002,26788,Transferir Creditos,26788,Fluxicon Disco,Variant 51,51,2016-06-27 13:33:05+00:00,2016-06-27 13:33:05+00:00
+Transferir creditos homologables,92002,26788,Transferir creditos homologables,26788,Fluxicon Disco,Variant 51,51,2016-06-27 13:33:05+00:00,2016-06-27 13:33:05+00:00
+Notificacion estudiante cancelacion soli,92351,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 52,52,2016-06-01 16:34:57+00:00,2016-06-01 16:34:57+00:00
+Notificacion estudiante cancelacion soli,92502,659,Notificacion estudiante cancelacion soli,659,Fluxicon Disco,Variant 40,40,2016-06-01 15:02:39+00:00,2016-06-01 15:02:39+00:00
+Notificacion estudiante cancelacion soli,93051,18929,Notificacion estudiante cancelacion soli,18929,Fluxicon Disco,Variant 19,19,2016-06-01 15:08:31+00:00,2016-06-01 15:08:31+00:00
+Notificacion estudiante cancelacion soli,93301,754,Notificacion estudiante cancelacion soli,754,Fluxicon Disco,Variant 19,19,2016-06-01 14:41:12+00:00,2016-06-01 14:41:12+00:00
+Validacion final,87754,7297,Validacion final,7297,Fluxicon Disco,Variant 3,3,2016-05-27 18:06:30+00:00,2016-05-27 18:06:30+00:00
+Visto Bueno Cierre Proceso,87754,7324,Visto Bueno Cierre Proceso,7324,Fluxicon Disco,Variant 3,3,2016-05-27 18:14:19+00:00,2016-05-27 18:14:19+00:00
+Validacion final,87801,677,Validacion final,677,Fluxicon Disco,Variant 12,12,2016-05-02 22:46:54+00:00,2016-05-02 22:16:19+00:00
+Visto Bueno Cierre Proceso,87801,3445,Visto Bueno Cierre Proceso,3445,Fluxicon Disco,Variant 12,12,2016-05-06 20:59:21+00:00,2016-05-06 20:52:14+00:00
+Transferir Creditos,87801,3445,Transferir Creditos,3445,Fluxicon Disco,Variant 12,12,2016-05-10 18:10:17+00:00,2016-05-10 18:10:17+00:00
+Validacion final,90501,22404,Validacion final,22404,Fluxicon Disco,Variant 20,20,2016-05-23 10:33:12+00:00,2016-05-23 10:22:50+00:00
+Visto Bueno Cierre Proceso,90501,4560,Visto Bueno Cierre Proceso,4560,Fluxicon Disco,Variant 20,20,2016-05-24 16:28:12+00:00,2016-05-24 16:22:35+00:00
+Transferir Creditos,90501,4560,Transferir Creditos,4560,Fluxicon Disco,Variant 20,20,2016-05-25 13:37:14+00:00,2016-05-25 13:37:14+00:00
+Transferir creditos homologables,90501,4560,Transferir creditos homologables,4560,Fluxicon Disco,Variant 20,20,2016-05-25 13:37:15+00:00,2016-05-25 13:37:15+00:00
+Transferir creditos homologables,90501,4560,Transferir creditos homologables,4560,Fluxicon Disco,Variant 20,20,2016-05-25 13:37:15+00:00,2016-05-25 13:37:15+00:00
+Notificacion estudiante cancelacion soli,91353,2292,Notificacion estudiante cancelacion soli,2292,Fluxicon Disco,Variant 49,49,2016-06-01 16:25:43+00:00,2016-06-01 16:25:43+00:00
+Evaluacion curso,91451,26788,Evaluacion curso,26788,Fluxicon Disco,Variant 3,3,2016-05-11 18:16:21+00:00,2016-05-11 18:04:21+00:00
+Validacion final,91451,186,Validacion final,186,Fluxicon Disco,Variant 3,3,2016-05-13 14:39:53+00:00,2016-05-13 13:59:53+00:00
+Visto Bueno Cierre Proceso,91451,26788,Visto Bueno Cierre Proceso,26788,Fluxicon Disco,Variant 3,3,2016-05-20 14:41:26+00:00,2016-05-20 13:42:01+00:00
+Notificacion estudiante cancelacion soli,91551,6767,Notificacion estudiante cancelacion soli,6767,Fluxicon Disco,Variant 1,1,2016-05-02 18:18:02+00:00,2016-05-02 18:18:02+00:00
+Notificacion estudiante cancelacion soli,91751,659,Notificacion estudiante cancelacion soli,659,Fluxicon Disco,Variant 50,50,2016-06-01 14:31:17+00:00,2016-06-01 14:31:17+00:00
+Notificacion estudiante cancelacion soli,91752,3603,Notificacion estudiante cancelacion soli,3603,Fluxicon Disco,Variant 1,1,2016-05-19 14:12:09+00:00,2016-05-19 14:12:09+00:00
+Evaluacion curso,109219,1707,Evaluacion curso,1707,Fluxicon Disco,Variant 3,3,2016-05-02 15:15:29+00:00,2016-05-02 14:52:22+00:00
+Validacion final,109219,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-05-05 13:55:12+00:00,2016-05-05 13:55:12+00:00
+Visto Bueno Cierre Proceso,109219,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-05-05 14:11:49+00:00,2016-05-05 13:55:49+00:00
+Homologacion por grupo de cursos,109256,26756,Homologacion por grupo de cursos,26756,Fluxicon Disco,Variant 2,2,2016-05-02 17:45:55+00:00,2016-05-02 17:21:17+00:00
+Validacion final,109264,1646,Validacion final,1646,Fluxicon Disco,Variant 84,84,2016-05-25 00:15:00+00:00,2016-05-24 21:01:38+00:00
+Visto Bueno Cierre Proceso,109264,12535,Visto Bueno Cierre Proceso,12535,Fluxicon Disco,Variant 84,84,2016-06-29 22:32:44+00:00,2016-06-29 22:24:00+00:00
+Transferir Creditos,109264,12535,Transferir Creditos,12535,Fluxicon Disco,Variant 84,84,2016-06-30 23:08:41+00:00,2016-06-30 23:08:41+00:00
+Transferir creditos homologables,109264,12535,Transferir creditos homologables,12535,Fluxicon Disco,Variant 84,84,2016-06-30 23:08:41+00:00,2016-06-30 23:08:41+00:00
+Transferir creditos homologables,109264,12535,Transferir creditos homologables,12535,Fluxicon Disco,Variant 84,84,2016-06-30 23:08:41+00:00,2016-06-30 23:08:41+00:00
+Transferir creditos homologables,109264,12535,Transferir creditos homologables,12535,Fluxicon Disco,Variant 84,84,2016-06-30 23:08:41+00:00,2016-06-30 23:08:41+00:00
+Notificacion estudiante cancelacion soli,109452,18317,Notificacion estudiante cancelacion soli,18317,Fluxicon Disco,Variant 7,7,2016-06-10 12:23:19+00:00,2016-06-10 12:23:19+00:00
+Validacion final,109555,7080,Validacion final,7080,Fluxicon Disco,Variant 11,11,2016-05-04 17:32:12+00:00,2016-05-04 17:32:09+00:00
+Visto Bueno Cierre Proceso,109555,6889,Visto Bueno Cierre Proceso,6889,Fluxicon Disco,Variant 11,11,2016-05-04 18:29:15+00:00,2016-05-04 17:35:09+00:00
+Transferir Creditos,109555,6889,Transferir Creditos,6889,Fluxicon Disco,Variant 11,11,2016-05-16 15:41:25+00:00,2016-05-16 15:41:25+00:00
+Transferir creditos homologables,109555,6889,Transferir creditos homologables,6889,Fluxicon Disco,Variant 11,11,2016-05-16 15:41:26+00:00,2016-05-16 15:41:26+00:00
+Homologacion por grupo de cursos,109602,18929,Homologacion por grupo de cursos,18929,Fluxicon Disco,Variant 2,2,2016-05-04 19:28:56+00:00,2016-05-04 16:48:51+00:00
+Evaluacion curso,96102,7763,Evaluacion curso,7763,Fluxicon Disco,Variant 62,62,2016-05-02 19:34:53+00:00,2016-05-02 14:49:49+00:00
+Validacion final,96102,1707,Validacion final,1707,Fluxicon Disco,Variant 62,62,2016-06-23 21:56:32+00:00,2016-06-23 21:54:27+00:00
+Visto Bueno Cierre Proceso,96102,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 62,62,2016-06-24 12:29:22+00:00,2016-06-24 12:18:41+00:00
+Transferir Creditos,96102,15930,Transferir Creditos,15930,Fluxicon Disco,Variant 62,62,2016-06-27 16:41:18+00:00,2016-06-27 16:41:18+00:00
+Transferir creditos homologables,96102,15930,Transferir creditos homologables,15930,Fluxicon Disco,Variant 62,62,2016-06-27 16:41:18+00:00,2016-06-27 16:41:18+00:00
+Transferir creditos homologables,96102,15930,Transferir creditos homologables,15930,Fluxicon Disco,Variant 62,62,2016-06-27 16:41:18+00:00,2016-06-27 16:41:18+00:00
+Transferir creditos homologables,96102,15930,Transferir creditos homologables,15930,Fluxicon Disco,Variant 62,62,2016-06-27 16:41:18+00:00,2016-06-27 16:41:18+00:00
+Cancelar Solicitud,114854,241,Cancelar Solicitud,241,Fluxicon Disco,Variant 1,1,2016-05-04 16:06:48+00:00,2016-05-04 15:28:17+00:00
+Notificacion estudiante cancelacion soli,114854,241,Notificacion estudiante cancelacion soli,241,Fluxicon Disco,Variant 1,1,2016-05-12 01:42:35+00:00,2016-05-12 01:42:35+00:00
+Homologacion por grupo de cursos,114901,1007,Homologacion por grupo de cursos,1007,Fluxicon Disco,Variant 24,24,2016-05-03 20:41:24+00:00,2016-05-03 15:57:54+00:00
+Validar solicitud,114901,19019,Validar solicitud,19019,Fluxicon Disco,Variant 24,24,2016-05-03 17:55:44+00:00,2016-05-03 17:55:44+00:00
+Homologacion por grupo de cursos,114952,957,Homologacion por grupo de cursos,957,Fluxicon Disco,Variant 2,2,2016-05-04 20:15:25+00:00,2016-05-04 17:41:03+00:00
+Homologacion por grupo de cursos,115001,957,Homologacion por grupo de cursos,957,Fluxicon Disco,Variant 2,2,2016-05-04 20:16:47+00:00,2016-05-04 17:42:27+00:00
+Homologacion por grupo de cursos,115003,18929,Homologacion por grupo de cursos,18929,Fluxicon Disco,Variant 2,2,2016-05-04 18:53:48+00:00,2016-05-04 17:49:38+00:00
+Homologacion por grupo de cursos,115004,957,Homologacion por grupo de cursos,957,Fluxicon Disco,Variant 2,2,2016-05-04 20:28:06+00:00,2016-05-04 17:51:21+00:00
+Homologacion por grupo de cursos,115005,957,Homologacion por grupo de cursos,957,Fluxicon Disco,Variant 2,2,2016-05-04 19:17:03+00:00,2016-05-04 17:52:56+00:00
+Notificacion estudiante cancelacion soli,115006,18929,Notificacion estudiante cancelacion soli,18929,Fluxicon Disco,Variant 1,1,2016-05-17 18:47:07+00:00,2016-05-17 18:47:07+00:00
+Notificacion estudiante cancelacion soli,115061,1707,Notificacion estudiante cancelacion soli,1707,Fluxicon Disco,Variant 1,1,2016-05-02 15:06:22+00:00,2016-05-02 15:06:22+00:00
+Cancelar Solicitud,115202,22404,Cancelar Solicitud,22404,Fluxicon Disco,Variant 1,1,2016-05-06 21:53:03+00:00,2016-05-06 21:38:42+00:00
+Notificacion estudiante cancelacion soli,115202,22404,Notificacion estudiante cancelacion soli,22404,Fluxicon Disco,Variant 1,1,2016-05-11 18:35:37+00:00,2016-05-11 18:35:37+00:00
+Notificacion estudiante cancelacion soli,115252,6572,Notificacion estudiante cancelacion soli,6572,Fluxicon Disco,Variant 9,9,2016-05-02 16:33:04+00:00,2016-05-02 16:33:04+00:00
+Notificacion estudiante cancelacion soli,115253,6572,Notificacion estudiante cancelacion soli,6572,Fluxicon Disco,Variant 7,7,2016-05-02 16:33:20+00:00,2016-05-02 16:33:20+00:00
+Notificacion estudiante cancelacion soli,115306,9184,Notificacion estudiante cancelacion soli,9184,Fluxicon Disco,Variant 1,1,2016-06-03 18:00:34+00:00,2016-06-03 18:00:34+00:00
+Homologacion por grupo de cursos,115307,22404,Homologacion por grupo de cursos,22404,Fluxicon Disco,Variant 2,2,2016-05-06 17:04:54+00:00,2016-05-06 16:22:10+00:00
+Homologacion por grupo de cursos,115308,26758,Homologacion por grupo de cursos,26758,Fluxicon Disco,Variant 2,2,2016-05-12 15:47:36+00:00,2016-05-12 13:03:30+00:00
+Homologacion por grupo de cursos,115558,1007,Homologacion por grupo de cursos,1007,Fluxicon Disco,Variant 2,2,2016-05-03 22:09:45+00:00,2016-05-03 17:27:45+00:00
+Radicar Solicitud Homologacion,115701,2981,Radicar Solicitud Homologacion,2981,Fluxicon Disco,Variant 92,92,2016-05-02 23:08:09+00:00,2016-05-02 22:24:18+00:00
+Validar solicitud,115701,677,Validar solicitud,677,Fluxicon Disco,Variant 92,92,2016-05-11 16:23:41+00:00,2016-05-11 16:15:27+00:00
+Homologacion por grupo de cursos,115701,3445,Homologacion por grupo de cursos,3445,Fluxicon Disco,Variant 92,92,2016-05-12 16:47:02+00:00,2016-05-12 16:29:59+00:00
+Notificacion estudiante cancelacion soli,115851,1707,Notificacion estudiante cancelacion soli,1707,Fluxicon Disco,Variant 1,1,2016-05-02 15:10:19+00:00,2016-05-02 15:10:19+00:00
+Homologacion por grupo de cursos,115951,3445,Homologacion por grupo de cursos,3445,Fluxicon Disco,Variant 2,2,2016-05-13 22:46:15+00:00,2016-05-13 20:37:40+00:00
+Validar solicitud / pre-homologacion,105652,19019,Validar solicitud / pre-homologacion,19019,Fluxicon Disco,Variant 4,4,2016-05-03 20:36:39+00:00,2016-05-03 20:31:09+00:00
+Evaluacion curso,105755,6958,Evaluacion curso,6958,Fluxicon Disco,Variant 75,75,2016-05-02 14:57:21+00:00,2016-05-02 14:55:46+00:00
+Validar solicitud / pre-homologacion,105755,1707,Validar solicitud / pre-homologacion,1707,Fluxicon Disco,Variant 75,75,2016-05-02 16:37:54+00:00,2016-05-02 16:31:45+00:00
+Avanzar recepcion documentos,105755,26789,Avanzar recepcion documentos,26789,Fluxicon Disco,Variant 75,75,2016-05-03 16:43:20+00:00,2016-05-03 14:40:49+00:00
+Validacion final,105755,1707,Validacion final,1707,Fluxicon Disco,Variant 75,75,2016-05-25 17:17:38+00:00,2016-05-25 17:12:09+00:00
+Visto Bueno Cierre Proceso,105755,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 75,75,2016-05-26 14:49:38+00:00,2016-05-26 14:42:07+00:00
+Transferir Creditos,105755,15930,Transferir Creditos,15930,Fluxicon Disco,Variant 75,75,2016-05-27 14:13:26+00:00,2016-05-27 14:13:26+00:00
+Transferir creditos homologables,105755,15930,Transferir creditos homologables,15930,Fluxicon Disco,Variant 75,75,2016-05-27 14:13:26+00:00,2016-05-27 14:13:26+00:00
+Transferir creditos homologables,105755,15930,Transferir creditos homologables,15930,Fluxicon Disco,Variant 75,75,2016-05-27 14:13:26+00:00,2016-05-27 14:13:26+00:00
+Validar solicitud / pre-homologacion,105806,19019,Validar solicitud / pre-homologacion,19019,Fluxicon Disco,Variant 4,4,2016-06-21 22:45:42+00:00,2016-06-21 22:40:06+00:00
+Evaluacion curso,106201,7763,Evaluacion curso,7763,Fluxicon Disco,Variant 3,3,2016-05-02 19:43:05+00:00,2016-05-02 14:56:02+00:00
+Validacion final,106201,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-06-24 03:19:57+00:00,2016-06-24 03:19:57+00:00
+Visto Bueno Cierre Proceso,106201,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-06-24 12:41:39+00:00,2016-06-24 12:30:53+00:00
+Validacion final,106202,294,Validacion final,294,Fluxicon Disco,Variant 28,28,2016-05-05 16:02:14+00:00,2016-05-05 16:02:11+00:00
+Visto Bueno Cierre Proceso,106202,7311,Visto Bueno Cierre Proceso,7311,Fluxicon Disco,Variant 28,28,2016-05-05 16:15:28+00:00,2016-05-05 16:05:34+00:00
+Transferir Creditos,106202,7311,Transferir Creditos,7311,Fluxicon Disco,Variant 28,28,2016-05-06 19:08:23+00:00,2016-05-06 19:08:23+00:00
+Transferir creditos homologables,106202,7311,Transferir creditos homologables,7311,Fluxicon Disco,Variant 28,28,2016-05-06 19:08:24+00:00,2016-05-06 19:08:24+00:00
+Transferir creditos homologables,106202,7311,Transferir creditos homologables,7311,Fluxicon Disco,Variant 28,28,2016-05-06 19:08:24+00:00,2016-05-06 19:08:24+00:00
+Transferir creditos homologables,106202,7311,Transferir creditos homologables,7311,Fluxicon Disco,Variant 28,28,2016-05-06 19:08:24+00:00,2016-05-06 19:08:24+00:00
+Validacion final,106203,294,Validacion final,294,Fluxicon Disco,Variant 3,3,2016-05-05 15:55:07+00:00,2016-05-05 15:54:55+00:00
+Visto Bueno Cierre Proceso,106203,7311,Visto Bueno Cierre Proceso,7311,Fluxicon Disco,Variant 3,3,2016-05-05 16:17:04+00:00,2016-05-05 16:07:12+00:00
+Validar solicitud / pre-homologacion,106451,19019,Validar solicitud / pre-homologacion,19019,Fluxicon Disco,Variant 4,4,2016-06-21 22:46:38+00:00,2016-06-21 22:41:03+00:00
+Evaluacion curso,106551,15930,Evaluacion curso,15930,Fluxicon Disco,Variant 3,3,2016-05-02 15:19:17+00:00,2016-05-02 14:56:14+00:00
+Validacion final,106551,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-05-05 02:57:49+00:00,2016-05-05 02:57:49+00:00
+Visto Bueno Cierre Proceso,106551,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-05-05 14:12:29+00:00,2016-05-05 13:56:29+00:00
+Visto Bueno Cierre Proceso,106851,1343,Visto Bueno Cierre Proceso,1343,Fluxicon Disco,Variant 30,30,2016-05-02 22:01:34+00:00,2016-05-02 20:18:46+00:00
+Validacion final,106851,22475,Validacion final,22475,Fluxicon Disco,Variant 30,30,2016-05-02 22:17:14+00:00,2016-05-02 22:17:14+00:00
+Transferir Creditos,106851,1343,Transferir Creditos,1343,Fluxicon Disco,Variant 30,30,2016-05-20 17:07:28+00:00,2016-05-20 17:07:28+00:00
+Transferir creditos homologables,106851,1343,Transferir creditos homologables,1343,Fluxicon Disco,Variant 30,30,2016-05-20 17:07:28+00:00,2016-05-20 17:07:28+00:00
+Notificacion estudiante cancelacion soli,93654,22491,Notificacion estudiante cancelacion soli,22491,Fluxicon Disco,Variant 8,8,2016-05-23 17:43:43+00:00,2016-05-23 17:43:43+00:00
+Validacion final,93851,19019,Validacion final,19019,Fluxicon Disco,Variant 31,31,2016-06-23 18:15:34+00:00,2016-06-23 18:06:33+00:00
+Visto Bueno Cierre Proceso,93851,1007,Visto Bueno Cierre Proceso,1007,Fluxicon Disco,Variant 31,31,2016-06-24 21:01:46+00:00,2016-06-24 21:01:22+00:00
+Transferir Creditos,93851,1007,Transferir Creditos,1007,Fluxicon Disco,Variant 31,31,2016-06-24 21:25:53+00:00,2016-06-24 21:25:53+00:00
+Transferir creditos homologables,93851,1007,Transferir creditos homologables,1007,Fluxicon Disco,Variant 31,31,2016-06-24 21:25:53+00:00,2016-06-24 21:25:53+00:00
+Notificacion estudiante cancelacion soli,94301,659,Notificacion estudiante cancelacion soli,659,Fluxicon Disco,Variant 19,19,2016-06-01 14:57:41+00:00,2016-06-01 14:57:41+00:00
+Notificacion estudiante cancelacion soli,94302,1646,Notificacion estudiante cancelacion soli,1646,Fluxicon Disco,Variant 55,55,2016-06-29 22:19:35+00:00,2016-06-29 22:19:35+00:00
+Validacion final,94902,19019,Validacion final,19019,Fluxicon Disco,Variant 58,58,2016-06-15 19:52:35+00:00,2016-06-15 19:12:05+00:00
+Visto Bueno Cierre Proceso,94902,1007,Visto Bueno Cierre Proceso,1007,Fluxicon Disco,Variant 58,58,2016-06-22 20:47:53+00:00,2016-06-22 20:30:57+00:00
+Transferir Creditos,94902,1007,Transferir Creditos,1007,Fluxicon Disco,Variant 58,58,2016-06-24 21:27:04+00:00,2016-06-24 21:27:04+00:00
+Transferir creditos homologables,94902,1007,Transferir creditos homologables,1007,Fluxicon Disco,Variant 58,58,2016-06-24 21:27:04+00:00,2016-06-24 21:27:04+00:00
+Evaluacion curso,94952,15930,Evaluacion curso,15930,Fluxicon Disco,Variant 3,3,2016-05-02 15:04:44+00:00,2016-05-02 14:49:34+00:00
+Validacion final,94952,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-05-04 12:47:35+00:00,2016-05-04 12:47:35+00:00
+Visto Bueno Cierre Proceso,94952,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-05-04 13:09:04+00:00,2016-05-04 13:01:04+00:00
+Validar solicitud / pre-homologacion,107653,22475,Validar solicitud / pre-homologacion,22475,Fluxicon Disco,Variant 79,79,2016-05-05 19:33:42+00:00,2016-05-05 19:33:42+00:00
+Validacion final,107805,659,Validacion final,659,Fluxicon Disco,Variant 26,26,2016-05-02 22:11:06+00:00,2016-05-02 22:08:13+00:00
+Visto Bueno Cierre Proceso,107805,1422,Visto Bueno Cierre Proceso,1422,Fluxicon Disco,Variant 26,26,2016-05-03 18:13:55+00:00,2016-05-03 15:02:01+00:00
+Validacion final,108052,677,Validacion final,677,Fluxicon Disco,Variant 3,3,2016-06-08 19:50:08+00:00,2016-06-08 19:48:12+00:00
+Visto Bueno Cierre Proceso,108052,3445,Visto Bueno Cierre Proceso,3445,Fluxicon Disco,Variant 3,3,2016-06-08 22:06:42+00:00,2016-06-08 21:56:39+00:00
+Validacion final,98953,677,Validacion final,677,Fluxicon Disco,Variant 3,3,2016-05-06 21:09:18+00:00,2016-05-06 21:06:25+00:00
+Visto Bueno Cierre Proceso,98953,3445,Visto Bueno Cierre Proceso,3445,Fluxicon Disco,Variant 3,3,2016-05-10 13:42:50+00:00,2016-05-10 13:41:03+00:00
+Validacion final,98954,677,Validacion final,677,Fluxicon Disco,Variant 3,3,2016-05-17 14:01:04+00:00,2016-05-17 13:58:29+00:00
+Visto Bueno Cierre Proceso,98954,3445,Visto Bueno Cierre Proceso,3445,Fluxicon Disco,Variant 3,3,2016-05-17 16:44:21+00:00,2016-05-17 16:35:49+00:00
+Evaluacion curso,99052,7763,Evaluacion curso,7763,Fluxicon Disco,Variant 3,3,2016-05-02 19:39:01+00:00,2016-05-02 14:51:53+00:00
+Validacion final,99052,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-06-24 03:11:36+00:00,2016-06-24 03:11:36+00:00
+Visto Bueno Cierre Proceso,99052,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-06-24 13:06:07+00:00,2016-06-24 12:55:26+00:00
+Notificacion estudiante cancelacion soli,99103,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 8,8,2016-06-01 15:41:01+00:00,2016-06-01 15:41:01+00:00
+Evaluacion curso,99251,15930,Evaluacion curso,15930,Fluxicon Disco,Variant 3,3,2016-05-02 15:15:14+00:00,2016-05-02 14:52:07+00:00
+Validacion final,99251,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-05-05 02:36:42+00:00,2016-05-05 02:36:42+00:00
+Visto Bueno Cierre Proceso,99251,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-05-05 14:15:13+00:00,2016-05-05 13:59:13+00:00
+Notificacion estudiante cancelacion soli,99352,9187,Notificacion estudiante cancelacion soli,9187,Fluxicon Disco,Variant 8,8,2016-05-02 18:02:14+00:00,2016-05-02 18:02:14+00:00
+Notificacion estudiante cancelacion soli,99353,9187,Notificacion estudiante cancelacion soli,9187,Fluxicon Disco,Variant 8,8,2016-05-02 18:01:46+00:00,2016-05-02 18:01:46+00:00
+Notificacion estudiante cancelacion soli,99354,9187,Notificacion estudiante cancelacion soli,9187,Fluxicon Disco,Variant 7,7,2016-05-02 18:02:38+00:00,2016-05-02 18:02:38+00:00
+Validar solicitud / pre-homologacion,99801,677,Validar solicitud / pre-homologacion,677,Fluxicon Disco,Variant 68,68,2016-06-08 19:54:12+00:00,2016-06-08 19:50:01+00:00
+Validacion final,99801,677,Validacion final,677,Fluxicon Disco,Variant 68,68,2016-06-09 14:11:38+00:00,2016-06-09 14:11:38+00:00
+Visto Bueno Cierre Proceso,99801,3445,Visto Bueno Cierre Proceso,3445,Fluxicon Disco,Variant 68,68,2016-06-09 14:12:58+00:00,2016-06-09 14:12:31+00:00
+Transferir Creditos,99801,3445,Transferir Creditos,3445,Fluxicon Disco,Variant 68,68,2016-06-09 14:39:58+00:00,2016-06-09 14:39:58+00:00
+Transferir creditos homologables,99801,3445,Transferir creditos homologables,3445,Fluxicon Disco,Variant 68,68,2016-06-09 14:39:59+00:00,2016-06-09 14:39:59+00:00
+Transferir creditos homologables,99801,3445,Transferir creditos homologables,3445,Fluxicon Disco,Variant 68,68,2016-06-09 14:39:59+00:00,2016-06-09 14:39:59+00:00
+Transferir creditos homologables,99801,3445,Transferir creditos homologables,3445,Fluxicon Disco,Variant 68,68,2016-06-09 14:39:59+00:00,2016-06-09 14:39:59+00:00
+Transferir creditos homologables,99801,3445,Transferir creditos homologables,3445,Fluxicon Disco,Variant 68,68,2016-06-09 14:39:59+00:00,2016-06-09 14:39:59+00:00
+Transferir creditos homologables,99801,3445,Transferir creditos homologables,3445,Fluxicon Disco,Variant 68,68,2016-06-09 14:39:59+00:00,2016-06-09 14:39:59+00:00
+Transferir creditos homologables,99801,3445,Transferir creditos homologables,3445,Fluxicon Disco,Variant 68,68,2016-06-09 14:39:59+00:00,2016-06-09 14:39:59+00:00
+Notificacion estudiante cancelacion soli,116051,11961,Notificacion estudiante cancelacion soli,11961,Fluxicon Disco,Variant 1,1,2016-05-20 17:30:26+00:00,2016-05-20 17:30:26+00:00
+Validar solicitud,116201,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-05-05 16:15:08+00:00,2016-05-05 15:42:27+00:00
+Homologacion por grupo de cursos,116201,3445,Homologacion por grupo de cursos,3445,Fluxicon Disco,Variant 2,2,2016-05-12 16:57:01+00:00,2016-05-12 16:24:16+00:00
+Notificacion estudiante cancelacion soli,113001,241,Notificacion estudiante cancelacion soli,241,Fluxicon Disco,Variant 1,1,2016-05-05 00:00:34+00:00,2016-05-05 00:00:34+00:00
+Radicar Solicitud Homologacion,113151,7717,Radicar Solicitud Homologacion,7717,Fluxicon Disco,Variant 90,90,2016-05-11 22:45:43+00:00,2016-05-11 22:24:08+00:00
+Validar solicitud,113151,19019,Validar solicitud,19019,Fluxicon Disco,Variant 90,90,2016-05-16 19:38:33+00:00,2016-05-16 19:38:33+00:00
+Cancelar Solicitud,113151,19019,Cancelar Solicitud,19019,Fluxicon Disco,Variant 90,90,2016-05-16 19:38:34+00:00,2016-05-16 19:38:34+00:00
+Notificacion estudiante cancelacion soli,113151,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 90,90,2016-05-16 19:42:32+00:00,2016-05-16 19:42:32+00:00
+Cancelar Solicitud,113301,3603,Cancelar Solicitud,3603,Fluxicon Disco,Variant 1,1,2016-05-19 14:12:33+00:00,2016-05-19 14:12:33+00:00
+Notificacion estudiante cancelacion soli,113301,3603,Notificacion estudiante cancelacion soli,3603,Fluxicon Disco,Variant 1,1,2016-05-19 14:13:23+00:00,2016-05-19 14:13:23+00:00
+Notificacion estudiante cancelacion soli,113701,1646,Notificacion estudiante cancelacion soli,1646,Fluxicon Disco,Variant 1,1,2016-05-24 22:21:15+00:00,2016-05-24 22:21:15+00:00
+Visto Bueno Cierre Proceso,113753,1007,Visto Bueno Cierre Proceso,1007,Fluxicon Disco,Variant 91,91,2016-05-03 16:48:33+00:00,2016-05-03 15:51:56+00:00
+Validacion final,113753,19019,Validacion final,19019,Fluxicon Disco,Variant 91,91,2016-05-03 17:24:00+00:00,2016-05-03 17:24:00+00:00
+Transferir Creditos,113753,1007,Transferir Creditos,1007,Fluxicon Disco,Variant 91,91,2016-05-13 16:29:36+00:00,2016-05-13 16:29:36+00:00
+Transferir creditos homologables,113753,1007,Transferir creditos homologables,1007,Fluxicon Disco,Variant 91,91,2016-05-13 16:29:36+00:00,2016-05-13 16:29:36+00:00
+Homologacion por grupo de cursos,113853,6767,Homologacion por grupo de cursos,6767,Fluxicon Disco,Variant 2,2,2016-05-11 20:38:15+00:00,2016-05-11 20:10:26+00:00
+Validar solicitud,113855,1707,Validar solicitud,1707,Fluxicon Disco,Variant 2,2,2016-05-11 21:02:37+00:00,2016-05-11 20:58:44+00:00
+Homologacion por grupo de cursos,113855,15930,Homologacion por grupo de cursos,15930,Fluxicon Disco,Variant 2,2,2016-05-12 15:53:14+00:00,2016-05-12 14:51:53+00:00
+Cancelar Solicitud,113953,677,Cancelar Solicitud,677,Fluxicon Disco,Variant 1,1,2016-05-23 14:30:01+00:00,2016-05-23 14:28:48+00:00
+Notificacion estudiante cancelacion soli,113953,677,Notificacion estudiante cancelacion soli,677,Fluxicon Disco,Variant 1,1,2016-05-23 15:42:31+00:00,2016-05-23 15:42:31+00:00
+Validacion final,114007,1646,Validacion final,1646,Fluxicon Disco,Variant 28,28,2016-06-02 17:27:40+00:00,2016-06-02 14:58:08+00:00
+Visto Bueno Cierre Proceso,114007,12535,Visto Bueno Cierre Proceso,12535,Fluxicon Disco,Variant 28,28,2016-06-29 22:38:52+00:00,2016-06-29 22:30:09+00:00
+Transferir Creditos,114007,12535,Transferir Creditos,12535,Fluxicon Disco,Variant 28,28,2016-06-30 23:13:33+00:00,2016-06-30 23:13:33+00:00
+Transferir creditos homologables,114007,12535,Transferir creditos homologables,12535,Fluxicon Disco,Variant 28,28,2016-06-30 23:13:33+00:00,2016-06-30 23:13:33+00:00
+Transferir creditos homologables,114007,12535,Transferir creditos homologables,12535,Fluxicon Disco,Variant 28,28,2016-06-30 23:13:33+00:00,2016-06-30 23:13:33+00:00
+Transferir creditos homologables,114007,12535,Transferir creditos homologables,12535,Fluxicon Disco,Variant 28,28,2016-06-30 23:13:33+00:00,2016-06-30 23:13:33+00:00
+Validar solicitud,114102,19019,Validar solicitud,19019,Fluxicon Disco,Variant 2,2,2016-05-31 09:14:27+00:00,2016-05-31 07:58:27+00:00
+Homologacion por grupo de cursos,114102,19019,Homologacion por grupo de cursos,19019,Fluxicon Disco,Variant 2,2,2016-06-14 19:05:13+00:00,2016-06-14 18:17:09+00:00
+Homologacion por grupo de cursos,114351,677,Homologacion por grupo de cursos,677,Fluxicon Disco,Variant 2,2,2016-05-06 16:32:31+00:00,2016-05-06 16:32:30+00:00
+Homologacion por grupo de cursos,114502,26788,Homologacion por grupo de cursos,26788,Fluxicon Disco,Variant 2,2,2016-05-11 17:35:27+00:00,2016-05-11 17:31:35+00:00
+Homologacion por grupo de cursos,114503,186,Homologacion por grupo de cursos,186,Fluxicon Disco,Variant 2,2,2016-05-11 17:36:28+00:00,2016-05-11 17:36:15+00:00
+Cancelar Solicitud,114552,6694,Cancelar Solicitud,6694,Fluxicon Disco,Variant 1,1,2016-05-11 19:43:42+00:00,2016-05-11 19:39:42+00:00
+Notificacion estudiante cancelacion soli,114552,6694,Notificacion estudiante cancelacion soli,6694,Fluxicon Disco,Variant 1,1,2016-05-12 13:27:53+00:00,2016-05-12 13:27:53+00:00
+Homologacion por grupo de cursos,114802,1007,Homologacion por grupo de cursos,1007,Fluxicon Disco,Variant 2,2,2016-05-03 22:08:28+00:00,2016-05-03 17:26:27+00:00
+Validacion final,104751,294,Validacion final,294,Fluxicon Disco,Variant 12,12,2016-05-04 16:09:20+00:00,2016-05-04 16:01:31+00:00
+Visto Bueno Cierre Proceso,104751,7311,Visto Bueno Cierre Proceso,7311,Fluxicon Disco,Variant 12,12,2016-05-05 16:00:44+00:00,2016-05-05 15:50:35+00:00
+Transferir Creditos,104751,7311,Transferir Creditos,7311,Fluxicon Disco,Variant 12,12,2016-05-06 19:08:38+00:00,2016-05-06 19:08:38+00:00
+Evaluacion curso,104803,7763,Evaluacion curso,7763,Fluxicon Disco,Variant 3,3,2016-05-02 19:41:59+00:00,2016-05-02 14:54:54+00:00
+Validacion final,104803,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-06-24 03:16:54+00:00,2016-06-24 03:16:54+00:00
+Visto Bueno Cierre Proceso,104803,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-06-24 12:40:09+00:00,2016-06-24 12:29:24+00:00
+Homologacion por grupo de cursos,105207,957,Homologacion por grupo de cursos,957,Fluxicon Disco,Variant 2,2,2016-05-04 19:19:46+00:00,2016-05-04 16:44:23+00:00
+Validacion final,105252,19019,Validacion final,19019,Fluxicon Disco,Variant 31,31,2016-06-23 18:16:00+00:00,2016-06-23 18:06:58+00:00
+Visto Bueno Cierre Proceso,105252,1007,Visto Bueno Cierre Proceso,1007,Fluxicon Disco,Variant 31,31,2016-06-24 21:03:00+00:00,2016-06-24 21:02:39+00:00
+Transferir Creditos,105252,1007,Transferir Creditos,1007,Fluxicon Disco,Variant 31,31,2016-06-24 21:24:26+00:00,2016-06-24 21:24:26+00:00
+Transferir creditos homologables,105252,1007,Transferir creditos homologables,1007,Fluxicon Disco,Variant 31,31,2016-06-24 21:24:26+00:00,2016-06-24 21:24:26+00:00
+Homologacion por grupo de cursos,105253,26788,Homologacion por grupo de cursos,26788,Fluxicon Disco,Variant 2,2,2016-05-10 07:23:02+00:00,2016-05-10 02:51:37+00:00
+Validacion final,105451,19019,Validacion final,19019,Fluxicon Disco,Variant 39,39,2016-05-04 15:55:43+00:00,2016-05-04 15:47:30+00:00
+Visto Bueno Cierre Proceso,105451,1007,Visto Bueno Cierre Proceso,1007,Fluxicon Disco,Variant 39,39,2016-05-05 16:41:31+00:00,2016-05-05 16:01:05+00:00
+Notificacion estudiante cancelacion soli,110853,6723,Notificacion estudiante cancelacion soli,6723,Fluxicon Disco,Variant 19,19,2016-05-06 16:32:31+00:00,2016-05-06 16:32:31+00:00
+Notificacion estudiante cancelacion soli,110854,6723,Notificacion estudiante cancelacion soli,6723,Fluxicon Disco,Variant 8,8,2016-05-06 16:32:59+00:00,2016-05-06 16:32:59+00:00
+Validar solicitud / pre-homologacion,111152,22404,Validar solicitud / pre-homologacion,22404,Fluxicon Disco,Variant 4,4,2016-05-11 18:22:19+00:00,2016-05-11 18:22:19+00:00
+Validar solicitud / pre-homologacion,111202,22404,Validar solicitud / pre-homologacion,22404,Fluxicon Disco,Variant 4,4,2016-06-02 17:58:31+00:00,2016-06-02 17:58:31+00:00
+Evaluacion curso,111205,7763,Evaluacion curso,7763,Fluxicon Disco,Variant 20,20,2016-05-02 19:45:34+00:00,2016-05-02 14:58:33+00:00
+Validacion final,111205,1707,Validacion final,1707,Fluxicon Disco,Variant 20,20,2016-06-24 03:28:18+00:00,2016-06-24 03:28:18+00:00
+Visto Bueno Cierre Proceso,111205,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 20,20,2016-06-24 13:03:54+00:00,2016-06-24 12:53:07+00:00
+Transferir Creditos,111205,15930,Transferir Creditos,15930,Fluxicon Disco,Variant 20,20,2016-06-27 16:47:59+00:00,2016-06-27 16:47:59+00:00
+Transferir creditos homologables,111205,15930,Transferir creditos homologables,15930,Fluxicon Disco,Variant 20,20,2016-06-27 16:47:59+00:00,2016-06-27 16:47:59+00:00
+Transferir creditos homologables,111205,15930,Transferir creditos homologables,15930,Fluxicon Disco,Variant 20,20,2016-06-27 16:48:00+00:00,2016-06-27 16:48:00+00:00
+Validacion final,111264,677,Validacion final,677,Fluxicon Disco,Variant 28,28,2016-05-17 16:37:28+00:00,2016-05-17 16:37:28+00:00
+Visto Bueno Cierre Proceso,111264,3445,Visto Bueno Cierre Proceso,3445,Fluxicon Disco,Variant 28,28,2016-05-17 16:46:54+00:00,2016-05-17 16:38:24+00:00
+Transferir Creditos,111264,3445,Transferir Creditos,3445,Fluxicon Disco,Variant 28,28,2016-05-18 17:09:06+00:00,2016-05-18 17:09:06+00:00
+Transferir creditos homologables,111264,3445,Transferir creditos homologables,3445,Fluxicon Disco,Variant 28,28,2016-05-18 17:09:07+00:00,2016-05-18 17:09:07+00:00
+Transferir creditos homologables,111264,3445,Transferir creditos homologables,3445,Fluxicon Disco,Variant 28,28,2016-05-18 17:09:07+00:00,2016-05-18 17:09:07+00:00
+Transferir creditos homologables,111264,3445,Transferir creditos homologables,3445,Fluxicon Disco,Variant 28,28,2016-05-18 17:09:07+00:00,2016-05-18 17:09:07+00:00
+Evaluacion curso,111351,1707,Evaluacion curso,1707,Fluxicon Disco,Variant 3,3,2016-05-02 18:02:16+00:00,2016-05-02 14:58:46+00:00
+Validacion final,111351,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-06-07 14:28:50+00:00,2016-06-07 14:28:49+00:00
+Visto Bueno Cierre Proceso,111351,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-06-07 14:45:24+00:00,2016-06-07 14:29:54+00:00
+Validar solicitud,111401,29277,Validar solicitud,29277,Fluxicon Disco,Variant 2,2,2016-06-13 18:02:18+00:00,2016-06-13 18:02:18+00:00
+Homologacion por grupo de cursos,111401,1007,Homologacion por grupo de cursos,1007,Fluxicon Disco,Variant 2,2,2016-06-13 18:27:50+00:00,2016-06-13 18:03:50+00:00
+Validar solicitud,111551,448,Validar solicitud,448,Fluxicon Disco,Variant 2,2,2016-05-04 20:23:36+00:00,2016-05-04 19:55:29+00:00
+Homologacion por grupo de cursos,111551,7177,Homologacion por grupo de cursos,7177,Fluxicon Disco,Variant 2,2,2016-05-11 16:06:08+00:00,2016-05-11 14:07:05+00:00
+Homologacion por grupo de cursos,111654,308,Homologacion por grupo de cursos,308,Fluxicon Disco,Variant 2,2,2016-05-04 01:12:37+00:00,2016-05-03 20:59:47+00:00
+Validacion final,102001,18929,Validacion final,18929,Fluxicon Disco,Variant 3,3,2016-06-02 16:02:40+00:00,2016-06-02 16:00:28+00:00
+Visto Bueno Cierre Proceso,102001,957,Visto Bueno Cierre Proceso,957,Fluxicon Disco,Variant 3,3,2016-06-02 20:13:36+00:00,2016-06-02 20:13:25+00:00
+Evaluacion curso,102251,15930,Evaluacion curso,15930,Fluxicon Disco,Variant 3,3,2016-05-02 15:16:19+00:00,2016-05-02 14:53:13+00:00
+Validacion final,102251,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-05-05 02:43:15+00:00,2016-05-05 02:43:15+00:00
+Visto Bueno Cierre Proceso,102251,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-05-05 14:14:34+00:00,2016-05-05 13:58:34+00:00
+Visto Bueno Cierre Proceso,102253,6889,Visto Bueno Cierre Proceso,6889,Fluxicon Disco,Variant 69,69,2016-05-02 21:54:20+00:00,2016-05-02 20:45:28+00:00
+Validacion final,102253,7080,Validacion final,7080,Fluxicon Disco,Variant 69,69,2016-05-02 22:17:28+00:00,2016-05-02 22:17:28+00:00
+Transferir Creditos,102253,6889,Transferir Creditos,6889,Fluxicon Disco,Variant 69,69,2016-05-16 15:38:24+00:00,2016-05-16 15:38:24+00:00
+Validacion final,102257,677,Validacion final,677,Fluxicon Disco,Variant 3,3,2016-05-25 19:59:47+00:00,2016-05-25 19:53:15+00:00
+Visto Bueno Cierre Proceso,102257,3445,Visto Bueno Cierre Proceso,3445,Fluxicon Disco,Variant 3,3,2016-05-26 16:41:06+00:00,2016-05-26 16:32:34+00:00
+Validar solicitud / pre-homologacion,102303,19019,Validar solicitud / pre-homologacion,19019,Fluxicon Disco,Variant 4,4,2016-06-21 22:37:23+00:00,2016-06-21 22:31:34+00:00
+Validar solicitud / pre-homologacion,102311,22491,Validar solicitud / pre-homologacion,22491,Fluxicon Disco,Variant 4,4,2016-06-21 22:35:41+00:00,2016-06-21 22:33:09+00:00
+Evaluacion curso,109755,7010,Evaluacion curso,7010,Fluxicon Disco,Variant 3,3,2016-05-02 17:52:43+00:00,2016-05-02 14:58:18+00:00
+Validacion final,109755,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-06-02 23:24:51+00:00,2016-06-02 23:23:34+00:00
+Visto Bueno Cierre Proceso,109755,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-06-03 15:04:51+00:00,2016-06-03 14:41:33+00:00
+Visto Bueno Cierre Proceso,110251,1343,Visto Bueno Cierre Proceso,1343,Fluxicon Disco,Variant 30,30,2016-05-18 14:25:10+00:00,2016-05-18 14:06:08+00:00
+Validacion final,110251,22475,Validacion final,22475,Fluxicon Disco,Variant 30,30,2016-05-18 16:04:04+00:00,2016-05-18 16:04:04+00:00
+Transferir Creditos,110251,1343,Transferir Creditos,1343,Fluxicon Disco,Variant 30,30,2016-05-20 17:08:48+00:00,2016-05-20 17:08:48+00:00
+Transferir creditos homologables,110251,1343,Transferir creditos homologables,1343,Fluxicon Disco,Variant 30,30,2016-05-20 17:08:48+00:00,2016-05-20 17:08:48+00:00
+Transferir Creditos,110452,1007,Transferir Creditos,1007,Fluxicon Disco,Variant 30,30,2016-05-13 16:28:16+00:00,2016-05-13 16:28:16+00:00
+Transferir creditos homologables,110452,1007,Transferir creditos homologables,1007,Fluxicon Disco,Variant 30,30,2016-05-13 16:28:16+00:00,2016-05-13 16:28:16+00:00
+Visto Bueno Cierre Proceso,110462,1343,Visto Bueno Cierre Proceso,1343,Fluxicon Disco,Variant 3,3,2016-05-02 15:37:13+00:00,2016-05-02 13:50:04+00:00
+Validacion final,110464,22475,Validacion final,22475,Fluxicon Disco,Variant 3,3,2016-05-20 17:34:22+00:00,2016-05-20 17:34:13+00:00
+Visto Bueno Cierre Proceso,110464,1343,Visto Bueno Cierre Proceso,1343,Fluxicon Disco,Variant 3,3,2016-05-20 17:43:43+00:00,2016-05-20 17:43:43+00:00
+Notificacion estudiante cancelacion soli,110503,1707,Notificacion estudiante cancelacion soli,1707,Fluxicon Disco,Variant 1,1,2016-05-03 14:42:42+00:00,2016-05-03 14:42:42+00:00
+Validacion final,110551,677,Validacion final,677,Fluxicon Disco,Variant 3,3,2016-06-08 19:25:24+00:00,2016-06-08 19:21:11+00:00
+Visto Bueno Cierre Proceso,110551,3445,Visto Bueno Cierre Proceso,3445,Fluxicon Disco,Variant 3,3,2016-06-09 14:21:15+00:00,2016-06-09 14:13:29+00:00
+Validacion final,102358,559,Validacion final,559,Fluxicon Disco,Variant 3,3,2016-05-02 23:36:19+00:00,2016-05-02 22:06:26+00:00
+Visto Bueno Cierre Proceso,102358,7186,Visto Bueno Cierre Proceso,7186,Fluxicon Disco,Variant 3,3,2016-05-19 15:55:19+00:00,2016-05-19 13:34:35+00:00
+Evaluacion curso,102404,186,Evaluacion curso,186,Fluxicon Disco,Variant 4,4,2016-05-11 17:31:55+00:00,2016-05-11 17:27:23+00:00
+Validar solicitud / pre-homologacion,102404,1707,Validar solicitud / pre-homologacion,1707,Fluxicon Disco,Variant 4,4,2016-05-12 01:01:46+00:00,2016-05-12 01:01:46+00:00
+Validacion final,102501,677,Validacion final,677,Fluxicon Disco,Variant 12,12,2016-05-25 19:52:28+00:00,2016-05-25 19:45:55+00:00
+Visto Bueno Cierre Proceso,102501,3445,Visto Bueno Cierre Proceso,3445,Fluxicon Disco,Variant 12,12,2016-05-26 16:41:58+00:00,2016-05-26 16:33:26+00:00
+Transferir Creditos,102501,3445,Transferir Creditos,3445,Fluxicon Disco,Variant 12,12,2016-05-27 17:05:27+00:00,2016-05-27 17:05:27+00:00
+Homologacion por grupo de cursos,102506,308,Homologacion por grupo de cursos,308,Fluxicon Disco,Variant 2,2,2016-05-04 01:05:57+00:00,2016-05-03 20:53:02+00:00
+Homologacion por grupo de cursos,102557,186,Homologacion por grupo de cursos,186,Fluxicon Disco,Variant 2,2,2016-05-10 03:00:58+00:00,2016-05-10 02:45:23+00:00
+Evaluacion curso,102601,7763,Evaluacion curso,7763,Fluxicon Disco,Variant 3,3,2016-05-02 19:40:29+00:00,2016-05-02 14:53:23+00:00
+Validacion final,102601,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-06-24 03:11:51+00:00,2016-06-24 03:11:51+00:00
+Visto Bueno Cierre Proceso,102601,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-06-24 13:06:19+00:00,2016-06-24 12:55:37+00:00
+Evaluacion curso,102603,15930,Evaluacion curso,15930,Fluxicon Disco,Variant 3,3,2016-05-02 15:16:40+00:00,2016-05-02 14:53:34+00:00
+Validacion final,102603,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-05-05 02:53:08+00:00,2016-05-05 02:53:08+00:00
+Visto Bueno Cierre Proceso,102603,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-05-05 14:14:06+00:00,2016-05-05 13:58:06+00:00
+Evaluacion curso,97801,7010,Evaluacion curso,7010,Fluxicon Disco,Variant 3,3,2016-05-02 17:44:40+00:00,2016-05-02 14:50:18+00:00
+Validacion final,97801,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-06-02 23:14:33+00:00,2016-06-02 23:13:11+00:00
+Visto Bueno Cierre Proceso,97801,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-06-03 14:59:33+00:00,2016-06-03 14:36:10+00:00
+Evaluacion curso,97803,15930,Evaluacion curso,15930,Fluxicon Disco,Variant 11,11,2016-05-02 15:06:42+00:00,2016-05-02 14:51:34+00:00
+Validacion final,97803,1707,Validacion final,1707,Fluxicon Disco,Variant 11,11,2016-05-04 12:52:00+00:00,2016-05-04 12:52:00+00:00
+Visto Bueno Cierre Proceso,97803,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 11,11,2016-05-04 13:08:05+00:00,2016-05-04 13:00:05+00:00
+Transferir Creditos,97803,15930,Transferir Creditos,15930,Fluxicon Disco,Variant 11,11,2016-05-05 02:32:11+00:00,2016-05-05 02:32:11+00:00
+Transferir creditos homologables,97803,15930,Transferir creditos homologables,15930,Fluxicon Disco,Variant 11,11,2016-05-05 02:32:12+00:00,2016-05-05 02:32:12+00:00
+Notificacion estudiante cancelacion soli,97852,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 41,41,2016-06-01 15:31:12+00:00,2016-06-01 15:31:12+00:00
+Notificacion estudiante cancelacion soli,97854,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 8,8,2016-06-01 15:08:13+00:00,2016-06-01 15:08:13+00:00
+Notificacion estudiante cancelacion soli,97855,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 8,8,2016-06-01 15:11:09+00:00,2016-06-01 15:11:09+00:00
+Notificacion estudiante cancelacion soli,98451,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 19,19,2016-06-01 14:36:45+00:00,2016-06-01 14:36:45+00:00
+Evaluacion curso,111951,15930,Evaluacion curso,15930,Fluxicon Disco,Variant 3,3,2016-05-02 15:37:58+00:00,2016-05-02 14:58:57+00:00
+Validacion final,111951,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-05-10 00:19:52+00:00,2016-05-10 00:03:07+00:00
+Visto Bueno Cierre Proceso,111951,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-05-12 15:01:03+00:00,2016-05-12 14:45:15+00:00
+Homologacion por grupo de cursos,112001,3445,Homologacion por grupo de cursos,3445,Fluxicon Disco,Variant 2,2,2016-05-02 13:35:42+00:00,2016-05-02 13:19:04+00:00
+Validacion final,112102,677,Validacion final,677,Fluxicon Disco,Variant 11,11,2016-05-12 17:56:59+00:00,2016-05-12 17:47:53+00:00
+Visto Bueno Cierre Proceso,112102,3445,Visto Bueno Cierre Proceso,3445,Fluxicon Disco,Variant 11,11,2016-05-13 21:00:43+00:00,2016-05-13 20:54:02+00:00
+Transferir Creditos,112102,3445,Transferir Creditos,3445,Fluxicon Disco,Variant 11,11,2016-05-16 17:35:24+00:00,2016-05-16 17:35:24+00:00
+Transferir creditos homologables,112102,3445,Transferir creditos homologables,3445,Fluxicon Disco,Variant 11,11,2016-05-16 17:35:24+00:00,2016-05-16 17:35:24+00:00
+Validacion final,112301,18929,Validacion final,18929,Fluxicon Disco,Variant 3,3,2016-06-02 16:03:37+00:00,2016-06-02 16:01:25+00:00
+Visto Bueno Cierre Proceso,112301,957,Visto Bueno Cierre Proceso,957,Fluxicon Disco,Variant 3,3,2016-06-02 20:14:18+00:00,2016-06-02 20:14:06+00:00
+Evaluacion curso,112303,15930,Evaluacion curso,15930,Fluxicon Disco,Variant 3,3,2016-05-02 15:38:10+00:00,2016-05-02 14:59:10+00:00
+Validacion final,112303,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-05-10 00:21:38+00:00,2016-05-10 00:04:48+00:00
+Visto Bueno Cierre Proceso,112303,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-05-12 15:06:03+00:00,2016-05-12 14:50:19+00:00
+Validacion final,112307,677,Validacion final,677,Fluxicon Disco,Variant 3,3,2016-05-12 17:58:13+00:00,2016-05-12 17:49:08+00:00
+Visto Bueno Cierre Proceso,112307,3445,Visto Bueno Cierre Proceso,3445,Fluxicon Disco,Variant 3,3,2016-05-13 21:01:19+00:00,2016-05-13 20:54:39+00:00
+Validacion final,112309,677,Validacion final,677,Fluxicon Disco,Variant 3,3,2016-05-25 19:57:34+00:00,2016-05-25 19:51:00+00:00
+Visto Bueno Cierre Proceso,112309,3445,Visto Bueno Cierre Proceso,3445,Fluxicon Disco,Variant 3,3,2016-05-26 16:42:49+00:00,2016-05-26 16:34:18+00:00
+Visto Bueno Cierre Proceso,112310,3445,Visto Bueno Cierre Proceso,3445,Fluxicon Disco,Variant 3,3,2016-05-02 13:36:35+00:00,2016-05-02 13:19:57+00:00
+Visto Bueno Cierre Proceso,112311,1007,Visto Bueno Cierre Proceso,1007,Fluxicon Disco,Variant 3,3,2016-05-03 18:23:21+00:00,2016-05-03 17:28:21+00:00
+Validacion final,112312,19019,Validacion final,19019,Fluxicon Disco,Variant 3,3,2016-05-04 15:54:10+00:00,2016-05-04 15:45:57+00:00
+Visto Bueno Cierre Proceso,112312,1007,Visto Bueno Cierre Proceso,1007,Fluxicon Disco,Variant 3,3,2016-05-05 16:39:44+00:00,2016-05-05 15:59:14+00:00
+Transferir Creditos,112354,1343,Transferir Creditos,1343,Fluxicon Disco,Variant 86,86,2016-05-20 17:10:57+00:00,2016-05-20 17:10:57+00:00
+Transferir creditos homologables,112354,1343,Transferir creditos homologables,1343,Fluxicon Disco,Variant 86,86,2016-05-20 17:10:57+00:00,2016-05-20 17:10:57+00:00
+Evaluacion curso,112357,7010,Evaluacion curso,7010,Fluxicon Disco,Variant 3,3,2016-05-02 17:55:14+00:00,2016-05-02 14:59:21+00:00
+Validacion final,112357,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-06-03 15:00:03+00:00,2016-06-03 14:52:24+00:00
+Visto Bueno Cierre Proceso,112357,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-06-07 14:47:32+00:00,2016-06-07 14:32:05+00:00
+Notificacion estudiante cancelacion soli,112360,2506,Notificacion estudiante cancelacion soli,2506,Fluxicon Disco,Variant 1,1,2016-05-02 18:25:57+00:00,2016-05-02 18:25:57+00:00
+Evaluacion curso,112361,7010,Evaluacion curso,7010,Fluxicon Disco,Variant 3,3,2016-05-02 17:55:36+00:00,2016-05-02 14:59:40+00:00
+Validacion final,112361,1707,Validacion final,1707,Fluxicon Disco,Variant 3,3,2016-06-03 15:04:08+00:00,2016-06-03 14:56:34+00:00
+Visto Bueno Cierre Proceso,112361,15930,Visto Bueno Cierre Proceso,15930,Fluxicon Disco,Variant 3,3,2016-06-07 14:46:31+00:00,2016-06-07 14:31:03+00:00

@@ -57,6 +57,7 @@ def compute_custom_metrics(
 
     Ongoing Filter Metrics:
       - RTD: Remaining Time Distribution Distance
+      - ongoing_cases_count: Number of ongoing cases at the reference point
 
     Complete Filter Metrics:
       - RED: Relative Event Distribution Distance
@@ -66,7 +67,7 @@ def compute_custom_metrics(
     Returns a dict:
     {
       "event_filter": { "n_gram": ..., "absolute_event": ..., "circadian_event": ..., "circadian_workflow": ... },
-      "ongoing_filter": { "RTD": ... },
+      "ongoing_filter": { "RTD": ..., "ongoing_cases_count": ... },
       "complete_filter": { "RED": ..., "cycle_time": ..., "case_arrival_rate": ... }
     }
     """
@@ -157,6 +158,13 @@ def compute_custom_metrics(
             print("[compute_custom_metrics] Error computing avg_remaining_diff for ongoing_filter:", e)
         results["ongoing_filter"]["avg_remaining_diff"] = None
 
+    # Add ongoing cases count
+    try:
+        results["ongoing_filter"]["ongoing_cases_count"] = G_ongoing["case_id"].nunique()
+    except Exception as e:
+        if verbose:
+            print("[compute_custom_metrics] Error computing ongoing_cases_count for ongoing_filter:", e)
+        results["ongoing_filter"]["ongoing_cases_count"] = None
 
     # ----------------- COMPLETE FILTER -----------------
     try:
@@ -622,7 +630,7 @@ def aggregate_metrics(all_runs: list) -> dict:
             aggregated[sf][mk] = {
                 "mean": mean_val,
                 "interval": conf_int,
-                "individual_runs": vals
+                # "individual_runs": vals
             }
 
     return aggregated

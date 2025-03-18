@@ -1,0 +1,231 @@
+{
+    "cases": {
+        "715": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-9726C026-BDE7-4467-B613-EB951D1FE613",
+                    "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2",
+                    "label": "Prepare acceptance pack",
+                    "start_time": "2025-02-20 14:29:36.685000+00:00",
+                    "resource": "Clerk-000009",
+                    "enabled_time": "2025-02-20 14:29:36.685000+00:00"
+                },
+                {
+                    "id": "sid-9726C026-BDE7-4467-B613-EB951D1FE613",
+                    "label": "Approve and post home insurance quote",
+                    "start_time": "2025-02-20 14:52:01.501000+00:00",
+                    "resource": "Loan Officer-000001",
+                    "enabled_time": "2025-02-20 14:52:01.501000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "725": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "Activity_1y2vzu0"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_1y2vzu0",
+                    "label": "Approve Loan Offer",
+                    "start_time": "2025-02-20 14:28:26.768000+00:00",
+                    "resource": "Senior Officer-000001",
+                    "enabled_time": "2025-02-20 14:00:42.444000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "736": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "Activity_1y2vzu0"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "Activity_1y2vzu0",
+                    "label": "Approve Loan Offer",
+                    "start_time": "2025-02-20 14:43:49.521000+00:00",
+                    "resource": "Senior Officer-000002",
+                    "enabled_time": "2025-02-20 14:43:49.521000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "742": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_133c6m4",
+                    "sid-884188CC-CBC0-49E7-B949-1B6D847EAF32"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [
+                {
+                    "id": null,
+                    "label": "Approve and send\u00a0 acceptance pack",
+                    "start_time": "2025-02-20 14:13:24.416000+00:00",
+                    "resource": "Loan Officer-000005",
+                    "enabled_time": null
+                }
+            ],
+            "enabled_activities": [
+                {
+                    "id": "sid-BA8B9C72-48FE-4FF1-A2F9-DE78C836A612",
+                    "enabled_time": "2025-02-20 14:38:27.489000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "743": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-16B45990-F522-4EA9-A01A-70EE8D0C9EC5",
+                    "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-16B45990-F522-4EA9-A01A-70EE8D0C9EC5",
+                    "label": "Prepare home insurance quote",
+                    "start_time": "2025-02-20 14:28:26.768000+00:00",
+                    "resource": "Clerk-000003",
+                    "enabled_time": "2025-02-20 14:28:26.768000+00:00"
+                },
+                {
+                    "id": "sid-034F28AB-5EBC-4336-82BD-4FE7A525CCE2",
+                    "label": "Prepare acceptance pack",
+                    "start_time": "2025-02-20 14:28:26.768000+00:00",
+                    "resource": "Clerk-000008",
+                    "enabled_time": "2025-02-20 14:28:26.768000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "745": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-BCF61F61-A6CF-4966-A388-3AE2E521BF21"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [],
+            "enabled_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "enabled_time": "2025-02-21 02:08:48.671000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "748": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC",
+                    "label": "Assess loan risk",
+                    "start_time": "2025-02-20 14:08:17.317000+00:00",
+                    "resource": "Loan Officer-000010",
+                    "enabled_time": "2025-02-20 14:08:17.317000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "749": {
+            "control_flow_state": {
+                "flows": [],
+                "activities": [
+                    "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-543CE27B-717A-4583-8BFE-09BF2267ACFC",
+                    "label": "Assess loan risk",
+                    "start_time": "2025-02-20 14:29:50.130000+00:00",
+                    "resource": "Loan Officer-000003",
+                    "enabled_time": "2025-02-20 14:29:50.130000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "750": {
+            "control_flow_state": {
+                "flows": [
+                    "Flow_0xfev5g",
+                    "sid-CA2D6FBE-9060-4A55-AA62-B8EF20FE897A"
+                ],
+                "activities": [
+                    "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161"
+                ]
+            },
+            "ongoing_activities": [
+                {
+                    "id": "sid-8BCCD9BA-2B23-44CA-BB32-4988807D3161",
+                    "label": "Check credit history",
+                    "start_time": "2025-02-20 14:22:49.198000+00:00",
+                    "resource": "Clerk-000002",
+                    "enabled_time": "2025-02-20 14:22:49.198000+00:00"
+                }
+            ],
+            "enabled_activities": [],
+            "enabled_gateways": [],
+            "enabled_events": []
+        },
+        "751": {
+            "control_flow_state": {
+                "flows": [
+                    "sid-BCF61F61-A6CF-4966-A388-3AE2E521BF21"
+                ],
+                "activities": []
+            },
+            "ongoing_activities": [
+                {
+                    "id": null,
+                    "label": "Check  application  form completeness",
+                    "start_time": "2025-02-20 14:29:30.206000+00:00",
+                    "resource": "Clerk-000004",
+                    "enabled_time": null
+                }
+            ],
+            "enabled_activities": [
+                {
+                    "id": "sid-9703AD2C-3219-4B4A-9A91-F4A81EF91130",
+                    "enabled_time": "2025-02-20 14:29:30.206000+00:00"
+                }
+            ],
+            "enabled_gateways": [],
+            "enabled_events": []
+        }
+    }
+}

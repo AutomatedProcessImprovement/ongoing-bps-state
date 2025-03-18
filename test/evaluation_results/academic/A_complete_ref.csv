@@ -1,0 +1,898 @@
+activity,case_id,resource,Activity_1,Resource_1,creator,variant,variant_index,end_time,start_time
+Radicar Solicitud Homologacion,123961,12175,Radicar Solicitud Homologacion,12175,Fluxicon Disco,Variant 1,1,2016-06-03 15:52:20+00:00,2016-06-03 15:28:22+00:00
+Cancelar Solicitud,123961,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 1,1,2016-06-09 15:27:24+00:00,2016-06-09 15:27:17+00:00
+Notificacion estudiante cancelacion soli,123961,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 1,1,2016-06-09 15:35:14+00:00,2016-06-09 15:35:14+00:00
+Traer informacion estudiante - banner,123962,12175,Traer informacion estudiante - banner,12175,Fluxicon Disco,Variant 1,1,2016-06-03 15:30:51+00:00,2016-06-03 15:30:51+00:00
+Radicar Solicitud Homologacion,123962,12175,Radicar Solicitud Homologacion,12175,Fluxicon Disco,Variant 1,1,2016-06-03 15:55:05+00:00,2016-06-03 15:30:52+00:00
+Cancelar Solicitud,123962,12175,Cancelar Solicitud,12175,Fluxicon Disco,Variant 1,1,2016-06-09 15:44:54+00:00,2016-06-09 15:44:42+00:00
+Notificacion estudiante cancelacion soli,123962,12175,Notificacion estudiante cancelacion soli,12175,Fluxicon Disco,Variant 1,1,2016-06-09 15:56:54+00:00,2016-06-09 15:56:54+00:00
+Traer informacion estudiante - banner,123963,12175,Traer informacion estudiante - banner,12175,Fluxicon Disco,Variant 1,1,2016-06-03 15:46:19+00:00,2016-06-03 15:46:19+00:00
+Radicar Solicitud Homologacion,123963,12175,Radicar Solicitud Homologacion,12175,Fluxicon Disco,Variant 1,1,2016-06-03 16:14:24+00:00,2016-06-03 15:46:20+00:00
+Cancelar Solicitud,123963,12175,Cancelar Solicitud,12175,Fluxicon Disco,Variant 1,1,2016-06-09 21:51:18+00:00,2016-06-09 21:51:16+00:00
+Notificacion estudiante cancelacion soli,123963,12175,Notificacion estudiante cancelacion soli,12175,Fluxicon Disco,Variant 1,1,2016-06-09 21:53:24+00:00,2016-06-09 21:53:24+00:00
+Traer informacion estudiante - banner,123964,11653,Traer informacion estudiante - banner,11653,Fluxicon Disco,Variant 2,2,2016-06-03 17:12:55+00:00,2016-06-03 17:12:55+00:00
+Radicar Solicitud Homologacion,123964,11653,Radicar Solicitud Homologacion,11653,Fluxicon Disco,Variant 2,2,2016-06-03 17:17:44+00:00,2016-06-03 17:12:57+00:00
+Validar solicitud,123964,22404,Validar solicitud,22404,Fluxicon Disco,Variant 2,2,2016-06-04 14:56:55+00:00,2016-06-04 14:56:55+00:00
+Homologacion por grupo de cursos,123964,22404,Homologacion por grupo de cursos,22404,Fluxicon Disco,Variant 2,2,2016-06-07 13:19:54+00:00,2016-06-07 12:47:54+00:00
+Traer informacion estudiante - banner,124101,11772,Traer informacion estudiante - banner,11772,Fluxicon Disco,Variant 1,1,2016-06-03 12:46:57+00:00,2016-06-03 12:46:57+00:00
+Radicar Solicitud Homologacion,124101,11772,Radicar Solicitud Homologacion,11772,Fluxicon Disco,Variant 1,1,2016-06-03 12:47:04+00:00,2016-06-03 12:47:04+00:00
+Cancelar Solicitud,124101,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 1,1,2016-06-03 13:05:51+00:00,2016-06-03 13:03:08+00:00
+Notificacion estudiante cancelacion soli,124101,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 1,1,2016-06-03 16:43:07+00:00,2016-06-03 16:43:07+00:00
+Traer informacion estudiante - banner,124152,12175,Traer informacion estudiante - banner,12175,Fluxicon Disco,Variant 1,1,2016-06-03 17:42:49+00:00,2016-06-03 17:42:49+00:00
+Radicar Solicitud Homologacion,124152,12175,Radicar Solicitud Homologacion,12175,Fluxicon Disco,Variant 1,1,2016-06-03 18:02:46+00:00,2016-06-03 17:42:50+00:00
+Cancelar Solicitud,124152,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 1,1,2016-06-08 23:39:24+00:00,2016-06-08 23:39:04+00:00
+Notificacion estudiante cancelacion soli,124152,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 1,1,2016-06-09 13:55:18+00:00,2016-06-09 13:55:18+00:00
+Traer informacion estudiante - banner,124156,8882,Traer informacion estudiante - banner,8882,Fluxicon Disco,Variant 1,1,2016-06-03 19:11:19+00:00,2016-06-03 19:11:19+00:00
+Radicar Solicitud Homologacion,124156,8882,Radicar Solicitud Homologacion,8882,Fluxicon Disco,Variant 1,1,2016-06-03 19:11:20+00:00,2016-06-03 19:11:20+00:00
+Cancelar Solicitud,124156,19019,Cancelar Solicitud,19019,Fluxicon Disco,Variant 1,1,2016-06-03 19:30:47+00:00,2016-06-03 19:22:17+00:00
+Notificacion estudiante cancelacion soli,124156,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 1,1,2016-06-07 20:30:50+00:00,2016-06-07 20:30:50+00:00
+Traer informacion estudiante - banner,124158,8882,Traer informacion estudiante - banner,8882,Fluxicon Disco,Variant 1,1,2016-06-03 19:25:01+00:00,2016-06-03 19:25:01+00:00
+Radicar Solicitud Homologacion,124158,8882,Radicar Solicitud Homologacion,8882,Fluxicon Disco,Variant 1,1,2016-06-03 19:25:02+00:00,2016-06-03 19:25:02+00:00
+Cancelar Solicitud,124158,19019,Cancelar Solicitud,19019,Fluxicon Disco,Variant 1,1,2016-06-03 19:38:08+00:00,2016-06-03 19:29:39+00:00
+Notificacion estudiante cancelacion soli,124158,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 1,1,2016-06-07 20:29:45+00:00,2016-06-07 20:29:45+00:00
+Traer informacion estudiante - banner,124301,9379,Traer informacion estudiante - banner,9379,Fluxicon Disco,Variant 9,9,2016-06-06 00:14:34+00:00,2016-06-06 00:14:34+00:00
+Radicar Solicitud Homologacion,124301,9379,Radicar Solicitud Homologacion,9379,Fluxicon Disco,Variant 9,9,2016-06-06 00:14:40+00:00,2016-06-06 00:14:40+00:00
+Validar solicitud,124301,920,Validar solicitud,920,Fluxicon Disco,Variant 9,9,2016-06-06 00:34:50+00:00,2016-06-06 00:34:50+00:00
+Cancelar Solicitud,124301,9379,Cancelar Solicitud,9379,Fluxicon Disco,Variant 9,9,2016-06-06 00:36:25+00:00,2016-06-06 00:34:51+00:00
+Notificacion estudiante cancelacion soli,124301,9379,Notificacion estudiante cancelacion soli,9379,Fluxicon Disco,Variant 9,9,2016-06-07 15:34:18+00:00,2016-06-07 15:34:18+00:00
+Traer informacion estudiante - banner,124405,9146,Traer informacion estudiante - banner,9146,Fluxicon Disco,Variant 1,1,2016-06-06 14:52:48+00:00,2016-06-06 14:52:48+00:00
+Radicar Solicitud Homologacion,124405,9146,Radicar Solicitud Homologacion,9146,Fluxicon Disco,Variant 1,1,2016-06-06 14:52:48+00:00,2016-06-06 14:52:48+00:00
+Cancelar Solicitud,124405,19019,Cancelar Solicitud,19019,Fluxicon Disco,Variant 1,1,2016-06-06 15:00:09+00:00,2016-06-06 15:00:09+00:00
+Notificacion estudiante cancelacion soli,124405,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 1,1,2016-06-07 12:59:07+00:00,2016-06-07 12:59:07+00:00
+Traer informacion estudiante - banner,124501,15315,Traer informacion estudiante - banner,15315,Fluxicon Disco,Variant 1,1,2016-06-06 19:36:21+00:00,2016-06-06 19:36:21+00:00
+Radicar Solicitud Homologacion,124501,15315,Radicar Solicitud Homologacion,15315,Fluxicon Disco,Variant 1,1,2016-06-06 19:36:24+00:00,2016-06-06 19:36:24+00:00
+Cancelar Solicitud,124501,6694,Cancelar Solicitud,6694,Fluxicon Disco,Variant 1,1,2016-06-06 20:13:40+00:00,2016-06-06 20:12:28+00:00
+Notificacion estudiante cancelacion soli,124501,6694,Notificacion estudiante cancelacion soli,6694,Fluxicon Disco,Variant 1,1,2016-06-07 15:12:09+00:00,2016-06-07 15:12:09+00:00
+Traer informacion estudiante - banner,124564,19746,Traer informacion estudiante - banner,19746,Fluxicon Disco,Variant 1,1,2016-06-07 18:11:04+00:00,2016-06-07 18:11:04+00:00
+Radicar Solicitud Homologacion,124564,19746,Radicar Solicitud Homologacion,19746,Fluxicon Disco,Variant 1,1,2016-06-07 18:39:06+00:00,2016-06-07 18:11:06+00:00
+Cancelar Solicitud,124564,241,Cancelar Solicitud,241,Fluxicon Disco,Variant 1,1,2016-06-11 15:46:52+00:00,2016-06-11 14:35:57+00:00
+Notificacion estudiante cancelacion soli,124564,241,Notificacion estudiante cancelacion soli,241,Fluxicon Disco,Variant 1,1,2016-06-23 22:55:19+00:00,2016-06-23 22:55:19+00:00
+Traer informacion estudiante - banner,124572,9379,Traer informacion estudiante - banner,9379,Fluxicon Disco,Variant 1,1,2016-06-07 19:03:30+00:00,2016-06-07 19:03:30+00:00
+Radicar Solicitud Homologacion,124572,9379,Radicar Solicitud Homologacion,9379,Fluxicon Disco,Variant 1,1,2016-06-07 19:05:35+00:00,2016-06-07 19:03:31+00:00
+Cancelar Solicitud,124572,9379,Cancelar Solicitud,9379,Fluxicon Disco,Variant 1,1,2016-06-07 22:04:10+00:00,2016-06-07 22:04:06+00:00
+Notificacion estudiante cancelacion soli,124572,9379,Notificacion estudiante cancelacion soli,9379,Fluxicon Disco,Variant 1,1,2016-06-07 22:08:44+00:00,2016-06-07 22:08:44+00:00
+Traer informacion estudiante - banner,124651,9146,Traer informacion estudiante - banner,9146,Fluxicon Disco,Variant 1,1,2016-06-07 11:16:23+00:00,2016-06-07 11:16:23+00:00
+Radicar Solicitud Homologacion,124651,9146,Radicar Solicitud Homologacion,9146,Fluxicon Disco,Variant 1,1,2016-06-07 11:16:27+00:00,2016-06-07 11:16:27+00:00
+Cancelar Solicitud,124651,294,Cancelar Solicitud,294,Fluxicon Disco,Variant 1,1,2016-06-07 13:08:20+00:00,2016-06-07 11:25:07+00:00
+Notificacion estudiante cancelacion soli,124651,294,Notificacion estudiante cancelacion soli,294,Fluxicon Disco,Variant 1,1,2016-06-23 23:13:52+00:00,2016-06-23 23:13:52+00:00
+Traer informacion estudiante - banner,124702,9379,Traer informacion estudiante - banner,9379,Fluxicon Disco,Variant 1,1,2016-06-07 15:34:58+00:00,2016-06-07 15:34:58+00:00
+Radicar Solicitud Homologacion,124702,9379,Radicar Solicitud Homologacion,9379,Fluxicon Disco,Variant 1,1,2016-06-07 15:35:08+00:00,2016-06-07 15:34:59+00:00
+Cancelar Solicitud,124702,9379,Cancelar Solicitud,9379,Fluxicon Disco,Variant 1,1,2016-06-07 15:48:37+00:00,2016-06-07 15:44:22+00:00
+Notificacion estudiante cancelacion soli,124702,9379,Notificacion estudiante cancelacion soli,9379,Fluxicon Disco,Variant 1,1,2016-06-07 22:00:08+00:00,2016-06-07 22:00:08+00:00
+Traer informacion estudiante - banner,124703,9379,Traer informacion estudiante - banner,9379,Fluxicon Disco,Variant 1,1,2016-06-07 15:44:41+00:00,2016-06-07 15:44:41+00:00
+Radicar Solicitud Homologacion,124703,9379,Radicar Solicitud Homologacion,9379,Fluxicon Disco,Variant 1,1,2016-06-07 15:48:58+00:00,2016-06-07 15:44:42+00:00
+Cancelar Solicitud,124703,9379,Cancelar Solicitud,9379,Fluxicon Disco,Variant 1,1,2016-06-07 22:01:16+00:00,2016-06-07 22:01:09+00:00
+Notificacion estudiante cancelacion soli,124703,9379,Notificacion estudiante cancelacion soli,9379,Fluxicon Disco,Variant 1,1,2016-06-07 22:09:02+00:00,2016-06-07 22:09:02+00:00
+Traer informacion estudiante - banner,124704,5028,Traer informacion estudiante - banner,5028,Fluxicon Disco,Variant 1,1,2016-06-07 16:31:00+00:00,2016-06-07 16:31:00+00:00
+Radicar Solicitud Homologacion,124704,5028,Radicar Solicitud Homologacion,5028,Fluxicon Disco,Variant 1,1,2016-06-07 16:31:14+00:00,2016-06-07 16:31:01+00:00
+Cancelar Solicitud,124704,19019,Cancelar Solicitud,19019,Fluxicon Disco,Variant 1,1,2016-06-07 16:45:58+00:00,2016-06-07 16:44:15+00:00
+Notificacion estudiante cancelacion soli,124704,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 1,1,2016-06-07 20:28:06+00:00,2016-06-07 20:28:06+00:00
+Traer informacion estudiante - banner,124712,9379,Traer informacion estudiante - banner,9379,Fluxicon Disco,Variant 2,2,2016-06-07 22:16:39+00:00,2016-06-07 22:16:39+00:00
+Radicar Solicitud Homologacion,124712,9379,Radicar Solicitud Homologacion,9379,Fluxicon Disco,Variant 2,2,2016-06-07 22:16:42+00:00,2016-06-07 22:16:40+00:00
+Validar solicitud,124712,920,Validar solicitud,920,Fluxicon Disco,Variant 2,2,2016-06-07 22:36:22+00:00,2016-06-07 22:18:41+00:00
+Homologacion por grupo de cursos,124712,920,Homologacion por grupo de cursos,920,Fluxicon Disco,Variant 2,2,2016-06-10 14:11:06+00:00,2016-06-10 13:59:06+00:00
+Traer informacion estudiante - banner,124713,9379,Traer informacion estudiante - banner,9379,Fluxicon Disco,Variant 2,2,2016-06-07 22:19:27+00:00,2016-06-07 22:19:27+00:00
+Radicar Solicitud Homologacion,124713,9379,Radicar Solicitud Homologacion,9379,Fluxicon Disco,Variant 2,2,2016-06-07 22:19:30+00:00,2016-06-07 22:19:28+00:00
+Validar solicitud,124713,920,Validar solicitud,920,Fluxicon Disco,Variant 2,2,2016-06-07 22:39:12+00:00,2016-06-07 22:21:33+00:00
+Homologacion por grupo de cursos,124713,920,Homologacion por grupo de cursos,920,Fluxicon Disco,Variant 2,2,2016-06-10 14:13:10+00:00,2016-06-10 14:01:12+00:00
+Traer informacion estudiante - banner,124781,29274,Traer informacion estudiante - banner,29274,Fluxicon Disco,Variant 2,2,2016-06-08 21:05:39+00:00,2016-06-08 21:05:39+00:00
+Radicar Solicitud Homologacion,124781,29274,Radicar Solicitud Homologacion,29274,Fluxicon Disco,Variant 2,2,2016-06-08 21:20:33+00:00,2016-06-08 21:05:40+00:00
+Validar solicitud,124781,22404,Validar solicitud,22404,Fluxicon Disco,Variant 2,2,2016-06-10 18:03:19+00:00,2016-06-10 17:59:19+00:00
+Homologacion por grupo de cursos,124781,4560,Homologacion por grupo de cursos,4560,Fluxicon Disco,Variant 2,2,2016-06-13 14:20:56+00:00,2016-06-13 12:31:23+00:00
+Traer informacion estudiante - banner,124787,11805,Traer informacion estudiante - banner,11805,Fluxicon Disco,Variant 2,2,2016-06-08 23:04:06+00:00,2016-06-08 23:04:06+00:00
+Radicar Solicitud Homologacion,124787,11805,Radicar Solicitud Homologacion,11805,Fluxicon Disco,Variant 2,2,2016-06-08 23:13:01+00:00,2016-06-08 23:04:06+00:00
+Validar solicitud,124787,29277,Validar solicitud,29277,Fluxicon Disco,Variant 2,2,2016-06-10 01:12:06+00:00,2016-06-10 01:08:06+00:00
+Homologacion por grupo de cursos,124787,1007,Homologacion por grupo de cursos,1007,Fluxicon Disco,Variant 2,2,2016-06-10 19:05:17+00:00,2016-06-10 18:49:17+00:00
+Traer informacion estudiante - banner,124852,7660,Traer informacion estudiante - banner,7660,Fluxicon Disco,Variant 2,2,2016-06-08 16:57:42+00:00,2016-06-08 16:57:42+00:00
+Radicar Solicitud Homologacion,124852,7660,Radicar Solicitud Homologacion,7660,Fluxicon Disco,Variant 2,2,2016-06-08 16:57:48+00:00,2016-06-08 16:57:43+00:00
+Validar solicitud,124852,2292,Validar solicitud,2292,Fluxicon Disco,Variant 2,2,2016-06-08 17:04:45+00:00,2016-06-08 17:03:05+00:00
+Homologacion por grupo de cursos,124852,2292,Homologacion por grupo de cursos,2292,Fluxicon Disco,Variant 2,2,2016-06-08 21:11:09+00:00,2016-06-08 20:43:53+00:00
+Traer informacion estudiante - banner,124860,9146,Traer informacion estudiante - banner,9146,Fluxicon Disco,Variant 1,1,2016-06-08 23:17:46+00:00,2016-06-08 23:17:46+00:00
+Radicar Solicitud Homologacion,124860,9146,Radicar Solicitud Homologacion,9146,Fluxicon Disco,Variant 1,1,2016-06-08 23:17:52+00:00,2016-06-08 23:17:48+00:00
+Cancelar Solicitud,124860,29277,Cancelar Solicitud,29277,Fluxicon Disco,Variant 1,1,2016-06-08 23:26:25+00:00,2016-06-08 23:21:53+00:00
+Notificacion estudiante cancelacion soli,124860,29277,Notificacion estudiante cancelacion soli,29277,Fluxicon Disco,Variant 1,1,2016-06-09 17:54:43+00:00,2016-06-09 17:54:43+00:00
+Traer informacion estudiante - banner,124861,9146,Traer informacion estudiante - banner,9146,Fluxicon Disco,Variant 1,1,2016-06-08 23:22:02+00:00,2016-06-08 23:22:02+00:00
+Radicar Solicitud Homologacion,124861,9146,Radicar Solicitud Homologacion,9146,Fluxicon Disco,Variant 1,1,2016-06-08 23:22:09+00:00,2016-06-08 23:22:03+00:00
+Cancelar Solicitud,124861,29277,Cancelar Solicitud,29277,Fluxicon Disco,Variant 1,1,2016-06-08 23:33:19+00:00,2016-06-08 23:28:52+00:00
+Notificacion estudiante cancelacion soli,124861,29277,Notificacion estudiante cancelacion soli,29277,Fluxicon Disco,Variant 1,1,2016-06-09 17:55:52+00:00,2016-06-09 17:55:52+00:00
+Traer informacion estudiante - banner,124908,29280,Traer informacion estudiante - banner,29280,Fluxicon Disco,Variant 2,2,2016-06-09 15:39:27+00:00,2016-06-09 15:39:27+00:00
+Radicar Solicitud Homologacion,124908,29280,Radicar Solicitud Homologacion,29280,Fluxicon Disco,Variant 2,2,2016-06-09 15:52:14+00:00,2016-06-09 15:39:31+00:00
+Validar solicitud,124908,6400,Validar solicitud,6400,Fluxicon Disco,Variant 2,2,2016-06-10 22:24:50+00:00,2016-06-10 22:22:39+00:00
+Homologacion por grupo de cursos,124908,6520,Homologacion por grupo de cursos,6520,Fluxicon Disco,Variant 2,2,2016-06-13 15:02:03+00:00,2016-06-13 14:34:38+00:00
+Traer informacion estudiante - banner,124953,11775,Traer informacion estudiante - banner,11775,Fluxicon Disco,Variant 2,2,2016-06-09 19:22:41+00:00,2016-06-09 19:22:41+00:00
+Radicar Solicitud Homologacion,124953,11775,Radicar Solicitud Homologacion,11775,Fluxicon Disco,Variant 2,2,2016-06-09 19:34:42+00:00,2016-06-09 19:22:42+00:00
+Validar solicitud,124953,22475,Validar solicitud,22475,Fluxicon Disco,Variant 2,2,2016-06-11 19:08:59+00:00,2016-06-11 19:04:59+00:00
+Homologacion por grupo de cursos,124953,22475,Homologacion por grupo de cursos,22475,Fluxicon Disco,Variant 2,2,2016-06-13 19:17:51+00:00,2016-06-13 18:53:51+00:00
+Traer informacion estudiante - banner,125209,8824,Traer informacion estudiante - banner,8824,Fluxicon Disco,Variant 2,2,2016-06-10 17:41:20+00:00,2016-06-10 17:41:20+00:00
+Radicar Solicitud Homologacion,125209,8824,Radicar Solicitud Homologacion,8824,Fluxicon Disco,Variant 2,2,2016-06-10 17:41:34+00:00,2016-06-10 17:41:21+00:00
+Validar solicitud,125209,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-06-10 18:11:05+00:00,2016-06-10 17:55:01+00:00
+Homologacion por grupo de cursos,125209,677,Homologacion por grupo de cursos,677,Fluxicon Disco,Variant 2,2,2016-06-14 18:36:57+00:00,2016-06-14 18:36:57+00:00
+Traer informacion estudiante - banner,125214,29281,Traer informacion estudiante - banner,29281,Fluxicon Disco,Variant 5,5,2016-06-10 17:58:51+00:00,2016-06-10 17:58:51+00:00
+Radicar Solicitud Homologacion,125214,29281,Radicar Solicitud Homologacion,29281,Fluxicon Disco,Variant 5,5,2016-06-10 17:59:02+00:00,2016-06-10 17:58:52+00:00
+Notificacion estudiante cancelacion soli,125214,1,Notificacion estudiante cancelacion soli,1,Fluxicon Disco,Variant 5,5,2016-06-21 16:33:05+00:00,2016-06-21 16:33:05+00:00
+Traer informacion estudiante - banner,125219,29281,Traer informacion estudiante - banner,29281,Fluxicon Disco,Variant 5,5,2016-06-10 20:10:22+00:00,2016-06-10 20:10:22+00:00
+Radicar Solicitud Homologacion,125219,29281,Radicar Solicitud Homologacion,29281,Fluxicon Disco,Variant 5,5,2016-06-10 20:10:39+00:00,2016-06-10 20:10:23+00:00
+Notificacion estudiante cancelacion soli,125219,1,Notificacion estudiante cancelacion soli,1,Fluxicon Disco,Variant 5,5,2016-06-21 16:51:05+00:00,2016-06-21 16:51:05+00:00
+Traer informacion estudiante - banner,125304,29276,Traer informacion estudiante - banner,29276,Fluxicon Disco,Variant 1,1,2016-06-11 13:43:58+00:00,2016-06-11 13:43:58+00:00
+Radicar Solicitud Homologacion,125304,29276,Radicar Solicitud Homologacion,29276,Fluxicon Disco,Variant 1,1,2016-06-11 14:08:47+00:00,2016-06-11 13:43:59+00:00
+Cancelar Solicitud,125304,7080,Cancelar Solicitud,7080,Fluxicon Disco,Variant 1,1,2016-06-16 14:54:06+00:00,2016-06-16 14:48:04+00:00
+Notificacion estudiante cancelacion soli,125304,7080,Notificacion estudiante cancelacion soli,7080,Fluxicon Disco,Variant 1,1,2016-06-16 22:50:29+00:00,2016-06-16 22:50:29+00:00
+Traer informacion estudiante - banner,125351,19572,Traer informacion estudiante - banner,19572,Fluxicon Disco,Variant 1,1,2016-06-11 18:19:44+00:00,2016-06-11 18:19:44+00:00
+Radicar Solicitud Homologacion,125351,19572,Radicar Solicitud Homologacion,19572,Fluxicon Disco,Variant 1,1,2016-06-11 18:19:52+00:00,2016-06-11 18:19:52+00:00
+Cancelar Solicitud,125351,19572,Cancelar Solicitud,19572,Fluxicon Disco,Variant 1,1,2016-06-11 18:43:01+00:00,2016-06-11 18:43:01+00:00
+Notificacion estudiante cancelacion soli,125351,19572,Notificacion estudiante cancelacion soli,19572,Fluxicon Disco,Variant 1,1,2016-06-12 18:01:19+00:00,2016-06-12 18:01:19+00:00
+Traer informacion estudiante - banner,125401,26259,Traer informacion estudiante - banner,26259,Fluxicon Disco,Variant 1,1,2016-06-12 12:16:15+00:00,2016-06-12 12:16:15+00:00
+Radicar Solicitud Homologacion,125401,26259,Radicar Solicitud Homologacion,26259,Fluxicon Disco,Variant 1,1,2016-06-12 12:16:20+00:00,2016-06-12 12:16:20+00:00
+Cancelar Solicitud,125401,26259,Cancelar Solicitud,26259,Fluxicon Disco,Variant 1,1,2016-06-12 12:32:52+00:00,2016-06-12 12:32:52+00:00
+Notificacion estudiante cancelacion soli,125401,26259,Notificacion estudiante cancelacion soli,26259,Fluxicon Disco,Variant 1,1,2016-06-12 12:35:15+00:00,2016-06-12 12:35:15+00:00
+Traer informacion estudiante - banner,125402,26259,Traer informacion estudiante - banner,26259,Fluxicon Disco,Variant 1,1,2016-06-12 12:35:34+00:00,2016-06-12 12:35:34+00:00
+Radicar Solicitud Homologacion,125402,26259,Radicar Solicitud Homologacion,26259,Fluxicon Disco,Variant 1,1,2016-06-12 12:35:35+00:00,2016-06-12 12:35:35+00:00
+Cancelar Solicitud,125402,26259,Cancelar Solicitud,26259,Fluxicon Disco,Variant 1,1,2016-06-12 12:56:59+00:00,2016-06-12 12:56:59+00:00
+Notificacion estudiante cancelacion soli,125402,26259,Notificacion estudiante cancelacion soli,26259,Fluxicon Disco,Variant 1,1,2016-06-13 13:41:50+00:00,2016-06-13 13:41:50+00:00
+Traer informacion estudiante - banner,125555,26259,Traer informacion estudiante - banner,26259,Fluxicon Disco,Variant 1,1,2016-06-13 13:42:07+00:00,2016-06-13 13:42:07+00:00
+Radicar Solicitud Homologacion,125555,26259,Radicar Solicitud Homologacion,26259,Fluxicon Disco,Variant 1,1,2016-06-13 13:42:07+00:00,2016-06-13 13:42:07+00:00
+Cancelar Solicitud,125555,29277,Cancelar Solicitud,29277,Fluxicon Disco,Variant 1,1,2016-06-13 13:48:54+00:00,2016-06-13 13:48:51+00:00
+Notificacion estudiante cancelacion soli,125555,29277,Notificacion estudiante cancelacion soli,29277,Fluxicon Disco,Variant 1,1,2016-06-13 14:03:03+00:00,2016-06-13 14:03:03+00:00
+Traer informacion estudiante - banner,125559,19692,Traer informacion estudiante - banner,19692,Fluxicon Disco,Variant 1,1,2016-06-13 14:03:46+00:00,2016-06-13 14:03:46+00:00
+Radicar Solicitud Homologacion,125559,19692,Radicar Solicitud Homologacion,19692,Fluxicon Disco,Variant 1,1,2016-06-13 14:43:42+00:00,2016-06-13 14:03:46+00:00
+Cancelar Solicitud,125559,29277,Cancelar Solicitud,29277,Fluxicon Disco,Variant 1,1,2016-06-20 12:43:08+00:00,2016-06-20 12:42:53+00:00
+Notificacion estudiante cancelacion soli,125559,29277,Notificacion estudiante cancelacion soli,29277,Fluxicon Disco,Variant 1,1,2016-06-20 14:15:20+00:00,2016-06-20 14:15:20+00:00
+Radicar Solicitud Homologacion,118201,7091,Radicar Solicitud Homologacion,7091,Fluxicon Disco,Variant 2,2,2016-05-12 21:19:29+00:00,2016-05-12 21:19:04+00:00
+Validar solicitud,118201,22534,Validar solicitud,22534,Fluxicon Disco,Variant 2,2,2016-05-12 23:00:46+00:00,2016-05-12 21:44:15+00:00
+Homologacion por grupo de cursos,118201,7177,Homologacion por grupo de cursos,7177,Fluxicon Disco,Variant 2,2,2016-05-26 18:59:00+00:00,2016-05-26 16:15:49+00:00
+Traer informacion estudiante - banner,118202,15315,Traer informacion estudiante - banner,15315,Fluxicon Disco,Variant 7,7,2016-05-12 21:19:48+00:00,2016-05-12 21:19:48+00:00
+Radicar Solicitud Homologacion,118202,15315,Radicar Solicitud Homologacion,15315,Fluxicon Disco,Variant 7,7,2016-05-12 21:20:07+00:00,2016-05-12 21:19:49+00:00
+Cancelar Solicitud,118202,15315,Cancelar Solicitud,15315,Fluxicon Disco,Variant 7,7,2016-05-12 23:40:56+00:00,2016-05-12 21:38:35+00:00
+Validar solicitud,118202,6694,Validar solicitud,6694,Fluxicon Disco,Variant 7,7,2016-05-12 21:39:00+00:00,2016-05-12 21:38:35+00:00
+Notificacion estudiante cancelacion soli,118202,15315,Notificacion estudiante cancelacion soli,15315,Fluxicon Disco,Variant 7,7,2016-06-06 19:35:44+00:00,2016-06-06 19:35:44+00:00
+Traer informacion estudiante - banner,118203,5858,Traer informacion estudiante - banner,5858,Fluxicon Disco,Variant 1,1,2016-05-12 21:28:15+00:00,2016-05-12 21:28:15+00:00
+Radicar Solicitud Homologacion,118203,5858,Radicar Solicitud Homologacion,5858,Fluxicon Disco,Variant 1,1,2016-05-12 21:28:33+00:00,2016-05-12 21:28:16+00:00
+Cancelar Solicitud,118203,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 1,1,2016-05-12 21:46:05+00:00,2016-05-12 21:45:50+00:00
+Notificacion estudiante cancelacion soli,118203,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 1,1,2016-05-12 22:01:23+00:00,2016-05-12 22:01:23+00:00
+Traer informacion estudiante - banner,118205,7091,Traer informacion estudiante - banner,7091,Fluxicon Disco,Variant 2,2,2016-05-12 21:44:26+00:00,2016-05-12 21:44:26+00:00
+Radicar Solicitud Homologacion,118205,7091,Radicar Solicitud Homologacion,7091,Fluxicon Disco,Variant 2,2,2016-05-12 21:44:34+00:00,2016-05-12 21:44:29+00:00
+Validar solicitud,118205,22534,Validar solicitud,22534,Fluxicon Disco,Variant 2,2,2016-05-12 23:06:01+00:00,2016-05-12 21:49:33+00:00
+Homologacion por grupo de cursos,118205,7177,Homologacion por grupo de cursos,7177,Fluxicon Disco,Variant 2,2,2016-05-26 19:16:18+00:00,2016-05-26 16:17:55+00:00
+Traer informacion estudiante - banner,118207,9336,Traer informacion estudiante - banner,9336,Fluxicon Disco,Variant 2,2,2016-05-12 22:01:01+00:00,2016-05-12 22:01:01+00:00
+Radicar Solicitud Homologacion,118207,9336,Radicar Solicitud Homologacion,9336,Fluxicon Disco,Variant 2,2,2016-05-12 22:01:09+00:00,2016-05-12 22:01:02+00:00
+Validar solicitud,118207,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-05-12 22:16:12+00:00,2016-05-12 22:08:58+00:00
+Homologacion por grupo de cursos,118207,3445,Homologacion por grupo de cursos,3445,Fluxicon Disco,Variant 2,2,2016-05-13 23:41:39+00:00,2016-05-13 21:23:03+00:00
+Traer informacion estudiante - banner,118209,2465,Traer informacion estudiante - banner,2465,Fluxicon Disco,Variant 1,1,2016-05-12 22:21:53+00:00,2016-05-12 22:21:53+00:00
+Radicar Solicitud Homologacion,118209,2465,Radicar Solicitud Homologacion,2465,Fluxicon Disco,Variant 1,1,2016-05-12 22:25:45+00:00,2016-05-12 22:21:54+00:00
+Cancelar Solicitud,118209,19019,Cancelar Solicitud,19019,Fluxicon Disco,Variant 1,1,2016-05-13 16:20:29+00:00,2016-05-13 16:13:31+00:00
+Notificacion estudiante cancelacion soli,118209,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 1,1,2016-05-16 15:12:28+00:00,2016-05-16 15:12:28+00:00
+Traer informacion estudiante - banner,118251,5858,Traer informacion estudiante - banner,5858,Fluxicon Disco,Variant 7,7,2016-05-12 20:47:13+00:00,2016-05-12 20:47:13+00:00
+Radicar Solicitud Homologacion,118251,5858,Radicar Solicitud Homologacion,5858,Fluxicon Disco,Variant 7,7,2016-05-12 20:49:41+00:00,2016-05-12 20:47:16+00:00
+Cancelar Solicitud,118251,5858,Cancelar Solicitud,5858,Fluxicon Disco,Variant 7,7,2016-05-12 23:25:43+00:00,2016-05-12 23:12:56+00:00
+Validar solicitud,118251,22475,Validar solicitud,22475,Fluxicon Disco,Variant 7,7,2016-05-12 23:12:56+00:00,2016-05-12 23:12:56+00:00
+Notificacion estudiante cancelacion soli,118251,5858,Notificacion estudiante cancelacion soli,5858,Fluxicon Disco,Variant 7,7,2016-05-16 18:47:54+00:00,2016-05-16 18:47:54+00:00
+Traer informacion estudiante - banner,118253,23842,Traer informacion estudiante - banner,23842,Fluxicon Disco,Variant 2,2,2016-05-12 23:31:29+00:00,2016-05-12 23:31:29+00:00
+Radicar Solicitud Homologacion,118253,23842,Radicar Solicitud Homologacion,23842,Fluxicon Disco,Variant 2,2,2016-05-12 23:40:12+00:00,2016-05-12 23:31:37+00:00
+Validar solicitud,118253,7320,Validar solicitud,7320,Fluxicon Disco,Variant 2,2,2016-05-16 14:22:31+00:00,2016-05-16 14:06:38+00:00
+Homologacion por grupo de cursos,118253,6952,Homologacion por grupo de cursos,6952,Fluxicon Disco,Variant 2,2,2016-05-18 03:46:25+00:00,2016-05-18 02:02:25+00:00
+Traer informacion estudiante - banner,118352,11760,Traer informacion estudiante - banner,11760,Fluxicon Disco,Variant 2,2,2016-05-13 16:16:37+00:00,2016-05-13 16:16:37+00:00
+Radicar Solicitud Homologacion,118352,11760,Radicar Solicitud Homologacion,11760,Fluxicon Disco,Variant 2,2,2016-05-13 19:42:21+00:00,2016-05-13 16:16:38+00:00
+Validar solicitud,118352,22475,Validar solicitud,22475,Fluxicon Disco,Variant 2,2,2016-06-22 12:04:45+00:00,2016-06-22 12:04:04+00:00
+Homologacion por grupo de cursos,118352,22475,Homologacion por grupo de cursos,22475,Fluxicon Disco,Variant 2,2,2016-06-22 15:24:19+00:00,2016-06-22 14:41:00+00:00
+Traer informacion estudiante - banner,118402,9445,Traer informacion estudiante - banner,9445,Fluxicon Disco,Variant 5,5,2016-05-13 18:04:09+00:00,2016-05-13 18:04:09+00:00
+Radicar Solicitud Homologacion,118402,9445,Radicar Solicitud Homologacion,9445,Fluxicon Disco,Variant 5,5,2016-05-13 19:28:10+00:00,2016-05-13 18:04:10+00:00
+Notificacion estudiante cancelacion soli,118402,1,Notificacion estudiante cancelacion soli,1,Fluxicon Disco,Variant 5,5,2016-06-09 22:24:20+00:00,2016-06-09 22:24:20+00:00
+Traer informacion estudiante - banner,118403,22950,Traer informacion estudiante - banner,22950,Fluxicon Disco,Variant 1,1,2016-05-13 18:21:22+00:00,2016-05-13 18:21:22+00:00
+Radicar Solicitud Homologacion,118403,22950,Radicar Solicitud Homologacion,22950,Fluxicon Disco,Variant 1,1,2016-05-13 18:49:23+00:00,2016-05-13 18:21:23+00:00
+Cancelar Solicitud,118403,22950,Cancelar Solicitud,22950,Fluxicon Disco,Variant 1,1,2016-05-19 00:28:04+00:00,2016-05-19 00:25:28+00:00
+Notificacion estudiante cancelacion soli,118403,22950,Notificacion estudiante cancelacion soli,22950,Fluxicon Disco,Variant 1,1,2016-05-19 16:36:09+00:00,2016-05-19 16:36:09+00:00
+Traer informacion estudiante - banner,118451,3108,Traer informacion estudiante - banner,3108,Fluxicon Disco,Variant 2,2,2016-05-13 21:54:38+00:00,2016-05-13 21:54:38+00:00
+Radicar Solicitud Homologacion,118451,3108,Radicar Solicitud Homologacion,3108,Fluxicon Disco,Variant 2,2,2016-05-13 21:55:06+00:00,2016-05-13 21:54:44+00:00
+Validar solicitud,118451,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-05-13 22:19:57+00:00,2016-05-13 22:17:24+00:00
+Homologacion por grupo de cursos,118451,3445,Homologacion por grupo de cursos,3445,Fluxicon Disco,Variant 2,2,2016-05-16 16:54:56+00:00,2016-05-16 14:50:33+00:00
+Cancelar Solicitud,118901,6844,Cancelar Solicitud,6844,Fluxicon Disco,Variant 33,33,2016-05-16 11:28:18+00:00,2016-05-16 11:28:18+00:00
+Notificacion estudiante cancelacion soli,118901,6844,Notificacion estudiante cancelacion soli,6844,Fluxicon Disco,Variant 33,33,2016-05-16 11:30:51+00:00,2016-05-16 11:30:51+00:00
+Traer informacion estudiante - banner,118901,6844,Traer informacion estudiante - banner,6844,Fluxicon Disco,Variant 33,33,2016-05-16 12:48:06+00:00,2016-05-16 12:48:06+00:00
+Radicar Solicitud Homologacion,118901,6844,Radicar Solicitud Homologacion,6844,Fluxicon Disco,Variant 33,33,2016-05-16 12:48:14+00:00,2016-05-16 12:48:14+00:00
+Traer informacion estudiante - banner,119053,11993,Traer informacion estudiante - banner,11993,Fluxicon Disco,Variant 1,1,2016-05-16 18:42:36+00:00,2016-05-16 18:42:36+00:00
+Radicar Solicitud Homologacion,119053,11993,Radicar Solicitud Homologacion,11993,Fluxicon Disco,Variant 1,1,2016-05-16 19:51:37+00:00,2016-05-16 18:42:40+00:00
+Cancelar Solicitud,119053,186,Cancelar Solicitud,186,Fluxicon Disco,Variant 1,1,2016-05-27 16:50:47+00:00,2016-05-27 14:57:26+00:00
+Notificacion estudiante cancelacion soli,119053,186,Notificacion estudiante cancelacion soli,186,Fluxicon Disco,Variant 1,1,2016-06-20 16:18:35+00:00,2016-06-20 16:18:35+00:00
+Traer informacion estudiante - banner,119054,7717,Traer informacion estudiante - banner,7717,Fluxicon Disco,Variant 1,1,2016-05-16 18:59:18+00:00,2016-05-16 18:59:18+00:00
+Radicar Solicitud Homologacion,119054,7717,Radicar Solicitud Homologacion,7717,Fluxicon Disco,Variant 1,1,2016-05-16 18:59:20+00:00,2016-05-16 18:59:20+00:00
+Cancelar Solicitud,119054,19019,Cancelar Solicitud,19019,Fluxicon Disco,Variant 1,1,2016-05-16 19:12:46+00:00,2016-05-16 19:12:31+00:00
+Notificacion estudiante cancelacion soli,119054,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 1,1,2016-05-16 20:15:49+00:00,2016-05-16 20:15:49+00:00
+Traer informacion estudiante - banner,119153,19591,Traer informacion estudiante - banner,19591,Fluxicon Disco,Variant 2,2,2016-05-16 23:18:33+00:00,2016-05-16 23:18:33+00:00
+Radicar Solicitud Homologacion,119153,19591,Radicar Solicitud Homologacion,19591,Fluxicon Disco,Variant 2,2,2016-05-17 00:44:07+00:00,2016-05-16 23:18:35+00:00
+Validar solicitud,119153,186,Validar solicitud,186,Fluxicon Disco,Variant 2,2,2016-06-01 21:15:43+00:00,2016-06-01 20:51:35+00:00
+Homologacion por grupo de cursos,119153,186,Homologacion por grupo de cursos,186,Fluxicon Disco,Variant 2,2,2016-06-07 22:11:23+00:00,2016-06-07 21:00:24+00:00
+Traer informacion estudiante - banner,119403,22950,Traer informacion estudiante - banner,22950,Fluxicon Disco,Variant 1,1,2016-05-17 19:25:40+00:00,2016-05-17 19:25:40+00:00
+Radicar Solicitud Homologacion,119403,22950,Radicar Solicitud Homologacion,22950,Fluxicon Disco,Variant 1,1,2016-05-17 19:37:41+00:00,2016-05-17 19:25:41+00:00
+Cancelar Solicitud,119403,22404,Cancelar Solicitud,22404,Fluxicon Disco,Variant 1,1,2016-05-19 03:24:54+00:00,2016-05-19 02:58:24+00:00
+Notificacion estudiante cancelacion soli,119403,22404,Notificacion estudiante cancelacion soli,22404,Fluxicon Disco,Variant 1,1,2016-05-24 16:30:53+00:00,2016-05-24 16:30:53+00:00
+Traer informacion estudiante - banner,119404,22950,Traer informacion estudiante - banner,22950,Fluxicon Disco,Variant 2,2,2016-05-17 19:25:59+00:00,2016-05-17 19:25:59+00:00
+Radicar Solicitud Homologacion,119404,22950,Radicar Solicitud Homologacion,22950,Fluxicon Disco,Variant 2,2,2016-05-17 20:35:51+00:00,2016-05-17 19:26:00+00:00
+Validar solicitud,119404,22404,Validar solicitud,22404,Fluxicon Disco,Variant 2,2,2016-05-31 16:05:59+00:00,2016-05-31 15:51:16+00:00
+Homologacion por grupo de cursos,119404,4560,Homologacion por grupo de cursos,4560,Fluxicon Disco,Variant 2,2,2016-06-02 17:11:45+00:00,2016-06-02 14:34:49+00:00
+Traer informacion estudiante - banner,119451,9379,Traer informacion estudiante - banner,9379,Fluxicon Disco,Variant 5,5,2016-05-17 17:08:51+00:00,2016-05-17 17:08:51+00:00
+Radicar Solicitud Homologacion,119451,9379,Radicar Solicitud Homologacion,9379,Fluxicon Disco,Variant 5,5,2016-05-17 18:49:48+00:00,2016-05-17 17:08:57+00:00
+Notificacion estudiante cancelacion soli,119451,1,Notificacion estudiante cancelacion soli,1,Fluxicon Disco,Variant 5,5,2016-06-15 22:24:19+00:00,2016-06-15 22:24:19+00:00
+Traer informacion estudiante - banner,119656,11775,Traer informacion estudiante - banner,11775,Fluxicon Disco,Variant 2,2,2016-05-18 19:56:02+00:00,2016-05-18 19:56:02+00:00
+Radicar Solicitud Homologacion,119656,11775,Radicar Solicitud Homologacion,11775,Fluxicon Disco,Variant 2,2,2016-05-18 19:56:03+00:00,2016-05-18 19:56:03+00:00
+Validar solicitud,119656,22475,Validar solicitud,22475,Fluxicon Disco,Variant 2,2,2016-05-18 19:59:26+00:00,2016-05-18 19:59:20+00:00
+Homologacion por grupo de cursos,119656,22475,Homologacion por grupo de cursos,22475,Fluxicon Disco,Variant 2,2,2016-05-18 21:48:20+00:00,2016-05-18 20:06:20+00:00
+Traer informacion estudiante - banner,119802,11611,Traer informacion estudiante - banner,11611,Fluxicon Disco,Variant 2,2,2016-05-19 00:36:58+00:00,2016-05-19 00:36:58+00:00
+Radicar Solicitud Homologacion,119802,11611,Radicar Solicitud Homologacion,11611,Fluxicon Disco,Variant 2,2,2016-05-19 00:36:59+00:00,2016-05-19 00:36:59+00:00
+Validar solicitud,119802,19019,Validar solicitud,19019,Fluxicon Disco,Variant 2,2,2016-05-19 00:52:12+00:00,2016-05-19 00:44:12+00:00
+Homologacion por grupo de cursos,119802,19019,Homologacion por grupo de cursos,19019,Fluxicon Disco,Variant 2,2,2016-05-20 12:17:58+00:00,2016-05-20 12:12:00+00:00
+Traer informacion estudiante - banner,119901,8661,Traer informacion estudiante - banner,8661,Fluxicon Disco,Variant 1,1,2016-05-19 15:37:13+00:00,2016-05-19 15:37:13+00:00
+Radicar Solicitud Homologacion,119901,8661,Radicar Solicitud Homologacion,8661,Fluxicon Disco,Variant 1,1,2016-05-19 15:45:07+00:00,2016-05-19 15:37:14+00:00
+Cancelar Solicitud,119901,8661,Cancelar Solicitud,8661,Fluxicon Disco,Variant 1,1,2016-05-20 15:36:47+00:00,2016-05-20 15:30:18+00:00
+Notificacion estudiante cancelacion soli,119901,8661,Notificacion estudiante cancelacion soli,8661,Fluxicon Disco,Variant 1,1,2016-05-23 00:03:13+00:00,2016-05-23 00:03:13+00:00
+Traer informacion estudiante - banner,119902,4148,Traer informacion estudiante - banner,4148,Fluxicon Disco,Variant 2,2,2016-05-19 15:52:54+00:00,2016-05-19 15:52:54+00:00
+Radicar Solicitud Homologacion,119902,4148,Radicar Solicitud Homologacion,4148,Fluxicon Disco,Variant 2,2,2016-05-19 15:53:14+00:00,2016-05-19 15:52:55+00:00
+Validar solicitud,119902,2292,Validar solicitud,2292,Fluxicon Disco,Variant 2,2,2016-05-19 16:23:06+00:00,2016-05-19 16:12:05+00:00
+Homologacion por grupo de cursos,119902,2292,Homologacion por grupo de cursos,2292,Fluxicon Disco,Variant 2,2,2016-05-20 22:08:28+00:00,2016-05-20 21:13:30+00:00
+Traer informacion estudiante - banner,119953,3603,Traer informacion estudiante - banner,3603,Fluxicon Disco,Variant 1,1,2016-05-19 14:13:39+00:00,2016-05-19 14:13:39+00:00
+Radicar Solicitud Homologacion,119953,3603,Radicar Solicitud Homologacion,3603,Fluxicon Disco,Variant 1,1,2016-05-19 14:13:55+00:00,2016-05-19 14:13:40+00:00
+Cancelar Solicitud,119953,3603,Cancelar Solicitud,3603,Fluxicon Disco,Variant 1,1,2016-05-19 14:28:48+00:00,2016-05-19 14:28:42+00:00
+Notificacion estudiante cancelacion soli,119953,3603,Notificacion estudiante cancelacion soli,3603,Fluxicon Disco,Variant 1,1,2016-05-19 14:35:19+00:00,2016-05-19 14:35:19+00:00
+Traer informacion estudiante - banner,119955,3603,Traer informacion estudiante - banner,3603,Fluxicon Disco,Variant 1,1,2016-05-19 14:34:56+00:00,2016-05-19 14:34:56+00:00
+Radicar Solicitud Homologacion,119955,3603,Radicar Solicitud Homologacion,3603,Fluxicon Disco,Variant 1,1,2016-05-19 14:35:04+00:00,2016-05-19 14:34:56+00:00
+Cancelar Solicitud,119955,3603,Cancelar Solicitud,3603,Fluxicon Disco,Variant 1,1,2016-05-19 14:43:42+00:00,2016-05-19 14:43:40+00:00
+Notificacion estudiante cancelacion soli,119955,3603,Notificacion estudiante cancelacion soli,3603,Fluxicon Disco,Variant 1,1,2016-05-19 14:46:04+00:00,2016-05-19 14:46:04+00:00
+Traer informacion estudiante - banner,120101,17807,Traer informacion estudiante - banner,17807,Fluxicon Disco,Variant 1,1,2016-05-20 01:34:26+00:00,2016-05-20 01:34:26+00:00
+Radicar Solicitud Homologacion,120101,17807,Radicar Solicitud Homologacion,17807,Fluxicon Disco,Variant 1,1,2016-05-20 01:34:31+00:00,2016-05-20 01:34:31+00:00
+Cancelar Solicitud,120101,22404,Cancelar Solicitud,22404,Fluxicon Disco,Variant 1,1,2016-05-20 13:34:39+00:00,2016-05-20 13:33:45+00:00
+Notificacion estudiante cancelacion soli,120101,22404,Notificacion estudiante cancelacion soli,22404,Fluxicon Disco,Variant 1,1,2016-05-20 14:54:48+00:00,2016-05-20 14:54:48+00:00
+Traer informacion estudiante - banner,120151,2391,Traer informacion estudiante - banner,2391,Fluxicon Disco,Variant 2,2,2016-05-20 02:28:32+00:00,2016-05-20 02:28:32+00:00
+Radicar Solicitud Homologacion,120151,2391,Radicar Solicitud Homologacion,2391,Fluxicon Disco,Variant 2,2,2016-05-20 02:28:37+00:00,2016-05-20 02:28:37+00:00
+Validar solicitud,120151,18929,Validar solicitud,18929,Fluxicon Disco,Variant 2,2,2016-05-20 02:54:55+00:00,2016-05-20 02:51:55+00:00
+Homologacion por grupo de cursos,120151,957,Homologacion por grupo de cursos,957,Fluxicon Disco,Variant 2,2,2016-05-20 18:07:24+00:00,2016-05-20 17:00:23+00:00
+Traer informacion estudiante - banner,120201,11571,Traer informacion estudiante - banner,11571,Fluxicon Disco,Variant 2,2,2016-05-20 00:55:23+00:00,2016-05-20 00:55:23+00:00
+Radicar Solicitud Homologacion,120201,11571,Radicar Solicitud Homologacion,11571,Fluxicon Disco,Variant 2,2,2016-05-20 01:01:14+00:00,2016-05-20 00:55:27+00:00
+Validar solicitud,120201,22404,Validar solicitud,22404,Fluxicon Disco,Variant 2,2,2016-05-20 21:49:43+00:00,2016-05-20 21:47:31+00:00
+Homologacion por grupo de cursos,120201,22404,Homologacion por grupo de cursos,22404,Fluxicon Disco,Variant 2,2,2016-05-23 13:35:08+00:00,2016-05-23 12:57:40+00:00
+Traer informacion estudiante - banner,120303,11314,Traer informacion estudiante - banner,11314,Fluxicon Disco,Variant 7,7,2016-05-20 14:06:57+00:00,2016-05-20 14:06:57+00:00
+Radicar Solicitud Homologacion,120303,11314,Radicar Solicitud Homologacion,11314,Fluxicon Disco,Variant 7,7,2016-05-20 14:18:09+00:00,2016-05-20 14:07:00+00:00
+Cancelar Solicitud,120303,11314,Cancelar Solicitud,11314,Fluxicon Disco,Variant 7,7,2016-05-23 17:29:33+00:00,2016-05-23 17:16:50+00:00
+Validar solicitud,120303,6400,Validar solicitud,6400,Fluxicon Disco,Variant 7,7,2016-05-23 17:29:33+00:00,2016-05-23 17:16:50+00:00
+Notificacion estudiante cancelacion soli,120303,11314,Notificacion estudiante cancelacion soli,11314,Fluxicon Disco,Variant 7,7,2016-05-25 13:53:58+00:00,2016-05-25 13:53:58+00:00
+Homologacion por grupo de cursos,120351,957,Homologacion por grupo de cursos,957,Fluxicon Disco,Variant 15,15,2016-05-20 16:30:06+00:00,2016-05-20 15:21:26+00:00
+Traer informacion estudiante - banner,120351,2391,Traer informacion estudiante - banner,2391,Fluxicon Disco,Variant 15,15,2016-05-20 17:16:14+00:00,2016-05-20 17:16:14+00:00
+Radicar Solicitud Homologacion,120351,2391,Radicar Solicitud Homologacion,2391,Fluxicon Disco,Variant 15,15,2016-05-20 17:16:23+00:00,2016-05-20 17:16:20+00:00
+Validar solicitud,120351,18929,Validar solicitud,18929,Fluxicon Disco,Variant 15,15,2016-05-20 17:19:43+00:00,2016-05-20 17:19:43+00:00
+Traer informacion estudiante - banner,120353,7599,Traer informacion estudiante - banner,7599,Fluxicon Disco,Variant 1,1,2016-05-20 17:43:50+00:00,2016-05-20 17:43:50+00:00
+Radicar Solicitud Homologacion,120353,7599,Radicar Solicitud Homologacion,7599,Fluxicon Disco,Variant 1,1,2016-05-20 17:43:58+00:00,2016-05-20 17:43:51+00:00
+Cancelar Solicitud,120353,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 1,1,2016-05-20 17:51:18+00:00,2016-05-20 17:51:15+00:00
+Notificacion estudiante cancelacion soli,120353,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 1,1,2016-05-20 17:54:59+00:00,2016-05-20 17:54:59+00:00
+Traer informacion estudiante - banner,120355,7599,Traer informacion estudiante - banner,7599,Fluxicon Disco,Variant 22,22,2016-05-20 17:54:27+00:00,2016-05-20 17:54:27+00:00
+Radicar Solicitud Homologacion,120355,7599,Radicar Solicitud Homologacion,7599,Fluxicon Disco,Variant 22,22,2016-05-20 17:54:33+00:00,2016-05-20 17:54:28+00:00
+Notificacion estudiante cancelacion soli,120355,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 22,22,2016-05-20 17:55:18+00:00,2016-05-20 17:55:18+00:00
+Cancelar Solicitud,120355,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 22,22,2016-05-20 18:00:25+00:00,2016-05-20 18:00:25+00:00
+Notificacion estudiante cancelacion soli,120356,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 10,10,2016-05-20 17:55:33+00:00,2016-05-20 17:55:33+00:00
+Traer informacion estudiante - banner,120356,7599,Traer informacion estudiante - banner,7599,Fluxicon Disco,Variant 10,10,2016-05-20 18:10:08+00:00,2016-05-20 18:10:08+00:00
+Radicar Solicitud Homologacion,120356,7599,Radicar Solicitud Homologacion,7599,Fluxicon Disco,Variant 10,10,2016-05-20 18:10:09+00:00,2016-05-20 18:10:09+00:00
+Cancelar Solicitud,120356,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 10,10,2016-05-20 18:24:19+00:00,2016-05-20 18:24:19+00:00
+Notificacion estudiante cancelacion soli,120357,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 10,10,2016-05-20 17:55:56+00:00,2016-05-20 17:55:56+00:00
+Traer informacion estudiante - banner,120357,7599,Traer informacion estudiante - banner,7599,Fluxicon Disco,Variant 10,10,2016-05-20 18:25:22+00:00,2016-05-20 18:25:22+00:00
+Radicar Solicitud Homologacion,120357,7599,Radicar Solicitud Homologacion,7599,Fluxicon Disco,Variant 10,10,2016-05-20 18:25:23+00:00,2016-05-20 18:25:23+00:00
+Cancelar Solicitud,120357,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 10,10,2016-05-20 18:38:20+00:00,2016-05-20 18:38:20+00:00
+Cancelar Solicitud,120359,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 33,33,2016-05-20 17:13:36+00:00,2016-05-20 17:12:53+00:00
+Notificacion estudiante cancelacion soli,120359,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 33,33,2016-05-20 17:56:08+00:00,2016-05-20 17:56:08+00:00
+Cancelar Solicitud,116601,559,Cancelar Solicitud,559,Fluxicon Disco,Variant 1,1,2016-05-09 18:40:14+00:00,2016-05-09 15:39:51+00:00
+Notificacion estudiante cancelacion soli,116601,559,Notificacion estudiante cancelacion soli,559,Fluxicon Disco,Variant 1,1,2016-06-13 20:23:52+00:00,2016-06-13 20:23:52+00:00
+Traer informacion estudiante - banner,116602,11395,Traer informacion estudiante - banner,11395,Fluxicon Disco,Variant 23,23,2016-05-04 13:20:20+00:00,2016-05-04 13:20:20+00:00
+Radicar Solicitud Homologacion,116602,11395,Radicar Solicitud Homologacion,11395,Fluxicon Disco,Variant 23,23,2016-05-04 13:20:22+00:00,2016-05-04 13:20:22+00:00
+Radicar Solicitud Homologacion,116602,11395,Radicar Solicitud Homologacion,11395,Fluxicon Disco,Variant 23,23,2016-05-05 00:01:59+00:00,2016-05-04 22:24:24+00:00
+Notificacion estudiante cancelacion soli,116602,1,Notificacion estudiante cancelacion soli,1,Fluxicon Disco,Variant 23,23,2016-06-02 22:24:03+00:00,2016-06-02 22:24:03+00:00
+Traer informacion estudiante - banner,116604,22592,Traer informacion estudiante - banner,22592,Fluxicon Disco,Variant 2,2,2016-05-04 14:38:10+00:00,2016-05-04 14:38:10+00:00
+Radicar Solicitud Homologacion,116604,22592,Radicar Solicitud Homologacion,22592,Fluxicon Disco,Variant 2,2,2016-05-04 14:38:29+00:00,2016-05-04 14:38:13+00:00
+Validar solicitud,116604,261,Validar solicitud,261,Fluxicon Disco,Variant 2,2,2016-05-04 14:58:31+00:00,2016-05-04 14:54:14+00:00
+Homologacion por grupo de cursos,116604,7355,Homologacion por grupo de cursos,7355,Fluxicon Disco,Variant 2,2,2016-05-04 23:55:03+00:00,2016-05-04 21:11:56+00:00
+Traer informacion estudiante - banner,116607,4745,Traer informacion estudiante - banner,4745,Fluxicon Disco,Variant 2,2,2016-05-04 15:43:39+00:00,2016-05-04 15:43:39+00:00
+Radicar Solicitud Homologacion,116607,4745,Radicar Solicitud Homologacion,4745,Fluxicon Disco,Variant 2,2,2016-05-04 15:45:59+00:00,2016-05-04 15:43:43+00:00
+Validar solicitud,116607,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-05-04 19:14:29+00:00,2016-05-04 18:25:38+00:00
+Homologacion por grupo de cursos,116607,677,Homologacion por grupo de cursos,677,Fluxicon Disco,Variant 2,2,2016-05-13 20:52:00+00:00,2016-05-13 20:51:59+00:00
+Traer informacion estudiante - banner,116801,3695,Traer informacion estudiante - banner,3695,Fluxicon Disco,Variant 2,2,2016-05-04 21:10:25+00:00,2016-05-04 21:10:25+00:00
+Radicar Solicitud Homologacion,116801,3695,Radicar Solicitud Homologacion,3695,Fluxicon Disco,Variant 2,2,2016-05-04 21:10:44+00:00,2016-05-04 21:10:32+00:00
+Validar solicitud,116801,49,Validar solicitud,49,Fluxicon Disco,Variant 2,2,2016-05-04 21:29:11+00:00,2016-05-04 21:23:26+00:00
+Homologacion por grupo de cursos,116801,2541,Homologacion por grupo de cursos,2541,Fluxicon Disco,Variant 2,2,2016-05-05 17:58:52+00:00,2016-05-05 17:08:33+00:00
+Validar solicitud,116901,261,Validar solicitud,261,Fluxicon Disco,Variant 16,16,2016-05-05 17:12:58+00:00,2016-05-05 14:42:28+00:00
+Traer informacion estudiante - banner,116901,26793,Traer informacion estudiante - banner,26793,Fluxicon Disco,Variant 16,16,2016-05-05 15:12:16+00:00,2016-05-05 15:12:16+00:00
+Radicar Solicitud Homologacion,116901,26793,Radicar Solicitud Homologacion,26793,Fluxicon Disco,Variant 16,16,2016-05-05 15:12:22+00:00,2016-05-05 15:12:22+00:00
+Homologacion por grupo de cursos,116901,7355,Homologacion por grupo de cursos,7355,Fluxicon Disco,Variant 16,16,2016-06-02 23:21:41+00:00,2016-06-02 23:12:33+00:00
+Traer informacion estudiante - banner,116905,19019,Traer informacion estudiante - banner,19019,Fluxicon Disco,Variant 2,2,2016-05-05 16:35:48+00:00,2016-05-05 16:35:48+00:00
+Radicar Solicitud Homologacion,116905,19019,Radicar Solicitud Homologacion,19019,Fluxicon Disco,Variant 2,2,2016-05-05 16:36:00+00:00,2016-05-05 16:35:51+00:00
+Validar solicitud,116905,19019,Validar solicitud,19019,Fluxicon Disco,Variant 2,2,2016-05-05 16:45:18+00:00,2016-05-05 16:45:18+00:00
+Homologacion por grupo de cursos,116905,1007,Homologacion por grupo de cursos,1007,Fluxicon Disco,Variant 2,2,2016-05-05 17:25:40+00:00,2016-05-05 16:45:56+00:00
+Validar solicitud,116906,677,Validar solicitud,677,Fluxicon Disco,Variant 16,16,2016-05-05 16:53:12+00:00,2016-05-05 16:10:23+00:00
+Traer informacion estudiante - banner,116906,8416,Traer informacion estudiante - banner,8416,Fluxicon Disco,Variant 16,16,2016-05-05 16:41:28+00:00,2016-05-05 16:41:28+00:00
+Radicar Solicitud Homologacion,116906,8416,Radicar Solicitud Homologacion,8416,Fluxicon Disco,Variant 16,16,2016-05-05 16:41:30+00:00,2016-05-05 16:41:30+00:00
+Homologacion por grupo de cursos,116906,677,Homologacion por grupo de cursos,677,Fluxicon Disco,Variant 16,16,2016-05-13 20:59:54+00:00,2016-05-13 20:59:53+00:00
+Traer informacion estudiante - banner,116910,19019,Traer informacion estudiante - banner,19019,Fluxicon Disco,Variant 2,2,2016-05-05 17:11:55+00:00,2016-05-05 17:11:55+00:00
+Radicar Solicitud Homologacion,116910,19019,Radicar Solicitud Homologacion,19019,Fluxicon Disco,Variant 2,2,2016-05-05 17:11:58+00:00,2016-05-05 17:11:55+00:00
+Validar solicitud,116910,19019,Validar solicitud,19019,Fluxicon Disco,Variant 2,2,2016-05-05 17:15:53+00:00,2016-05-05 17:15:53+00:00
+Homologacion por grupo de cursos,116910,1007,Homologacion por grupo de cursos,1007,Fluxicon Disco,Variant 2,2,2016-05-05 17:55:27+00:00,2016-05-05 17:16:13+00:00
+Traer informacion estudiante - banner,116911,26271,Traer informacion estudiante - banner,26271,Fluxicon Disco,Variant 1,1,2016-05-05 17:15:53+00:00,2016-05-05 17:15:53+00:00
+Radicar Solicitud Homologacion,116911,26271,Radicar Solicitud Homologacion,26271,Fluxicon Disco,Variant 1,1,2016-05-05 18:20:39+00:00,2016-05-05 17:15:55+00:00
+Cancelar Solicitud,116911,22404,Cancelar Solicitud,22404,Fluxicon Disco,Variant 1,1,2016-05-18 20:04:11+00:00,2016-05-18 19:56:11+00:00
+Notificacion estudiante cancelacion soli,116911,22404,Notificacion estudiante cancelacion soli,22404,Fluxicon Disco,Variant 1,1,2016-05-19 19:25:52+00:00,2016-05-19 19:25:52+00:00
+Traer informacion estudiante - banner,116912,19019,Traer informacion estudiante - banner,19019,Fluxicon Disco,Variant 2,2,2016-05-05 17:18:01+00:00,2016-05-05 17:18:01+00:00
+Radicar Solicitud Homologacion,116912,19019,Radicar Solicitud Homologacion,19019,Fluxicon Disco,Variant 2,2,2016-05-05 17:18:04+00:00,2016-05-05 17:18:01+00:00
+Validar solicitud,116912,19019,Validar solicitud,19019,Fluxicon Disco,Variant 2,2,2016-05-05 17:21:28+00:00,2016-05-05 17:21:28+00:00
+Homologacion por grupo de cursos,116912,1007,Homologacion por grupo de cursos,1007,Fluxicon Disco,Variant 2,2,2016-05-05 21:47:59+00:00,2016-05-05 17:21:52+00:00
+Traer informacion estudiante - banner,116913,19019,Traer informacion estudiante - banner,19019,Fluxicon Disco,Variant 2,2,2016-05-05 17:25:46+00:00,2016-05-05 17:25:46+00:00
+Radicar Solicitud Homologacion,116913,19019,Radicar Solicitud Homologacion,19019,Fluxicon Disco,Variant 2,2,2016-05-05 17:25:50+00:00,2016-05-05 17:25:48+00:00
+Validar solicitud,116913,19019,Validar solicitud,19019,Fluxicon Disco,Variant 2,2,2016-05-05 17:28:18+00:00,2016-05-05 17:28:17+00:00
+Homologacion por grupo de cursos,116913,1007,Homologacion por grupo de cursos,1007,Fluxicon Disco,Variant 2,2,2016-05-05 19:26:11+00:00,2016-05-05 17:29:27+00:00
+Cancelar Solicitud,116914,11571,Cancelar Solicitud,11571,Fluxicon Disco,Variant 17,17,2016-05-05 17:13:08+00:00,2016-05-05 16:44:49+00:00
+Traer informacion estudiante - banner,116914,11571,Traer informacion estudiante - banner,11571,Fluxicon Disco,Variant 17,17,2016-05-05 17:29:53+00:00,2016-05-05 17:29:53+00:00
+Radicar Solicitud Homologacion,116914,11571,Radicar Solicitud Homologacion,11571,Fluxicon Disco,Variant 17,17,2016-05-05 17:29:55+00:00,2016-05-05 17:29:55+00:00
+Notificacion estudiante cancelacion soli,116914,11571,Notificacion estudiante cancelacion soli,11571,Fluxicon Disco,Variant 17,17,2016-05-11 23:03:57+00:00,2016-05-11 23:03:57+00:00
+Traer informacion estudiante - banner,116920,7781,Traer informacion estudiante - banner,7781,Fluxicon Disco,Variant 1,1,2016-05-05 20:44:37+00:00,2016-05-05 20:44:37+00:00
+Radicar Solicitud Homologacion,116920,7781,Radicar Solicitud Homologacion,7781,Fluxicon Disco,Variant 1,1,2016-05-05 20:45:03+00:00,2016-05-05 20:44:41+00:00
+Cancelar Solicitud,116920,7781,Cancelar Solicitud,7781,Fluxicon Disco,Variant 1,1,2016-05-05 21:07:43+00:00,2016-05-05 21:07:40+00:00
+Notificacion estudiante cancelacion soli,116920,7781,Notificacion estudiante cancelacion soli,7781,Fluxicon Disco,Variant 1,1,2016-05-05 21:11:11+00:00,2016-05-05 21:11:11+00:00
+Traer informacion estudiante - banner,116925,8774,Traer informacion estudiante - banner,8774,Fluxicon Disco,Variant 2,2,2016-05-05 22:36:58+00:00,2016-05-05 22:36:58+00:00
+Radicar Solicitud Homologacion,116925,8774,Radicar Solicitud Homologacion,8774,Fluxicon Disco,Variant 2,2,2016-05-05 22:38:22+00:00,2016-05-05 22:36:59+00:00
+Validar solicitud,116925,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-05-06 01:35:31+00:00,2016-05-06 00:58:25+00:00
+Homologacion por grupo de cursos,116925,3445,Homologacion por grupo de cursos,3445,Fluxicon Disco,Variant 2,2,2016-05-13 23:14:49+00:00,2016-05-13 21:06:42+00:00
+Traer informacion estudiante - banner,116926,1378,Traer informacion estudiante - banner,1378,Fluxicon Disco,Variant 2,2,2016-05-05 23:10:00+00:00,2016-05-05 23:10:00+00:00
+Radicar Solicitud Homologacion,116926,1378,Radicar Solicitud Homologacion,1378,Fluxicon Disco,Variant 2,2,2016-05-05 23:10:07+00:00,2016-05-05 23:10:01+00:00
+Validar solicitud,116926,19019,Validar solicitud,19019,Fluxicon Disco,Variant 2,2,2016-05-05 23:23:30+00:00,2016-05-05 23:16:42+00:00
+Homologacion por grupo de cursos,116926,1007,Homologacion por grupo de cursos,1007,Fluxicon Disco,Variant 2,2,2016-05-06 22:33:20+00:00,2016-05-06 22:04:54+00:00
+Traer informacion estudiante - banner,116927,1378,Traer informacion estudiante - banner,1378,Fluxicon Disco,Variant 2,2,2016-05-05 23:16:48+00:00,2016-05-05 23:16:48+00:00
+Radicar Solicitud Homologacion,116927,1378,Radicar Solicitud Homologacion,1378,Fluxicon Disco,Variant 2,2,2016-05-05 23:16:53+00:00,2016-05-05 23:16:49+00:00
+Validar solicitud,116927,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-05-05 23:59:17+00:00,2016-05-05 23:21:30+00:00
+Homologacion por grupo de cursos,116927,3445,Homologacion por grupo de cursos,3445,Fluxicon Disco,Variant 2,2,2016-05-13 21:15:41+00:00,2016-05-13 21:09:18+00:00
+Traer informacion estudiante - banner,116928,1378,Traer informacion estudiante - banner,1378,Fluxicon Disco,Variant 2,2,2016-05-05 23:22:11+00:00,2016-05-05 23:22:11+00:00
+Radicar Solicitud Homologacion,116928,1378,Radicar Solicitud Homologacion,1378,Fluxicon Disco,Variant 2,2,2016-05-05 23:22:14+00:00,2016-05-05 23:22:12+00:00
+Validar solicitud,116928,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-05-06 00:02:17+00:00,2016-05-05 23:24:28+00:00
+Homologacion por grupo de cursos,116928,3445,Homologacion por grupo de cursos,3445,Fluxicon Disco,Variant 2,2,2016-05-13 21:20:13+00:00,2016-05-13 21:13:56+00:00
+Traer informacion estudiante - banner,116953,18501,Traer informacion estudiante - banner,18501,Fluxicon Disco,Variant 7,7,2016-05-05 20:10:46+00:00,2016-05-05 20:10:46+00:00
+Radicar Solicitud Homologacion,116953,18501,Radicar Solicitud Homologacion,18501,Fluxicon Disco,Variant 7,7,2016-05-05 20:11:02+00:00,2016-05-05 20:10:48+00:00
+Cancelar Solicitud,116953,22533,Cancelar Solicitud,22533,Fluxicon Disco,Variant 7,7,2016-05-05 21:42:45+00:00,2016-05-05 20:25:47+00:00
+Validar solicitud,116953,22404,Validar solicitud,22404,Fluxicon Disco,Variant 7,7,2016-05-05 20:32:29+00:00,2016-05-05 20:25:47+00:00
+Notificacion estudiante cancelacion soli,116953,22533,Notificacion estudiante cancelacion soli,22533,Fluxicon Disco,Variant 7,7,2016-05-20 15:24:07+00:00,2016-05-20 15:24:07+00:00
+Traer informacion estudiante - banner,117053,9890,Traer informacion estudiante - banner,9890,Fluxicon Disco,Variant 2,2,2016-05-06 02:20:16+00:00,2016-05-06 02:20:16+00:00
+Radicar Solicitud Homologacion,117053,9890,Radicar Solicitud Homologacion,9890,Fluxicon Disco,Variant 2,2,2016-05-06 02:20:17+00:00,2016-05-06 02:20:17+00:00
+Validar solicitud,117053,22404,Validar solicitud,22404,Fluxicon Disco,Variant 2,2,2016-05-06 02:31:41+00:00,2016-05-06 02:28:25+00:00
+Homologacion por grupo de cursos,117053,22404,Homologacion por grupo de cursos,22404,Fluxicon Disco,Variant 2,2,2016-05-06 19:03:14+00:00,2016-05-06 17:16:46+00:00
+Traer informacion estudiante - banner,117151,11387,Traer informacion estudiante - banner,11387,Fluxicon Disco,Variant 1,1,2016-05-06 10:52:53+00:00,2016-05-06 10:52:53+00:00
+Radicar Solicitud Homologacion,117151,11387,Radicar Solicitud Homologacion,11387,Fluxicon Disco,Variant 1,1,2016-05-06 10:53:01+00:00,2016-05-06 10:53:01+00:00
+Cancelar Solicitud,117151,677,Cancelar Solicitud,677,Fluxicon Disco,Variant 1,1,2016-05-06 11:03:10+00:00,2016-05-06 11:00:35+00:00
+Notificacion estudiante cancelacion soli,117151,677,Notificacion estudiante cancelacion soli,677,Fluxicon Disco,Variant 1,1,2016-05-06 16:35:13+00:00,2016-05-06 16:35:13+00:00
+Traer informacion estudiante - banner,117253,6723,Traer informacion estudiante - banner,6723,Fluxicon Disco,Variant 2,2,2016-05-06 16:34:50+00:00,2016-05-06 16:34:50+00:00
+Radicar Solicitud Homologacion,117253,6723,Radicar Solicitud Homologacion,6723,Fluxicon Disco,Variant 2,2,2016-05-06 16:34:58+00:00,2016-05-06 16:34:52+00:00
+Validar solicitud,117253,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-05-06 17:16:01+00:00,2016-05-06 16:41:26+00:00
+Homologacion por grupo de cursos,117253,3445,Homologacion por grupo de cursos,3445,Fluxicon Disco,Variant 2,2,2016-05-13 21:38:24+00:00,2016-05-13 21:16:31+00:00
+Traer informacion estudiante - banner,117258,8268,Traer informacion estudiante - banner,8268,Fluxicon Disco,Variant 2,2,2016-05-06 20:08:02+00:00,2016-05-06 20:08:02+00:00
+Radicar Solicitud Homologacion,117258,8268,Radicar Solicitud Homologacion,8268,Fluxicon Disco,Variant 2,2,2016-05-06 20:30:01+00:00,2016-05-06 20:08:08+00:00
+Validar solicitud,117258,18929,Validar solicitud,18929,Fluxicon Disco,Variant 2,2,2016-05-12 16:28:02+00:00,2016-05-12 16:02:05+00:00
+Homologacion por grupo de cursos,117258,18929,Homologacion por grupo de cursos,18929,Fluxicon Disco,Variant 2,2,2016-05-17 19:30:22+00:00,2016-05-17 19:30:22+00:00
+Traer informacion estudiante - banner,117263,10742,Traer informacion estudiante - banner,10742,Fluxicon Disco,Variant 2,2,2016-05-06 21:59:47+00:00,2016-05-06 21:59:47+00:00
+Radicar Solicitud Homologacion,117263,10742,Radicar Solicitud Homologacion,10742,Fluxicon Disco,Variant 2,2,2016-05-06 22:07:22+00:00,2016-05-06 21:59:48+00:00
+Validar solicitud,117263,261,Validar solicitud,261,Fluxicon Disco,Variant 2,2,2016-05-10 23:56:28+00:00,2016-05-10 21:34:03+00:00
+Homologacion por grupo de cursos,117263,308,Homologacion por grupo de cursos,308,Fluxicon Disco,Variant 2,2,2016-06-07 19:24:41+00:00,2016-06-07 18:06:51+00:00
+Traer informacion estudiante - banner,117265,10742,Traer informacion estudiante - banner,10742,Fluxicon Disco,Variant 2,2,2016-05-06 22:39:28+00:00,2016-05-06 22:39:28+00:00
+Radicar Solicitud Homologacion,117265,10742,Radicar Solicitud Homologacion,10742,Fluxicon Disco,Variant 2,2,2016-05-06 22:46:28+00:00,2016-05-06 22:39:29+00:00
+Validar solicitud,117265,261,Validar solicitud,261,Fluxicon Disco,Variant 2,2,2016-05-10 23:58:11+00:00,2016-05-10 21:39:28+00:00
+Homologacion por grupo de cursos,117265,7355,Homologacion por grupo de cursos,7355,Fluxicon Disco,Variant 2,2,2016-06-07 14:26:59+00:00,2016-06-07 14:23:23+00:00
+Traer informacion estudiante - banner,117351,23530,Traer informacion estudiante - banner,23530,Fluxicon Disco,Variant 2,2,2016-05-08 05:07:32+00:00,2016-05-08 05:07:32+00:00
+Radicar Solicitud Homologacion,117351,23530,Radicar Solicitud Homologacion,23530,Fluxicon Disco,Variant 2,2,2016-05-08 05:19:38+00:00,2016-05-08 05:07:38+00:00
+Validar solicitud,117351,22404,Validar solicitud,22404,Fluxicon Disco,Variant 2,2,2016-05-11 19:46:41+00:00,2016-05-11 19:30:45+00:00
+Homologacion por grupo de cursos,117351,4560,Homologacion por grupo de cursos,4560,Fluxicon Disco,Variant 2,2,2016-05-13 18:56:04+00:00,2016-05-13 17:56:01+00:00
+Cancelar Solicitud,117553,19019,Cancelar Solicitud,19019,Fluxicon Disco,Variant 17,17,2016-05-09 16:56:40+00:00,2016-05-09 16:53:32+00:00
+Traer informacion estudiante - banner,117553,8382,Traer informacion estudiante - banner,8382,Fluxicon Disco,Variant 17,17,2016-05-09 17:28:55+00:00,2016-05-09 17:28:55+00:00
+Radicar Solicitud Homologacion,117553,8382,Radicar Solicitud Homologacion,8382,Fluxicon Disco,Variant 17,17,2016-05-09 17:28:57+00:00,2016-05-09 17:28:57+00:00
+Notificacion estudiante cancelacion soli,117553,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 17,17,2016-05-10 17:08:17+00:00,2016-05-10 17:08:17+00:00
+Traer informacion estudiante - banner,117753,7599,Traer informacion estudiante - banner,7599,Fluxicon Disco,Variant 1,1,2016-05-10 21:02:40+00:00,2016-05-10 21:02:40+00:00
+Radicar Solicitud Homologacion,117753,7599,Radicar Solicitud Homologacion,7599,Fluxicon Disco,Variant 1,1,2016-05-10 22:05:23+00:00,2016-05-10 21:02:43+00:00
+Cancelar Solicitud,117753,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 1,1,2016-05-20 17:43:09+00:00,2016-05-20 17:42:58+00:00
+Notificacion estudiante cancelacion soli,117753,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 1,1,2016-05-20 17:54:34+00:00,2016-05-20 17:54:34+00:00
+Radicar Solicitud Homologacion,117806,19019,Radicar Solicitud Homologacion,19019,Fluxicon Disco,Variant 14,14,2016-05-10 19:12:30+00:00,2016-05-10 19:12:30+00:00
+Traer informacion estudiante - banner,117808,2970,Traer informacion estudiante - banner,2970,Fluxicon Disco,Variant 2,2,2016-05-10 21:06:59+00:00,2016-05-10 21:06:59+00:00
+Radicar Solicitud Homologacion,117808,2970,Radicar Solicitud Homologacion,2970,Fluxicon Disco,Variant 2,2,2016-05-10 21:07:32+00:00,2016-05-10 21:07:00+00:00
+Validar solicitud,117808,659,Validar solicitud,659,Fluxicon Disco,Variant 2,2,2016-05-10 21:42:09+00:00,2016-05-10 21:39:49+00:00
+Homologacion por grupo de cursos,117808,1422,Homologacion por grupo de cursos,1422,Fluxicon Disco,Variant 2,2,2016-05-11 15:17:11+00:00,2016-05-11 12:44:11+00:00
+Traer informacion estudiante - banner,117851,23842,Traer informacion estudiante - banner,23842,Fluxicon Disco,Variant 1,1,2016-05-11 00:37:26+00:00,2016-05-11 00:37:26+00:00
+Radicar Solicitud Homologacion,117851,23842,Radicar Solicitud Homologacion,23842,Fluxicon Disco,Variant 1,1,2016-05-11 00:51:35+00:00,2016-05-11 00:37:34+00:00
+Cancelar Solicitud,117851,7320,Cancelar Solicitud,7320,Fluxicon Disco,Variant 1,1,2016-05-12 22:02:50+00:00,2016-05-12 22:01:52+00:00
+Notificacion estudiante cancelacion soli,117851,7320,Notificacion estudiante cancelacion soli,7320,Fluxicon Disco,Variant 1,1,2016-05-12 23:00:02+00:00,2016-05-12 23:00:02+00:00
+Traer informacion estudiante - banner,117903,3815,Traer informacion estudiante - banner,3815,Fluxicon Disco,Variant 2,2,2016-05-11 19:40:39+00:00,2016-05-11 19:40:39+00:00
+Radicar Solicitud Homologacion,117903,3815,Radicar Solicitud Homologacion,3815,Fluxicon Disco,Variant 2,2,2016-05-11 19:40:43+00:00,2016-05-11 19:40:43+00:00
+Validar solicitud,117903,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-05-11 20:02:12+00:00,2016-05-11 19:44:53+00:00
+Homologacion por grupo de cursos,117903,677,Homologacion por grupo de cursos,677,Fluxicon Disco,Variant 2,2,2016-05-13 21:19:41+00:00,2016-05-13 21:19:41+00:00
+Traer informacion estudiante - banner,117951,7717,Traer informacion estudiante - banner,7717,Fluxicon Disco,Variant 1,1,2016-05-11 13:29:28+00:00,2016-05-11 13:29:28+00:00
+Radicar Solicitud Homologacion,117951,7717,Radicar Solicitud Homologacion,7717,Fluxicon Disco,Variant 1,1,2016-05-11 13:57:31+00:00,2016-05-11 13:29:31+00:00
+Cancelar Solicitud,117951,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 1,1,2016-05-16 19:18:44+00:00,2016-05-16 19:17:02+00:00
+Notificacion estudiante cancelacion soli,117951,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 1,1,2016-05-16 21:42:13+00:00,2016-05-16 21:42:13+00:00
+Cancelar Solicitud,118151,677,Cancelar Solicitud,677,Fluxicon Disco,Variant 17,17,2016-05-12 15:44:48+00:00,2016-05-12 15:33:00+00:00
+Traer informacion estudiante - banner,118151,3108,Traer informacion estudiante - banner,3108,Fluxicon Disco,Variant 17,17,2016-05-12 16:41:30+00:00,2016-05-12 16:41:30+00:00
+Radicar Solicitud Homologacion,118151,3108,Radicar Solicitud Homologacion,3108,Fluxicon Disco,Variant 17,17,2016-05-12 16:41:34+00:00,2016-05-12 16:41:34+00:00
+Notificacion estudiante cancelacion soli,118151,677,Notificacion estudiante cancelacion soli,677,Fluxicon Disco,Variant 17,17,2016-05-13 21:21:46+00:00,2016-05-13 21:21:46+00:00
+Traer informacion estudiante - banner,118153,6851,Traer informacion estudiante - banner,6851,Fluxicon Disco,Variant 93,93,2016-05-12 18:43:06+00:00,2016-05-12 18:43:06+00:00
+Radicar Solicitud Homologacion,118153,6851,Radicar Solicitud Homologacion,6851,Fluxicon Disco,Variant 93,93,2016-05-12 18:43:09+00:00,2016-05-12 18:43:09+00:00
+Validar solicitud,118153,186,Validar solicitud,186,Fluxicon Disco,Variant 93,93,2016-05-12 18:59:03+00:00,2016-05-12 18:57:48+00:00
+Recepcion de documentos,118153,186,Recepcion de documentos,186,Fluxicon Disco,Variant 93,93,2016-05-13 00:58:09+00:00,2016-05-12 21:15:25+00:00
+Homologacion por grupo de cursos,118153,26788,Homologacion por grupo de cursos,26788,Fluxicon Disco,Variant 93,93,2016-05-13 01:12:37+00:00,2016-05-12 21:15:27+00:00
+Traer informacion estudiante - banner,118201,7091,Traer informacion estudiante - banner,7091,Fluxicon Disco,Variant 2,2,2016-05-12 21:18:58+00:00,2016-05-12 21:18:58+00:00
+Traer informacion estudiante - banner,120359,7599,Traer informacion estudiante - banner,7599,Fluxicon Disco,Variant 33,33,2016-05-20 18:44:11+00:00,2016-05-20 18:44:11+00:00
+Radicar Solicitud Homologacion,120359,7599,Radicar Solicitud Homologacion,7599,Fluxicon Disco,Variant 33,33,2016-05-20 18:44:12+00:00,2016-05-20 18:44:12+00:00
+Traer informacion estudiante - banner,120362,6572,Traer informacion estudiante - banner,6572,Fluxicon Disco,Variant 7,7,2016-05-20 20:19:54+00:00,2016-05-20 20:19:54+00:00
+Radicar Solicitud Homologacion,120362,6572,Radicar Solicitud Homologacion,6572,Fluxicon Disco,Variant 7,7,2016-05-20 20:20:00+00:00,2016-05-20 20:19:55+00:00
+Cancelar Solicitud,120362,6572,Cancelar Solicitud,6572,Fluxicon Disco,Variant 7,7,2016-05-20 21:40:58+00:00,2016-05-20 20:25:24+00:00
+Validar solicitud,120362,677,Validar solicitud,677,Fluxicon Disco,Variant 7,7,2016-05-20 20:40:58+00:00,2016-05-20 20:25:24+00:00
+Notificacion estudiante cancelacion soli,120362,6572,Notificacion estudiante cancelacion soli,6572,Fluxicon Disco,Variant 7,7,2016-06-06 20:04:41+00:00,2016-06-06 20:04:41+00:00
+Traer informacion estudiante - banner,120364,11571,Traer informacion estudiante - banner,11571,Fluxicon Disco,Variant 1,1,2016-05-20 21:47:49+00:00,2016-05-20 21:47:49+00:00
+Radicar Solicitud Homologacion,120364,11571,Radicar Solicitud Homologacion,11571,Fluxicon Disco,Variant 1,1,2016-05-20 21:47:54+00:00,2016-05-20 21:47:51+00:00
+Cancelar Solicitud,120364,22404,Cancelar Solicitud,22404,Fluxicon Disco,Variant 1,1,2016-05-20 21:54:24+00:00,2016-05-20 21:51:05+00:00
+Notificacion estudiante cancelacion soli,120364,22404,Notificacion estudiante cancelacion soli,22404,Fluxicon Disco,Variant 1,1,2016-05-23 15:11:04+00:00,2016-05-23 15:11:04+00:00
+Traer informacion estudiante - banner,120751,15547,Traer informacion estudiante - banner,15547,Fluxicon Disco,Variant 5,5,2016-05-21 22:49:29+00:00,2016-05-21 22:49:29+00:00
+Radicar Solicitud Homologacion,120751,15547,Radicar Solicitud Homologacion,15547,Fluxicon Disco,Variant 5,5,2016-05-21 22:49:33+00:00,2016-05-21 22:49:33+00:00
+Notificacion estudiante cancelacion soli,120751,1,Notificacion estudiante cancelacion soli,1,Fluxicon Disco,Variant 5,5,2016-06-01 22:24:22+00:00,2016-06-01 22:24:22+00:00
+Traer informacion estudiante - banner,120801,17872,Traer informacion estudiante - banner,17872,Fluxicon Disco,Variant 1,1,2016-05-21 20:53:51+00:00,2016-05-21 20:53:51+00:00
+Radicar Solicitud Homologacion,120801,17872,Radicar Solicitud Homologacion,17872,Fluxicon Disco,Variant 1,1,2016-05-21 20:53:55+00:00,2016-05-21 20:53:55+00:00
+Cancelar Solicitud,120801,22404,Cancelar Solicitud,22404,Fluxicon Disco,Variant 1,1,2016-05-21 21:41:21+00:00,2016-05-21 21:26:45+00:00
+Notificacion estudiante cancelacion soli,120801,22404,Notificacion estudiante cancelacion soli,22404,Fluxicon Disco,Variant 1,1,2016-05-24 22:36:33+00:00,2016-05-24 22:36:33+00:00
+Traer informacion estudiante - banner,120851,8203,Traer informacion estudiante - banner,8203,Fluxicon Disco,Variant 5,5,2016-05-22 00:35:55+00:00,2016-05-22 00:35:55+00:00
+Radicar Solicitud Homologacion,120851,8203,Radicar Solicitud Homologacion,8203,Fluxicon Disco,Variant 5,5,2016-05-22 00:36:01+00:00,2016-05-22 00:36:01+00:00
+Notificacion estudiante cancelacion soli,120851,1,Notificacion estudiante cancelacion soli,1,Fluxicon Disco,Variant 5,5,2016-06-01 22:24:23+00:00,2016-06-01 22:24:23+00:00
+Traer informacion estudiante - banner,120901,7628,Traer informacion estudiante - banner,7628,Fluxicon Disco,Variant 2,2,2016-05-22 16:02:15+00:00,2016-05-22 16:02:15+00:00
+Radicar Solicitud Homologacion,120901,7628,Radicar Solicitud Homologacion,7628,Fluxicon Disco,Variant 2,2,2016-05-22 16:02:21+00:00,2016-05-22 16:02:21+00:00
+Validar solicitud,120901,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-05-22 18:48:50+00:00,2016-05-22 18:43:11+00:00
+Homologacion por grupo de cursos,120901,677,Homologacion por grupo de cursos,677,Fluxicon Disco,Variant 2,2,2016-05-23 21:39:13+00:00,2016-05-23 21:39:10+00:00
+Traer informacion estudiante - banner,120951,9483,Traer informacion estudiante - banner,9483,Fluxicon Disco,Variant 2,2,2016-05-22 18:18:44+00:00,2016-05-22 18:18:44+00:00
+Radicar Solicitud Homologacion,120951,9483,Radicar Solicitud Homologacion,9483,Fluxicon Disco,Variant 2,2,2016-05-22 18:18:49+00:00,2016-05-22 18:18:49+00:00
+Validar solicitud,120951,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-05-22 18:39:39+00:00,2016-05-22 18:27:39+00:00
+Homologacion por grupo de cursos,120951,677,Homologacion por grupo de cursos,677,Fluxicon Disco,Variant 2,2,2016-05-24 19:08:13+00:00,2016-05-24 19:08:13+00:00
+Traer informacion estudiante - banner,120952,4441,Traer informacion estudiante - banner,4441,Fluxicon Disco,Variant 2,2,2016-05-22 18:34:36+00:00,2016-05-22 18:34:36+00:00
+Radicar Solicitud Homologacion,120952,4441,Radicar Solicitud Homologacion,4441,Fluxicon Disco,Variant 2,2,2016-05-22 18:34:37+00:00,2016-05-22 18:34:37+00:00
+Validar solicitud,120952,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-05-22 19:02:02+00:00,2016-05-22 18:50:02+00:00
+Homologacion por grupo de cursos,120952,3445,Homologacion por grupo de cursos,3445,Fluxicon Disco,Variant 2,2,2016-05-24 19:33:32+00:00,2016-05-24 19:10:26+00:00
+Traer informacion estudiante - banner,121101,8661,Traer informacion estudiante - banner,8661,Fluxicon Disco,Variant 1,1,2016-05-23 00:03:42+00:00,2016-05-23 00:03:42+00:00
+Radicar Solicitud Homologacion,121101,8661,Radicar Solicitud Homologacion,8661,Fluxicon Disco,Variant 1,1,2016-05-23 00:03:47+00:00,2016-05-23 00:03:47+00:00
+Cancelar Solicitud,121101,294,Cancelar Solicitud,294,Fluxicon Disco,Variant 1,1,2016-05-23 03:11:25+00:00,2016-05-23 00:08:30+00:00
+Notificacion estudiante cancelacion soli,121101,294,Notificacion estudiante cancelacion soli,294,Fluxicon Disco,Variant 1,1,2016-06-24 22:55:01+00:00,2016-06-24 22:55:01+00:00
+Traer informacion estudiante - banner,121102,8661,Traer informacion estudiante - banner,8661,Fluxicon Disco,Variant 1,1,2016-05-23 00:09:17+00:00,2016-05-23 00:09:17+00:00
+Radicar Solicitud Homologacion,121102,8661,Radicar Solicitud Homologacion,8661,Fluxicon Disco,Variant 1,1,2016-05-23 00:09:18+00:00,2016-05-23 00:09:18+00:00
+Cancelar Solicitud,121102,294,Cancelar Solicitud,294,Fluxicon Disco,Variant 1,1,2016-05-23 03:14:03+00:00,2016-05-23 00:11:06+00:00
+Notificacion estudiante cancelacion soli,121102,294,Notificacion estudiante cancelacion soli,294,Fluxicon Disco,Variant 1,1,2016-06-24 22:57:09+00:00,2016-06-24 22:57:09+00:00
+Traer informacion estudiante - banner,121151,7039,Traer informacion estudiante - banner,7039,Fluxicon Disco,Variant 1,1,2016-05-23 11:55:41+00:00,2016-05-23 11:55:41+00:00
+Radicar Solicitud Homologacion,121151,7039,Radicar Solicitud Homologacion,7039,Fluxicon Disco,Variant 1,1,2016-05-23 12:07:44+00:00,2016-05-23 11:55:47+00:00
+Cancelar Solicitud,121151,241,Cancelar Solicitud,241,Fluxicon Disco,Variant 1,1,2016-05-24 19:25:35+00:00,2016-05-24 17:57:33+00:00
+Notificacion estudiante cancelacion soli,121151,241,Notificacion estudiante cancelacion soli,241,Fluxicon Disco,Variant 1,1,2016-06-10 19:51:30+00:00,2016-06-10 19:51:30+00:00
+Traer informacion estudiante - banner,121202,22785,Traer informacion estudiante - banner,22785,Fluxicon Disco,Variant 2,2,2016-05-23 13:40:33+00:00,2016-05-23 13:40:33+00:00
+Radicar Solicitud Homologacion,121202,22785,Radicar Solicitud Homologacion,22785,Fluxicon Disco,Variant 2,2,2016-05-23 13:40:40+00:00,2016-05-23 13:40:37+00:00
+Validar solicitud,121202,22475,Validar solicitud,22475,Fluxicon Disco,Variant 2,2,2016-05-23 14:06:18+00:00,2016-05-23 14:03:57+00:00
+Homologacion por grupo de cursos,121202,22785,Homologacion por grupo de cursos,22785,Fluxicon Disco,Variant 2,2,2016-05-23 16:26:59+00:00,2016-05-23 16:25:25+00:00
+Traer informacion estudiante - banner,121206,1860,Traer informacion estudiante - banner,1860,Fluxicon Disco,Variant 22,22,2016-05-23 15:54:17+00:00,2016-05-23 15:54:17+00:00
+Radicar Solicitud Homologacion,121206,1860,Radicar Solicitud Homologacion,1860,Fluxicon Disco,Variant 22,22,2016-05-23 15:56:48+00:00,2016-05-23 15:54:17+00:00
+Notificacion estudiante cancelacion soli,121206,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 22,22,2016-05-23 19:31:46+00:00,2016-05-23 19:31:46+00:00
+Cancelar Solicitud,121206,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 22,22,2016-05-23 20:25:24+00:00,2016-05-23 20:25:24+00:00
+Traer informacion estudiante - banner,121251,2408,Traer informacion estudiante - banner,2408,Fluxicon Disco,Variant 1,1,2016-05-23 16:29:01+00:00,2016-05-23 16:29:01+00:00
+Radicar Solicitud Homologacion,121251,2408,Radicar Solicitud Homologacion,2408,Fluxicon Disco,Variant 1,1,2016-05-23 16:34:36+00:00,2016-05-23 16:29:06+00:00
+Cancelar Solicitud,121251,22404,Cancelar Solicitud,22404,Fluxicon Disco,Variant 1,1,2016-05-24 02:34:36+00:00,2016-05-24 02:34:36+00:00
+Notificacion estudiante cancelacion soli,121251,22404,Notificacion estudiante cancelacion soli,22404,Fluxicon Disco,Variant 1,1,2016-05-24 10:59:59+00:00,2016-05-24 10:59:59+00:00
+Traer informacion estudiante - banner,121258,22437,Traer informacion estudiante - banner,22437,Fluxicon Disco,Variant 2,2,2016-05-23 22:03:08+00:00,2016-05-23 22:03:08+00:00
+Radicar Solicitud Homologacion,121258,22437,Radicar Solicitud Homologacion,22437,Fluxicon Disco,Variant 2,2,2016-05-23 22:03:35+00:00,2016-05-23 22:03:09+00:00
+Validar solicitud,121258,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-05-23 22:34:55+00:00,2016-05-23 22:29:25+00:00
+Homologacion por grupo de cursos,121258,3445,Homologacion por grupo de cursos,3445,Fluxicon Disco,Variant 2,2,2016-05-24 20:42:21+00:00,2016-05-24 19:12:55+00:00
+Traer informacion estudiante - banner,121259,11799,Traer informacion estudiante - banner,11799,Fluxicon Disco,Variant 2,2,2016-05-23 22:27:08+00:00,2016-05-23 22:27:08+00:00
+Radicar Solicitud Homologacion,121259,11799,Radicar Solicitud Homologacion,11799,Fluxicon Disco,Variant 2,2,2016-05-23 22:27:36+00:00,2016-05-23 22:27:11+00:00
+Validar solicitud,121259,19019,Validar solicitud,19019,Fluxicon Disco,Variant 2,2,2016-05-23 22:54:29+00:00,2016-05-23 22:52:16+00:00
+Homologacion por grupo de cursos,121259,1007,Homologacion por grupo de cursos,1007,Fluxicon Disco,Variant 2,2,2016-05-24 16:22:06+00:00,2016-05-24 15:05:52+00:00
+Validar solicitud,121260,659,Validar solicitud,659,Fluxicon Disco,Variant 16,16,2016-05-23 21:55:27+00:00,2016-05-23 21:45:13+00:00
+Traer informacion estudiante - banner,121260,22962,Traer informacion estudiante - banner,22962,Fluxicon Disco,Variant 16,16,2016-05-23 23:01:51+00:00,2016-05-23 23:01:51+00:00
+Radicar Solicitud Homologacion,121260,22962,Radicar Solicitud Homologacion,22962,Fluxicon Disco,Variant 16,16,2016-05-23 23:01:52+00:00,2016-05-23 23:01:52+00:00
+Homologacion por grupo de cursos,121260,659,Homologacion por grupo de cursos,659,Fluxicon Disco,Variant 16,16,2016-05-25 14:26:28+00:00,2016-05-25 11:42:28+00:00
+Traer informacion estudiante - banner,121401,8973,Traer informacion estudiante - banner,8973,Fluxicon Disco,Variant 2,2,2016-05-24 00:13:29+00:00,2016-05-24 00:13:29+00:00
+Radicar Solicitud Homologacion,121401,8973,Radicar Solicitud Homologacion,8973,Fluxicon Disco,Variant 2,2,2016-05-24 00:13:33+00:00,2016-05-24 00:13:33+00:00
+Validar solicitud,121401,920,Validar solicitud,920,Fluxicon Disco,Variant 2,2,2016-05-24 00:33:45+00:00,2016-05-24 00:21:45+00:00
+Homologacion por grupo de cursos,121401,8973,Homologacion por grupo de cursos,8973,Fluxicon Disco,Variant 2,2,2016-05-25 18:41:02+00:00,2016-05-25 18:33:02+00:00
+Traer informacion estudiante - banner,121406,10176,Traer informacion estudiante - banner,10176,Fluxicon Disco,Variant 2,2,2016-05-24 00:58:21+00:00,2016-05-24 00:58:21+00:00
+Radicar Solicitud Homologacion,121406,10176,Radicar Solicitud Homologacion,10176,Fluxicon Disco,Variant 2,2,2016-05-24 00:58:22+00:00,2016-05-24 00:58:22+00:00
+Validar solicitud,121406,22475,Validar solicitud,22475,Fluxicon Disco,Variant 2,2,2016-05-24 01:09:50+00:00,2016-05-24 01:01:50+00:00
+Homologacion por grupo de cursos,121406,22475,Homologacion por grupo de cursos,22475,Fluxicon Disco,Variant 2,2,2016-05-25 12:05:26+00:00,2016-05-25 12:01:26+00:00
+Traer informacion estudiante - banner,121451,2408,Traer informacion estudiante - banner,2408,Fluxicon Disco,Variant 2,2,2016-05-24 02:35:58+00:00,2016-05-24 02:35:58+00:00
+Radicar Solicitud Homologacion,121451,2408,Radicar Solicitud Homologacion,2408,Fluxicon Disco,Variant 2,2,2016-05-24 02:41:42+00:00,2016-05-24 02:36:01+00:00
+Validar solicitud,121451,22404,Validar solicitud,22404,Fluxicon Disco,Variant 2,2,2016-05-24 21:44:15+00:00,2016-05-24 21:41:57+00:00
+Homologacion por grupo de cursos,121451,22404,Homologacion por grupo de cursos,22404,Fluxicon Disco,Variant 2,2,2016-05-25 01:13:17+00:00,2016-05-25 00:59:19+00:00
+Traer informacion estudiante - banner,121551,6231,Traer informacion estudiante - banner,6231,Fluxicon Disco,Variant 1,1,2016-05-24 11:14:45+00:00,2016-05-24 11:14:45+00:00
+Radicar Solicitud Homologacion,121551,6231,Radicar Solicitud Homologacion,6231,Fluxicon Disco,Variant 1,1,2016-05-24 11:14:49+00:00,2016-05-24 11:14:49+00:00
+Cancelar Solicitud,121551,6231,Cancelar Solicitud,6231,Fluxicon Disco,Variant 1,1,2016-05-24 12:59:45+00:00,2016-05-24 12:59:45+00:00
+Notificacion estudiante cancelacion soli,121551,6231,Notificacion estudiante cancelacion soli,6231,Fluxicon Disco,Variant 1,1,2016-05-24 13:04:25+00:00,2016-05-24 13:04:25+00:00
+Traer informacion estudiante - banner,121601,11159,Traer informacion estudiante - banner,11159,Fluxicon Disco,Variant 5,5,2016-05-24 10:22:19+00:00,2016-05-24 10:22:19+00:00
+Radicar Solicitud Homologacion,121601,11159,Radicar Solicitud Homologacion,11159,Fluxicon Disco,Variant 5,5,2016-05-24 10:22:23+00:00,2016-05-24 10:22:23+00:00
+Notificacion estudiante cancelacion soli,121601,1,Notificacion estudiante cancelacion soli,1,Fluxicon Disco,Variant 5,5,2016-06-02 22:24:04+00:00,2016-06-02 22:24:04+00:00
+Traer informacion estudiante - banner,121752,8263,Traer informacion estudiante - banner,8263,Fluxicon Disco,Variant 1,1,2016-05-24 16:57:21+00:00,2016-05-24 16:57:21+00:00
+Radicar Solicitud Homologacion,121752,8263,Radicar Solicitud Homologacion,8263,Fluxicon Disco,Variant 1,1,2016-05-24 16:57:48+00:00,2016-05-24 16:57:22+00:00
+Cancelar Solicitud,121752,19019,Cancelar Solicitud,19019,Fluxicon Disco,Variant 1,1,2016-05-24 17:24:30+00:00,2016-05-24 17:23:54+00:00
+Notificacion estudiante cancelacion soli,121752,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 1,1,2016-05-24 18:37:41+00:00,2016-05-24 18:37:41+00:00
+Traer informacion estudiante - banner,121755,7039,Traer informacion estudiante - banner,7039,Fluxicon Disco,Variant 1,1,2016-05-24 17:58:11+00:00,2016-05-24 17:58:11+00:00
+Radicar Solicitud Homologacion,121755,7039,Radicar Solicitud Homologacion,7039,Fluxicon Disco,Variant 1,1,2016-05-24 17:58:13+00:00,2016-05-24 17:58:12+00:00
+Cancelar Solicitud,121755,241,Cancelar Solicitud,241,Fluxicon Disco,Variant 1,1,2016-05-24 19:39:20+00:00,2016-05-24 18:11:20+00:00
+Notificacion estudiante cancelacion soli,121755,241,Notificacion estudiante cancelacion soli,241,Fluxicon Disco,Variant 1,1,2016-06-10 19:51:58+00:00,2016-06-10 19:51:58+00:00
+Traer informacion estudiante - banner,121852,26359,Traer informacion estudiante - banner,26359,Fluxicon Disco,Variant 2,2,2016-05-24 20:34:32+00:00,2016-05-24 20:34:32+00:00
+Radicar Solicitud Homologacion,121852,26359,Radicar Solicitud Homologacion,26359,Fluxicon Disco,Variant 2,2,2016-05-24 21:03:21+00:00,2016-05-24 20:34:35+00:00
+Validar solicitud,121852,2292,Validar solicitud,2292,Fluxicon Disco,Variant 2,2,2016-05-31 15:25:49+00:00,2016-05-31 15:20:40+00:00
+Homologacion por grupo de cursos,121852,7387,Homologacion por grupo de cursos,7387,Fluxicon Disco,Variant 2,2,2016-05-31 22:41:24+00:00,2016-05-31 22:30:19+00:00
+Traer informacion estudiante - banner,122001,11314,Traer informacion estudiante - banner,11314,Fluxicon Disco,Variant 7,7,2016-05-25 12:45:17+00:00,2016-05-25 12:45:17+00:00
+Radicar Solicitud Homologacion,122001,11314,Radicar Solicitud Homologacion,11314,Fluxicon Disco,Variant 7,7,2016-05-25 12:45:20+00:00,2016-05-25 12:45:20+00:00
+Cancelar Solicitud,122001,11314,Cancelar Solicitud,11314,Fluxicon Disco,Variant 7,7,2016-05-25 12:56:39+00:00,2016-05-25 12:50:46+00:00
+Validar solicitud,122001,6400,Validar solicitud,6400,Fluxicon Disco,Variant 7,7,2016-05-25 12:50:46+00:00,2016-05-25 12:50:46+00:00
+Notificacion estudiante cancelacion soli,122001,11314,Notificacion estudiante cancelacion soli,11314,Fluxicon Disco,Variant 7,7,2016-05-25 21:53:24+00:00,2016-05-25 21:53:24+00:00
+Traer informacion estudiante - banner,122052,7039,Traer informacion estudiante - banner,7039,Fluxicon Disco,Variant 1,1,2016-05-25 15:54:07+00:00,2016-05-25 15:54:07+00:00
+Radicar Solicitud Homologacion,122052,7039,Radicar Solicitud Homologacion,7039,Fluxicon Disco,Variant 1,1,2016-05-25 15:54:19+00:00,2016-05-25 15:54:08+00:00
+Cancelar Solicitud,122052,241,Cancelar Solicitud,241,Fluxicon Disco,Variant 1,1,2016-05-25 17:27:15+00:00,2016-05-25 16:05:21+00:00
+Notificacion estudiante cancelacion soli,122052,241,Notificacion estudiante cancelacion soli,241,Fluxicon Disco,Variant 1,1,2016-06-10 19:52:26+00:00,2016-06-10 19:52:26+00:00
+Traer informacion estudiante - banner,122054,15612,Traer informacion estudiante - banner,15612,Fluxicon Disco,Variant 1,1,2016-05-25 18:24:54+00:00,2016-05-25 18:24:54+00:00
+Radicar Solicitud Homologacion,122054,15612,Radicar Solicitud Homologacion,15612,Fluxicon Disco,Variant 1,1,2016-05-25 18:27:19+00:00,2016-05-25 18:24:55+00:00
+Cancelar Solicitud,122054,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 1,1,2016-05-25 22:24:53+00:00,2016-05-25 22:24:49+00:00
+Notificacion estudiante cancelacion soli,122054,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 1,1,2016-05-25 22:29:20+00:00,2016-05-25 22:29:20+00:00
+Traer informacion estudiante - banner,122055,11393,Traer informacion estudiante - banner,11393,Fluxicon Disco,Variant 2,2,2016-05-25 19:00:03+00:00,2016-05-25 19:00:03+00:00
+Radicar Solicitud Homologacion,122055,11393,Radicar Solicitud Homologacion,11393,Fluxicon Disco,Variant 2,2,2016-05-25 19:08:33+00:00,2016-05-25 19:00:04+00:00
+Validar solicitud,122055,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-05-26 21:26:14+00:00,2016-05-26 20:29:45+00:00
+Homologacion por grupo de cursos,122055,677,Homologacion por grupo de cursos,677,Fluxicon Disco,Variant 2,2,2016-06-08 23:02:42+00:00,2016-06-08 20:59:39+00:00
+Traer informacion estudiante - banner,122102,8475,Traer informacion estudiante - banner,8475,Fluxicon Disco,Variant 2,2,2016-05-25 17:43:07+00:00,2016-05-25 17:43:07+00:00
+Radicar Solicitud Homologacion,122102,8475,Radicar Solicitud Homologacion,8475,Fluxicon Disco,Variant 2,2,2016-05-25 17:43:12+00:00,2016-05-25 17:43:09+00:00
+Validar solicitud,122102,1646,Validar solicitud,1646,Fluxicon Disco,Variant 2,2,2016-05-25 18:19:05+00:00,2016-05-25 17:46:37+00:00
+Homologacion por grupo de cursos,122102,12535,Homologacion por grupo de cursos,12535,Fluxicon Disco,Variant 2,2,2016-06-01 22:57:50+00:00,2016-06-01 20:14:50+00:00
+Traer informacion estudiante - banner,122154,15612,Traer informacion estudiante - banner,15612,Fluxicon Disco,Variant 1,1,2016-05-25 22:31:11+00:00,2016-05-25 22:31:11+00:00
+Radicar Solicitud Homologacion,122154,15612,Radicar Solicitud Homologacion,15612,Fluxicon Disco,Variant 1,1,2016-05-25 22:31:17+00:00,2016-05-25 22:31:13+00:00
+Cancelar Solicitud,122154,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 1,1,2016-05-25 22:35:52+00:00,2016-05-25 22:35:51+00:00
+Notificacion estudiante cancelacion soli,122154,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 1,1,2016-05-25 22:37:14+00:00,2016-05-25 22:37:14+00:00
+Traer informacion estudiante - banner,122155,15612,Traer informacion estudiante - banner,15612,Fluxicon Disco,Variant 2,2,2016-05-25 23:10:13+00:00,2016-05-25 23:10:13+00:00
+Radicar Solicitud Homologacion,122155,15612,Radicar Solicitud Homologacion,15612,Fluxicon Disco,Variant 2,2,2016-05-25 23:43:03+00:00,2016-05-25 23:10:14+00:00
+Validar solicitud,122155,22475,Validar solicitud,22475,Fluxicon Disco,Variant 2,2,2016-06-02 13:08:23+00:00,2016-06-02 13:06:33+00:00
+Homologacion por grupo de cursos,122155,22475,Homologacion por grupo de cursos,22475,Fluxicon Disco,Variant 2,2,2016-06-02 16:48:19+00:00,2016-06-02 15:50:10+00:00
+Traer informacion estudiante - banner,122252,4913,Traer informacion estudiante - banner,4913,Fluxicon Disco,Variant 1,1,2016-05-26 14:41:54+00:00,2016-05-26 14:41:54+00:00
+Radicar Solicitud Homologacion,122252,4913,Radicar Solicitud Homologacion,4913,Fluxicon Disco,Variant 1,1,2016-05-26 14:42:28+00:00,2016-05-26 14:41:57+00:00
+Cancelar Solicitud,122252,19019,Cancelar Solicitud,19019,Fluxicon Disco,Variant 1,1,2016-05-26 15:17:40+00:00,2016-05-26 15:13:37+00:00
+Notificacion estudiante cancelacion soli,122252,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 1,1,2016-05-26 21:16:58+00:00,2016-05-26 21:16:58+00:00
+Traer informacion estudiante - banner,122304,6625,Traer informacion estudiante - banner,6625,Fluxicon Disco,Variant 1,1,2016-05-26 14:40:02+00:00,2016-05-26 14:40:02+00:00
+Radicar Solicitud Homologacion,122304,6625,Radicar Solicitud Homologacion,6625,Fluxicon Disco,Variant 1,1,2016-05-26 14:40:32+00:00,2016-05-26 14:40:03+00:00
+Cancelar Solicitud,122304,1707,Cancelar Solicitud,1707,Fluxicon Disco,Variant 1,1,2016-05-26 17:08:27+00:00,2016-05-26 15:09:37+00:00
+Notificacion estudiante cancelacion soli,122304,1707,Notificacion estudiante cancelacion soli,1707,Fluxicon Disco,Variant 1,1,2016-06-20 13:44:17+00:00,2016-06-20 13:44:17+00:00
+Traer informacion estudiante - banner,122308,6598,Traer informacion estudiante - banner,6598,Fluxicon Disco,Variant 1,1,2016-05-26 16:45:56+00:00,2016-05-26 16:45:56+00:00
+Radicar Solicitud Homologacion,122308,6598,Radicar Solicitud Homologacion,6598,Fluxicon Disco,Variant 1,1,2016-05-26 16:46:12+00:00,2016-05-26 16:45:57+00:00
+Cancelar Solicitud,122308,6598,Cancelar Solicitud,6598,Fluxicon Disco,Variant 1,1,2016-05-26 17:02:52+00:00,2016-05-26 17:01:54+00:00
+Notificacion estudiante cancelacion soli,122308,6598,Notificacion estudiante cancelacion soli,6598,Fluxicon Disco,Variant 1,1,2016-05-26 19:26:33+00:00,2016-05-26 19:26:33+00:00
+Traer informacion estudiante - banner,122652,19591,Traer informacion estudiante - banner,19591,Fluxicon Disco,Variant 1,1,2016-05-27 18:38:24+00:00,2016-05-27 18:38:24+00:00
+Radicar Solicitud Homologacion,122652,19591,Radicar Solicitud Homologacion,19591,Fluxicon Disco,Variant 1,1,2016-05-27 18:55:39+00:00,2016-05-27 18:38:25+00:00
+Cancelar Solicitud,122652,186,Cancelar Solicitud,186,Fluxicon Disco,Variant 1,1,2016-06-01 22:49:23+00:00,2016-06-01 21:14:38+00:00
+Notificacion estudiante cancelacion soli,122652,186,Notificacion estudiante cancelacion soli,186,Fluxicon Disco,Variant 1,1,2016-06-20 18:16:14+00:00,2016-06-20 18:16:14+00:00
+Traer informacion estudiante - banner,122653,19591,Traer informacion estudiante - banner,19591,Fluxicon Disco,Variant 1,1,2016-05-27 18:39:11+00:00,2016-05-27 18:39:11+00:00
+Radicar Solicitud Homologacion,122653,19591,Radicar Solicitud Homologacion,19591,Fluxicon Disco,Variant 1,1,2016-05-27 18:56:59+00:00,2016-05-27 18:39:12+00:00
+Cancelar Solicitud,122653,186,Cancelar Solicitud,186,Fluxicon Disco,Variant 1,1,2016-06-01 23:21:15+00:00,2016-06-01 21:47:03+00:00
+Notificacion estudiante cancelacion soli,122653,186,Notificacion estudiante cancelacion soli,186,Fluxicon Disco,Variant 1,1,2016-06-20 18:48:49+00:00,2016-06-20 18:48:49+00:00
+Notificacion estudiante cancelacion soli,122702,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 10,10,2016-05-27 21:17:29+00:00,2016-05-27 21:17:29+00:00
+Traer informacion estudiante - banner,122702,6551,Traer informacion estudiante - banner,6551,Fluxicon Disco,Variant 10,10,2016-05-27 21:22:34+00:00,2016-05-27 21:22:34+00:00
+Radicar Solicitud Homologacion,122702,6551,Radicar Solicitud Homologacion,6551,Fluxicon Disco,Variant 10,10,2016-05-27 21:23:02+00:00,2016-05-27 21:22:35+00:00
+Cancelar Solicitud,122702,19019,Cancelar Solicitud,19019,Fluxicon Disco,Variant 10,10,2016-05-27 21:50:28+00:00,2016-05-27 21:50:28+00:00
+Traer informacion estudiante - banner,122757,6551,Traer informacion estudiante - banner,6551,Fluxicon Disco,Variant 2,2,2016-05-27 23:31:10+00:00,2016-05-27 23:31:10+00:00
+Radicar Solicitud Homologacion,122757,6551,Radicar Solicitud Homologacion,6551,Fluxicon Disco,Variant 2,2,2016-05-27 23:31:30+00:00,2016-05-27 23:31:11+00:00
+Validar solicitud,122757,19019,Validar solicitud,19019,Fluxicon Disco,Variant 2,2,2016-05-27 23:50:32+00:00,2016-05-27 23:50:23+00:00
+Homologacion por grupo de cursos,122757,1007,Homologacion por grupo de cursos,1007,Fluxicon Disco,Variant 2,2,2016-05-31 13:34:21+00:00,2016-05-31 13:31:18+00:00
+Traer informacion estudiante - banner,122951,15315,Traer informacion estudiante - banner,15315,Fluxicon Disco,Variant 9,9,2016-05-28 18:55:55+00:00,2016-05-28 18:55:55+00:00
+Radicar Solicitud Homologacion,122951,15315,Radicar Solicitud Homologacion,15315,Fluxicon Disco,Variant 9,9,2016-05-28 18:55:58+00:00,2016-05-28 18:55:58+00:00
+Validar solicitud,122951,6694,Validar solicitud,6694,Fluxicon Disco,Variant 9,9,2016-05-28 19:10:01+00:00,2016-05-28 19:06:16+00:00
+Cancelar Solicitud,122951,22490,Cancelar Solicitud,22490,Fluxicon Disco,Variant 9,9,2016-05-28 19:18:39+00:00,2016-05-28 19:06:17+00:00
+Notificacion estudiante cancelacion soli,122951,22490,Notificacion estudiante cancelacion soli,22490,Fluxicon Disco,Variant 9,9,2016-06-01 20:22:40+00:00,2016-06-01 20:22:40+00:00
+Traer informacion estudiante - banner,123051,11775,Traer informacion estudiante - banner,11775,Fluxicon Disco,Variant 2,2,2016-05-28 23:43:07+00:00,2016-05-28 23:43:07+00:00
+Radicar Solicitud Homologacion,123051,11775,Radicar Solicitud Homologacion,11775,Fluxicon Disco,Variant 2,2,2016-05-28 23:43:11+00:00,2016-05-28 23:43:11+00:00
+Validar solicitud,123051,22475,Validar solicitud,22475,Fluxicon Disco,Variant 2,2,2016-05-28 23:50:11+00:00,2016-05-28 23:48:08+00:00
+Homologacion por grupo de cursos,123051,22475,Homologacion por grupo de cursos,22475,Fluxicon Disco,Variant 2,2,2016-05-31 16:37:07+00:00,2016-05-31 16:03:49+00:00
+Traer informacion estudiante - banner,123201,7650,Traer informacion estudiante - banner,7650,Fluxicon Disco,Variant 1,1,2016-05-29 23:38:23+00:00,2016-05-29 23:38:23+00:00
+Radicar Solicitud Homologacion,123201,7650,Radicar Solicitud Homologacion,7650,Fluxicon Disco,Variant 1,1,2016-05-29 23:38:28+00:00,2016-05-29 23:38:28+00:00
+Cancelar Solicitud,123201,294,Cancelar Solicitud,294,Fluxicon Disco,Variant 1,1,2016-05-30 15:58:54+00:00,2016-05-30 13:43:37+00:00
+Notificacion estudiante cancelacion soli,123201,294,Notificacion estudiante cancelacion soli,294,Fluxicon Disco,Variant 1,1,2016-06-23 23:17:58+00:00,2016-06-23 23:17:58+00:00
+Traer informacion estudiante - banner,123351,5972,Traer informacion estudiante - banner,5972,Fluxicon Disco,Variant 2,2,2016-05-30 19:17:29+00:00,2016-05-30 19:17:29+00:00
+Radicar Solicitud Homologacion,123351,5972,Radicar Solicitud Homologacion,5972,Fluxicon Disco,Variant 2,2,2016-05-30 19:17:32+00:00,2016-05-30 19:17:32+00:00
+Validar solicitud,123351,22404,Validar solicitud,22404,Fluxicon Disco,Variant 2,2,2016-05-30 19:36:17+00:00,2016-05-30 19:32:44+00:00
+Homologacion por grupo de cursos,123351,22404,Homologacion por grupo de cursos,22404,Fluxicon Disco,Variant 2,2,2016-05-31 17:38:15+00:00,2016-05-31 17:33:49+00:00
+Traer informacion estudiante - banner,123401,9445,Traer informacion estudiante - banner,9445,Fluxicon Disco,Variant 1,1,2016-05-30 22:13:39+00:00,2016-05-30 22:13:39+00:00
+Radicar Solicitud Homologacion,123401,9445,Radicar Solicitud Homologacion,9445,Fluxicon Disco,Variant 1,1,2016-05-30 22:18:14+00:00,2016-05-30 22:13:42+00:00
+Cancelar Solicitud,123401,9445,Cancelar Solicitud,9445,Fluxicon Disco,Variant 1,1,2016-05-31 20:32:48+00:00,2016-05-31 20:32:20+00:00
+Notificacion estudiante cancelacion soli,123401,9445,Notificacion estudiante cancelacion soli,9445,Fluxicon Disco,Variant 1,1,2016-05-31 21:01:16+00:00,2016-05-31 21:01:16+00:00
+Traer informacion estudiante - banner,123612,23530,Traer informacion estudiante - banner,23530,Fluxicon Disco,Variant 1,1,2016-06-01 00:10:46+00:00,2016-06-01 00:10:46+00:00
+Radicar Solicitud Homologacion,123612,23530,Radicar Solicitud Homologacion,23530,Fluxicon Disco,Variant 1,1,2016-06-01 00:30:40+00:00,2016-06-01 00:10:52+00:00
+Cancelar Solicitud,123612,22404,Cancelar Solicitud,22404,Fluxicon Disco,Variant 1,1,2016-06-03 17:50:05+00:00,2016-06-03 17:48:03+00:00
+Notificacion estudiante cancelacion soli,123612,22404,Notificacion estudiante cancelacion soli,22404,Fluxicon Disco,Variant 1,1,2016-06-03 21:50:05+00:00,2016-06-03 21:50:05+00:00
+Traer informacion estudiante - banner,123613,15612,Traer informacion estudiante - banner,15612,Fluxicon Disco,Variant 2,2,2016-06-01 02:17:04+00:00,2016-06-01 02:17:04+00:00
+Radicar Solicitud Homologacion,123613,15612,Radicar Solicitud Homologacion,15612,Fluxicon Disco,Variant 2,2,2016-06-01 02:18:38+00:00,2016-06-01 02:17:05+00:00
+Validar solicitud,123613,22475,Validar solicitud,22475,Fluxicon Disco,Variant 2,2,2016-06-01 15:36:22+00:00,2016-06-01 15:33:33+00:00
+Homologacion por grupo de cursos,123613,22475,Homologacion por grupo de cursos,22475,Fluxicon Disco,Variant 2,2,2016-06-01 20:24:48+00:00,2016-06-01 20:23:39+00:00
+Traer informacion estudiante - banner,123614,15612,Traer informacion estudiante - banner,15612,Fluxicon Disco,Variant 1,1,2016-06-01 02:20:00+00:00,2016-06-01 02:20:00+00:00
+Radicar Solicitud Homologacion,123614,15612,Radicar Solicitud Homologacion,15612,Fluxicon Disco,Variant 1,1,2016-06-01 02:28:01+00:00,2016-06-01 02:20:01+00:00
+Cancelar Solicitud,123614,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 1,1,2016-06-02 13:04:49+00:00,2016-06-02 13:03:01+00:00
+Notificacion estudiante cancelacion soli,123614,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 1,1,2016-06-02 15:48:41+00:00,2016-06-02 15:48:41+00:00
+Traer informacion estudiante - banner,123615,15612,Traer informacion estudiante - banner,15612,Fluxicon Disco,Variant 2,2,2016-06-01 02:26:32+00:00,2016-06-01 02:26:32+00:00
+Radicar Solicitud Homologacion,123615,15612,Radicar Solicitud Homologacion,15612,Fluxicon Disco,Variant 2,2,2016-06-01 02:34:33+00:00,2016-06-01 02:26:33+00:00
+Validar solicitud,123615,22475,Validar solicitud,22475,Fluxicon Disco,Variant 2,2,2016-06-02 13:06:47+00:00,2016-06-02 13:05:11+00:00
+Homologacion por grupo de cursos,123615,22475,Homologacion por grupo de cursos,22475,Fluxicon Disco,Variant 2,2,2016-06-02 16:10:47+00:00,2016-06-02 15:36:24+00:00
+Traer informacion estudiante - banner,123706,2465,Traer informacion estudiante - banner,2465,Fluxicon Disco,Variant 1,1,2016-05-31 19:26:34+00:00,2016-05-31 19:26:34+00:00
+Radicar Solicitud Homologacion,123706,2465,Radicar Solicitud Homologacion,2465,Fluxicon Disco,Variant 1,1,2016-05-31 19:26:35+00:00,2016-05-31 19:26:35+00:00
+Cancelar Solicitud,123706,19019,Cancelar Solicitud,19019,Fluxicon Disco,Variant 1,1,2016-05-31 19:57:53+00:00,2016-05-31 19:41:53+00:00
+Notificacion estudiante cancelacion soli,123706,19019,Notificacion estudiante cancelacion soli,19019,Fluxicon Disco,Variant 1,1,2016-06-02 18:30:14+00:00,2016-06-02 18:30:14+00:00
+Traer informacion estudiante - banner,123707,955,Traer informacion estudiante - banner,955,Fluxicon Disco,Variant 1,1,2016-05-31 20:28:10+00:00,2016-05-31 20:28:10+00:00
+Radicar Solicitud Homologacion,123707,955,Radicar Solicitud Homologacion,955,Fluxicon Disco,Variant 1,1,2016-05-31 20:28:15+00:00,2016-05-31 20:28:11+00:00
+Cancelar Solicitud,123707,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 1,1,2016-05-31 20:35:08+00:00,2016-05-31 20:33:07+00:00
+Notificacion estudiante cancelacion soli,123707,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 1,1,2016-05-31 22:34:47+00:00,2016-05-31 22:34:47+00:00
+Traer informacion estudiante - banner,123709,9445,Traer informacion estudiante - banner,9445,Fluxicon Disco,Variant 2,2,2016-05-31 20:38:59+00:00,2016-05-31 20:38:59+00:00
+Radicar Solicitud Homologacion,123709,9445,Radicar Solicitud Homologacion,9445,Fluxicon Disco,Variant 2,2,2016-05-31 20:39:07+00:00,2016-05-31 20:39:00+00:00
+Validar solicitud,123709,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-05-31 21:27:05+00:00,2016-05-31 20:46:45+00:00
+Homologacion por grupo de cursos,123709,677,Homologacion por grupo de cursos,677,Fluxicon Disco,Variant 2,2,2016-06-08 23:10:16+00:00,2016-06-08 21:07:20+00:00
+Traer informacion estudiante - banner,123751,1134,Traer informacion estudiante - banner,1134,Fluxicon Disco,Variant 9,9,2016-06-01 13:47:58+00:00,2016-06-01 13:47:58+00:00
+Radicar Solicitud Homologacion,123751,1,Radicar Solicitud Homologacion,1,Fluxicon Disco,Variant 9,9,2016-06-01 13:48:06+00:00,2016-06-01 13:48:06+00:00
+Validar solicitud,123751,677,Validar solicitud,677,Fluxicon Disco,Variant 9,9,2016-06-01 13:48:31+00:00,2016-06-01 13:48:31+00:00
+Cancelar Solicitud,123751,677,Cancelar Solicitud,677,Fluxicon Disco,Variant 9,9,2016-06-01 13:48:37+00:00,2016-06-01 13:48:32+00:00
+Notificacion estudiante cancelacion soli,123751,677,Notificacion estudiante cancelacion soli,677,Fluxicon Disco,Variant 9,9,2016-06-01 14:05:32+00:00,2016-06-01 14:05:32+00:00
+Traer informacion estudiante - banner,123752,1134,Traer informacion estudiante - banner,1134,Fluxicon Disco,Variant 2,2,2016-06-01 14:05:58+00:00,2016-06-01 14:05:58+00:00
+Radicar Solicitud Homologacion,123752,1,Radicar Solicitud Homologacion,1,Fluxicon Disco,Variant 2,2,2016-06-01 14:06:01+00:00,2016-06-01 14:06:01+00:00
+Validar solicitud,123752,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-06-01 14:06:10+00:00,2016-06-01 14:06:09+00:00
+Homologacion por grupo de cursos,123752,3445,Homologacion por grupo de cursos,3445,Fluxicon Disco,Variant 2,2,2016-06-01 14:44:27+00:00,2016-06-01 14:07:20+00:00
+Traer informacion estudiante - banner,123753,1471,Traer informacion estudiante - banner,1471,Fluxicon Disco,Variant 2,2,2016-06-01 14:10:16+00:00,2016-06-01 14:10:16+00:00
+Radicar Solicitud Homologacion,123753,1,Radicar Solicitud Homologacion,1,Fluxicon Disco,Variant 2,2,2016-06-01 14:10:17+00:00,2016-06-01 14:10:17+00:00
+Validar solicitud,123753,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-06-01 14:10:29+00:00,2016-06-01 14:10:27+00:00
+Homologacion por grupo de cursos,123753,3445,Homologacion por grupo de cursos,3445,Fluxicon Disco,Variant 2,2,2016-06-01 14:50:00+00:00,2016-06-01 14:12:58+00:00
+Traer informacion estudiante - banner,123758,11174,Traer informacion estudiante - banner,11174,Fluxicon Disco,Variant 2,2,2016-06-01 14:40:23+00:00,2016-06-01 14:40:23+00:00
+Radicar Solicitud Homologacion,123758,1,Radicar Solicitud Homologacion,1,Fluxicon Disco,Variant 2,2,2016-06-01 14:40:24+00:00,2016-06-01 14:40:24+00:00
+Validar solicitud,123758,19019,Validar solicitud,19019,Fluxicon Disco,Variant 2,2,2016-06-01 14:40:38+00:00,2016-06-01 14:40:34+00:00
+Homologacion por grupo de cursos,123758,19019,Homologacion por grupo de cursos,19019,Fluxicon Disco,Variant 2,2,2016-06-01 16:40:13+00:00,2016-06-01 14:44:53+00:00
+Traer informacion estudiante - banner,123761,11342,Traer informacion estudiante - banner,11342,Fluxicon Disco,Variant 2,2,2016-06-01 14:47:26+00:00,2016-06-01 14:47:26+00:00
+Radicar Solicitud Homologacion,123761,1,Radicar Solicitud Homologacion,1,Fluxicon Disco,Variant 2,2,2016-06-01 14:47:27+00:00,2016-06-01 14:47:27+00:00
+Validar solicitud,123761,18929,Validar solicitud,18929,Fluxicon Disco,Variant 2,2,2016-06-01 14:47:56+00:00,2016-06-01 14:47:37+00:00
+Homologacion por grupo de cursos,123761,957,Homologacion por grupo de cursos,957,Fluxicon Disco,Variant 2,2,2016-06-01 15:22:16+00:00,2016-06-01 15:06:42+00:00
+Traer informacion estudiante - banner,123766,12532,Traer informacion estudiante - banner,12532,Fluxicon Disco,Variant 2,2,2016-06-01 14:50:51+00:00,2016-06-01 14:50:51+00:00
+Radicar Solicitud Homologacion,123766,1,Radicar Solicitud Homologacion,1,Fluxicon Disco,Variant 2,2,2016-06-01 14:50:52+00:00,2016-06-01 14:50:52+00:00
+Validar solicitud,123766,19019,Validar solicitud,19019,Fluxicon Disco,Variant 2,2,2016-06-01 14:51:20+00:00,2016-06-01 14:51:02+00:00
+Homologacion por grupo de cursos,123766,19019,Homologacion por grupo de cursos,19019,Fluxicon Disco,Variant 2,2,2016-06-01 17:04:29+00:00,2016-06-01 15:09:34+00:00
+Traer informacion estudiante - banner,123767,20194,Traer informacion estudiante - banner,20194,Fluxicon Disco,Variant 7,7,2016-06-01 14:54:05+00:00,2016-06-01 14:54:05+00:00
+Radicar Solicitud Homologacion,123767,1,Radicar Solicitud Homologacion,1,Fluxicon Disco,Variant 7,7,2016-06-01 14:54:06+00:00,2016-06-01 14:54:06+00:00
+Cancelar Solicitud,123767,2292,Cancelar Solicitud,2292,Fluxicon Disco,Variant 7,7,2016-06-01 14:54:45+00:00,2016-06-01 14:54:16+00:00
+Validar solicitud,123767,2292,Validar solicitud,2292,Fluxicon Disco,Variant 7,7,2016-06-01 14:54:44+00:00,2016-06-01 14:54:16+00:00
+Notificacion estudiante cancelacion soli,123767,2292,Notificacion estudiante cancelacion soli,2292,Fluxicon Disco,Variant 7,7,2016-06-01 15:24:06+00:00,2016-06-01 15:24:06+00:00
+Traer informacion estudiante - banner,123768,21562,Traer informacion estudiante - banner,21562,Fluxicon Disco,Variant 7,7,2016-06-01 14:54:19+00:00,2016-06-01 14:54:19+00:00
+Radicar Solicitud Homologacion,123768,1,Radicar Solicitud Homologacion,1,Fluxicon Disco,Variant 7,7,2016-06-01 14:54:20+00:00,2016-06-01 14:54:20+00:00
+Cancelar Solicitud,123768,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 7,7,2016-06-01 14:55:59+00:00,2016-06-01 14:54:30+00:00
+Validar solicitud,123768,22475,Validar solicitud,22475,Fluxicon Disco,Variant 7,7,2016-06-01 14:55:26+00:00,2016-06-01 14:54:30+00:00
+Notificacion estudiante cancelacion soli,123768,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 7,7,2016-06-01 16:24:12+00:00,2016-06-01 16:24:12+00:00
+Traer informacion estudiante - banner,123769,20194,Traer informacion estudiante - banner,20194,Fluxicon Disco,Variant 9,9,2016-06-01 15:25:07+00:00,2016-06-01 15:25:07+00:00
+Radicar Solicitud Homologacion,123769,1,Radicar Solicitud Homologacion,1,Fluxicon Disco,Variant 9,9,2016-06-01 15:25:08+00:00,2016-06-01 15:25:08+00:00
+Validar solicitud,123769,2292,Validar solicitud,2292,Fluxicon Disco,Variant 9,9,2016-06-01 15:25:18+00:00,2016-06-01 15:25:17+00:00
+Cancelar Solicitud,123769,2292,Cancelar Solicitud,2292,Fluxicon Disco,Variant 9,9,2016-06-01 15:26:12+00:00,2016-06-01 15:25:18+00:00
+Notificacion estudiante cancelacion soli,123769,2292,Notificacion estudiante cancelacion soli,2292,Fluxicon Disco,Variant 9,9,2016-06-01 16:19:34+00:00,2016-06-01 16:19:34+00:00
+Traer informacion estudiante - banner,123771,21562,Traer informacion estudiante - banner,21562,Fluxicon Disco,Variant 7,7,2016-06-01 16:22:45+00:00,2016-06-01 16:22:45+00:00
+Radicar Solicitud Homologacion,123771,1,Radicar Solicitud Homologacion,1,Fluxicon Disco,Variant 7,7,2016-06-01 16:22:46+00:00,2016-06-01 16:22:46+00:00
+Cancelar Solicitud,123771,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 7,7,2016-06-01 16:23:01+00:00,2016-06-01 16:22:56+00:00
+Validar solicitud,123771,22475,Validar solicitud,22475,Fluxicon Disco,Variant 7,7,2016-06-01 16:22:57+00:00,2016-06-01 16:22:56+00:00
+Notificacion estudiante cancelacion soli,123771,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 7,7,2016-06-01 16:28:18+00:00,2016-06-01 16:28:18+00:00
+Traer informacion estudiante - banner,123902,4834,Traer informacion estudiante - banner,4834,Fluxicon Disco,Variant 1,1,2016-06-02 15:31:06+00:00,2016-06-02 15:31:06+00:00
+Radicar Solicitud Homologacion,123902,4834,Radicar Solicitud Homologacion,4834,Fluxicon Disco,Variant 1,1,2016-06-02 15:31:23+00:00,2016-06-02 15:31:07+00:00
+Cancelar Solicitud,123902,4834,Cancelar Solicitud,4834,Fluxicon Disco,Variant 1,1,2016-06-02 15:50:05+00:00,2016-06-02 15:47:53+00:00
+Notificacion estudiante cancelacion soli,123902,4834,Notificacion estudiante cancelacion soli,4834,Fluxicon Disco,Variant 1,1,2016-06-02 19:24:14+00:00,2016-06-02 19:24:14+00:00
+Traer informacion estudiante - banner,123903,4834,Traer informacion estudiante - banner,4834,Fluxicon Disco,Variant 1,1,2016-06-02 17:27:01+00:00,2016-06-02 17:27:01+00:00
+Radicar Solicitud Homologacion,123903,4834,Radicar Solicitud Homologacion,4834,Fluxicon Disco,Variant 1,1,2016-06-02 17:27:05+00:00,2016-06-02 17:27:02+00:00
+Cancelar Solicitud,123903,4834,Cancelar Solicitud,4834,Fluxicon Disco,Variant 1,1,2016-06-02 17:30:48+00:00,2016-06-02 17:30:42+00:00
+Notificacion estudiante cancelacion soli,123903,4834,Notificacion estudiante cancelacion soli,4834,Fluxicon Disco,Variant 1,1,2016-06-02 17:37:36+00:00,2016-06-02 17:37:36+00:00
+Traer informacion estudiante - banner,123904,4834,Traer informacion estudiante - banner,4834,Fluxicon Disco,Variant 1,1,2016-06-02 17:39:46+00:00,2016-06-02 17:39:46+00:00
+Radicar Solicitud Homologacion,123904,4834,Radicar Solicitud Homologacion,4834,Fluxicon Disco,Variant 1,1,2016-06-02 17:39:49+00:00,2016-06-02 17:39:47+00:00
+Cancelar Solicitud,123904,4834,Cancelar Solicitud,4834,Fluxicon Disco,Variant 1,1,2016-06-02 17:42:19+00:00,2016-06-02 17:42:16+00:00
+Notificacion estudiante cancelacion soli,123904,4834,Notificacion estudiante cancelacion soli,4834,Fluxicon Disco,Variant 1,1,2016-06-02 17:46:11+00:00,2016-06-02 17:46:11+00:00
+Traer informacion estudiante - banner,123905,4834,Traer informacion estudiante - banner,4834,Fluxicon Disco,Variant 1,1,2016-06-02 17:46:19+00:00,2016-06-02 17:46:19+00:00
+Radicar Solicitud Homologacion,123905,4834,Radicar Solicitud Homologacion,4834,Fluxicon Disco,Variant 1,1,2016-06-02 17:46:24+00:00,2016-06-02 17:46:20+00:00
+Cancelar Solicitud,123905,4834,Cancelar Solicitud,4834,Fluxicon Disco,Variant 1,1,2016-06-02 17:50:53+00:00,2016-06-02 17:50:44+00:00
+Notificacion estudiante cancelacion soli,123905,4834,Notificacion estudiante cancelacion soli,4834,Fluxicon Disco,Variant 1,1,2016-06-02 18:13:22+00:00,2016-06-02 18:13:22+00:00
+Traer informacion estudiante - banner,123906,4834,Traer informacion estudiante - banner,4834,Fluxicon Disco,Variant 2,2,2016-06-02 18:13:33+00:00,2016-06-02 18:13:33+00:00
+Radicar Solicitud Homologacion,123906,4834,Radicar Solicitud Homologacion,4834,Fluxicon Disco,Variant 2,2,2016-06-02 18:13:33+00:00,2016-06-02 18:13:33+00:00
+Validar solicitud,123906,22404,Validar solicitud,22404,Fluxicon Disco,Variant 2,2,2016-06-02 18:18:22+00:00,2016-06-02 18:17:59+00:00
+Homologacion por grupo de cursos,123906,4560,Homologacion por grupo de cursos,4560,Fluxicon Disco,Variant 2,2,2016-06-02 21:55:19+00:00,2016-06-02 20:23:43+00:00
+Traer informacion estudiante - banner,123956,9249,Traer informacion estudiante - banner,9249,Fluxicon Disco,Variant 1,1,2016-06-03 02:46:39+00:00,2016-06-03 02:46:39+00:00
+Radicar Solicitud Homologacion,123956,9249,Radicar Solicitud Homologacion,9249,Fluxicon Disco,Variant 1,1,2016-06-03 02:46:51+00:00,2016-06-03 02:46:40+00:00
+Cancelar Solicitud,123956,9249,Cancelar Solicitud,9249,Fluxicon Disco,Variant 1,1,2016-06-03 14:11:05+00:00,2016-06-03 14:11:01+00:00
+Notificacion estudiante cancelacion soli,123956,9249,Notificacion estudiante cancelacion soli,9249,Fluxicon Disco,Variant 1,1,2016-06-03 14:15:56+00:00,2016-06-03 14:15:56+00:00
+Traer informacion estudiante - banner,123961,12175,Traer informacion estudiante - banner,12175,Fluxicon Disco,Variant 1,1,2016-06-03 15:28:21+00:00,2016-06-03 15:28:21+00:00
+Traer informacion estudiante - banner,125569,9379,Traer informacion estudiante - banner,9379,Fluxicon Disco,Variant 7,7,2016-06-13 19:19:53+00:00,2016-06-13 19:19:53+00:00
+Radicar Solicitud Homologacion,125569,9379,Radicar Solicitud Homologacion,9379,Fluxicon Disco,Variant 7,7,2016-06-13 19:19:55+00:00,2016-06-13 19:19:55+00:00
+Cancelar Solicitud,125569,9379,Cancelar Solicitud,9379,Fluxicon Disco,Variant 7,7,2016-06-13 19:21:43+00:00,2016-06-13 19:21:43+00:00
+Validar solicitud,125569,920,Validar solicitud,920,Fluxicon Disco,Variant 7,7,2016-06-13 19:21:43+00:00,2016-06-13 19:21:43+00:00
+Notificacion estudiante cancelacion soli,125569,9379,Notificacion estudiante cancelacion soli,9379,Fluxicon Disco,Variant 7,7,2016-06-13 19:46:51+00:00,2016-06-13 19:46:51+00:00
+Traer informacion estudiante - banner,125651,11548,Traer informacion estudiante - banner,11548,Fluxicon Disco,Variant 5,5,2016-06-14 07:11:19+00:00,2016-06-14 07:11:19+00:00
+Radicar Solicitud Homologacion,125651,11548,Radicar Solicitud Homologacion,11548,Fluxicon Disco,Variant 5,5,2016-06-14 07:11:23+00:00,2016-06-14 07:11:23+00:00
+Notificacion estudiante cancelacion soli,125651,1,Notificacion estudiante cancelacion soli,1,Fluxicon Disco,Variant 5,5,2016-06-22 22:24:13+00:00,2016-06-22 22:24:13+00:00
+Traer informacion estudiante - banner,125703,19692,Traer informacion estudiante - banner,19692,Fluxicon Disco,Variant 1,1,2016-06-14 15:12:11+00:00,2016-06-14 15:12:11+00:00
+Radicar Solicitud Homologacion,125703,19692,Radicar Solicitud Homologacion,19692,Fluxicon Disco,Variant 1,1,2016-06-14 15:43:00+00:00,2016-06-14 15:12:13+00:00
+Cancelar Solicitud,125703,29277,Cancelar Solicitud,29277,Fluxicon Disco,Variant 1,1,2016-06-20 13:35:52+00:00,2016-06-20 13:35:38+00:00
+Notificacion estudiante cancelacion soli,125703,29277,Notificacion estudiante cancelacion soli,29277,Fluxicon Disco,Variant 1,1,2016-06-20 14:14:10+00:00,2016-06-20 14:14:10+00:00
+Traer informacion estudiante - banner,125706,7824,Traer informacion estudiante - banner,7824,Fluxicon Disco,Variant 2,2,2016-06-14 17:14:40+00:00,2016-06-14 17:14:40+00:00
+Radicar Solicitud Homologacion,125706,7824,Radicar Solicitud Homologacion,7824,Fluxicon Disco,Variant 2,2,2016-06-14 17:15:05+00:00,2016-06-14 17:14:43+00:00
+Validar solicitud,125706,241,Validar solicitud,241,Fluxicon Disco,Variant 2,2,2016-06-14 18:17:58+00:00,2016-06-14 17:37:31+00:00
+Homologacion por grupo de cursos,125706,241,Homologacion por grupo de cursos,241,Fluxicon Disco,Variant 2,2,2016-06-21 20:23:04+00:00,2016-06-21 20:04:41+00:00
+Traer informacion estudiante - banner,125714,28881,Traer informacion estudiante - banner,28881,Fluxicon Disco,Variant 2,2,2016-06-14 20:08:39+00:00,2016-06-14 20:08:39+00:00
+Radicar Solicitud Homologacion,125714,28881,Radicar Solicitud Homologacion,28881,Fluxicon Disco,Variant 2,2,2016-06-14 20:08:56+00:00,2016-06-14 20:08:40+00:00
+Validar solicitud,125714,6400,Validar solicitud,6400,Fluxicon Disco,Variant 2,2,2016-06-14 20:25:58+00:00,2016-06-14 20:25:35+00:00
+Homologacion por grupo de cursos,125714,6520,Homologacion por grupo de cursos,6520,Fluxicon Disco,Variant 2,2,2016-06-14 21:04:13+00:00,2016-06-14 20:49:03+00:00
+Traer informacion estudiante - banner,125717,11150,Traer informacion estudiante - banner,11150,Fluxicon Disco,Variant 1,1,2016-06-14 21:07:08+00:00,2016-06-14 21:07:08+00:00
+Radicar Solicitud Homologacion,125717,11150,Radicar Solicitud Homologacion,11150,Fluxicon Disco,Variant 1,1,2016-06-14 21:09:16+00:00,2016-06-14 21:07:09+00:00
+Cancelar Solicitud,125717,29277,Cancelar Solicitud,29277,Fluxicon Disco,Variant 1,1,2016-06-14 23:24:33+00:00,2016-06-14 23:14:11+00:00
+Notificacion estudiante cancelacion soli,125717,29277,Notificacion estudiante cancelacion soli,29277,Fluxicon Disco,Variant 1,1,2016-06-16 15:36:34+00:00,2016-06-16 15:36:34+00:00
+Traer informacion estudiante - banner,125718,28881,Traer informacion estudiante - banner,28881,Fluxicon Disco,Variant 2,2,2016-06-14 21:08:41+00:00,2016-06-14 21:08:41+00:00
+Radicar Solicitud Homologacion,125718,28881,Radicar Solicitud Homologacion,28881,Fluxicon Disco,Variant 2,2,2016-06-14 21:08:47+00:00,2016-06-14 21:08:42+00:00
+Validar solicitud,125718,6400,Validar solicitud,6400,Fluxicon Disco,Variant 2,2,2016-06-14 21:21:17+00:00,2016-06-14 21:14:36+00:00
+Homologacion por grupo de cursos,125718,6520,Homologacion por grupo de cursos,6520,Fluxicon Disco,Variant 2,2,2016-06-15 19:15:51+00:00,2016-06-15 17:55:47+00:00
+Traer informacion estudiante - banner,125722,9332,Traer informacion estudiante - banner,9332,Fluxicon Disco,Variant 1,1,2016-06-15 00:38:00+00:00,2016-06-15 00:38:00+00:00
+Radicar Solicitud Homologacion,125722,9332,Radicar Solicitud Homologacion,9332,Fluxicon Disco,Variant 1,1,2016-06-15 01:02:01+00:00,2016-06-15 00:38:01+00:00
+Cancelar Solicitud,125722,241,Cancelar Solicitud,241,Fluxicon Disco,Variant 1,1,2016-06-19 22:42:01+00:00,2016-06-19 22:29:37+00:00
+Notificacion estudiante cancelacion soli,125722,241,Notificacion estudiante cancelacion soli,241,Fluxicon Disco,Variant 1,1,2016-06-21 20:24:29+00:00,2016-06-21 20:24:29+00:00
+Traer informacion estudiante - banner,125801,8882,Traer informacion estudiante - banner,8882,Fluxicon Disco,Variant 1,1,2016-06-15 11:42:19+00:00,2016-06-15 11:42:19+00:00
+Radicar Solicitud Homologacion,125801,8882,Radicar Solicitud Homologacion,8882,Fluxicon Disco,Variant 1,1,2016-06-15 11:42:25+00:00,2016-06-15 11:42:25+00:00
+Cancelar Solicitud,125801,29277,Cancelar Solicitud,29277,Fluxicon Disco,Variant 1,1,2016-06-15 12:04:47+00:00,2016-06-15 11:55:09+00:00
+Notificacion estudiante cancelacion soli,125801,29277,Notificacion estudiante cancelacion soli,29277,Fluxicon Disco,Variant 1,1,2016-06-16 15:38:04+00:00,2016-06-16 15:38:04+00:00
+Traer informacion estudiante - banner,125802,8882,Traer informacion estudiante - banner,8882,Fluxicon Disco,Variant 1,1,2016-06-15 11:55:46+00:00,2016-06-15 11:55:46+00:00
+Radicar Solicitud Homologacion,125802,8882,Radicar Solicitud Homologacion,8882,Fluxicon Disco,Variant 1,1,2016-06-15 11:55:48+00:00,2016-06-15 11:55:48+00:00
+Cancelar Solicitud,125802,29277,Cancelar Solicitud,29277,Fluxicon Disco,Variant 1,1,2016-06-15 12:09:33+00:00,2016-06-15 11:59:54+00:00
+Notificacion estudiante cancelacion soli,125802,29277,Notificacion estudiante cancelacion soli,29277,Fluxicon Disco,Variant 1,1,2016-06-16 15:39:00+00:00,2016-06-16 15:39:00+00:00
+Traer informacion estudiante - banner,125803,8882,Traer informacion estudiante - banner,8882,Fluxicon Disco,Variant 1,1,2016-06-15 12:14:04+00:00,2016-06-15 12:14:04+00:00
+Radicar Solicitud Homologacion,125803,8882,Radicar Solicitud Homologacion,8882,Fluxicon Disco,Variant 1,1,2016-06-15 12:14:07+00:00,2016-06-15 12:14:07+00:00
+Cancelar Solicitud,125803,29277,Cancelar Solicitud,29277,Fluxicon Disco,Variant 1,1,2016-06-15 12:27:52+00:00,2016-06-15 12:18:13+00:00
+Notificacion estudiante cancelacion soli,125803,29277,Notificacion estudiante cancelacion soli,29277,Fluxicon Disco,Variant 1,1,2016-06-16 15:39:24+00:00,2016-06-16 15:39:24+00:00
+Traer informacion estudiante - banner,125809,2740,Traer informacion estudiante - banner,2740,Fluxicon Disco,Variant 1,1,2016-06-15 14:26:39+00:00,2016-06-15 14:26:39+00:00
+Radicar Solicitud Homologacion,125809,2740,Radicar Solicitud Homologacion,2740,Fluxicon Disco,Variant 1,1,2016-06-15 14:27:18+00:00,2016-06-15 14:26:40+00:00
+Cancelar Solicitud,125809,677,Cancelar Solicitud,677,Fluxicon Disco,Variant 1,1,2016-06-15 15:05:53+00:00,2016-06-15 15:05:14+00:00
+Notificacion estudiante cancelacion soli,125809,677,Notificacion estudiante cancelacion soli,677,Fluxicon Disco,Variant 1,1,2016-06-15 15:44:38+00:00,2016-06-15 15:44:38+00:00
+Traer informacion estudiante - banner,125811,2740,Traer informacion estudiante - banner,2740,Fluxicon Disco,Variant 2,2,2016-06-15 15:53:31+00:00,2016-06-15 15:53:31+00:00
+Radicar Solicitud Homologacion,125811,2740,Radicar Solicitud Homologacion,2740,Fluxicon Disco,Variant 2,2,2016-06-15 15:53:50+00:00,2016-06-15 15:53:32+00:00
+Validar solicitud,125811,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-06-15 16:19:08+00:00,2016-06-15 16:12:18+00:00
+Homologacion por grupo de cursos,125811,3445,Homologacion por grupo de cursos,3445,Fluxicon Disco,Variant 2,2,2016-06-16 15:44:25+00:00,2016-06-16 15:02:47+00:00
+Traer informacion estudiante - banner,125812,9451,Traer informacion estudiante - banner,9451,Fluxicon Disco,Variant 1,1,2016-06-15 16:20:42+00:00,2016-06-15 16:20:42+00:00
+Radicar Solicitud Homologacion,125812,9451,Radicar Solicitud Homologacion,9451,Fluxicon Disco,Variant 1,1,2016-06-15 16:20:58+00:00,2016-06-15 16:20:43+00:00
+Cancelar Solicitud,125812,186,Cancelar Solicitud,186,Fluxicon Disco,Variant 1,1,2016-06-15 17:01:55+00:00,2016-06-15 16:36:32+00:00
+Notificacion estudiante cancelacion soli,125812,186,Notificacion estudiante cancelacion soli,186,Fluxicon Disco,Variant 1,1,2016-06-20 19:59:16+00:00,2016-06-20 19:59:16+00:00
+Traer informacion estudiante - banner,125953,9509,Traer informacion estudiante - banner,9509,Fluxicon Disco,Variant 1,1,2016-06-16 14:54:37+00:00,2016-06-16 14:54:37+00:00
+Radicar Solicitud Homologacion,125953,9509,Radicar Solicitud Homologacion,9509,Fluxicon Disco,Variant 1,1,2016-06-16 14:54:46+00:00,2016-06-16 14:54:38+00:00
+Cancelar Solicitud,125953,29277,Cancelar Solicitud,29277,Fluxicon Disco,Variant 1,1,2016-06-16 15:03:34+00:00,2016-06-16 15:02:53+00:00
+Notificacion estudiante cancelacion soli,125953,29277,Notificacion estudiante cancelacion soli,29277,Fluxicon Disco,Variant 1,1,2016-06-16 15:44:49+00:00,2016-06-16 15:44:49+00:00
+Traer informacion estudiante - banner,125957,9509,Traer informacion estudiante - banner,9509,Fluxicon Disco,Variant 1,1,2016-06-16 15:10:47+00:00,2016-06-16 15:10:47+00:00
+Radicar Solicitud Homologacion,125957,9509,Radicar Solicitud Homologacion,9509,Fluxicon Disco,Variant 1,1,2016-06-16 15:10:53+00:00,2016-06-16 15:10:48+00:00
+Cancelar Solicitud,125957,29277,Cancelar Solicitud,29277,Fluxicon Disco,Variant 1,1,2016-06-16 15:17:09+00:00,2016-06-16 15:16:40+00:00
+Notificacion estudiante cancelacion soli,125957,29277,Notificacion estudiante cancelacion soli,29277,Fluxicon Disco,Variant 1,1,2016-06-16 15:46:17+00:00,2016-06-16 15:46:17+00:00
+Traer informacion estudiante - banner,125958,9509,Traer informacion estudiante - banner,9509,Fluxicon Disco,Variant 1,1,2016-06-16 15:18:37+00:00,2016-06-16 15:18:37+00:00
+Radicar Solicitud Homologacion,125958,9509,Radicar Solicitud Homologacion,9509,Fluxicon Disco,Variant 1,1,2016-06-16 15:18:48+00:00,2016-06-16 15:18:40+00:00
+Cancelar Solicitud,125958,29277,Cancelar Solicitud,29277,Fluxicon Disco,Variant 1,1,2016-06-16 15:27:06+00:00,2016-06-16 15:26:47+00:00
+Notificacion estudiante cancelacion soli,125958,29277,Notificacion estudiante cancelacion soli,29277,Fluxicon Disco,Variant 1,1,2016-06-16 15:46:33+00:00,2016-06-16 15:46:33+00:00
+Traer informacion estudiante - banner,125959,11653,Traer informacion estudiante - banner,11653,Fluxicon Disco,Variant 2,2,2016-06-16 15:42:06+00:00,2016-06-16 15:42:06+00:00
+Radicar Solicitud Homologacion,125959,11653,Radicar Solicitud Homologacion,11653,Fluxicon Disco,Variant 2,2,2016-06-16 15:42:17+00:00,2016-06-16 15:42:09+00:00
+Validar solicitud,125959,22404,Validar solicitud,22404,Fluxicon Disco,Variant 2,2,2016-06-16 15:52:45+00:00,2016-06-16 15:50:36+00:00
+Homologacion por grupo de cursos,125959,22404,Homologacion por grupo de cursos,22404,Fluxicon Disco,Variant 2,2,2016-06-16 19:24:57+00:00,2016-06-16 18:31:01+00:00
+Traer informacion estudiante - banner,125962,29579,Traer informacion estudiante - banner,29579,Fluxicon Disco,Variant 1,1,2016-06-16 17:22:44+00:00,2016-06-16 17:22:44+00:00
+Radicar Solicitud Homologacion,125962,29579,Radicar Solicitud Homologacion,29579,Fluxicon Disco,Variant 1,1,2016-06-16 17:35:22+00:00,2016-06-16 17:22:45+00:00
+Cancelar Solicitud,125962,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 1,1,2016-06-20 13:04:35+00:00,2016-06-20 13:04:32+00:00
+Notificacion estudiante cancelacion soli,125962,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 1,1,2016-06-20 14:03:14+00:00,2016-06-20 14:03:14+00:00
+Traer informacion estudiante - banner,116253,6572,Traer informacion estudiante - banner,6572,Fluxicon Disco,Variant 1,1,2016-05-02 16:34:11+00:00,2016-05-02 16:34:11+00:00
+Radicar Solicitud Homologacion,116253,6572,Radicar Solicitud Homologacion,6572,Fluxicon Disco,Variant 1,1,2016-05-02 16:34:20+00:00,2016-05-02 16:34:14+00:00
+Cancelar Solicitud,116253,6572,Cancelar Solicitud,6572,Fluxicon Disco,Variant 1,1,2016-05-02 16:40:44+00:00,2016-05-02 16:40:42+00:00
+Notificacion estudiante cancelacion soli,116253,6572,Notificacion estudiante cancelacion soli,6572,Fluxicon Disco,Variant 1,1,2016-05-02 16:43:40+00:00,2016-05-02 16:43:40+00:00
+Traer informacion estudiante - banner,116254,6572,Traer informacion estudiante - banner,6572,Fluxicon Disco,Variant 2,2,2016-05-02 16:51:01+00:00,2016-05-02 16:51:01+00:00
+Radicar Solicitud Homologacion,116254,6572,Radicar Solicitud Homologacion,6572,Fluxicon Disco,Variant 2,2,2016-05-02 16:51:09+00:00,2016-05-02 16:51:05+00:00
+Validar solicitud,116254,1707,Validar solicitud,1707,Fluxicon Disco,Variant 2,2,2016-05-02 16:55:36+00:00,2016-05-02 16:55:05+00:00
+Homologacion por grupo de cursos,116254,15930,Homologacion por grupo de cursos,15930,Fluxicon Disco,Variant 2,2,2016-05-02 18:47:34+00:00,2016-05-02 17:27:04+00:00
+Traer informacion estudiante - banner,116255,6572,Traer informacion estudiante - banner,6572,Fluxicon Disco,Variant 2,2,2016-05-02 16:56:59+00:00,2016-05-02 16:56:59+00:00
+Radicar Solicitud Homologacion,116255,6572,Radicar Solicitud Homologacion,6572,Fluxicon Disco,Variant 2,2,2016-05-02 16:57:04+00:00,2016-05-02 16:57:01+00:00
+Validar solicitud,116255,1707,Validar solicitud,1707,Fluxicon Disco,Variant 2,2,2016-05-02 17:00:54+00:00,2016-05-02 17:00:29+00:00
+Homologacion por grupo de cursos,116255,15930,Homologacion por grupo de cursos,15930,Fluxicon Disco,Variant 2,2,2016-05-02 18:46:33+00:00,2016-05-02 17:26:07+00:00
+Traer informacion estudiante - banner,116264,22529,Traer informacion estudiante - banner,22529,Fluxicon Disco,Variant 2,2,2016-05-02 22:10:44+00:00,2016-05-02 22:10:44+00:00
+Radicar Solicitud Homologacion,116264,22529,Radicar Solicitud Homologacion,22529,Fluxicon Disco,Variant 2,2,2016-05-02 22:11:27+00:00,2016-05-02 22:10:45+00:00
+Validar solicitud,116264,6767,Validar solicitud,6767,Fluxicon Disco,Variant 2,2,2016-05-02 23:38:42+00:00,2016-05-02 22:53:36+00:00
+Homologacion por grupo de cursos,116264,6954,Homologacion por grupo de cursos,6954,Fluxicon Disco,Variant 2,2,2016-05-11 20:58:55+00:00,2016-05-11 19:58:55+00:00
+Traer informacion estudiante - banner,116266,6369,Traer informacion estudiante - banner,6369,Fluxicon Disco,Variant 2,2,2016-05-02 22:42:37+00:00,2016-05-02 22:42:37+00:00
+Radicar Solicitud Homologacion,116266,6369,Radicar Solicitud Homologacion,6369,Fluxicon Disco,Variant 2,2,2016-05-02 22:43:21+00:00,2016-05-02 22:42:37+00:00
+Validar solicitud,116266,1707,Validar solicitud,1707,Fluxicon Disco,Variant 2,2,2016-05-02 23:28:54+00:00,2016-05-02 23:27:21+00:00
+Homologacion por grupo de cursos,116266,15930,Homologacion por grupo de cursos,15930,Fluxicon Disco,Variant 2,2,2016-05-03 17:15:49+00:00,2016-05-03 15:00:40+00:00
+Traer informacion estudiante - banner,116267,22529,Traer informacion estudiante - banner,22529,Fluxicon Disco,Variant 2,2,2016-05-02 22:57:24+00:00,2016-05-02 22:57:24+00:00
+Radicar Solicitud Homologacion,116267,22529,Radicar Solicitud Homologacion,22529,Fluxicon Disco,Variant 2,2,2016-05-02 22:57:41+00:00,2016-05-02 22:57:25+00:00
+Validar solicitud,116267,6767,Validar solicitud,6767,Fluxicon Disco,Variant 2,2,2016-05-02 23:59:09+00:00,2016-05-02 23:14:24+00:00
+Homologacion por grupo de cursos,116267,6954,Homologacion por grupo de cursos,6954,Fluxicon Disco,Variant 2,2,2016-05-11 20:23:57+00:00,2016-05-11 19:59:57+00:00
+Traer informacion estudiante - banner,116301,6497,Traer informacion estudiante - banner,6497,Fluxicon Disco,Variant 2,2,2016-05-02 13:12:25+00:00,2016-05-02 13:12:25+00:00
+Radicar Solicitud Homologacion,116301,6497,Radicar Solicitud Homologacion,6497,Fluxicon Disco,Variant 2,2,2016-05-02 13:12:32+00:00,2016-05-02 13:12:32+00:00
+Validar solicitud,116301,1646,Validar solicitud,1646,Fluxicon Disco,Variant 2,2,2016-05-02 15:50:06+00:00,2016-05-02 13:39:23+00:00
+Homologacion por grupo de cursos,116301,12535,Homologacion por grupo de cursos,12535,Fluxicon Disco,Variant 2,2,2016-05-25 20:00:20+00:00,2016-05-25 16:43:53+00:00
+Traer informacion estudiante - banner,116302,11858,Traer informacion estudiante - banner,11858,Fluxicon Disco,Variant 1,1,2016-05-02 15:02:53+00:00,2016-05-02 15:02:53+00:00
+Radicar Solicitud Homologacion,116302,11858,Radicar Solicitud Homologacion,11858,Fluxicon Disco,Variant 1,1,2016-05-02 15:03:00+00:00,2016-05-02 15:02:54+00:00
+Cancelar Solicitud,116302,1707,Cancelar Solicitud,1707,Fluxicon Disco,Variant 1,1,2016-05-02 15:17:26+00:00,2016-05-02 15:09:32+00:00
+Notificacion estudiante cancelacion soli,116302,1707,Notificacion estudiante cancelacion soli,1707,Fluxicon Disco,Variant 1,1,2016-05-03 15:04:27+00:00,2016-05-03 15:04:27+00:00
+Traer informacion estudiante - banner,116303,11858,Traer informacion estudiante - banner,11858,Fluxicon Disco,Variant 2,2,2016-05-02 15:10:27+00:00,2016-05-02 15:10:27+00:00
+Radicar Solicitud Homologacion,116303,11858,Radicar Solicitud Homologacion,11858,Fluxicon Disco,Variant 2,2,2016-05-02 15:10:32+00:00,2016-05-02 15:10:28+00:00
+Validar solicitud,116303,1707,Validar solicitud,1707,Fluxicon Disco,Variant 2,2,2016-05-02 15:16:57+00:00,2016-05-02 15:14:48+00:00
+Homologacion por grupo de cursos,116303,15930,Homologacion por grupo de cursos,15930,Fluxicon Disco,Variant 2,2,2016-05-02 17:45:07+00:00,2016-05-02 17:24:32+00:00
+Traer informacion estudiante - banner,116304,7137,Traer informacion estudiante - banner,7137,Fluxicon Disco,Variant 2,2,2016-05-02 17:37:01+00:00,2016-05-02 17:37:01+00:00
+Radicar Solicitud Homologacion,116304,7137,Radicar Solicitud Homologacion,7137,Fluxicon Disco,Variant 2,2,2016-05-02 17:37:39+00:00,2016-05-02 17:37:05+00:00
+Validar solicitud,116304,677,Validar solicitud,677,Fluxicon Disco,Variant 2,2,2016-05-02 21:30:21+00:00,2016-05-02 20:12:00+00:00
+Homologacion por grupo de cursos,116304,3445,Homologacion por grupo de cursos,3445,Fluxicon Disco,Variant 2,2,2016-05-17 16:41:39+00:00,2016-05-17 16:33:02+00:00
+Traer informacion estudiante - banner,116305,9187,Traer informacion estudiante - banner,9187,Fluxicon Disco,Variant 1,1,2016-05-02 18:03:17+00:00,2016-05-02 18:03:17+00:00
+Radicar Solicitud Homologacion,116305,9187,Radicar Solicitud Homologacion,9187,Fluxicon Disco,Variant 1,1,2016-05-02 18:03:19+00:00,2016-05-02 18:03:19+00:00
+Cancelar Solicitud,116305,1707,Cancelar Solicitud,1707,Fluxicon Disco,Variant 1,1,2016-05-02 18:12:09+00:00,2016-05-02 18:07:03+00:00
+Notificacion estudiante cancelacion soli,116305,1707,Notificacion estudiante cancelacion soli,1707,Fluxicon Disco,Variant 1,1,2016-05-03 15:06:50+00:00,2016-05-03 15:06:50+00:00
+Traer informacion estudiante - banner,116306,9187,Traer informacion estudiante - banner,9187,Fluxicon Disco,Variant 2,2,2016-05-02 18:07:17+00:00,2016-05-02 18:07:17+00:00
+Radicar Solicitud Homologacion,116306,9187,Radicar Solicitud Homologacion,9187,Fluxicon Disco,Variant 2,2,2016-05-02 18:07:18+00:00,2016-05-02 18:07:18+00:00
+Validar solicitud,116306,1707,Validar solicitud,1707,Fluxicon Disco,Variant 2,2,2016-05-02 18:15:55+00:00,2016-05-02 18:10:48+00:00
+Homologacion por grupo de cursos,116306,15930,Homologacion por grupo de cursos,15930,Fluxicon Disco,Variant 2,2,2016-05-03 15:45:07+00:00,2016-05-03 15:07:48+00:00
+Traer informacion estudiante - banner,116307,9187,Traer informacion estudiante - banner,9187,Fluxicon Disco,Variant 1,1,2016-05-02 18:10:59+00:00,2016-05-02 18:10:59+00:00
+Radicar Solicitud Homologacion,116307,9187,Radicar Solicitud Homologacion,9187,Fluxicon Disco,Variant 1,1,2016-05-02 18:11:00+00:00,2016-05-02 18:11:00+00:00
+Cancelar Solicitud,116307,9187,Cancelar Solicitud,9187,Fluxicon Disco,Variant 1,1,2016-05-02 18:15:18+00:00,2016-05-02 18:15:18+00:00
+Notificacion estudiante cancelacion soli,116307,9187,Notificacion estudiante cancelacion soli,9187,Fluxicon Disco,Variant 1,1,2016-05-02 18:16:41+00:00,2016-05-02 18:16:41+00:00
+Traer informacion estudiante - banner,116308,9187,Traer informacion estudiante - banner,9187,Fluxicon Disco,Variant 2,2,2016-05-02 18:16:52+00:00,2016-05-02 18:16:52+00:00
+Radicar Solicitud Homologacion,116308,9187,Radicar Solicitud Homologacion,9187,Fluxicon Disco,Variant 2,2,2016-05-02 18:16:53+00:00,2016-05-02 18:16:53+00:00
+Validar solicitud,116308,1707,Validar solicitud,1707,Fluxicon Disco,Variant 2,2,2016-05-02 18:23:27+00:00,2016-05-02 18:18:18+00:00
+Homologacion por grupo de cursos,116308,15930,Homologacion por grupo de cursos,15930,Fluxicon Disco,Variant 2,2,2016-05-03 15:46:52+00:00,2016-05-03 15:09:34+00:00
+Traer informacion estudiante - banner,116309,2045,Traer informacion estudiante - banner,2045,Fluxicon Disco,Variant 2,2,2016-05-02 19:01:04+00:00,2016-05-02 19:01:04+00:00
+Radicar Solicitud Homologacion,116309,2045,Radicar Solicitud Homologacion,2045,Fluxicon Disco,Variant 2,2,2016-05-02 19:01:07+00:00,2016-05-02 19:01:07+00:00
+Validar solicitud,116309,22475,Validar solicitud,22475,Fluxicon Disco,Variant 2,2,2016-05-02 19:41:51+00:00,2016-05-02 19:40:07+00:00
+Homologacion por grupo de cursos,116309,1343,Homologacion por grupo de cursos,1343,Fluxicon Disco,Variant 2,2,2016-05-02 23:25:40+00:00,2016-05-02 21:44:13+00:00
+Traer informacion estudiante - banner,116312,15315,Traer informacion estudiante - banner,15315,Fluxicon Disco,Variant 1,1,2016-05-02 22:14:12+00:00,2016-05-02 22:14:12+00:00
+Radicar Solicitud Homologacion,116312,15315,Radicar Solicitud Homologacion,15315,Fluxicon Disco,Variant 1,1,2016-05-02 22:14:28+00:00,2016-05-02 22:14:15+00:00
+Cancelar Solicitud,116312,6694,Cancelar Solicitud,6694,Fluxicon Disco,Variant 1,1,2016-05-02 22:37:35+00:00,2016-05-02 22:28:04+00:00
+Notificacion estudiante cancelacion soli,116312,6694,Notificacion estudiante cancelacion soli,6694,Fluxicon Disco,Variant 1,1,2016-05-04 13:21:49+00:00,2016-05-04 13:21:49+00:00
+Traer informacion estudiante - banner,116352,19811,Traer informacion estudiante - banner,19811,Fluxicon Disco,Variant 2,2,2016-05-03 02:13:49+00:00,2016-05-03 02:13:49+00:00
+Radicar Solicitud Homologacion,116352,19811,Radicar Solicitud Homologacion,19811,Fluxicon Disco,Variant 2,2,2016-05-03 02:13:50+00:00,2016-05-03 02:13:50+00:00
+Validar solicitud,116352,22404,Validar solicitud,22404,Fluxicon Disco,Variant 2,2,2016-05-03 03:16:07+00:00,2016-05-03 02:49:24+00:00
+Homologacion por grupo de cursos,116352,4560,Homologacion por grupo de cursos,4560,Fluxicon Disco,Variant 2,2,2016-05-06 18:28:13+00:00,2016-05-06 16:43:21+00:00
+Traer informacion estudiante - banner,116401,10176,Traer informacion estudiante - banner,10176,Fluxicon Disco,Variant 22,22,2016-05-03 13:35:40+00:00,2016-05-03 13:35:40+00:00
+Radicar Solicitud Homologacion,116401,10176,Radicar Solicitud Homologacion,10176,Fluxicon Disco,Variant 22,22,2016-05-03 13:35:48+00:00,2016-05-03 13:35:48+00:00
+Notificacion estudiante cancelacion soli,116401,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 22,22,2016-05-03 13:38:13+00:00,2016-05-03 13:38:13+00:00
+Cancelar Solicitud,116401,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 22,22,2016-05-03 13:41:00+00:00,2016-05-03 13:41:00+00:00
+Notificacion estudiante cancelacion soli,116402,22475,Notificacion estudiante cancelacion soli,22475,Fluxicon Disco,Variant 10,10,2016-05-03 13:37:08+00:00,2016-05-03 13:37:08+00:00
+Traer informacion estudiante - banner,116402,10176,Traer informacion estudiante - banner,10176,Fluxicon Disco,Variant 10,10,2016-05-03 13:42:56+00:00,2016-05-03 13:42:56+00:00
+Radicar Solicitud Homologacion,116402,10176,Radicar Solicitud Homologacion,10176,Fluxicon Disco,Variant 10,10,2016-05-03 13:42:57+00:00,2016-05-03 13:42:57+00:00
+Cancelar Solicitud,116402,22475,Cancelar Solicitud,22475,Fluxicon Disco,Variant 10,10,2016-05-03 13:46:35+00:00,2016-05-03 13:46:35+00:00
+Traer informacion estudiante - banner,116411,22940,Traer informacion estudiante - banner,22940,Fluxicon Disco,Variant 2,2,2016-05-03 17:36:54+00:00,2016-05-03 17:36:54+00:00
+Radicar Solicitud Homologacion,116411,22940,Radicar Solicitud Homologacion,22940,Fluxicon Disco,Variant 2,2,2016-05-03 17:37:10+00:00,2016-05-03 17:36:55+00:00
+Validar solicitud,116411,18929,Validar solicitud,18929,Fluxicon Disco,Variant 2,2,2016-05-03 19:04:50+00:00,2016-05-03 17:52:43+00:00
+Homologacion por grupo de cursos,116411,957,Homologacion por grupo de cursos,957,Fluxicon Disco,Variant 2,2,2016-05-17 20:31:55+00:00,2016-05-17 19:01:53+00:00
+Traer informacion estudiante - banner,116415,11557,Traer informacion estudiante - banner,11557,Fluxicon Disco,Variant 2,2,2016-05-03 22:10:51+00:00,2016-05-03 22:10:51+00:00
+Radicar Solicitud Homologacion,116415,11557,Radicar Solicitud Homologacion,11557,Fluxicon Disco,Variant 2,2,2016-05-03 22:11:05+00:00,2016-05-03 22:10:52+00:00
+Validar solicitud,116415,186,Validar solicitud,186,Fluxicon Disco,Variant 2,2,2016-05-03 22:49:53+00:00,2016-05-03 22:24:18+00:00
+Homologacion por grupo de cursos,116415,26788,Homologacion por grupo de cursos,26788,Fluxicon Disco,Variant 2,2,2016-05-10 06:32:16+00:00,2016-05-10 02:16:16+00:00
+Traer informacion estudiante - banner,116455,7573,Traer informacion estudiante - banner,7573,Fluxicon Disco,Variant 1,1,2016-05-03 14:24:49+00:00,2016-05-03 14:24:49+00:00
+Radicar Solicitud Homologacion,116455,7573,Radicar Solicitud Homologacion,7573,Fluxicon Disco,Variant 1,1,2016-05-03 14:24:58+00:00,2016-05-03 14:24:50+00:00
+Cancelar Solicitud,116455,241,Cancelar Solicitud,241,Fluxicon Disco,Variant 1,1,2016-05-03 15:21:15+00:00,2016-05-03 14:33:49+00:00
+Notificacion estudiante cancelacion soli,116455,241,Notificacion estudiante cancelacion soli,241,Fluxicon Disco,Variant 1,1,2016-05-12 01:49:51+00:00,2016-05-12 01:49:51+00:00
+Traer informacion estudiante - banner,116456,2735,Traer informacion estudiante - banner,2735,Fluxicon Disco,Variant 2,2,2016-05-03 16:21:42+00:00,2016-05-03 16:21:42+00:00
+Radicar Solicitud Homologacion,116456,2735,Radicar Solicitud Homologacion,2735,Fluxicon Disco,Variant 2,2,2016-05-03 16:23:24+00:00,2016-05-03 16:21:46+00:00
+Validar solicitud,116456,2292,Validar solicitud,2292,Fluxicon Disco,Variant 2,2,2016-05-03 19:10:40+00:00,2016-05-03 19:10:14+00:00
+Homologacion por grupo de cursos,116456,7387,Homologacion por grupo de cursos,7387,Fluxicon Disco,Variant 2,2,2016-05-03 21:34:39+00:00,2016-05-03 20:26:21+00:00
+Traer informacion estudiante - banner,116457,12532,Traer informacion estudiante - banner,12532,Fluxicon Disco,Variant 7,7,2016-05-03 17:41:16+00:00,2016-05-03 17:41:16+00:00
+Radicar Solicitud Homologacion,116457,12532,Radicar Solicitud Homologacion,12532,Fluxicon Disco,Variant 7,7,2016-05-03 17:41:21+00:00,2016-05-03 17:41:18+00:00
+Cancelar Solicitud,116457,12532,Cancelar Solicitud,12532,Fluxicon Disco,Variant 7,7,2016-05-03 18:48:42+00:00,2016-05-03 17:44:27+00:00
+Validar solicitud,116457,19019,Validar solicitud,19019,Fluxicon Disco,Variant 7,7,2016-05-03 17:50:26+00:00,2016-05-03 17:44:27+00:00
+Notificacion estudiante cancelacion soli,116457,12532,Notificacion estudiante cancelacion soli,12532,Fluxicon Disco,Variant 7,7,2016-05-16 19:41:19+00:00,2016-05-16 19:41:19+00:00
+Traer informacion estudiante - banner,116459,10176,Traer informacion estudiante - banner,10176,Fluxicon Disco,Variant 2,2,2016-05-03 18:01:58+00:00,2016-05-03 18:01:58+00:00
+Radicar Solicitud Homologacion,116459,10176,Radicar Solicitud Homologacion,10176,Fluxicon Disco,Variant 2,2,2016-05-03 18:01:59+00:00,2016-05-03 18:01:59+00:00
+Validar solicitud,116459,22475,Validar solicitud,22475,Fluxicon Disco,Variant 2,2,2016-05-03 18:11:42+00:00,2016-05-03 18:11:23+00:00
+Homologacion por grupo de cursos,116459,22475,Homologacion por grupo de cursos,22475,Fluxicon Disco,Variant 2,2,2016-05-03 21:41:46+00:00,2016-05-03 20:19:41+00:00
+Traer informacion estudiante - banner,116461,10176,Traer informacion estudiante - banner,10176,Fluxicon Disco,Variant 2,2,2016-05-03 18:17:57+00:00,2016-05-03 18:17:57+00:00
+Radicar Solicitud Homologacion,116461,10176,Radicar Solicitud Homologacion,10176,Fluxicon Disco,Variant 2,2,2016-05-03 18:17:59+00:00,2016-05-03 18:17:59+00:00
+Validar solicitud,116461,22475,Validar solicitud,22475,Fluxicon Disco,Variant 2,2,2016-05-03 18:22:19+00:00,2016-05-03 18:21:56+00:00
+Homologacion por grupo de cursos,116461,22475,Homologacion por grupo de cursos,22475,Fluxicon Disco,Variant 2,2,2016-05-03 20:38:52+00:00,2016-05-03 20:23:16+00:00
+Traer informacion estudiante - banner,116463,9761,Traer informacion estudiante - banner,9761,Fluxicon Disco,Variant 2,2,2016-05-03 20:02:06+00:00,2016-05-03 20:02:06+00:00
+Radicar Solicitud Homologacion,116463,9761,Radicar Solicitud Homologacion,9761,Fluxicon Disco,Variant 2,2,2016-05-03 20:02:31+00:00,2016-05-03 20:02:10+00:00
+Validar solicitud,116463,1707,Validar solicitud,1707,Fluxicon Disco,Variant 2,2,2016-05-03 20:27:39+00:00,2016-05-03 20:24:04+00:00
+Homologacion por grupo de cursos,116463,15930,Homologacion por grupo de cursos,15930,Fluxicon Disco,Variant 2,2,2016-05-04 14:43:38+00:00,2016-05-04 12:35:23+00:00
+Traer informacion estudiante - banner,116464,11557,Traer informacion estudiante - banner,11557,Fluxicon Disco,Variant 2,2,2016-05-03 20:39:08+00:00,2016-05-03 20:39:08+00:00
+Radicar Solicitud Homologacion,116464,11557,Radicar Solicitud Homologacion,11557,Fluxicon Disco,Variant 2,2,2016-05-03 20:39:16+00:00,2016-05-03 20:39:10+00:00
+Validar solicitud,116464,186,Validar solicitud,186,Fluxicon Disco,Variant 2,2,2016-05-03 21:12:30+00:00,2016-05-03 20:45:16+00:00
+Homologacion por grupo de cursos,116464,6971,Homologacion por grupo de cursos,6971,Fluxicon Disco,Variant 2,2,2016-05-10 03:05:16+00:00,2016-05-10 02:13:16+00:00
+Traer informacion estudiante - banner,116465,8428,Traer informacion estudiante - banner,8428,Fluxicon Disco,Variant 2,2,2016-05-03 21:30:46+00:00,2016-05-03 21:30:46+00:00
+Radicar Solicitud Homologacion,116465,8428,Radicar Solicitud Homologacion,8428,Fluxicon Disco,Variant 2,2,2016-05-03 21:30:51+00:00,2016-05-03 21:30:48+00:00
+Validar solicitud,116465,19019,Validar solicitud,19019,Fluxicon Disco,Variant 2,2,2016-05-03 21:39:03+00:00,2016-05-03 21:34:29+00:00
+Homologacion por grupo de cursos,116465,1007,Homologacion por grupo de cursos,1007,Fluxicon Disco,Variant 2,2,2016-05-04 16:57:48+00:00,2016-05-04 16:09:28+00:00
+Traer informacion estudiante - banner,116466,9452,Traer informacion estudiante - banner,9452,Fluxicon Disco,Variant 2,2,2016-05-03 21:33:38+00:00,2016-05-03 21:33:38+00:00
+Radicar Solicitud Homologacion,116466,9452,Radicar Solicitud Homologacion,9452,Fluxicon Disco,Variant 2,2,2016-05-03 21:33:51+00:00,2016-05-03 21:33:40+00:00
+Validar solicitud,116466,18929,Validar solicitud,18929,Fluxicon Disco,Variant 2,2,2016-05-03 22:55:39+00:00,2016-05-03 21:45:25+00:00
+Homologacion por grupo de cursos,116466,957,Homologacion por grupo de cursos,957,Fluxicon Disco,Variant 2,2,2016-05-17 20:35:27+00:00,2016-05-17 19:02:47+00:00
+Traer informacion estudiante - banner,116501,17379,Traer informacion estudiante - banner,17379,Fluxicon Disco,Variant 1,1,2016-05-04 00:28:15+00:00,2016-05-04 00:28:15+00:00
+Radicar Solicitud Homologacion,116501,17379,Radicar Solicitud Homologacion,17379,Fluxicon Disco,Variant 1,1,2016-05-04 00:28:21+00:00,2016-05-04 00:28:21+00:00
+Cancelar Solicitud,116501,18929,Cancelar Solicitud,18929,Fluxicon Disco,Variant 1,1,2016-05-04 02:07:31+00:00,2016-05-04 00:59:31+00:00
+Notificacion estudiante cancelacion soli,116501,18929,Notificacion estudiante cancelacion soli,18929,Fluxicon Disco,Variant 1,1,2016-05-17 19:05:46+00:00,2016-05-17 19:05:46+00:00
+Traer informacion estudiante - banner,116551,5714,Traer informacion estudiante - banner,5714,Fluxicon Disco,Variant 2,2,2016-05-04 13:05:47+00:00,2016-05-04 13:05:47+00:00
+Radicar Solicitud Homologacion,116551,5714,Radicar Solicitud Homologacion,5714,Fluxicon Disco,Variant 2,2,2016-05-04 13:05:54+00:00,2016-05-04 13:05:54+00:00
+Validar solicitud,116551,659,Validar solicitud,659,Fluxicon Disco,Variant 2,2,2016-05-04 13:43:19+00:00,2016-05-04 13:42:59+00:00
+Homologacion por grupo de cursos,116551,1422,Homologacion por grupo de cursos,1422,Fluxicon Disco,Variant 2,2,2016-05-04 17:25:30+00:00,2016-05-04 14:20:53+00:00
+Traer informacion estudiante - banner,116601,10716,Traer informacion estudiante - banner,10716,Fluxicon Disco,Variant 1,1,2016-05-04 12:20:04+00:00,2016-05-04 12:20:04+00:00
+Radicar Solicitud Homologacion,116601,10716,Radicar Solicitud Homologacion,10716,Fluxicon Disco,Variant 1,1,2016-05-04 12:44:12+00:00,2016-05-04 12:20:12+00:00

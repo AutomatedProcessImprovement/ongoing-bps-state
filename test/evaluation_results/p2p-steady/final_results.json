@@ -1,0 +1,153 @@
+{
+    "num_runs": 10,
+    "process_state": {
+        "aggregated_results": {
+            "complete_filter": {
+                "case_arrival_rate": {
+                    "mean": 501.1122347952886,
+                    "interval": 3.5475821448189433
+                },
+                "RED": {
+                    "mean": 25.878387186852088,
+                    "interval": 5.7639751936700945
+                },
+                "cycle_time": {
+                    "mean": 47.1041579227699,
+                    "interval": 9.64134773089937
+                }
+            },
+            "ongoing_filter": {
+                "avg_remaining_diff": {
+                    "mean": 0.08189619303522377,
+                    "interval": 0.03975259679595691
+                },
+                "RTD": {
+                    "mean": 3.0600000000000027,
+                    "interval": 1.2186652032689798
+                },
+                "ongoing_cases_count": {
+                    "mean": 45.0,
+                    "interval": 0.0
+                }
+            },
+            "event_filter": {
+                "n_gram": {
+                    "mean": 0.8693342113428665,
+                    "interval": 0.0010088664776033715
+                },
+                "circadian_workflow": {
+                    "mean": 4.02630539307429,
+                    "interval": 0.004999676752115142
+                },
+                "absolute_event": {
+                    "mean": 489.3390048236714,
+                    "interval": 5.306720333950668
+                },
+                "circadian_event": {
+                    "mean": 4.116741821297688,
+                    "interval": 0.01848768971438074
+                }
+            }
+        }
+    },
+    "warmup": {
+        "aggregated_results": {
+            "complete_filter": {
+                "case_arrival_rate": {
+                    "mean": 497.78587052755466,
+                    "interval": 5.338364252187751
+                },
+                "RED": {
+                    "mean": 56.19450800261914,
+                    "interval": 17.50203308355984
+                },
+                "cycle_time": {
+                    "mean": 96.05387211710614,
+                    "interval": 27.95812330324985
+                }
+            },
+            "ongoing_filter": {
+                "avg_remaining_diff": {
+                    "mean": 0.7220667901556637,
+                    "interval": 0.21020229602524784
+                },
+                "RTD": {
+                    "mean": 24.05219184296139,
+                    "interval": 6.985645967550526
+                },
+                "ongoing_cases_count": {
+                    "mean": 111.1,
+                    "interval": 22.932244385944042
+                }
+            },
+            "event_filter": {
+                "n_gram": {
+                    "mean": 0.8730108965984572,
+                    "interval": 0.0011633609987822366
+                },
+                "circadian_workflow": {
+                    "mean": 0.7399096778256723,
+                    "interval": 0.008269211674655863
+                },
+                "absolute_event": {
+                    "mean": 487.6935943713107,
+                    "interval": 4.396694449737923
+                },
+                "circadian_event": {
+                    "mean": 0.835683698523216,
+                    "interval": 0.008697369441609103
+                }
+            }
+        }
+    },
+    "warmup2": {
+        "aggregated_results": {
+            "complete_filter": {
+                "case_arrival_rate": {
+                    "mean": 506.48744400855384,
+                    "interval": 10.171592894209562
+                },
+                "RED": {
+                    "mean": 28.045608851834988,
+                    "interval": 10.591915729560068
+                },
+                "cycle_time": {
+                    "mean": 50.77139425894741,
+                    "interval": 17.524994091118266
+                }
+            },
+            "ongoing_filter": {
+                "avg_remaining_diff": {
+                    "mean": 0.6446212251964983,
+                    "interval": 0.25464193631579657
+                },
+                "RTD": {
+                    "mean": 29.282272727272726,
+                    "interval": 8.339013755044142
+                },
+                "ongoing_cases_count": {
+                    "mean": 44.0,
+                    "interval": 0.0
+                }
+            },
+            "event_filter": {
+                "n_gram": {
+                    "mean": 0.8703450242518173,
+                    "interval": 0.0034646010666035012
+                },
+                "circadian_workflow": {
+                    "mean": 9.2024736561799,
+                    "interval": 2.513099653717809
+                },
+                "absolute_event": {
+                    "mean": 493.30543835140026,
+                    "interval": 10.930689203594076
+                },
+                "circadian_event": {
+                    "mean": 9.18608968158411,
+                    "interval": 2.4914742755562105
+                }
+            }
+        }
+    }
+}
