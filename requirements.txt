@@ -1,0 +1,10 @@
+log-distance-measures==2.1.0
+pix-framework==0.13.17
+ongoing-process-state==2.1.2
+git+https://github.com/AutomatedProcessImprovement/Prosimos@short-term-simulation
+pandas==2.2.3
+numpy==1.26.4
+networkx==3.4.2
+lxml==5.3.1
+scikit-learn==1.6.1
+tqdm==4.67.1 

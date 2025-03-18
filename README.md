@@ -1,39 +1,74 @@
-Python application designed to process an event log and a BPMN (Business Process Model and Notation) model to compute the state of ongoing cases in a business process. It uses the process_running_state library (https://github.com/AutomatedProcessImprovement/process-running-state) to compute the state based on the last few executed activities.
+# Process State Evaluation
 
-To install:
+This repository contains code for evaluating process state computation approaches using various real-life and synthetic event logs.
 
-1. Set python virtual environment
-python -m venv .venv
+## Installation
 
-2. Activate virtual environment
-.venv/Scripts/activate
+1. Create and activate a Python virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-3. Install required packages
-pip install pandas lxml networkx xmltodict poetry
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-4. Navigate to process_running_state directory
-cd libs/process_running_state
+The main dependencies include:
+- log_distance_measures
+- pix-framework
+- ongoing_process_state
+- Prosimos (custom branch for short-term simulation)
 
-5. Install dependencies there
-poetry install
+## Running Evaluation
 
-To run, use:
-python main.py path/to/event_log.csv path/to/bpmn_model.bpmn path/to/parameters.json --start_time "YYYY-MM-DDTHH:MM:SS" --column_mapping '{"csv_column_name": "ExpectedColumnName", ...}'
+The main evaluation script is `test/evaluate_with_existing_alog.py`. It compares different approaches for computing process state using various event logs.
 
-(currently parameters not used)
+### Configuration
 
-Examples:
-- With start_time specified
+The script contains configuration sections for different event logs:
+- BPIC 2012
+- BPIC 2017
+- Academic Credentials
+- Work Orders
+- Loan Application (steady)
+- Loan Application (wobbly)
+- P2P (steady)
+- P2P (wobbly)
 
-python main.py samples/dev-samples/synthetic_xor_loop_ongoing.csv samples/dev-samples/synthetic_xor_loop.bpmn '{"param1": "value1", "param2": "value2"}' --column_mapping '{"case_id": "CaseId", "Resource": "Resource", "Activity": "Activity", "__start_time": "StartTime", "end_time": "EndTime"}' --start_time "2012-03-21T10:10:00.000Z" --simulation_horizon "2012-04-25T23:10:30.000Z"
+To use a specific configuration:
+1. Open `test/evaluate_with_existing_alog.py`
+2. Find the desired log section (marked with comments like `# # # # # # # BPIC 2012 # # # # # # #`)
+3. Uncomment that section and ensure other sections are commented out
+4. The configuration includes:
+   - Path to event log
+   - Path to BPMN model
+   - Path to parameters
+   - Number of cases
+   - Cut-off date
+   - Simulation horizon
 
-python main.py samples/dev-samples/synthetic_and_k5_ongoing.csv samples/dev-samples/synthetic_and_k5.bpmn '{"param1": "value1", "param2": "value2"}' --column_mapping '{"case_id": "CaseId", "Resource": "Resource", "Activity": "Activity", "__start_time": "StartTime", "end_time": "EndTime"}' --start_time "2012-03-21T10:10:00.000Z" --simulation_horizon "2012-04-25T23:10:30.000Z"
+### Running
 
-- Without start_time specified
+To run the evaluation:
+```bash
+python test/evaluate_with_existing_alog.py
+```
 
-python main.py samples/dev-samples/synthetic_xor_loop_ongoing.csv samples/dev-samples/synthetic_xor_loop.bpmn '{"param1": "value1", "param2": "value2"}' --column_mapping '{"case_id": "CaseId", "Resource": "Resource", "Activity": "Activity", "__start_time": "StartTime", "end_time": "EndTime"}'
+The script will:
+1. Create an output directory with a unique ID
+2. Load and preprocess the event log
+3. Run multiple evaluation iterations (default: 10)
+4. For each iteration:
+   - Evaluate process state simulation
+   - Evaluate warm-up simulation (2 versions of warm-up available)
+   - Save results and metrics
 
-python main.py samples/dev-samples/synthetic_and_k5_ongoing.csv samples/dev-samples/synthetic_and_k5.bpmn '{"param1": "value1", "param2": "value2"}' --column_mapping '{"case_id": "CaseId", "Resource": "Resource", "Activity": "Activity", "__start_time": "StartTime", "end_time": "EndTime"}'
+### Output
 
-
-Example in output.json is used on  python main.py samples/dev-samples/synthetic_xor_loop_ongoing.csv samples/dev-samples/synthetic_xor_loop.bpmn '{"param1": "value1", "param2": "value2"}' --column_mapping '{"case_id": "CaseId", "Resource": "Resource", "Activity": "Activity", "__start_time": "StartTime", "end_time": "EndTime"}' --start_time "2012-03-21T10:10:00.000Z" --simulation_horizon "2012-04-25T23:10:30.000Z" --output_file output.json
+Results are saved in the `outputs/<run_id>` directory, including:
+- Reference datasets
+- Simulation results
+- Process state files
+- Evaluation metrics
