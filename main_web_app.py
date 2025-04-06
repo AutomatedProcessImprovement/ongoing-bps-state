@@ -160,9 +160,13 @@ def post_process_simulated_log(
     end_event = [node for node in bpmn_model.nodes if node.is_end_event()][0]  # Should be only one
     # Read simulated log
     simulated_event_log = read_csv_log(simulated_log_path, sim_log_ids)
+    simulated_case_ids = simulated_event_log[sim_log_ids.case].unique()
     # Add activity instances finished prior to the [start_time] of the log
     ongoing_event_log = read_csv_log(ongoing_log_path, ongoing_log_ids)
-    previous_events = ongoing_event_log[ongoing_event_log[ongoing_log_ids.end_time] < start_time].copy()
+    previous_events = ongoing_event_log[
+        (ongoing_event_log[ongoing_log_ids.case].isin(simulated_case_ids)) &
+        (ongoing_event_log[ongoing_log_ids.end_time] < start_time)
+        ].copy()
     previous_events.rename(columns={
         ongoing_log_ids.case: sim_log_ids.case,
         ongoing_log_ids.activity: sim_log_ids.activity,
