@@ -102,11 +102,11 @@ def generate_events_with_token_movements(
     for case_id, activity_instances in event_log.groupby(sim_log_ids.case):
         # Nullify enabled/start events previous to cut-point
         activity_instances.loc[
-            activity_instances[sim_log_ids.enabled_time] <= start_timestamp,
+            activity_instances[sim_log_ids.enabled_time] < start_timestamp,
             sim_log_ids.enabled_time
         ] = pd.NaT
         activity_instances.loc[
-            activity_instances[sim_log_ids.start_time] <= start_timestamp,
+            activity_instances[sim_log_ids.start_time] < start_timestamp,
             sim_log_ids.start_time
         ] = pd.NaT
         # Compute movements
