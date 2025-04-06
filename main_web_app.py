@@ -123,23 +123,39 @@ def resume_short_term_simulation(request: ResumeRequest):
         reachability_graph_path=reachability_graph_with_events_path,
         n_gram_index_path=n_gram_index_with_events_path,
     )
+    # Repair the tokens to match the ongoing precomputed events
+    # TODO --start comment--
+    #  Taleh: delete this once you retrieve the events from DB in each loop iteration
+    with open(process_folder / "initial_events.json", "r") as events_file:
+        events = json.load(events_file)
+    # TODO --end comment--
+    for element in frame:
+        case_id = element['case_id']
+        active_tokens = element['active_elements']
+        # TODO --start comment--
+        #  Taleh: you retrieve these events from DB
+        previous_events = [
+            event
+            for event in events
+            if event['case_id'] == case_id and pd.Timestamp(event['timestamp']) < resume_timestamp
+        ]
+        # TODO --end comment --
+        if len(previous_events) > 0:
+            # Only repair if there are previous events
+            repaired_active_tokens = dict()
+            for active_token in active_tokens:
+                real_token_id, real_flow = [
+                    (token_id, previous_event["paths"][token_id][-1])  # retrieve tokenID and last_flow
+                    for previous_event in previous_events  # of the last previous event
+                    for token_id in previous_event["paths"]  # with a token
+                    if active_tokens[active_token] in previous_event["paths"][token_id]  # that passed through this path
+                ][-1]
+                # Reset new tokenID to new flow_name
+                repaired_active_tokens[real_token_id] = real_flow
+            element['active_elements'] = repaired_active_tokens
 
     with open(process_folder / "resume_frame.json", "w") as frame_file:
         json.dump(frame, frame_file, indent=4)
-
-    # Compute token events with token movements for front-end
-    events = generate_events_with_token_movements(
-        bpmn_model_path=bpmn_model_path,
-        start_timestamp=resume_timestamp,
-        short_term_simulation_path=short_term_simulated_log_path,
-        reachability_graph_path=complete_reachability_graph_path,
-        frame=frame,
-    )
-
-    for event in events:
-        event['timestamp'] = event['timestamp'].strftime("%Y-%m-%dT%H:%M:%S.%f%z")
-    with open(process_folder / "resume_events.json", "w") as events_file:
-        json.dump(events, events_file, indent=4)
 
     return {
         "frames": frame,
