@@ -310,6 +310,23 @@ def compute_token_movements(
             i += 1
         else:
             if event['lifecycle'] == "START":
+                # Process advancements until the enabled activity can be fired
+                next_edge_label = get_next_edge_label(reach_graph, marking_sequence, i)
+                while next_edge_label[1] == "GATEWAY":
+                    # Retrieve gateway ID
+                    gateway_id = [node.id for node in model.nodes if node.name == next_edge_label[0]][0]
+                    # Advance tokens in marking
+                    marking = reach_graph.markings[marking_sequence[i + 1]]
+                    current_token_status, paths, token_idx = update_token_status(
+                        current_token_status,
+                        marking,
+                        paths,
+                        token_idx,
+                        gateway_id
+                    )
+                    # Advance marking and compute next edge label
+                    i += 1
+                    next_edge_label = get_next_edge_label(reach_graph, marking_sequence, i)
                 # Process activity entrance (only one token moving)
                 marking = reach_graph.markings[marking_sequence[i + 1]]
                 current_token_status, paths, token_idx = update_token_status(
