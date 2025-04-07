@@ -140,19 +140,29 @@ def resume_short_term_simulation(request: ResumeRequest):
             if event['case_id'] == case_id and pd.Timestamp(event['timestamp']) < resume_timestamp
         ]
         # TODO --end comment --
-        if len(previous_events) > 0:
-            # Only repair if there are previous events
-            repaired_active_tokens = dict()
-            for active_token in active_tokens:
-                real_token_id, real_flow = [
-                    (token_id, previous_event["paths"][token_id][-1])  # retrieve tokenID and last_flow
-                    for previous_event in previous_events  # of the last previous event
-                    for token_id in previous_event["paths"]  # with a token
-                    if active_tokens[active_token] in previous_event["paths"][token_id]  # that passed through this path
-                ][-1]
-                # Reset new tokenID to new flow_name
+        repaired_active_tokens = dict()
+        repaired_token_ids = set()
+        # Repair tokens that correspond to previous ones
+        for active_token_id in active_tokens:
+            # Retrieve the previous path of the same token
+            previous_token_path = [
+                (token_id, previous_event["paths"][token_id][-1])  # retrieve tokenID and last_flow
+                for previous_event in previous_events  # of the last previous event
+                for token_id in previous_event["paths"]  # with a token
+                if active_tokens[active_token_id] in previous_event["paths"][token_id]  # that passed through this path
+            ]
+            # If previous token path found, replace
+            if len(previous_token_path) > 0:
+                real_token_id, real_flow = previous_token_path[-1]
                 repaired_active_tokens[real_token_id] = real_flow
-            element['active_elements'] = repaired_active_tokens
+                repaired_token_ids |= {active_token_id}  # Store ID of repaired token
+        # Repair tokens that do not correspond to previous ones
+        unrepaired_token_ids = active_tokens.keys() - repaired_token_ids
+        for unrepaired_token_id in unrepaired_token_ids:
+            new_token_id = (active_tokens.keys() - repaired_active_tokens.keys()).pop()
+            repaired_active_tokens[new_token_id] = active_tokens[unrepaired_token_id]
+        # Set repaired token IDs and states
+        element['active_elements'] = repaired_active_tokens
 
     with open(process_folder / "resume_frame.json", "w") as frame_file:
         json.dump(frame, frame_file, indent=4)
