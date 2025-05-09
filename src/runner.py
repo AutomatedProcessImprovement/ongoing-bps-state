@@ -81,10 +81,27 @@ def run_process_state_and_simulation(
         n_gram_index, reachability_graph, processed_event_log,
         bpmn_handler, concurrency_oracle, event_log_ids
     )
+
     case_states = state_computer.compute_case_states()
 
+    # ------------------------------------------------------------------
+    # last_case_arrival  – earliest start of latest-arriving case
+    # ------------------------------------------------------------------
+    first_start_per_case = (
+        processed_event_log
+        .groupby(event_log_ids.case)[event_log_ids.start_time]
+        .min()
+    )
+    last_case_arrival_dt = (
+        first_start_per_case.max() if not first_start_per_case.empty else None
+    )
+
     # 2) Prepare partial-state as a dict
-    output_data = {'cases': {}}
+    output_data = {
+        "last_case_arrival": last_case_arrival_dt,   
+        "cases": {}
+    }
+
     for case_id, case_info in case_states.items():
         output_data['cases'][str(case_id)] = {
             "control_flow_state": {

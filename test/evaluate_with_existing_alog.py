@@ -115,7 +115,7 @@ DATASETS: dict[str, Dataset] = {
 
 
 # ────────────────────────────────────────────────────────────────────
-# 2.  Column rename map that ProSiMoS always emits
+# 2.  Column rename map that Prosimos always emits
 # ────────────────────────────────────────────────────────────────────
 SIM_RENAME_MAP = {
     "CaseId":       "case_id",

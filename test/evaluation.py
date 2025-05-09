@@ -1,6 +1,6 @@
 # evaluation.py
 from __future__ import annotations
-import json, os, pandas as pd, numpy as np
+import json, os, shutil, pandas as pd, numpy as np
 from dataclasses import dataclass
 from typing import Callable
 import sys
@@ -56,6 +56,11 @@ def evaluate(
     if verbose:
         print(f"=== [{flavour}] Simulation ===")
     run_with_retries(sim_runner, {"io": io, **runner_kwargs})
+
+    # ── NEW: copy the partial-state file for later inspection ───────────
+    if flavour == "process_state" and os.path.exists("output.json"):
+        shutil.copy2("output.json",
+                     os.path.join(io.out_dir, "process_state.json"))
 
     if verbose:
         print(f"=== [{flavour}] Loading simulated log ===")
@@ -169,7 +174,7 @@ def _avg_rem_diff(A, G, ids, cut):
     sim = avg_remaining_time(G, cut, ids)
     return abs(ref - sim) / ref if ref else None
 
-# ---------- aggregation helpers (unchanged API) ---------------------------
+# ---------- aggregation helpers ---------------------------
 
 def _mean_ci(vals, conf=0.95):
     if not vals: return (None, None)
