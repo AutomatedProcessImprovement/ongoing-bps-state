@@ -60,11 +60,10 @@ def compute_bps_state_and_run_simulation(
     for case_id, case_info in bps_state.items():
         active_elements = dict()
         i = 0
-        for active_flow in case_info["control_flow_state"]["flows"]:
+        for active_flow in sorted(
+                case_info["control_flow_state"]["flows"] | case_info["control_flow_state"]["activities"]
+        ):
             active_elements[f"token_{i}"] = active_flow
-            i += 1
-        for active_activity in case_info["control_flow_state"]["activities"]:
-            active_elements[f"token_{i}"] = active_activity
             i += 1
         frame += [{'case_id': case_id, 'active_elements': active_elements}]
 
@@ -190,7 +189,7 @@ def compute_bps_resumed_state(
         # Store frame for this case
         i = 0
         active_elements = dict()
-        for active_element in ongoing_marking:
+        for active_element in sorted(ongoing_marking):
             active_elements[f"token_{i}"] = active_element
             i += 1
         frame += [{'case_id': case_id, 'active_elements': active_elements}]
