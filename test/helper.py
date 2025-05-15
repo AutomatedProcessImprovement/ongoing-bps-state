@@ -1,6 +1,6 @@
 # helper.py
 from __future__ import annotations
-import os, random, string, pandas as pd
+import os, random, string, pandas as pd, numpy as np
 from typing import Callable
 from log_distance_measures.config import EventLogIDs
 
@@ -133,3 +133,56 @@ def _build_ps_subsets(df: pd.DataFrame,
     complete = rest[(first_start >= cut) & (first_start < end)]
 
     return event_filter, ongoing, complete
+
+# --- WIP helpers -----------------------------------------------------------
+def active_cases_per_hour(df: pd.DataFrame) -> pd.Series:
+    """
+    Return a Series with hourly timestamps (UTC) as index and the
+    number of active cases in each hour as values.
+    """
+    # start & end of every case
+    spans = (
+        df.groupby("case_id")
+          .agg(start=("start_time", "min"), end=("end_time", "max"))
+    )
+
+    # a short trick: add +1 at start of span, -1 at end; cumsum gives WIP
+    marks = (
+        pd.concat([
+            pd.Series( 1, index=spans["start"]),
+            pd.Series(-1, index=spans["end"])
+        ])
+        .sort_index()
+        .cumsum()
+        .resample("1h")
+        .last()                 # take value *at* each hour boundary
+        .fillna(method="ffill") # keep previous value inside the hour
+        .astype(int)
+    )
+    return marks
+
+
+def quartile_cutoffs(df: pd.DataFrame,
+                     buffer_days: int = 7,
+                     quantiles=(0.20, 0.50, 0.90)) -> list[pd.Timestamp]:
+    """
+    For every requested quantile return one timestamp that realises
+    (or is closest to) that active-case level and leaves ≥ buffer_days
+    of data after it.
+    """
+    wip = active_cases_per_hour(df)
+    last_end = wip.index.max()
+
+    cuts = []
+    for q in quantiles:
+        target = int(np.quantile(wip.values, q))
+        # candidate hours that match the target WIP…
+        cand = wip[(wip == target) &
+                   (wip.index <= last_end - pd.Timedelta(days=buffer_days))]
+        if cand.empty:                          # no exact match → closest
+            diff = (wip - target).abs()
+            idx  = diff[(wip.index <= last_end - pd.Timedelta(days=buffer_days))].idxmin()
+        else:
+            idx = cand.index[int(len(cand)//2)] # median candidate
+        cuts.append(idx)
+    return cuts

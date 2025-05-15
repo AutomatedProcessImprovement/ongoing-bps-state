@@ -6,7 +6,7 @@ Run the three-flavour evaluation pipeline.
 
 Examples
 --------
-# 10 Monte-Carlo runs on the BPIC 2017 log
+# 10 runs on the BPIC 2017 log
 python test/evaluate_with_existing_alog.py BPIC_2017 --runs 10
 """
 from __future__ import annotations
@@ -70,46 +70,46 @@ DATASETS: dict[str, Dataset] = {
         horizon_days=24,
     ),
     # -------- Synthetic – Loan App ---------------------------------
-    "LOAN_STEADY": Dataset(
-        alog="samples/bpm-2025/synthetic-configuration-and-logs/Loan_steady/Loan_Application_log.csv",
-        model="samples/bpm-2025/synthetic-configuration-and-logs/Loan_steady/Loan_Application.bpmn",
-        params="samples/bpm-2025/synthetic-configuration-and-logs/Loan_steady/Loan_Application.json",
-        total_cases=1_000,
-        cut="2025-02-24T07:00:00Z",
-        horizon_days=35,
+    "LOAN_STABLE": Dataset(
+        alog="samples/icpm-2025/synthetic/Loan-stable.csv",
+        model="samples/icpm-2025/synthetic/Loan-stable.bpmn",
+        params="samples/icpm-2025/synthetic/Loan-stable.json",
+        total_cases=5_000,
+        cut="2025-01-7T10:00:00Z",
+        horizon_days=55,
     ),
-    "LOAN_WOBBLY": Dataset(
-        alog="samples/bpm-2025/synthetic-configuration-and-logs/Loan_wobbly/Loan_Application_log_wobbly.csv",
-        model="samples/bpm-2025/synthetic-configuration-and-logs/Loan_wobbly/Loan_Application.bpmn",
-        params="samples/bpm-2025/synthetic-configuration-and-logs/Loan_wobbly/Loan_Application.json",
-        total_cases=3_000,
-        cut="2025-02-21T07:00:00Z",
-        horizon_days=60,
-    ),
-    "LOAN_WOBBLY_RES": Dataset(
-        alog="samples/bpm-2025/synthetic-configuration-and-logs/Loan_wobbly_resources_fix/Loan_Application_log_wobbly.csv",
-        model="samples/bpm-2025/synthetic-configuration-and-logs/Loan_wobbly_resources_fix/Loan_Application.bpmn",
-        params="samples/bpm-2025/synthetic-configuration-and-logs/Loan_wobbly_resources_fix/Loan_Application.json",
-        total_cases=3_000,
-        cut="2025-02-21T07:00:00Z",
-        horizon_days=60,
+    "LOAN_CIRCADIAN": Dataset(
+        alog="samples/icpm-2025/synthetic/Loan-circadian.csv",
+        model="samples/icpm-2025/synthetic/Loan-circadian.bpmn",
+        params="samples/icpm-2025/synthetic/Loan-circadian.json",
+        total_cases=5_000,
+        cut="2025-01-15T10:00:00Z",
+        horizon_days=200,
     ),
     # -------- Synthetic – P2P --------------------------------------
-    "P2P_WOBBLY": Dataset(
-        alog="samples/bpm-2025/synthetic-configuration-and-logs/P2P_wobbly/P2P no-steady-state.csv",
-        model="samples/bpm-2025/synthetic-configuration-and-logs/P2P_wobbly/P2P no-steady-state.bpmn",
-        params="samples/bpm-2025/synthetic-configuration-and-logs/P2P_wobbly/P2P-no-steady-state.json",
-        total_cases=3_000,
-        cut="2020-01-14T10:00:00Z",
-        horizon_days=30,
+    "P2P_STABLE": Dataset(
+        alog="samples/icpm-2025/synthetic/P2P-stable.csv",
+        model="samples/icpm-2025/synthetic/P2P-stable.bpmn",
+        params="samples/icpm-2025/synthetic/P2P-stable.json",
+        total_cases=5_000,
+        cut="2020-01-15T10:00:00Z",
+        horizon_days=20,
     ),
-    "P2P_STEADY": Dataset(
-        alog="samples/bpm-2025/synthetic-configuration-and-logs/P2P_wobbly/P2P no-steady-state.csv",
-        model="samples/bpm-2025/synthetic-configuration-and-logs/P2P_wobbly/P2P no-steady-state.bpmn",
-        params="samples/bpm-2025/synthetic-configuration-and-logs/P2P_wobbly/P2P-no-steady-state.json",
-        total_cases=3_500,
-        cut="2020-02-16T10:00:00Z",
-        horizon_days=45,
+    "P2P_CIRCADIAN": Dataset(
+        alog="samples/icpm-2025/synthetic/P2P-circadian.csv",
+        model="samples/icpm-2025/synthetic/P2P-circadian.bpmn",
+        params="samples/icpm-2025/synthetic/P2P-circadian.json",
+        total_cases=5_000,
+        cut="2020-01-10T10:00:00Z",
+        horizon_days=40,
+    ),
+    "P2P_UNSTABLE": Dataset(
+        alog="samples/icpm-2025/synthetic/P2P-unstable.csv",
+        model="samples/icpm-2025/synthetic/P2P-unstable.bpmn",
+        params="samples/icpm-2025/synthetic/P2P-unstable.json",
+        total_cases=5_000,
+        cut="2020-01-10T10:00:00Z",
+        horizon_days=40,
     ),
 }
 
