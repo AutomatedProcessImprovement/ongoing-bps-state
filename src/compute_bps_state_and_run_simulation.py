@@ -61,7 +61,7 @@ def compute_bps_state_and_run_simulation(
         active_elements = dict()
         i = 0
         for active_flow in sorted(
-                case_info["control_flow_state"]["flows"] | case_info["control_flow_state"]["activities"]
+                case_info["control_flow_state"]["flows"] + case_info["control_flow_state"]["activities"]
         ):
             active_elements[f"token_{i}"] = active_flow
             i += 1
