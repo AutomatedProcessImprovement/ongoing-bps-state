@@ -16,7 +16,7 @@ from src.runner import run_process_state_and_simulation
 from src.state_computer import _add_to_sorted_events
 
 from sqlalchemy.orm import Session
-from db.ngram_repository import save_n_gram_index_to_db
+from db.ngram_repository import save_n_gram_index_to_db, load_n_gram_index_from_db
 
 def parse_datetime(dt_str):
     """Helper to parse an ISO date/time, removing 'Z' if present."""
@@ -144,14 +144,11 @@ def compute_bps_resumed_state(
             graph_file.write(reachability_graph.to_tgf_format())
 
     # Compute n-gram index considering events if it doesn't exist
-    if Path(n_gram_index_path).exists():
-        # TODO - [Taleh] for the n-gram index, instead of reading from file like I'm doing,
-        #  you should directly query the DB table where you stored the index
-        n_gram_index = NGramIndex.from_self_contained_map_file(
-            file_path=n_gram_index_path,
-            reachability_graph=reachability_graph
-        )
-    else:
+    try:
+        n_gram_index = load_n_gram_index_from_db(process_id=process_id, reachability_graph=reachability_graph, db=db)
+    except Exception as e:
+        # fallback to rebuild if not in DB
+        print(f"Could not load n-gram index from DB: {e}")
         n_gram_index = NGramIndex(graph=reachability_graph, n_gram_size_limit=20)
         n_gram_index.build()
         save_n_gram_index_to_db(n_gram_index, process_id=process_id, db=db)
