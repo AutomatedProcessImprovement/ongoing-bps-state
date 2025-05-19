@@ -15,6 +15,8 @@ from src.compute_frontend_events_from_trace import read_reachability_graph, comp
 from src.runner import run_process_state_and_simulation
 from src.state_computer import _add_to_sorted_events
 
+from sqlalchemy.orm import Session
+from db.ngram_repository import save_n_gram_index_to_db, load_n_gram_index_from_db
 
 def parse_datetime(dt_str):
     """Helper to parse an ISO date/time, removing 'Z' if present."""
@@ -125,6 +127,8 @@ def compute_bps_resumed_state(
         short_term_simulated_log_path: Path,
         reachability_graph_path: Path,
         n_gram_index_path: Path,
+        db: Session,
+        process_id: str,
 ) -> List[dict]:
     # Read model
     bpmn_model = read_bpmn_model(bpmn_model_path)
@@ -140,21 +144,14 @@ def compute_bps_resumed_state(
             graph_file.write(reachability_graph.to_tgf_format())
 
     # Compute n-gram index considering events if it doesn't exist
-    if Path(n_gram_index_path).exists():
-        # TODO - [Taleh] for the n-gram index, instead of reading from file like I'm doing,
-        #  you should directly query the DB table where you stored the index
-        n_gram_index = NGramIndex.from_self_contained_map_file(
-            file_path=n_gram_index_path,
-            reachability_graph=reachability_graph
-        )
-    else:
-        # Compute n-gram index for token movements
-        # TODO - [Taleh] save this n-gram index in DB for future use
-        #  copy the implementation of to_self_contained_map_file() and use it to insert it in DB
-        #  the translation it does is necessary to obtain directly the marking in the future
+    try:
+        n_gram_index = load_n_gram_index_from_db(process_id=process_id, reachability_graph=reachability_graph, db=db)
+    except Exception as e:
+        # fallback to rebuild if not in DB
+        print(f"Could not load n-gram index from DB: {e}")
         n_gram_index = NGramIndex(graph=reachability_graph, n_gram_size_limit=20)
         n_gram_index.build()
-        n_gram_index.to_self_contained_map_file(n_gram_index_path)
+        save_n_gram_index_to_db(n_gram_index, process_id=process_id, db=db)
 
     # Read short-term simulated event log
     simulated_event_log = read_csv_log(short_term_simulated_log_path, sim_log_ids)
