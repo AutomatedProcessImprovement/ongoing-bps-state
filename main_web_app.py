@@ -10,6 +10,10 @@ from src.compute_bps_state_and_run_simulation import compute_bps_state_and_run_s
     generate_events_with_token_movements
 from src.compute_frontend_events_from_trace import sim_log_ids
 
+from fastapi import Depends
+from sqlalchemy.orm import Session
+from db.database import get_db
+
 app = FastAPI()
 
 @app.post("/start")
@@ -104,7 +108,7 @@ class ResumeRequest(BaseModel):
     timestamp: str
 
 @app.post("/resumption")
-def resume_short_term_simulation(request: ResumeRequest):
+def resume_short_term_simulation(request: ResumeRequest, db: Session = Depends(get_db)):
     process_folder = Path(f"./processes/{request.process_id}/")
     # Input params of the call
     resume_timestamp = pd.Timestamp(request.timestamp)
@@ -122,6 +126,8 @@ def resume_short_term_simulation(request: ResumeRequest):
         short_term_simulated_log_path=short_term_simulated_log_path,
         reachability_graph_path=reachability_graph_with_events_path,
         n_gram_index_path=n_gram_index_with_events_path,
+        db=db,
+        process_id=request.process_id,
     )
 
     return {
