@@ -42,8 +42,8 @@ DATASETS: dict[str, Dataset] = {
         model="samples/bpm-2025/real-life-configuration-and-logs/2012_diff_extr/best_result/BPIC_2012_train.bpmn",
         params="samples/bpm-2025/real-life-configuration-and-logs/2012_diff_extr/best_result/BPIC_2012_train.json",
         total_cases=5_000,
-        cut="2012-01-16T13:00:00Z",
-        horizon_days=23,
+        cut="2012-01-18T13:00:00Z",
+        horizon_days=10,
     ),
     "BPIC_2017": Dataset(
         alog="samples/bpm-2025/real-life-configuration-and-logs/BPIC_2017_W.csv",
@@ -66,8 +66,8 @@ DATASETS: dict[str, Dataset] = {
         model="samples/bpm-2025/real-life-configuration-and-logs/workorders_diff_extr/best_result/work_orders_train.bpmn",
         params="samples/bpm-2025/real-life-configuration-and-logs/workorders_diff_extr/best_result/work_orders_train.json",
         total_cases=20_000,
-        cut="2022-12-19T07:00:00Z",
-        horizon_days=24,
+        cut="2022-12-22T07:00:00Z",
+        horizon_days=15,
     ),
     # -------- Synthetic – Loan App ---------------------------------
     "LOAN_STABLE": Dataset(
@@ -75,16 +75,16 @@ DATASETS: dict[str, Dataset] = {
         model="samples/icpm-2025/synthetic/Loan-stable.bpmn",
         params="samples/icpm-2025/synthetic/Loan-stable.json",
         total_cases=5_000,
-        cut="2025-01-7T10:00:00Z",
-        horizon_days=55,
+        cut="2025-01-20T10:00:00Z",
+        horizon_days=25,
     ),
     "LOAN_CIRCADIAN": Dataset(
         alog="samples/icpm-2025/synthetic/Loan-circadian.csv",
         model="samples/icpm-2025/synthetic/Loan-circadian.bpmn",
         params="samples/icpm-2025/synthetic/Loan-circadian.json",
-        total_cases=5_000,
-        cut="2025-01-15T10:00:00Z",
-        horizon_days=200,
+        total_cases=15_000, #15000
+        cut="2025-03-21T15:00:00Z", #20
+        horizon_days=30, #200
     ),
     # -------- Synthetic – P2P --------------------------------------
     "P2P_STABLE": Dataset(
@@ -204,6 +204,13 @@ def main(dataset: str, runs: int = 10) -> None:
     cut = pd.to_datetime(cfg.cut, utc=True)
     end = cut + pd.Timedelta(days=cfg.horizon_days)
     A_event, A_ongoing, A_complete = ev.split_into_subsets(alog_df, cut, end)
+
+    for df, fname in [
+        (A_event,    "A_event_filter.csv"),
+        (A_ongoing,  "A_ongoing.csv"),
+        (A_complete, "A_complete.csv"),
+    ]:
+        ev._dump(df, out_base, fname)
 
     # 4-C  Monte-Carlo runs
     runs_PS, runs_WU, runs_WU2 = [], [], []
