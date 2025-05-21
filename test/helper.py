@@ -1,6 +1,6 @@
 # helper.py
 from __future__ import annotations
-import os, random, string, pandas as pd
+import os, random, string, pandas as pd, numpy as np
 from typing import Callable
 from log_distance_measures.config import EventLogIDs
 

@@ -12,8 +12,13 @@ from src.state_computer import StateComputer
 from src.process_state_prosimos_run import run_short_term_simulation
 
 
-def parse_datetime(dt_str):
-    """Helper to parse an ISO date/time, removing 'Z' if present."""
+def parse_datetime(dt_str, has_date: bool | None = None):
+    """
+    Convert ISO-8601 (optionally ending with 'Z') into a timezone-aware
+    datetime.  The extra *has_date* argument is ignored; it is present
+    only for compatibility with prosimos.utils.parse_datetime().
+    """
+    import datetime
     if not dt_str:
         return None
     return datetime.datetime.fromisoformat(dt_str.replace("Z", "+00:00"))
