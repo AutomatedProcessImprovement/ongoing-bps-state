@@ -74,45 +74,67 @@ DATASETS: dict[str, Dataset] = {
         alog="samples/icpm-2025/synthetic/Loan-stable.csv",
         model="samples/icpm-2025/synthetic/Loan-stable.bpmn",
         params="samples/icpm-2025/synthetic/Loan-stable.json",
-        total_cases=5_000,
+        total_cases=10_000,
         cut="2025-01-20T10:00:00Z",
-        horizon_days=25,
+        horizon_days=5,
     ),
     "LOAN_CIRCADIAN": Dataset(
         alog="samples/icpm-2025/synthetic/Loan-circadian.csv",
         model="samples/icpm-2025/synthetic/Loan-circadian.bpmn",
         params="samples/icpm-2025/synthetic/Loan-circadian.json",
-        total_cases=15_000, #15000
-        cut="2025-03-21T15:00:00Z", #20
-        horizon_days=30, #200
+        total_cases=10_000,
+        cut="2025-03-20T15:00:00Z",
+        horizon_days=20,
+    ),
+    "LOAN_UNSTABLE": Dataset(
+        alog="samples/icpm-2025/synthetic/Loan-unpredictable.csv",
+        model="samples/icpm-2025/synthetic/Loan-unpredictable.bpmn",
+        params="samples/icpm-2025/synthetic/Loan-unpredictable.json",
+        total_cases=10_000,
+        cut="2025-03-20T15:00:00Z",
+        horizon_days=15,
     ),
     # -------- Synthetic – P2P --------------------------------------
     "P2P_STABLE": Dataset(
         alog="samples/icpm-2025/synthetic/P2P-stable.csv",
         model="samples/icpm-2025/synthetic/P2P-stable.bpmn",
         params="samples/icpm-2025/synthetic/P2P-stable.json",
-        total_cases=5_000,
+        total_cases=10_000,
         cut="2020-01-15T10:00:00Z",
-        horizon_days=20,
+        horizon_days=5,
     ),
     "P2P_CIRCADIAN": Dataset(
         alog="samples/icpm-2025/synthetic/P2P-circadian.csv",
         model="samples/icpm-2025/synthetic/P2P-circadian.bpmn",
         params="samples/icpm-2025/synthetic/P2P-circadian.json",
-        total_cases=5_000,
+        total_cases=10_000,
         cut="2020-01-10T10:00:00Z",
-        horizon_days=40,
+        horizon_days=20,
     ),
     "P2P_UNSTABLE": Dataset(
         alog="samples/icpm-2025/synthetic/P2P-unstable.csv",
         model="samples/icpm-2025/synthetic/P2P-unstable.bpmn",
         params="samples/icpm-2025/synthetic/P2P-unstable.json",
-        total_cases=5_000,
+        total_cases=10_000,
         cut="2020-01-10T10:00:00Z",
-        horizon_days=40,
+        horizon_days=15,
     ),
 }
 
+SYNTHETIC_DATASETS = [
+    "LOAN_STABLE", "LOAN_CIRCADIAN", "LOAN_UNSTABLE",
+    "P2P_STABLE", "P2P_CIRCADIAN", "P2P_UNSTABLE"
+]
+
+REAL_LIFE_DATASETS = [
+    "BPIC_2012", "BPIC_2017", "ACADEMIC_CREDENTIALS", "WORK_ORDERS"
+]
+
+ALIASES = {
+    "ALL": list(DATASETS.keys()),
+    "SYNTHETIC": SYNTHETIC_DATASETS,
+    "REAL-LIFE": REAL_LIFE_DATASETS,
+}
 
 # ────────────────────────────────────────────────────────────────────
 # 2.  Column rename map that Prosimos always emits
@@ -127,7 +149,7 @@ SIM_RENAME_MAP = {
 }
 
 
-# ── wrapper helpers that REALLY execute the engines ──────────────────────
+# ── wrapper helpers that execute the engines ──────────────────────
 from src.runner import run_process_state_and_simulation as _run_ps
 from src.process_state_prosimos_run import run_basic_simulation as _run_basic
 import json, pandas as pd
@@ -180,11 +202,13 @@ def wu_runner(*, io: ev.SimulationIO, **kwargs):
 # ────────────────────────────────────────────────────────────────────
 # 4.  Main driver
 # ────────────────────────────────────────────────────────────────────
-def main(dataset: str, runs: int = 10) -> None:
+
+
+def _run_dataset(dataset: str, runs: int) -> None:
     cfg = DATASETS[dataset]
 
     # 4-A  output folder
-    out_base = Path("outputs") / generate_short_uuid()
+    out_base = Path("outputs") / dataset / generate_short_uuid()
     out_base.mkdir(parents=True, exist_ok=True)
     print(f"Output dir: {out_base}")
 
@@ -312,6 +336,15 @@ def main(dataset: str, runs: int = 10) -> None:
     print(json.dumps(summary, indent=2))
 
 
+def main(dataset: str, runs: int = 10) -> None:
+    if dataset in ALIASES:
+        for name in ALIASES[dataset]:
+            print(f"\n\n===== Running dataset: {name} =====")
+            _run_dataset(name, runs)
+    else:
+        _run_dataset(dataset, runs)
+
+
 # ────────────────────────────────────────────────────────────────────
 # 5.  CLI entry-point
 # ────────────────────────────────────────────────────────────────────
@@ -319,8 +352,11 @@ if __name__ == "__main__":
     import argparse
 
     p = argparse.ArgumentParser()
-    p.add_argument("dataset", choices=DATASETS.keys(),
-                   help="Key from the DATASETS catalogue")
+    p.add_argument(
+        "dataset",
+        choices=list(DATASETS.keys()) + list(ALIASES.keys()),
+        help="Name of a dataset or group (ALL, SYNTHETIC, REAL-LIFE)"
+    )
     p.add_argument("--runs", type=int, default=10,
                    help="Number of repetitions (default: 10)")
     cli = p.parse_args()
