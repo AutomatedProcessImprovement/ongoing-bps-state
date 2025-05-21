@@ -133,3 +133,39 @@ def _build_ps_subsets(df: pd.DataFrame,
     complete = rest[(first_start >= cut) & (first_start < end)]
 
     return event_filter, ongoing, complete
+
+
+def _avg_events_per_ongoing_case(df: pd.DataFrame) -> float | None:
+    """
+    Mean number of events per ongoing case in *df*.
+
+    Returns
+    -------
+    float | None
+        • mean value as float;
+        • None if *df* is empty or has no case rows.
+    """
+    if df.empty:
+        return None
+    cases = df["case_id"].nunique()
+    return float(len(df) / cases) if cases else None
+
+
+def _avg_events_per_case(df: pd.DataFrame) -> float | None:
+    """
+    Average number of events per case in *df*.
+    Returns None if *df* is empty.
+    """
+    if df.empty:
+        return None
+    cases = df["case_id"].nunique()
+    return float(len(df) / cases) if cases else None
+
+
+def _avg_events_per_case_diff(A: pd.DataFrame, G: pd.DataFrame) -> float | None:
+    """
+    Absolute difference between the reference and simulated averages.
+    """
+    a = _avg_events_per_case(A)
+    g = _avg_events_per_case(G)
+    return abs(a - g) if (a is not None and g is not None) else None

@@ -9,7 +9,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from helper import (
     read_event_log, run_with_retries, trim_events, split_into_subsets,
-    avg_remaining_time, _parse_partial_state_json, _build_ps_subsets
+    avg_remaining_time, _parse_partial_state_json, _build_ps_subsets,
+    _avg_events_per_ongoing_case, _avg_events_per_case_diff
 )
 from log_distance_measures.config import (
     EventLogIDs, AbsoluteTimestampType, discretize_to_hour,
@@ -156,7 +157,11 @@ def _metrics(A_event, A_ongoing, A_complete,
             "RTD":               safe(remaining_time_distribution_distance, A_ongoing, ids, G_ongoing, ids,
                                       reference_point=cutoff, bin_size=pd.Timedelta(hours=1)),
             "avg_remaining_diff":safe(_avg_rem_diff, A_ongoing, G_ongoing, ids, cutoff),
-            "ongoing_cases_count":G_ongoing["case_id"].nunique()
+            "ongoing_cases_count":G_ongoing["case_id"].nunique(),
+            "ongoing_cases_count_diff":abs(G_ongoing["case_id"].nunique() - A_ongoing["case_id"].nunique()),
+            "avg_events_per_case":    _avg_events_per_ongoing_case(G_ongoing),
+            "avg_events_per_case_diff": _avg_events_per_case_diff(A_ongoing, G_ongoing),
+
         },
         "complete_filter": {
             "RED":               safe(relative_event_distribution_distance, A_complete, ids, G_complete, ids,
