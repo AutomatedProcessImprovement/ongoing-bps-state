@@ -115,7 +115,7 @@ def evaluate(
             if verbose:
                 print("[warmup2] no matching active-case count found; no shift.")
             G_base = G_raw
-        G_event, G_ongoing, G_complete = split_into_subsets(G_raw, cut, end)
+        G_event, G_ongoing, G_complete = split_into_subsets(G_base, cut, end)
     else:
         G_event, G_ongoing, G_complete = split_into_subsets(G_raw, cut, end)
 

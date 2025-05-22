@@ -6,8 +6,7 @@ Run the three-flavour evaluation pipeline.
 
 Examples
 --------
-# 10 runs on the BPIC 2017 log
-python test/evaluate_with_existing_alog.py BPIC_2017 --runs 10
+...
 """
 from __future__ import annotations
 
@@ -17,10 +16,10 @@ from pathlib import Path
 from dataclasses import dataclass
 
 import pandas as pd
+import numpy as np 
 
 import evaluation as ev
-from helper import generate_short_uuid, read_event_log
-
+from helper import generate_short_uuid, read_event_log, compute_cut_points, build_aggregated_from_cuts
 
 # ────────────────────────────────────────────────────────────────────
 # 1.  Dataset catalogue
@@ -204,145 +203,217 @@ def wu_runner(*, io: ev.SimulationIO, **kwargs):
 # ────────────────────────────────────────────────────────────────────
 
 
-def _run_dataset(dataset: str, runs: int) -> None:
+def _run_dataset(dataset: str, runs: int, *, cut_strategy: str) -> None:
     cfg = DATASETS[dataset]
 
-    # 4-A  output folder
-    out_base = Path("outputs") / dataset / generate_short_uuid()
-    out_base.mkdir(parents=True, exist_ok=True)
-    print(f"Output dir: {out_base}")
+    # root output folder
+    out_root = Path("outputs") / dataset / generate_short_uuid()
+    out_root.mkdir(parents=True, exist_ok=True)
+    print(f"Output dir: {out_root}")
 
-    # 4-B  read reference log & window-split
+    # load reference event log
     alog_df = read_event_log(
         cfg.alog,
         rename={
-            "CaseId": "case_id",
+            "CaseId":   "case_id",
             "Activity": "activity",
             "Resource": "resource",
-            "StartTime": "start_time",
-            "EndTime": "end_time",
+            "StartTime":"start_time",
+            "EndTime":  "end_time",
         },
         required=["case_id", "activity", "start_time", "end_time", "resource"],
     )
 
-    cut = pd.to_datetime(cfg.cut, utc=True)
-    end = cut + pd.Timedelta(days=cfg.horizon_days)
-    A_event, A_ongoing, A_complete = ev.split_into_subsets(alog_df, cut, end)
+    # cut-off list according to the selected strategy
+    cut_points = compute_cut_points(
+        alog_df,
+        cfg.horizon_days,
+        strategy=cut_strategy,
+        fixed_cut=cfg.cut,
+    )
 
-    for df, fname in [
-        (A_event,    "A_event_filter.csv"),
-        (A_ongoing,  "A_ongoing.csv"),
-        (A_complete, "A_complete.csv"),
-    ]:
-        ev._dump(df, out_base, fname)
+    # container for per-cut summaries
+    per_cut_results: dict[str, dict] = {}
 
-    # 4-C  Monte-Carlo runs
-    runs_PS, runs_WU, runs_WU2 = [], [], []
-    for i in range(1, runs + 1):
-        run_dir = out_base / str(i)
-        run_dir.mkdir()
+    for cut_ts in cut_points:
+        horizon = pd.Timedelta(days=cfg.horizon_days)
+        end_ts = cut_ts + horizon
 
-        io_obj = ev.SimulationIO(
-            log_csv=run_dir / "sim_log.csv",
-            stats_csv=run_dir / "sim_stats.csv",
-            out_dir=run_dir,
+        # sub-folder name safe for most filesystems
+        cut_folder_name = cut_ts.isoformat().replace(":", "-")
+        cut_dir = out_root / cut_folder_name
+        cut_dir.mkdir()
+
+        # split reference log into A_event, A_ongoing, A_complete
+        A_event, A_ongoing, A_complete = ev.split_into_subsets(
+            alog_df, cut_ts, end_ts
         )
 
-        # ---- 1. Process-state ----------------------------------------
-        runs_PS.append(
-            ev.evaluate(
-                "process_state",
-                io_obj,
-                ps_runner,
-                cut=cut,
-                end=end,
-                A_event=A_event,
-                A_ongoing=A_ongoing,
-                A_complete=A_complete,
-                runner_kwargs=dict(
-                    event_log=cfg.alog,
-                    bpmn_model=cfg.model,
-                    bpmn_parameters=cfg.params,
-                    start_time=cut,
-                    simulation_horizon=end + (end - cut),
-                    total_cases=cfg.total_cases,
-                    column_mapping={v: k for k, v in SIM_RENAME_MAP.items()},
-                    rename_map=SIM_RENAME_MAP,
-                ),
+        # keep the reference subsets for inspection
+        for df, fname in (
+            (A_event,   "A_event_filter.csv"),
+            (A_ongoing, "A_ongoing.csv"),
+            (A_complete,"A_complete.csv"),
+        ):
+            ev._dump(df, cut_dir, fname)
+
+        # run the three flavours “runs” times
+        runs_PS, runs_WU, runs_WU2 = [], [], []
+        for run_no in range(1, runs + 1):
+            run_dir = cut_dir / str(run_no)
+            run_dir.mkdir()
+
+            io_obj = ev.SimulationIO(
+                log_csv=run_dir / "sim_log.csv",
+                stats_csv=run_dir / "sim_stats.csv",
+                out_dir=run_dir,
             )
-        )
 
-        # ---- 2. Warm-up --------------------------------------------
-        runs_WU.append(
-            ev.evaluate(
-                "warmup",
-                io_obj,
-                wu_runner,
-                cut=cut,
-                end=end,
-                A_event=A_event,
-                A_ongoing=A_ongoing,
-                A_complete=A_complete,
-                runner_kwargs=dict(
-                    bpmn_model=cfg.model,
-                    json_sim_params=cfg.params,
-                    total_cases=cfg.total_cases,
-                    start_date=str((cut - pd.Timedelta(days=cfg.horizon_days)).isoformat()),
-                    rename_map=SIM_RENAME_MAP,
-                ),
+            # process-state flavour
+            runs_PS.append(
+                ev.evaluate(
+                    "process_state",
+                    io_obj,
+                    ps_runner,
+                    cut=cut_ts,
+                    end=end_ts,
+                    A_event=A_event,
+                    A_ongoing=A_ongoing,
+                    A_complete=A_complete,
+                    runner_kwargs=dict(
+                        event_log=cfg.alog,
+                        bpmn_model=cfg.model,
+                        bpmn_parameters=cfg.params,
+                        start_time=cut_ts,
+                        simulation_horizon=end_ts + horizon,
+                        total_cases=cfg.total_cases,
+                        column_mapping={v: k for k, v in SIM_RENAME_MAP.items()},
+                        rename_map=SIM_RENAME_MAP,
+                    ),
+                )
             )
-        )
 
-
-        # ---- 3. Warm-up v2 ------------------------------------------
-        runs_WU2.append(
-            ev.evaluate(
-                "warmup2",
-                io_obj,
-                wu_runner,
-                cut=cut,
-                end=end,
-                A_event=A_event,
-                A_ongoing=A_ongoing,
-                A_complete=A_complete,
-                runner_kwargs=dict(
-                    bpmn_model=cfg.model,
-                    json_sim_params=cfg.params,
-                    total_cases=cfg.total_cases,
-                    start_date=str((cut - pd.Timedelta(days=cfg.horizon_days)).isoformat()),
-                    rename_map=SIM_RENAME_MAP,
-                ),
+            # warm-up flavour
+            runs_WU.append(
+                ev.evaluate(
+                    "warmup",
+                    io_obj,
+                    wu_runner,
+                    cut=cut_ts,
+                    end=end_ts,
+                    A_event=A_event,
+                    A_ongoing=A_ongoing,
+                    A_complete=A_complete,
+                    runner_kwargs=dict(
+                        bpmn_model=cfg.model,
+                        json_sim_params=cfg.params,
+                        total_cases=cfg.total_cases,
+                        start_date=(cut_ts - horizon).isoformat(),
+                        rename_map=SIM_RENAME_MAP,
+                    ),
+                )
             )
-        )
 
+            # warm-up v2 flavour
+            runs_WU2.append(
+                ev.evaluate(
+                    "warmup2",
+                    io_obj,
+                    wu_runner,
+                    cut=cut_ts,
+                    end=end_ts,
+                    A_event=A_event,
+                    A_ongoing=A_ongoing,
+                    A_complete=A_complete,
+                    runner_kwargs=dict(
+                        bpmn_model=cfg.model,
+                        json_sim_params=cfg.params,
+                        total_cases=cfg.total_cases,
+                        start_date=(cut_ts - horizon).isoformat(),
+                        rename_map=SIM_RENAME_MAP,
+                    ),
+                )
+            )
 
-    # 4-D  aggregate & save
-    agg_PS = ev.aggregate(runs_PS)
-    agg_WU = ev.aggregate(runs_WU)
-    agg_WU2 = ev.aggregate(runs_WU2)
+        # aggregate the Monte-Carlo repetitions for this cut-off
+        agg_PS  = ev.aggregate(runs_PS)
+        agg_WU  = ev.aggregate(runs_WU)
+        agg_WU2 = ev.aggregate(runs_WU2)
 
-    summary = {
-        "num_runs": runs,
-        "process_state": {"aggregated": agg_PS},
-        "warmup": {"aggregated": agg_WU},
-        "warmup2": {"aggregated": agg_WU2},
-        "PS_vs_WU": ev.compare(agg_PS, agg_WU, ("process_state", "warmup")),
-        "PS_vs_WU2": ev.compare(agg_PS, agg_WU2, ("process_state", "warmup2")),
+        per_cut_results[cut_ts.isoformat()] = {
+            "num_runs": runs,
+            "process_state": {"aggregated": agg_PS},
+            "warmup":        {"aggregated": agg_WU},
+            "warmup2":       {"aggregated": agg_WU2},
+            "PS_vs_WU":  ev.compare(agg_PS,  agg_WU,  ("process_state", "warmup")),
+            "PS_vs_WU2": ev.compare(agg_PS,  agg_WU2, ("process_state", "warmup2")),
+        }
+
+    # helper to average the “mean” fields across cut-offs
+    def average_dicts(list_of_dicts: list[dict]) -> dict:
+        result: dict = {}
+        keys = {k for d in list_of_dicts for k in d}
+        for k in keys:
+            values = [d[k]["mean"] for d in list_of_dicts if d[k]["mean"] is not None]
+            result[k] = float(np.mean(values)) if values else None
+        return result
+
+    # --- overall averages across all cut-offs --------------------------
+    overall_average: dict = {}
+    for flavour in ("process_state", "warmup", "warmup2"):
+        sample_any_cut = next(iter(per_cut_results.values()))
+        subfamilies = sample_any_cut[flavour]["aggregated"].keys()
+        overall_average[flavour] = {"aggregated": {}}
+        for sf in subfamilies:
+            aggregates_for_sf = [
+                per_cut_results[c][flavour]["aggregated"][sf]
+                for c in per_cut_results
+            ]
+            overall_average[flavour]["aggregated"][sf] = build_aggregated_from_cuts(
+                aggregates_for_sf
+            )
+
+    # --- comparisons of those overall averages -------------------------
+    overall_comparison = {
+        "PS_vs_WU": ev.compare(
+            overall_average["process_state"]["aggregated"],
+            overall_average["warmup"]["aggregated"],
+            ("process_state", "warmup"),
+        ),
+        "PS_vs_WU2": ev.compare(
+            overall_average["process_state"]["aggregated"],
+            overall_average["warmup2"]["aggregated"],
+            ("process_state", "warmup2"),
+        ),
     }
 
-    with open(out_base / "final_results.json", "w", encoding="utf-8") as f:
-        json.dump(summary, f, indent=2)
 
-    print(json.dumps(summary, indent=2))
+    final_report = {
+        "num_runs": runs,
+        "cut_strategy": cut_strategy,
+        "cut_offs": list(per_cut_results.keys()),
+        "per_cut": per_cut_results,
+        "overall_average": overall_average,
+        "overall_comparison": overall_comparison,
+    }
 
 
-def main(dataset: str, runs: int = 10) -> None:
+    with open(out_root / "final_results.json", "w", encoding="utf-8") as fh:
+        json.dump(final_report, fh, indent=2)
+
+    print(json.dumps(final_report, indent=2))
+
+
+
+def main(dataset: str, runs: int = 10, *, cut_strategy: str = "fixed") -> None:
     if dataset in ALIASES:
         for name in ALIASES[dataset]:
             print(f"\n\n===== Running dataset: {name} =====")
-            _run_dataset(name, runs)
+            _run_dataset(name, runs, cut_strategy=cut_strategy)
+
     else:
-        _run_dataset(dataset, runs)
+        _run_dataset(dataset, runs, cut_strategy=cut_strategy)
+
 
 
 # ────────────────────────────────────────────────────────────────────
@@ -359,5 +430,17 @@ if __name__ == "__main__":
     )
     p.add_argument("--runs", type=int, default=10,
                    help="Number of repetitions (default: 10)")
+    p.add_argument(
+        "--cut-strategy",
+        default="fixed",
+        choices=["fixed", "wip3", "segment10"],
+        help=(
+            "How to choose cut-off timestamps.\n"
+            "  fixed       – use the cut stored in DATASETS;\n"
+            "  wip3        – 3 points at 10 / 50 / 90 % of the maximum WiP;\n"
+            "  segment10   – 10 random points in 10 equal time segments."
+        )
+    )
     cli = p.parse_args()
-    main(dataset=cli.dataset, runs=cli.runs)
+    main(dataset=cli.dataset, runs=cli.runs, cut_strategy=cli.cut_strategy)
+

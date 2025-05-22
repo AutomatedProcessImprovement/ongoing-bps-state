@@ -169,3 +169,123 @@ def _avg_events_per_case_diff(A: pd.DataFrame, G: pd.DataFrame) -> float | None:
     a = _avg_events_per_case(A)
     g = _avg_events_per_case(G)
     return abs(a - g) if (a is not None and g is not None) else None
+
+
+def compute_cut_points(
+    log_df: pd.DataFrame,
+    horizon_days: int,
+    *,
+    strategy: str = "fixed",
+    fixed_cut: str | None = None,
+    rng: np.random.Generator | None = None,
+) -> list[pd.Timestamp]:
+    """
+    Return a list of cut-off timestamps according to *strategy*.
+
+    Strategies
+    ----------
+    fixed
+        Exactly one timestamp, taken from *fixed_cut*.
+    wip3
+        Three timestamps where the Work-in-Process equals 10 %, 50 %, and
+        90 % of the maximum observed WiP.
+    segment10
+        Ten timestamps: drop the first and last *horizon* and divide the
+        remaining interval into ten equal segments; pick one random moment
+        from each segment.
+    """
+    if strategy == "fixed":
+        if fixed_cut is None:
+            raise ValueError("strategy 'fixed' needs a cut-off timestamp")
+        return [pd.to_datetime(fixed_cut, utc=True)]
+
+    rng = rng or np.random.default_rng()
+
+    first_ts = log_df["start_time"].min()
+    last_ts  = log_df["end_time"].max()
+
+    safe_start = first_ts + pd.Timedelta(days=horizon_days)
+    safe_end   = last_ts  - pd.Timedelta(days=horizon_days)
+    if safe_start >= safe_end:
+        raise ValueError("the event log is shorter than twice the horizon")
+
+    # helper: active cases at a given time
+    case_bounds = log_df.groupby("case_id").agg(
+        start=("start_time", "min"),
+        end=("end_time",   "max"),
+    )
+    def active_cases_at(ts: pd.Timestamp) -> int:
+        mask = (case_bounds["start"] <= ts) & (case_bounds["end"] > ts)
+        return int(mask.sum())
+
+    if strategy == "wip3":
+        # evaluate WiP only at case arrival moments
+        arrivals = case_bounds["start"].sort_values()
+        wip_series = pd.Series(
+            {ts: active_cases_at(ts) for ts in arrivals}
+        )
+        max_wip = wip_series.max()
+        targets = [int(round(max_wip * q)) for q in (0.10, 0.50, 0.90)]
+
+        cuts: list[pd.Timestamp] = []
+        for tgt in targets:
+            exact = wip_series[wip_series == tgt]
+            if not exact.empty:
+                cuts.append(exact.index[0])
+                continue
+            greater = wip_series[wip_series > tgt]
+            if not greater.empty:
+                cuts.append(greater.index[0])
+                continue
+            cuts.append(wip_series.index[0]) 
+        return cuts
+
+    if strategy == "segment10":
+        span = safe_end - safe_start
+        segment_length = span / 10
+        cuts: list[pd.Timestamp] = []
+        for i in range(10):
+            seg_start = safe_start + i * segment_length
+            jitter = rng.uniform(0, segment_length.total_seconds())
+            cuts.append(seg_start + pd.Timedelta(seconds=float(jitter)))
+        return cuts
+
+    raise ValueError(f"unknown cut strategy: {strategy}")
+
+
+def build_aggregated_from_cuts(metric_dicts: list[dict]) -> dict:
+    """
+    Combine several `aggregated[<subfamily>]` dictionaries – one from each
+    cut-off – into a single dictionary that has the same structure.
+
+    Input
+    -----
+    metric_dicts : list of dict
+        Each element looks like
+        {
+          'n_gram':           {'mean': 0.37, 'ci': 0.04},
+          'absolute_event':   {'mean': 0.12, 'ci': 0.01},
+          ...
+        }
+
+    Output
+    ------
+    dict
+        {
+          'n_gram':         {'mean': <average of the means>},
+          'absolute_event': {'mean': <average of the means>},
+          ...
+        }
+        (the *ci* values are ignored because they are not meaningful after
+        averaging averages).
+    """
+    result: dict = {}
+    all_metrics = {m for d in metric_dicts for m in d}
+    for m in all_metrics:
+        means = [
+            d[m]["mean"]
+            for d in metric_dicts
+            if m in d and d[m]["mean"] is not None
+        ]
+        result[m] = {"mean": float(np.mean(means))} if means else {"mean": None}
+    return result
