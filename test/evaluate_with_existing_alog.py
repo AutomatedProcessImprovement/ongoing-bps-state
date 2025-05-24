@@ -73,50 +73,50 @@ DATASETS: dict[str, Dataset] = {
         alog="samples/icpm-2025/synthetic/Loan-stable.csv",
         model="samples/icpm-2025/synthetic/Loan-stable.bpmn",
         params="samples/icpm-2025/synthetic/Loan-stable.json",
-        total_cases=10_000,
+        total_cases=5_000,
         cut="2025-01-20T10:00:00Z",
-        horizon_days=5,
+        horizon_days=1,
     ),
     "LOAN_CIRCADIAN": Dataset(
         alog="samples/icpm-2025/synthetic/Loan-circadian.csv",
         model="samples/icpm-2025/synthetic/Loan-circadian.bpmn",
         params="samples/icpm-2025/synthetic/Loan-circadian.json",
-        total_cases=10_000,
+        total_cases=5_000,
         cut="2025-03-20T15:00:00Z",
-        horizon_days=20,
+        horizon_days=3, #4 for 95
     ),
     "LOAN_UNSTABLE": Dataset(
         alog="samples/icpm-2025/synthetic/Loan-unpredictable.csv",
         model="samples/icpm-2025/synthetic/Loan-unpredictable.bpmn",
         params="samples/icpm-2025/synthetic/Loan-unpredictable.json",
-        total_cases=10_000,
+        total_cases=5_000,
         cut="2025-03-20T15:00:00Z",
-        horizon_days=15,
+        horizon_days=2, #3 for 95
     ),
     # -------- Synthetic – P2P --------------------------------------
     "P2P_STABLE": Dataset(
         alog="samples/icpm-2025/synthetic/P2P-stable.csv",
         model="samples/icpm-2025/synthetic/P2P-stable.bpmn",
         params="samples/icpm-2025/synthetic/P2P-stable.json",
-        total_cases=10_000,
+        total_cases=5_000,
         cut="2020-01-15T10:00:00Z",
-        horizon_days=5,
+        horizon_days=1,
     ),
     "P2P_CIRCADIAN": Dataset(
         alog="samples/icpm-2025/synthetic/P2P-circadian.csv",
         model="samples/icpm-2025/synthetic/P2P-circadian.bpmn",
         params="samples/icpm-2025/synthetic/P2P-circadian.json",
-        total_cases=10_000,
+        total_cases=5_000,
         cut="2020-01-10T10:00:00Z",
-        horizon_days=20,
+        horizon_days=3, #4 for 95
     ),
     "P2P_UNSTABLE": Dataset(
         alog="samples/icpm-2025/synthetic/P2P-unstable.csv",
         model="samples/icpm-2025/synthetic/P2P-unstable.bpmn",
         params="samples/icpm-2025/synthetic/P2P-unstable.json",
-        total_cases=10_000,
+        total_cases=5_000,
         cut="2020-01-10T10:00:00Z",
-        horizon_days=15,
+        horizon_days=4, #5 for 95
     ),
 }
 
@@ -294,25 +294,25 @@ def _run_dataset(dataset: str, runs: int, *, cut_strategy: str) -> None:
             )
 
             # warm-up flavour
-            runs_WU.append(
-                ev.evaluate(
-                    "warmup",
-                    io_obj,
-                    wu_runner,
-                    cut=cut_ts,
-                    end=end_ts,
-                    A_event=A_event,
-                    A_ongoing=A_ongoing,
-                    A_complete=A_complete,
-                    runner_kwargs=dict(
-                        bpmn_model=cfg.model,
-                        json_sim_params=cfg.params,
-                        total_cases=cfg.total_cases,
-                        start_date=(cut_ts - horizon).isoformat(),
-                        rename_map=SIM_RENAME_MAP,
-                    ),
-                )
-            )
+            # runs_WU.append(
+            #     ev.evaluate(
+            #         "warmup",
+            #         io_obj,
+            #         wu_runner,
+            #         cut=cut_ts,
+            #         end=end_ts,
+            #         A_event=A_event,
+            #         A_ongoing=A_ongoing,
+            #         A_complete=A_complete,
+            #         runner_kwargs=dict(
+            #             bpmn_model=cfg.model,
+            #             json_sim_params=cfg.params,
+            #             total_cases=cfg.total_cases,
+            #             start_date=(cut_ts - horizon).isoformat(),
+            #             rename_map=SIM_RENAME_MAP,
+            #         ),
+            #     )
+            # )
 
             # warm-up v2 flavour
             runs_WU2.append(
@@ -343,9 +343,9 @@ def _run_dataset(dataset: str, runs: int, *, cut_strategy: str) -> None:
         per_cut_results[cut_ts.isoformat()] = {
             "num_runs": runs,
             "process_state": {"aggregated": agg_PS},
-            "warmup":        {"aggregated": agg_WU},
+            # "warmup":        {"aggregated": agg_WU},
             "warmup2":       {"aggregated": agg_WU2},
-            "PS_vs_WU":  ev.compare(agg_PS,  agg_WU,  ("process_state", "warmup")),
+            # "PS_vs_WU":  ev.compare(agg_PS,  agg_WU,  ("process_state", "warmup")),
             "PS_vs_WU2": ev.compare(agg_PS,  agg_WU2, ("process_state", "warmup2")),
         }
 
@@ -360,7 +360,8 @@ def _run_dataset(dataset: str, runs: int, *, cut_strategy: str) -> None:
 
     # --- overall averages across all cut-offs --------------------------
     overall_average: dict = {}
-    for flavour in ("process_state", "warmup", "warmup2"):
+    #warmup here in for loop
+    for flavour in ("process_state", "warmup2"):
         sample_any_cut = next(iter(per_cut_results.values()))
         subfamilies = sample_any_cut[flavour]["aggregated"].keys()
         overall_average[flavour] = {"aggregated": {}}
@@ -375,11 +376,11 @@ def _run_dataset(dataset: str, runs: int, *, cut_strategy: str) -> None:
 
     # --- comparisons of those overall averages -------------------------
     overall_comparison = {
-        "PS_vs_WU": ev.compare(
-            overall_average["process_state"]["aggregated"],
-            overall_average["warmup"]["aggregated"],
-            ("process_state", "warmup"),
-        ),
+        # "PS_vs_WU": ev.compare(
+        #     overall_average["process_state"]["aggregated"],
+        #     overall_average["warmup"]["aggregated"],
+        #     ("process_state", "warmup"),
+        # ),
         "PS_vs_WU2": ev.compare(
             overall_average["process_state"]["aggregated"],
             overall_average["warmup2"]["aggregated"],
