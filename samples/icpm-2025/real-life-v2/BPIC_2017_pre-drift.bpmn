@@ -1,0 +1,132 @@
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://www.omg.org/bpmn20" exporter="ProM. http://www.promtools.org/prom6" exporterVersion="6.3" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <process id="proc_319977154">
+    <startEvent id="node_7983f930-7302-40ee-a281-b33bbfa81d30" name=""/>
+    <endEvent id="node_a2f95ece-4f36-4576-91be-5a8d79e73745" name=""/>
+    <task id="node_5d0b3517-a8a5-4278-a7a5-e4ed84695a08" name="W_Call after offers">
+      <standardLoopCharacteristics testBefore="false"/>
+    </task>
+    <task id="node_24af56f2-c05e-4e50-bb10-6ff8abf23f6f" name="W_Complete application">
+      <standardLoopCharacteristics testBefore="false"/>
+    </task>
+    <task id="node_4f38c406-a8f1-4784-bc4d-f2df8e29e2b8" name="W_Call incomplete files">
+      <standardLoopCharacteristics testBefore="false"/>
+    </task>
+    <task id="node_ffbbf7bd-60ff-45e8-9ec3-5cb752a1275f" name="W_Handle leads">
+      <standardLoopCharacteristics testBefore="false"/>
+    </task>
+    <task id="node_7bf65f17-6cdc-41da-8a85-d7a497ebe16e" name="W_Assess potential fraud">
+      <standardLoopCharacteristics testBefore="false"/>
+    </task>
+    <task id="node_56ac9426-805d-4f30-88eb-796f614ac3a3" name="W_Validate application">
+      <standardLoopCharacteristics testBefore="false"/>
+    </task>
+    <exclusiveGateway id="node_97ffe256-fa6a-45d0-aecd-e18685066e3d" name="" gatewayDirection="Diverging">
+      <incoming>
+node_7194f3ee-4807-4899-adb8-fbde5c810da5</incoming>
+      <outgoing>
+node_3c2a2095-73d2-4fb7-b969-89a787edd63c</outgoing>
+      <outgoing>
+node_62a6c750-d248-4f98-af05-694f7a8e4de0</outgoing>
+    </exclusiveGateway>
+    <exclusiveGateway id="node_665cf67e-9f53-47d2-b26a-ca3c57c86a02" name="" gatewayDirection="Diverging">
+      <incoming>
+node_e181dcc8-316c-4ceb-9984-09874c356287</incoming>
+      <outgoing>
+node_ac13d779-ee10-465a-b524-ee58e10756ee</outgoing>
+      <outgoing>
+node_1fa1360b-deea-45c6-8668-aa910f453e3d</outgoing>
+    </exclusiveGateway>
+    <exclusiveGateway id="node_b2a8c471-f59e-4172-a215-5ab0441eb4b9" name="" gatewayDirection="Converging">
+      <incoming>
+node_d4a57c23-af9c-4523-8f69-ddff369b51d3</incoming>
+      <incoming>
+node_917ea4db-d31e-4a3b-b88e-2f2cbb877ddb</incoming>
+      <incoming>
+node_2ba76baf-50dc-4682-a3f1-92515980a170</incoming>
+      <outgoing>
+node_02bd5734-9c55-4171-ba4e-def78bff9075</outgoing>
+    </exclusiveGateway>
+    <exclusiveGateway id="node_0e5e2380-7ef8-41c4-b65f-c19a071721a2" name="" gatewayDirection="Diverging">
+      <incoming>
+node_9fd08547-d0f1-48ce-9ade-07609f771ce4</incoming>
+      <outgoing>
+node_c65ca149-3b25-414c-92b9-4d3cfea7dfe5</outgoing>
+      <outgoing>
+node_07bff98c-b0f8-4157-8fe7-ece83d56e027</outgoing>
+      <outgoing>
+node_917ea4db-d31e-4a3b-b88e-2f2cbb877ddb</outgoing>
+    </exclusiveGateway>
+    <exclusiveGateway id="node_ae30951c-29fe-40c3-9cd0-9615f56fba4e" name="" gatewayDirection="Converging">
+      <incoming>
+node_02bd5734-9c55-4171-ba4e-def78bff9075</incoming>
+      <incoming>
+node_3c2a2095-73d2-4fb7-b969-89a787edd63c</incoming>
+      <outgoing>
+node_1bac2004-6a69-426f-84c7-a0ae33a3c7ea</outgoing>
+    </exclusiveGateway>
+    <exclusiveGateway id="node_de1a59bc-1891-4e0b-aca0-48ec92aa477a" name="" gatewayDirection="Converging">
+      <incoming>
+node_ac13d779-ee10-465a-b524-ee58e10756ee</incoming>
+      <incoming>
+node_6c6ba206-641d-4248-b7ec-a52e0733f4d0</incoming>
+      <outgoing>
+node_aba4d9b2-75ef-41ba-be92-569d665b50cf</outgoing>
+    </exclusiveGateway>
+    <sequenceFlow id="node_4812dae0-6ea9-4679-a055-9afa3a79c035" name="" sourceRef="node_24af56f2-c05e-4e50-bb10-6ff8abf23f6f" targetRef="Event_e46fb3cc-3ac1-43f1-a3cc-fb563117eec7"/>
+    <sequenceFlow id="node_e181dcc8-316c-4ceb-9984-09874c356287" name="" sourceRef="node_7983f930-7302-40ee-a281-b33bbfa81d30" targetRef="node_665cf67e-9f53-47d2-b26a-ca3c57c86a02"/>
+    <sequenceFlow id="node_1fa1360b-deea-45c6-8668-aa910f453e3d" name="" sourceRef="node_665cf67e-9f53-47d2-b26a-ca3c57c86a02" targetRef="Event_49b00225-b9fc-495b-b819-96bd5570d1ce"/>
+    <sequenceFlow id="node_7194f3ee-4807-4899-adb8-fbde5c810da5" name="" sourceRef="node_5d0b3517-a8a5-4278-a7a5-e4ed84695a08" targetRef="node_97ffe256-fa6a-45d0-aecd-e18685066e3d"/>
+    <sequenceFlow id="node_62a6c750-d248-4f98-af05-694f7a8e4de0" name="" sourceRef="node_97ffe256-fa6a-45d0-aecd-e18685066e3d" targetRef="Event_76cf9781-9731-4e68-870a-b11326f76cf6"/>
+    <sequenceFlow id="node_9fd08547-d0f1-48ce-9ade-07609f771ce4" name="" sourceRef="node_56ac9426-805d-4f30-88eb-796f614ac3a3" targetRef="node_0e5e2380-7ef8-41c4-b65f-c19a071721a2"/>
+    <sequenceFlow id="node_07bff98c-b0f8-4157-8fe7-ece83d56e027" name="" sourceRef="node_0e5e2380-7ef8-41c4-b65f-c19a071721a2" targetRef="Event_b93fd4ad-0a58-4a18-87a3-d4fa5a4c7072"/>
+    <sequenceFlow id="node_c65ca149-3b25-414c-92b9-4d3cfea7dfe5" name="" sourceRef="node_0e5e2380-7ef8-41c4-b65f-c19a071721a2" targetRef="Event_171d1e0a-3965-48e1-8a6f-839d70864143"/>
+    <sequenceFlow id="node_d4a57c23-af9c-4523-8f69-ddff369b51d3" name="" sourceRef="node_7bf65f17-6cdc-41da-8a85-d7a497ebe16e" targetRef="node_b2a8c471-f59e-4172-a215-5ab0441eb4b9"/>
+    <sequenceFlow id="node_917ea4db-d31e-4a3b-b88e-2f2cbb877ddb" name="" sourceRef="node_0e5e2380-7ef8-41c4-b65f-c19a071721a2" targetRef="node_b2a8c471-f59e-4172-a215-5ab0441eb4b9"/>
+    <sequenceFlow id="node_2ba76baf-50dc-4682-a3f1-92515980a170" name="" sourceRef="node_4f38c406-a8f1-4784-bc4d-f2df8e29e2b8" targetRef="node_b2a8c471-f59e-4172-a215-5ab0441eb4b9"/>
+    <sequenceFlow id="node_aba4d9b2-75ef-41ba-be92-569d665b50cf" name="" sourceRef="node_de1a59bc-1891-4e0b-aca0-48ec92aa477a" targetRef="Event_5cac3339-95bc-4b90-a00d-591723494084"/>
+    <sequenceFlow id="node_6c6ba206-641d-4248-b7ec-a52e0733f4d0" name="" sourceRef="node_ffbbf7bd-60ff-45e8-9ec3-5cb752a1275f" targetRef="node_de1a59bc-1891-4e0b-aca0-48ec92aa477a"/>
+    <sequenceFlow id="node_ac13d779-ee10-465a-b524-ee58e10756ee" name="" sourceRef="node_665cf67e-9f53-47d2-b26a-ca3c57c86a02" targetRef="node_de1a59bc-1891-4e0b-aca0-48ec92aa477a"/>
+    <sequenceFlow id="node_1bac2004-6a69-426f-84c7-a0ae33a3c7ea" name="" sourceRef="node_ae30951c-29fe-40c3-9cd0-9615f56fba4e" targetRef="node_a2f95ece-4f36-4576-91be-5a8d79e73745"/>
+    <sequenceFlow id="node_02bd5734-9c55-4171-ba4e-def78bff9075" name="" sourceRef="node_b2a8c471-f59e-4172-a215-5ab0441eb4b9" targetRef="node_ae30951c-29fe-40c3-9cd0-9615f56fba4e"/>
+    <sequenceFlow id="node_3c2a2095-73d2-4fb7-b969-89a787edd63c" name="" sourceRef="node_97ffe256-fa6a-45d0-aecd-e18685066e3d" targetRef="node_ae30951c-29fe-40c3-9cd0-9615f56fba4e"/>
+    <intermediateCatchEvent id="Event_e46fb3cc-3ac1-43f1-a3cc-fb563117eec7">
+      <incoming>node_4812dae0-6ea9-4679-a055-9afa3a79c035</incoming>
+      <outgoing>Flow_22a3cc35-cb02-45f4-bcb3-89f43c2759ed</outgoing>
+      <timerEventDefinition id="TimerEventDefinition_866e143b-8962-4c51-bee2-fce2f948b570"/>
+    </intermediateCatchEvent>
+    <sequenceFlow id="Flow_22a3cc35-cb02-45f4-bcb3-89f43c2759ed" sourceRef="Event_e46fb3cc-3ac1-43f1-a3cc-fb563117eec7" targetRef="node_5d0b3517-a8a5-4278-a7a5-e4ed84695a08"/>
+    <intermediateCatchEvent id="Event_5cac3339-95bc-4b90-a00d-591723494084">
+      <incoming>node_aba4d9b2-75ef-41ba-be92-569d665b50cf</incoming>
+      <outgoing>Flow_71b10bbd-fc07-488a-82fd-605430501f7b</outgoing>
+      <timerEventDefinition id="TimerEventDefinition_61e1180b-c6a2-4296-b194-8fae25d747da"/>
+    </intermediateCatchEvent>
+    <sequenceFlow id="Flow_71b10bbd-fc07-488a-82fd-605430501f7b" sourceRef="Event_5cac3339-95bc-4b90-a00d-591723494084" targetRef="node_24af56f2-c05e-4e50-bb10-6ff8abf23f6f"/>
+    <intermediateCatchEvent id="Event_171d1e0a-3965-48e1-8a6f-839d70864143">
+      <incoming>node_c65ca149-3b25-414c-92b9-4d3cfea7dfe5</incoming>
+      <outgoing>Flow_3d863845-3f9a-4ee5-9128-7b502428ee47</outgoing>
+      <timerEventDefinition id="TimerEventDefinition_0288b6f2-b480-4c96-a16c-d67cfff70994"/>
+    </intermediateCatchEvent>
+    <sequenceFlow id="Flow_3d863845-3f9a-4ee5-9128-7b502428ee47" sourceRef="Event_171d1e0a-3965-48e1-8a6f-839d70864143" targetRef="node_4f38c406-a8f1-4784-bc4d-f2df8e29e2b8"/>
+    <intermediateCatchEvent id="Event_49b00225-b9fc-495b-b819-96bd5570d1ce">
+      <incoming>node_1fa1360b-deea-45c6-8668-aa910f453e3d</incoming>
+      <outgoing>Flow_0ba12a05-7c7d-4924-a2d2-33984cf376fe</outgoing>
+      <timerEventDefinition id="TimerEventDefinition_5a04718f-d83f-4bac-83d5-bcb16d4cd369"/>
+    </intermediateCatchEvent>
+    <sequenceFlow id="Flow_0ba12a05-7c7d-4924-a2d2-33984cf376fe" sourceRef="Event_49b00225-b9fc-495b-b819-96bd5570d1ce" targetRef="node_ffbbf7bd-60ff-45e8-9ec3-5cb752a1275f"/>
+    <intermediateCatchEvent id="Event_b93fd4ad-0a58-4a18-87a3-d4fa5a4c7072">
+      <incoming>node_07bff98c-b0f8-4157-8fe7-ece83d56e027</incoming>
+      <outgoing>Flow_41bb690a-d451-4331-8c0f-59163c670a43</outgoing>
+      <timerEventDefinition id="TimerEventDefinition_b0832e73-07cb-4367-97e1-ee03d08cffcf"/>
+    </intermediateCatchEvent>
+    <sequenceFlow id="Flow_41bb690a-d451-4331-8c0f-59163c670a43" sourceRef="Event_b93fd4ad-0a58-4a18-87a3-d4fa5a4c7072" targetRef="node_7bf65f17-6cdc-41da-8a85-d7a497ebe16e"/>
+    <intermediateCatchEvent id="Event_76cf9781-9731-4e68-870a-b11326f76cf6">
+      <incoming>node_62a6c750-d248-4f98-af05-694f7a8e4de0</incoming>
+      <outgoing>Flow_85ba0299-dcf9-4c26-b6c2-7a432ecbb37f</outgoing>
+      <timerEventDefinition id="TimerEventDefinition_fd98e34f-2486-45c7-abce-0023571bbd02"/>
+    </intermediateCatchEvent>
+    <sequenceFlow id="Flow_85ba0299-dcf9-4c26-b6c2-7a432ecbb37f" sourceRef="Event_76cf9781-9731-4e68-870a-b11326f76cf6" targetRef="node_56ac9426-805d-4f30-88eb-796f614ac3a3"/>
+  </process>
+  <bpmndi:BPMNDiagram id="id_1987452145">
+    <bpmndi:BPMNPlane bpmnElement="proc_319977154"/>
+  </bpmndi:BPMNDiagram>
+</definitions>

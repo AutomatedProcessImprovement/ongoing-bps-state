@@ -1,0 +1,127 @@
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://www.omg.org/bpmn20" exporter="ProM. http://www.promtools.org/prom6" exporterVersion="6.3" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <process id="proc_510464020">
+    <startEvent id="node_faf50620-1b70-41ee-9a52-f70ab9b97029" name=""/>
+    <endEvent id="node_8b8839fd-f7e6-4d78-8a3e-1b78e2190ab0" name=""/>
+    <task id="node_d0dda0f8-47ba-4af1-b5cb-28dbce0d7b41" name="W_Nabellen incomplete dossiers">
+      <standardLoopCharacteristics testBefore="false"/>
+    </task>
+    <task id="node_6127f2fc-6f77-4edc-b514-9221ed7a20ef" name="W_Beoordelen fraude">
+      <standardLoopCharacteristics testBefore="false"/>
+    </task>
+    <task id="node_caa7094e-57ec-4b24-8da0-d9ae7ebbf549" name="W_Valideren aanvraag">
+      <standardLoopCharacteristics testBefore="false"/>
+    </task>
+    <task id="node_395895a2-7d9f-471e-b4ef-e2bb8753d65c" name="W_Nabellen offertes">
+      <standardLoopCharacteristics testBefore="false"/>
+    </task>
+    <task id="node_37d99a0c-1bc1-43a9-aa25-0f609160ac7f" name="W_Afhandelen leads">
+      <standardLoopCharacteristics testBefore="false"/>
+    </task>
+    <task id="node_d5630637-ec74-4410-83b6-7536fd1f507f" name="W_Completeren aanvraag">
+      <standardLoopCharacteristics testBefore="false"/>
+    </task>
+    <exclusiveGateway id="node_d09a4b70-c8d0-4dbc-843d-fdc928e51313" name="" gatewayDirection="Converging">
+      <incoming>
+node_e53e835d-1e6a-4ddd-b3e7-6366e87a1399</incoming>
+      <incoming>
+node_413e6019-2cd9-4015-ac1b-9a20ebff10cf</incoming>
+      <outgoing>
+node_f4f238dc-3ac7-4a58-8612-71dab6ec3405</outgoing>
+    </exclusiveGateway>
+    <exclusiveGateway id="node_ef6328f4-f4dc-4968-9fe8-d0a48fc89605" name="" gatewayDirection="Converging">
+      <incoming>
+node_a5cfdf78-0073-46f8-ae54-95183f39120b</incoming>
+      <incoming>
+node_cc2ccf2a-2c86-4a86-a9af-4edc2d0f37d8</incoming>
+      <outgoing>
+node_413e6019-2cd9-4015-ac1b-9a20ebff10cf</outgoing>
+    </exclusiveGateway>
+    <exclusiveGateway id="node_0e7b120c-1900-4d06-bd81-9fbd984d1989" name="" gatewayDirection="Diverging">
+      <incoming>
+node_4b7ce82b-1072-49fa-ac7c-62e7c1de494d</incoming>
+      <outgoing>
+node_c5598086-0077-4f66-bdc1-f31430fc74d7</outgoing>
+      <outgoing>
+node_f6188e15-4516-4be7-b2a5-02cfd4da668a</outgoing>
+    </exclusiveGateway>
+    <exclusiveGateway id="node_531345a3-e087-475c-b901-9e26cf64fa10" name="" gatewayDirection="Diverging">
+      <incoming>
+node_b0324302-7609-41e8-933c-0941cde5d25b</incoming>
+      <outgoing>
+node_cc2ccf2a-2c86-4a86-a9af-4edc2d0f37d8</outgoing>
+      <outgoing>
+node_7a96e35e-a03d-42b4-adbc-15b5bbae40c6</outgoing>
+    </exclusiveGateway>
+    <parallelGateway id="node_42a3928e-1a65-4f79-bb8b-b525a1054b72" name="" gatewayDirection="Converging">
+      <incoming>
+node_687f9367-7fe9-419c-b8e3-b948a59f4030</incoming>
+      <incoming>
+node_f4f238dc-3ac7-4a58-8612-71dab6ec3405</incoming>
+      <outgoing>
+node_8d4902e3-1a26-47b0-b0ad-da06e2646fa1</outgoing>
+    </parallelGateway>
+    <parallelGateway id="node_2f718d0a-84aa-4f7f-8b0f-574cb445b13a" name="" gatewayDirection="Diverging">
+      <incoming>
+node_f664d9d0-6729-47af-a8c0-40b3b041e4e9</incoming>
+      <outgoing>
+node_79c792cd-164c-4388-91bb-2cd8aebff89e</outgoing>
+      <outgoing>
+node_4b7ce82b-1072-49fa-ac7c-62e7c1de494d</outgoing>
+    </parallelGateway>
+    <sequenceFlow id="node_06189415-7e99-4345-b88d-1ad24147b47b" name="" sourceRef="node_395895a2-7d9f-471e-b4ef-e2bb8753d65c" targetRef="Event_4bb8222c-4dc7-494d-b6ae-cfdfca2ef43b"/>
+    <sequenceFlow id="node_9ece0ea7-f0cb-4fe4-b4f0-4ac6985f8e6b" name="" sourceRef="node_d5630637-ec74-4410-83b6-7536fd1f507f" targetRef="Event_3f78df7d-f1b1-4d58-b0b7-342430b7b59a"/>
+    <sequenceFlow id="node_f664d9d0-6729-47af-a8c0-40b3b041e4e9" name="" sourceRef="node_faf50620-1b70-41ee-9a52-f70ab9b97029" targetRef="node_2f718d0a-84aa-4f7f-8b0f-574cb445b13a"/>
+    <sequenceFlow id="node_4b7ce82b-1072-49fa-ac7c-62e7c1de494d" name="" sourceRef="node_2f718d0a-84aa-4f7f-8b0f-574cb445b13a" targetRef="node_0e7b120c-1900-4d06-bd81-9fbd984d1989"/>
+    <sequenceFlow id="node_c5598086-0077-4f66-bdc1-f31430fc74d7" name="" sourceRef="node_0e7b120c-1900-4d06-bd81-9fbd984d1989" targetRef="Event_98be7e68-a387-4266-9c07-deeebf7fd4a2"/>
+    <sequenceFlow id="node_f6188e15-4516-4be7-b2a5-02cfd4da668a" name="" sourceRef="node_0e7b120c-1900-4d06-bd81-9fbd984d1989" targetRef="Event_71aeb5c9-1871-4c59-9725-9d8ffc8736f2"/>
+    <sequenceFlow id="node_79c792cd-164c-4388-91bb-2cd8aebff89e" name="" sourceRef="node_2f718d0a-84aa-4f7f-8b0f-574cb445b13a" targetRef="Event_29cf908e-f47d-4535-9ce9-5656b5139e1c"/>
+    <sequenceFlow id="node_b0324302-7609-41e8-933c-0941cde5d25b" name="" sourceRef="node_caa7094e-57ec-4b24-8da0-d9ae7ebbf549" targetRef="node_531345a3-e087-475c-b901-9e26cf64fa10"/>
+    <sequenceFlow id="node_7a96e35e-a03d-42b4-adbc-15b5bbae40c6" name="" sourceRef="node_531345a3-e087-475c-b901-9e26cf64fa10" targetRef="Event_c9bac60f-7236-4eb2-84e2-cbaae61306e1"/>
+    <sequenceFlow id="node_a5cfdf78-0073-46f8-ae54-95183f39120b" name="" sourceRef="node_d0dda0f8-47ba-4af1-b5cb-28dbce0d7b41" targetRef="node_ef6328f4-f4dc-4968-9fe8-d0a48fc89605"/>
+    <sequenceFlow id="node_cc2ccf2a-2c86-4a86-a9af-4edc2d0f37d8" name="" sourceRef="node_531345a3-e087-475c-b901-9e26cf64fa10" targetRef="node_ef6328f4-f4dc-4968-9fe8-d0a48fc89605"/>
+    <sequenceFlow id="node_e53e835d-1e6a-4ddd-b3e7-6366e87a1399" name="" sourceRef="node_37d99a0c-1bc1-43a9-aa25-0f609160ac7f" targetRef="node_d09a4b70-c8d0-4dbc-843d-fdc928e51313"/>
+    <sequenceFlow id="node_413e6019-2cd9-4015-ac1b-9a20ebff10cf" name="" sourceRef="node_ef6328f4-f4dc-4968-9fe8-d0a48fc89605" targetRef="node_d09a4b70-c8d0-4dbc-843d-fdc928e51313"/>
+    <sequenceFlow id="node_8d4902e3-1a26-47b0-b0ad-da06e2646fa1" name="" sourceRef="node_42a3928e-1a65-4f79-bb8b-b525a1054b72" targetRef="node_8b8839fd-f7e6-4d78-8a3e-1b78e2190ab0"/>
+    <sequenceFlow id="node_687f9367-7fe9-419c-b8e3-b948a59f4030" name="" sourceRef="node_6127f2fc-6f77-4edc-b514-9221ed7a20ef" targetRef="node_42a3928e-1a65-4f79-bb8b-b525a1054b72"/>
+    <sequenceFlow id="node_f4f238dc-3ac7-4a58-8612-71dab6ec3405" name="" sourceRef="node_d09a4b70-c8d0-4dbc-843d-fdc928e51313" targetRef="node_42a3928e-1a65-4f79-bb8b-b525a1054b72"/>
+    <intermediateCatchEvent id="Event_c9bac60f-7236-4eb2-84e2-cbaae61306e1">
+      <incoming>node_7a96e35e-a03d-42b4-adbc-15b5bbae40c6</incoming>
+      <outgoing>Flow_06cb3ce3-3baf-4369-9c42-9bdb79b3a573</outgoing>
+      <timerEventDefinition id="TimerEventDefinition_0da071be-67d7-4029-a789-2d6530ecbd81"/>
+    </intermediateCatchEvent>
+    <sequenceFlow id="Flow_06cb3ce3-3baf-4369-9c42-9bdb79b3a573" sourceRef="Event_c9bac60f-7236-4eb2-84e2-cbaae61306e1" targetRef="node_d0dda0f8-47ba-4af1-b5cb-28dbce0d7b41"/>
+    <intermediateCatchEvent id="Event_29cf908e-f47d-4535-9ce9-5656b5139e1c">
+      <incoming>node_79c792cd-164c-4388-91bb-2cd8aebff89e</incoming>
+      <outgoing>Flow_539e26f2-c578-4d41-abfd-d5377797807d</outgoing>
+      <timerEventDefinition id="TimerEventDefinition_11dcb603-c02f-462d-afce-b5933303c8e7"/>
+    </intermediateCatchEvent>
+    <sequenceFlow id="Flow_539e26f2-c578-4d41-abfd-d5377797807d" sourceRef="Event_29cf908e-f47d-4535-9ce9-5656b5139e1c" targetRef="node_6127f2fc-6f77-4edc-b514-9221ed7a20ef"/>
+    <intermediateCatchEvent id="Event_4bb8222c-4dc7-494d-b6ae-cfdfca2ef43b">
+      <incoming>node_06189415-7e99-4345-b88d-1ad24147b47b</incoming>
+      <outgoing>Flow_0e84aef9-2811-4eba-b5f3-d9a517cd6843</outgoing>
+      <timerEventDefinition id="TimerEventDefinition_c2357a2e-141c-43d0-b209-b8d27e5bba7a"/>
+    </intermediateCatchEvent>
+    <sequenceFlow id="Flow_0e84aef9-2811-4eba-b5f3-d9a517cd6843" sourceRef="Event_4bb8222c-4dc7-494d-b6ae-cfdfca2ef43b" targetRef="node_caa7094e-57ec-4b24-8da0-d9ae7ebbf549"/>
+    <intermediateCatchEvent id="Event_3f78df7d-f1b1-4d58-b0b7-342430b7b59a">
+      <incoming>node_9ece0ea7-f0cb-4fe4-b4f0-4ac6985f8e6b</incoming>
+      <outgoing>Flow_45702a94-404f-4f14-921e-77bedbdb452b</outgoing>
+      <timerEventDefinition id="TimerEventDefinition_200885cc-c4b3-4987-9fe0-031d65e11bc0"/>
+    </intermediateCatchEvent>
+    <sequenceFlow id="Flow_45702a94-404f-4f14-921e-77bedbdb452b" sourceRef="Event_3f78df7d-f1b1-4d58-b0b7-342430b7b59a" targetRef="node_395895a2-7d9f-471e-b4ef-e2bb8753d65c"/>
+    <intermediateCatchEvent id="Event_71aeb5c9-1871-4c59-9725-9d8ffc8736f2">
+      <incoming>node_f6188e15-4516-4be7-b2a5-02cfd4da668a</incoming>
+      <outgoing>Flow_350671ff-810f-496e-a7c8-811de09ec4f6</outgoing>
+      <timerEventDefinition id="TimerEventDefinition_bdc46598-4963-4499-8ad5-9ff1b8a6ae8c"/>
+    </intermediateCatchEvent>
+    <sequenceFlow id="Flow_350671ff-810f-496e-a7c8-811de09ec4f6" sourceRef="Event_71aeb5c9-1871-4c59-9725-9d8ffc8736f2" targetRef="node_37d99a0c-1bc1-43a9-aa25-0f609160ac7f"/>
+    <intermediateCatchEvent id="Event_98be7e68-a387-4266-9c07-deeebf7fd4a2">
+      <incoming>node_c5598086-0077-4f66-bdc1-f31430fc74d7</incoming>
+      <outgoing>Flow_02065402-e631-4f97-be01-3f3fd65e2f13</outgoing>
+      <timerEventDefinition id="TimerEventDefinition_fac27de5-a90e-4dac-88a6-bb7c8859202e"/>
+    </intermediateCatchEvent>
+    <sequenceFlow id="Flow_02065402-e631-4f97-be01-3f3fd65e2f13" sourceRef="Event_98be7e68-a387-4266-9c07-deeebf7fd4a2" targetRef="node_d5630637-ec74-4410-83b6-7536fd1f507f"/>
+  </process>
+  <bpmndi:BPMNDiagram id="id_1626794357">
+    <bpmndi:BPMNPlane bpmnElement="proc_510464020"/>
+  </bpmndi:BPMNDiagram>
+</definitions>
