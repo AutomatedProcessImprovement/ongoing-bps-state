@@ -23,52 +23,68 @@ The main dependencies include:
 
 ## Running Evaluation
 
-The main evaluation script is `test/evaluate_with_existing_alog.py`. It compares different approaches for computing process state using various event logs.
+The main evaluation script is `test/evaluate_with_existing_alog.py`. It compares different approaches for computing process state using various event logs and cut-off strategies.
 
 ### Configuration
 
-The script contains configuration sections for different event logs:
-- BPIC 2012
-- BPIC 2017
-- Academic Credentials
-- Work Orders
-- Loan Application (steady)
-- Loan Application (wobbly)
-- P2P (steady)
-- P2P (wobbly)
+All dataset configurations are defined in the script’s `DATASETS` section, including:
+- Real-life datasets:
+  - BPIC 2012
+  - BPIC 2017
+  - Work Orders
+- Synthetic datasets:
+  - Loan Application (stable, circadian, unstable)
+  - P2P (stable, circadian, unstable)
 
-To use a specific configuration:
-1. Open `test/evaluate_with_existing_alog.py`
-2. Find the desired log section (marked with comments like `# # # # # # # BPIC 2012 # # # # # # #`)
-3. Uncomment that section and ensure other sections are commented out
-4. The configuration includes:
-   - Path to event log
-   - Path to BPMN model
-   - Path to parameters
-   - Number of cases
-   - Cut-off date
-   - Simulation horizon
+You can also use dataset groups:
+- `ALL` – all datasets
+- `SYNTHETIC` – all synthetic datasets
+- `REAL-LIFE` – all real-life datasets
 
 ### Running
 
 To run the evaluation:
-```bash
-python test/evaluate_with_existing_alog.py
+
+### Running
+
+To run the evaluation:
+
+```
+python test/evaluate_with_existing_alog.py DATASET_NAME --runs 10 --cut-strategy fixed
 ```
 
-The script will:
-1. Create an output directory with a unique ID
-2. Load and preprocess the event log
-3. Run multiple evaluation iterations (default: 10)
-4. For each iteration:
-   - Evaluate process state simulation
-   - Evaluate warm-up simulation (2 versions of warm-up available)
-   - Save results and metrics
+**Arguments:**
+- `DATASET_NAME`: name of a dataset (like `BPIC_2012`, `BPIC_2017`, etc.) or group (`ALL`, `SYNTHETIC`, `REAL-LIFE`).
+- `--runs`: number of repetitions per cut-off point (default: 10).
+  - For each cut-off timestamp (determined by the `--cut-strategy`), the evaluation is repeated this many times (Monte Carlo-style), ensuring robust average metrics.
+- `--cut-strategy`: method to determine cut-off timestamps for evaluation.
+  - `fixed`: Uses exactly one cut-off timestamp specified in the dataset’s configuration.
+  - `wip3`: Generates three cut-off timestamps based on Work-in-Process (WiP) percentiles:
+    - 10%, 50%, and 90% of the maximum observed WiP.
+    - WiP is calculated as the number of active cases at each event arrival.
+  - `segment10`: Generates ten cut-off timestamps by:
+    - Skipping the first and last `horizon` (to avoid boundary effects).
+    - Dividing the remaining interval into ten equal segments.
+    - Picking a random timestamp from within each segment.
+
+**Example usage:**
+
+To run the evaluation for the `LOAN_STABLE` dataset with 5 repetitions for each of 10 random cut-offs:
+
+```
+python test/evaluate_with_existing_alog.py LOAN_STABLE --runs 5 --cut-strategy segment10
+```
+
+---
 
 ### Output
 
-Results are saved in the `outputs/<run_id>` directory, including:
-- Reference datasets
-- Simulation results
-- Process state files
-- Evaluation metrics
+Results are saved in the `outputs/<DATASET>/<run_id>` directory, including:
+- Reference subsets (`A_event_filter.csv`, `A_ongoing.csv`, `A_complete.csv`)
+- Simulation logs and statistics for each repetition
+- Aggregated metrics for each cut-off
+- Final report: `final_results.json` containing:
+  - Number of runs
+  - Cut strategy
+  - Per cut-off aggregated metrics
+  - Overall averages and comparisons between flavours

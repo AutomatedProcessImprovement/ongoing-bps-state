@@ -113,26 +113,91 @@ def _parse_partial_state_json(sim_dir: Path) -> set[str]:
     return set()
 
 
+# def _build_ps_subsets(df: pd.DataFrame,
+#                       partial_ids: set[str],
+#                       cut: pd.Timestamp,
+#                       end: pd.Timestamp):
+#     """
+#     Replicates the original logic from *build_partial_state_subsets()*.
+#     """
+#     # 1) events that overlap the window
+#     event_filter = trim_events(df, cut, end)
+
+#     # 2) ongoing: only cases in *partial_ids*, clip to the window
+#     # ongoing = df[df["case_id"].astype(str).isin(partial_ids)].copy()
+#     # ongoing.loc[ongoing["start_time"] < cut, "start_time"] = cut
+#     ongoing_candidates = df[df["case_id"].astype(str).isin(partial_ids)]
+#     still_open_ids = (
+#         ongoing_candidates.groupby("case_id")["end_time"].max()
+#         .loc[lambda s: s > cut]                 #  ← key line
+#         .index
+#     )
+#     ongoing = ongoing_candidates[
+#         ongoing_candidates["case_id"].isin(still_open_ids)
+#     ].copy()
+#     ongoing.loc[ongoing["start_time"] < cut, "start_time"] = cut
+
+#     # 3) complete: cases NOT in *partial_ids* that start inside the window
+#     rest = df[~df["case_id"].astype(str).isin(partial_ids)].copy()
+#     first_start = rest.groupby("case_id")["start_time"].transform("min")
+#     complete = rest[(first_start >= cut) & (first_start < end)]
+
+#     return event_filter, ongoing, complete
+
+
 def _build_ps_subsets(df: pd.DataFrame,
                       partial_ids: set[str],
                       cut: pd.Timestamp,
                       end: pd.Timestamp):
     """
-    Replicates the original logic from *build_partial_state_subsets()*.
+    Builds event_filter / ongoing / complete for the *process-state* flavour.
+
+    ▸ We keep the original event_filter logic unchanged.  
+    ▸ For **ongoing**:
+        1.  start with the ids in *process_state.json*;
+        2.  ADD any other cases that log evidence shows are still open
+            (start < cut < end);
+        3.  clip their start times to the window.
+    ▸ For **complete**, we take the remaining cases that begin inside
+      [cut, end).
     """
     # 1) events that overlap the window
     event_filter = trim_events(df, cut, end)
 
-    # 2) ongoing: only cases in *partial_ids*, clip to the window
-    ongoing = df[df["case_id"].astype(str).isin(partial_ids)].copy()
+    # 2) assemble the definitive set of “still running” case-ids
+    snapshot_ids = {str(x) for x in partial_ids}        # simulator view
+    truly_open = (
+        df.groupby("case_id")
+          .agg(first=("start_time", "min"), last=("end_time", "max"))
+          .loc[lambda x: (x["first"] < cut) & (x["last"] > cut)]
+          .index.astype(str)                            # log-based view
+    )
+    ongoing_ids = snapshot_ids | set(truly_open)
+
+    # 3) slice the DataFrame
+    ongoing = df[df["case_id"].astype(str).isin(ongoing_ids)].copy()
     ongoing.loc[ongoing["start_time"] < cut, "start_time"] = cut
 
-    # 3) complete: cases NOT in *partial_ids* that start inside the window
-    rest = df[~df["case_id"].astype(str).isin(partial_ids)].copy()
+    #commented idle activity in cases
+    # have = set(ongoing["case_id"].astype(str))
+    # idle = ongoing_ids - have          
+    # if idle:
+    #     stub = pd.DataFrame({
+    #         "case_id":   list(idle),
+    #         "activity":  "__idle__",   
+    #         "resource":  None,
+    #         "start_time": [cut] * len(idle),
+    #         "end_time":   [cut] * len(idle),
+    #     })
+    #     ongoing = pd.concat([ongoing, stub], ignore_index=True)
+
+    # 4) complete = everybody else that starts inside the window
+    rest = df[~df["case_id"].astype(str).isin(ongoing_ids)].copy()
     first_start = rest.groupby("case_id")["start_time"].transform("min")
     complete = rest[(first_start >= cut) & (first_start < end)]
 
     return event_filter, ongoing, complete
+
 
 
 def _avg_events_per_ongoing_case(df: pd.DataFrame) -> float | None:
@@ -242,10 +307,12 @@ def compute_cut_points(
 
     if strategy == "segment10":
         span = safe_end - safe_start
+        # span = safe_end - first_ts
         segment_length = span / 10
         cuts: list[pd.Timestamp] = []
         for i in range(10):
             seg_start = safe_start + i * segment_length
+            # seg_start = first_ts + i * segment_length
             jitter = rng.uniform(0, segment_length.total_seconds())
             cuts.append(seg_start + pd.Timedelta(seconds=float(jitter)))
         return cuts

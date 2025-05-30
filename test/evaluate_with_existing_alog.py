@@ -37,33 +37,25 @@ class Dataset:
 DATASETS: dict[str, Dataset] = {
     # -------- Real-life --------------------------------------------
     "BPIC_2012": Dataset(
-        alog="samples/icpm-2025/real-life-start-ends/BPIC_2012_test_transformed.csv.gz",
-        model="samples/icpm-2025/real-life-start-ends/BPIC_2012_train_transformed.bpmn",
-        params="samples/icpm-2025/real-life-start-ends/BPIC_2012_train_transformed.json",
+        alog="samples/icpm-2025/real-life-new-simod/BPIC_2012_test_transformed.csv.gz",
+        model="samples/icpm-2025/real-life-new-simod/BPIC_2012_train_transformed.bpmn",
+        params="samples/icpm-2025/real-life-new-simod/BPIC_2012_train_transformed.json",
         total_cases=3_000,
         cut="2012-01-18T13:00:00Z",
         horizon_days=25,
     ),
     "BPIC_2017": Dataset(
-        alog="samples/icpm-2025/real-life-start-ends/BPIC_2017_post-drift_transformed.csv.gz",
-        model="samples/icpm-2025/real-life-start-ends/BPIC_2017_pre-drift_transformed.bpmn",
-        params="samples/icpm-2025/real-life-start-ends/BPIC_2017_pre-drift_transformed.json",
+        alog="samples/icpm-2025/real-life-new-simod/BPIC_2017_post-drift_transformed.csv.gz",
+        model="samples/icpm-2025/real-life-new-simod/BPIC_2017_pre-drift_transformed.bpmn",
+        params="samples/icpm-2025/real-life-new-simod/BPIC_2017_pre-drift_transformed.json",
         total_cases=15_000,
         cut="2016-10-10T13:00:00Z",
         horizon_days=34,
     ),
-    "ACADEMIC_CREDENTIALS": Dataset(
-        alog="samples/icpm-2025/real-life-start-ends/AcademicCredentials_test_transformed.csv.gz",
-        model="samples/icpm-2025/real-life-start-ends/AcademicCredentials_train_transformed.bpmn",
-        params="samples/icpm-2025/real-life-start-ends/AcademicCredentials_train_transformed.json",
-        total_cases=400,
-        cut="2016-05-02T13:00:00Z",
-        horizon_days=32,
-    ),
     "WORK_ORDERS": Dataset(
-        alog="samples/icpm-2025/real-life-start-ends/work_orders_post-drift_transformed.csv.gz",
-        model="samples/icpm-2025/real-life-start-ends/work_orders_pre-drift_transformed.bpmn",
-        params="samples/icpm-2025/real-life-start-ends/work_orders_pre-drift_transformed.json",
+        alog="samples/icpm-2025/real-life-new-simod/work_orders_post-drift_transformed.csv.gz",
+        model="samples/icpm-2025/real-life-new-simod/work_orders_pre-drift_transformed.bpmn",
+        params="samples/icpm-2025/real-life-new-simod/work_orders_pre-drift_transformed.json",
         total_cases=7_000,
         cut="2022-12-22T07:00:00Z",
         horizon_days=13,
@@ -83,7 +75,7 @@ DATASETS: dict[str, Dataset] = {
         params="samples/icpm-2025/synthetic/Loan-circadian.json",
         total_cases=5_000,
         cut="2025-03-20T15:00:00Z",
-        horizon_days=4, #4 for 95, 3 for 90
+        horizon_days=3, #4 for 95, 3 for 90
     ),
     "LOAN_UNSTABLE": Dataset(
         alog="samples/icpm-2025/synthetic/Loan-unpredictable.csv",
@@ -91,7 +83,7 @@ DATASETS: dict[str, Dataset] = {
         params="samples/icpm-2025/synthetic/Loan-unpredictable.json",
         total_cases=5_000,
         cut="2025-03-20T15:00:00Z",
-        horizon_days=3, #3 for 95, 2 for 90
+        horizon_days=2, #3 for 95, 2 for 90
     ),
     # -------- Synthetic – P2P --------------------------------------
     "P2P_STABLE": Dataset(
@@ -108,7 +100,7 @@ DATASETS: dict[str, Dataset] = {
         params="samples/icpm-2025/synthetic/P2P-circadian.json",
         total_cases=5_000,
         cut="2020-01-10T10:00:00Z",
-        horizon_days=4, #4 for 95, 3 for 90
+        horizon_days=3, #4 for 95, 3 for 90
     ),
     "P2P_UNSTABLE": Dataset(
         alog="samples/icpm-2025/synthetic/P2P-unstable.csv",
@@ -116,7 +108,7 @@ DATASETS: dict[str, Dataset] = {
         params="samples/icpm-2025/synthetic/P2P-unstable.json",
         total_cases=5_000,
         cut="2020-01-10T10:00:00Z",
-        horizon_days=5, #5 for 95, 4 for 90
+        horizon_days=4, #5 for 95, 4 for 90
     ),
 }
 
@@ -126,7 +118,7 @@ SYNTHETIC_DATASETS = [
 ]
 
 REAL_LIFE_DATASETS = [
-    "BPIC_2012", "BPIC_2017", "ACADEMIC_CREDENTIALS", "WORK_ORDERS"
+    "BPIC_2012", "BPIC_2017", "WORK_ORDERS"
 ]
 
 ALIASES = {

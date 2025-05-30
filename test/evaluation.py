@@ -1,5 +1,6 @@
 # evaluation.py
 from __future__ import annotations
+from pathlib import Path
 import json, os, shutil, pandas as pd, numpy as np
 from dataclasses import dataclass
 from typing import Callable
@@ -12,6 +13,8 @@ from helper import (
     avg_remaining_time, _parse_partial_state_json, _build_ps_subsets,
     _avg_events_per_ongoing_case, _avg_events_per_case_diff
 )
+
+from rtd import rtd
 from log_distance_measures.config import (
     EventLogIDs, AbsoluteTimestampType, discretize_to_hour,
 )
@@ -73,6 +76,29 @@ def evaluate(
         G_event, G_ongoing, G_complete = _build_ps_subsets(
             G_raw, partial_ids, cut, end
         )
+        # ref_ids = set(A_ongoing["case_id"])
+        # sim_ids = {int(x) for x in partial_ids}
+        
+        # print("\n[DEBUG] ---------- Ongoing-case snapshot check ----------")
+        # print("ref @cut :", len(ref_ids))
+        # print("sim @cut :", len(sim_ids))
+        # print("missing  :", len(ref_ids - sim_ids))
+        # print("extra    :", len(sim_ids - ref_ids))
+
+        # # optional: dump them for closer inspection
+        # debug_dir = Path(io.out_dir) / "_debug"
+        # debug_dir.mkdir(exist_ok=True)
+        # pd.Series(sorted(ref_ids - sim_ids)).to_csv(
+        #     debug_dir / "missing.csv", index=False, header=False
+        # )
+        # pd.Series(sorted(sim_ids - ref_ids)).to_csv(
+        #     debug_dir / "extra.csv", index=False, header=False
+        # )
+        # print(f"[DEBUG] csv dumps in {debug_dir}")
+        # lost = set(A_ongoing["case_id"]) - set(G_ongoing["case_id"])
+        # print("[DEBUG-2] cases alive at cut but with 0 events in the horizon :", len(lost))
+        # print("first few:", sorted(list(lost))[:10])
+
     elif flavour == "warmup2":
         # -- A) how many ongoing cases does the *reference* window have?
         ref_ongoing_count = A_ongoing["case_id"].nunique()
@@ -154,7 +180,7 @@ def _metrics(A_event, A_ongoing, A_complete,
             "circadian_workflow":safe(circadian_workforce_distribution_distance, A_event, ids, G_event, ids),
         },
         "ongoing_filter": {
-            "RTD":               safe(remaining_time_distribution_distance, A_ongoing, ids, G_ongoing, ids,
+            "RTD":               safe(rtd, A_ongoing, ids, G_ongoing, ids,
                                       reference_point=cutoff, bin_size=pd.Timedelta(hours=1)),
             "avg_remaining_diff":safe(_avg_rem_diff, A_ongoing, G_ongoing, ids, cutoff),
             "ongoing_cases_count":G_ongoing["case_id"].nunique(),
