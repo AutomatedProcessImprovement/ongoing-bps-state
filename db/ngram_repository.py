@@ -2,12 +2,17 @@ from sqlalchemy.orm import Session
 from db.ngram_index import NGramIndex as NGramIndexDB
 import json
 from ongoing_process_state.n_gram_index import NGramIndex
-from ongoing_process_state.reachability_graph import ReachabilityGraph
+import random
+from typing import List
 
 def save_n_gram_index_to_db(n_gram_index: NGramIndex, process_id: str, db: Session):
     for prefix, marking_ids in n_gram_index.markings.items():
         prefix_str = ",".join(prefix)
-        marking_str = json.dumps(list(marking_ids))
+        element_sets = [
+            list(n_gram_index.graph.markings[marking_id])
+            for marking_id in marking_ids
+        ]
+        marking_str = json.dumps(element_sets)
 
         entry = NGramIndexDB(
             process_id=process_id,
@@ -17,17 +22,24 @@ def save_n_gram_index_to_db(n_gram_index: NGramIndex, process_id: str, db: Sessi
         db.merge(entry)
     db.commit()
 
-def load_n_gram_index_from_db(process_id: str, reachability_graph: ReachabilityGraph, db: Session) -> NGramIndex:
-    n_gram_index = NGramIndex(graph=reachability_graph, n_gram_size_limit=20)
-    entries = db.query(NGramIndexDB).filter(NGramIndexDB.process_id == process_id).all()
+def ngram_index_exists_in_db(process_id: str, db: Session) -> bool:
+    return db.query(NGramIndexDB).filter(NGramIndexDB.process_id == process_id).first() is not None
 
-    if not entries:
-        raise RuntimeError(f"No n-gram index entries found in DB for process_id={process_id}")
+def get_best_marking_state_for_ngram_from_db(n_gram: List[str], process_id: str, db: Session) -> List[str]:
+    final_marking = []
 
-    for entry in entries:
-        prefix = entry.prefix.split(",")
-        marking_ids = json.loads(entry.marking)
-        for marking in marking_ids:
-            n_gram_index.add_association(prefix, marking)
+    for k in range(1, len(n_gram) + 1):
+        suffix = ",".join(n_gram[-k:])
+        result = db.query(NGramIndexDB).filter(
+            NGramIndexDB.process_id == process_id,
+            NGramIndexDB.prefix == suffix
+        ).first()
 
-    return n_gram_index
+        if result:
+            markings = json.loads(result.marking)
+            if len(markings) == 1:
+                return markings[0]
+            elif len(markings) > 1:
+                final_marking = random.choice(markings)
+
+    return final_marking
