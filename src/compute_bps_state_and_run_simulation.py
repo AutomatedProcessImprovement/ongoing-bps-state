@@ -16,7 +16,7 @@ from src.runner import run_process_state_and_simulation
 from src.state_computer import _add_to_sorted_events
 
 from sqlalchemy.orm import Session
-from db.ngram_repository import save_n_gram_index_to_db, load_n_gram_index_from_db
+from db.ngram_repository import save_n_gram_index_to_db, ngram_index_exists_in_db, get_best_marking_state_for_ngram_from_db
 
 def parse_datetime(dt_str):
     """Helper to parse an ISO date/time, removing 'Z' if present."""
@@ -143,13 +143,10 @@ def compute_bps_resumed_state(
         with open(reachability_graph_path, "w") as graph_file:
             graph_file.write(reachability_graph.to_tgf_format())
 
-    # Compute n-gram index considering events if it doesn't exist
-    try:
-        n_gram_index = load_n_gram_index_from_db(process_id=process_id, reachability_graph=reachability_graph, db=db)
-    except Exception as e:
-        # fallback to rebuild if not in DB
-        print(f"Could not load n-gram index from DB: {e}")
-        n_gram_index = NGramIndex(graph=reachability_graph, n_gram_size_limit=20)
+    # Check if n-gram index exists in the DB
+    if not ngram_index_exists_in_db(process_id, db):
+        # Only compute and store if missing
+        n_gram_index = NGramIndex(graph=reachability_graph, n_gram_size_limit=5)
         n_gram_index.build()
         save_n_gram_index_to_db(n_gram_index, process_id=process_id, db=db)
 
@@ -158,11 +155,11 @@ def compute_bps_resumed_state(
     # Retrieve ongoing cases
     ongoing_cases = simulated_event_log.groupby(sim_log_ids.case).filter(
         lambda activity_instances:
-        (activity_instances[sim_log_ids.start_time].min() <= resume_timestamp or
+        (activity_instances[sim_log_ids.start_time].min() < resume_timestamp or
          start_event.name not in activity_instances[sim_log_ids.activity].unique()) and
         activity_instances[sim_log_ids.end_time].max() > resume_timestamp
     )
-    ongoing_cases = ongoing_cases[ongoing_cases[sim_log_ids.start_time] <= resume_timestamp]
+    ongoing_cases = ongoing_cases[ongoing_cases[sim_log_ids.start_time] < resume_timestamp]
     ongoing_cases.loc[
         ongoing_cases[sim_log_ids.end_time] > resume_timestamp,
         sim_log_ids.end_time
@@ -182,7 +179,7 @@ def compute_bps_resumed_state(
             ), axis=1
         )
         n_gram = [event['label'] for event in sorted_events]
-        ongoing_marking = n_gram_index.get_best_marking_state_for(n_gram)
+        ongoing_marking = get_best_marking_state_for_ngram_from_db(n_gram, process_id, db)
         # Store frame for this case
         i = 0
         active_elements = dict()

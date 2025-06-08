@@ -1,9 +1,14 @@
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, Text, Integer, Index, text
 from db.database import Base
 
 class NGramIndex(Base):
     __tablename__ = "ngram_index"
 
-    process_id = Column(String(36), primary_key=True)
-    prefix = Column(String(255), primary_key=True)
-    marking = Column(String(1024), nullable=False)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    process_id = Column(String(36), nullable=False)
+    prefix = Column(Text, nullable=False)
+    marking = Column(Text, nullable=False)
+
+    __table_args__ = (
+        Index("idx_process_prefix", "process_id", text("prefix(512)")),
+    )
