@@ -42,4 +42,14 @@ def get_best_marking_state_for_ngram_from_db(n_gram: List[str], process_id: str,
             elif len(markings) > 1:
                 final_marking = random.choice(markings)
 
+    if len(final_marking) == 0:
+        result = db.query(NGramIndexDB).filter(
+            NGramIndexDB.process_id == process_id,
+            NGramIndexDB.prefix == NGramIndex.TRACE_START
+        ).first()
+
+        if result:
+            markings = json.loads(result.marking)
+            return markings[0]
+
     return final_marking
