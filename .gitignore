@@ -137,3 +137,5 @@ poetry.lock
 .DS_Store
 
 output.json
+outputs_confidence/
+outputs_confidence_v2/
