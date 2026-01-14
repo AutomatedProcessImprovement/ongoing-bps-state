@@ -82,8 +82,8 @@ class DatasetConfig:
 DATASETS: dict[str, DatasetConfig] = {
     # -------- Synthetic – Loan App ---------------------------------
     "LOAN_STABLE": DatasetConfig(
-        train_log="samples/extension-uncertainty/synthetic/loan-stable/Loan-stable-train-fixed.csv",
-        test_log="samples/extension-uncertainty/synthetic/loan-stable/Loan-stable-test-fixed.csv",
+        train_log="samples/extension-uncertainty/synthetic-v2/Loan-stable/Loan-stable-train.csv",
+        test_log="samples/extension-uncertainty/synthetic-v2/Loan-stable/Loan-stable-test.csv",
         bpmn_model="samples/extension-uncertainty/synthetic/loan-stable/Loan-stable-train.bpmn",
         sim_params="samples/extension-uncertainty/synthetic/loan-stable/Loan-stable-train.json",
         total_cases=5_000,
@@ -91,8 +91,8 @@ DATASETS: dict[str, DatasetConfig] = {
         horizon_days=1,
     ),
     "LOAN_CIRCADIAN": DatasetConfig(
-        train_log="samples/extension-uncertainty/synthetic/loan-circadian/Loan-circadian-train-fixed.csv",
-        test_log="samples/extension-uncertainty/synthetic/loan-circadian/Loan-circadian-test-fixed.csv",
+        train_log="samples/extension-uncertainty/synthetic-v2/Loan-circadian/Loan-circadian-train.csv",
+        test_log="samples/extension-uncertainty/synthetic-v2/Loan-circadian/Loan-circadian-test.csv",
         bpmn_model="samples/extension-uncertainty/synthetic/loan-circadian/Loan-circadian-train.bpmn",
         sim_params="samples/extension-uncertainty/synthetic/loan-circadian/Loan-circadian-train.json",
         total_cases=5_000,
@@ -100,8 +100,8 @@ DATASETS: dict[str, DatasetConfig] = {
         horizon_days=3,
     ),
     "LOAN_UNSTABLE": DatasetConfig(
-        train_log="samples/extension-uncertainty/synthetic/loan-unstable/Loan-unpredictable.csv",
-        test_log="samples/extension-uncertainty/synthetic/loan-unstable/Loan-unstable-test-fixed.csv",
+        train_log="samples/extension-uncertainty/synthetic-v2/Loan-unpredictable/Loan-unpredictable-train.csv",
+        test_log="samples/extension-uncertainty/synthetic-v2/Loan-unpredictable/Loan-unpredictable-test.csv",
         bpmn_model="samples/extension-uncertainty/synthetic/loan-unstable/Loan-unstable-train.bpmn",
         sim_params="samples/extension-uncertainty/synthetic/loan-unstable/Loan-unstable-train.json",
         total_cases=5_000,
@@ -111,8 +111,8 @@ DATASETS: dict[str, DatasetConfig] = {
 
     # -------- Synthetic – P2P --------------------------------------
     "P2P_STABLE": DatasetConfig(
-        train_log="samples/extension-uncertainty/synthetic/p2p-stable/P2P-stable-train.csv",
-        test_log="samples/extension-uncertainty/synthetic/p2p-stable/P2P-stable-test.csv",
+        train_log="samples/extension-uncertainty/synthetic-v2/P2P-stable/P2P-stable-train.csv",
+        test_log="samples/extension-uncertainty/synthetic-v2/P2P-stable/P2P-stable-test.csv",
         bpmn_model="samples/extension-uncertainty/synthetic/p2p-stable/P2P-stable-train.bpmn",
         sim_params="samples/extension-uncertainty/synthetic/p2p-stable/P2P-stable-train.json",
         total_cases=5_000,
@@ -120,8 +120,8 @@ DATASETS: dict[str, DatasetConfig] = {
         horizon_days=1,
     ),
     "P2P_CIRCADIAN": DatasetConfig(
-        train_log="samples/extension-uncertainty/synthetic/p2p-circadian/P2P-circadian-train.csv",
-        test_log="samples/extension-uncertainty/synthetic/p2p-circadian/P2P-circadian-test.csv",
+        train_log="samples/extension-uncertainty/synthetic-v2/P2P-circadian/P2P-circadian-train.csv",
+        test_log="samples/extension-uncertainty/synthetic-v2/P2P-circadian/P2P-circadian-test.csv",
         bpmn_model="samples/extension-uncertainty/synthetic/p2p-circadian/P2P-circadian-train.bpmn",
         sim_params="samples/extension-uncertainty/synthetic/p2p-circadian/P2P-circadian-train.json",
         total_cases=5_000,
@@ -139,30 +139,29 @@ DATASETS: dict[str, DatasetConfig] = {
     ),
 
     # -------- Real-life --------------------------------------------
-    # ⚠️ Fill in the actual paths once you have train/test logs for these.
     "BPIC_2012": DatasetConfig(
-        train_log="samples/extension-uncertainty/real-life/BPIC_2012_train.csv",
-        test_log="samples/extension-uncertainty/real-life/BPIC_2012_test.csv",
-        bpmn_model="samples/extension-uncertainty/real-life/BPIC_2012_train.bpmn",
-        sim_params="samples/extension-uncertainty/real-life/BPIC_2012_train.json",
+        train_log="samples/extension-uncertainty/real-life/BPIC_2012_train_transformed.csv.gz",
+        test_log="samples/extension-uncertainty/real-life/BPIC_2012_test_transformed.csv.gz",
+        bpmn_model="samples/extension-uncertainty/real-life/BPIC_2012_train_transformed.bpmn",
+        sim_params="samples/extension-uncertainty/real-life/BPIC_2012_train_transformed.json",
         total_cases=3_000,
         cut="2012-01-18T13:00:00Z",
         horizon_days=25,
     ),
     "BPIC_2017": DatasetConfig(
-        train_log="samples/extension-uncertainty/real-life/BPIC_2017_train.csv",
-        test_log="samples/extension-uncertainty/real-life/BPIC_2017_test.csv",
-        bpmn_model="samples/extension-uncertainty/real-life/BPIC_2017_train.bpmn",
-        sim_params="samples/extension-uncertainty/real-life/BPIC_2017_train.json",
+        train_log="samples/extension-uncertainty/real-life/BPIC_2017_pre-drift_transformed.csv.gz",
+        test_log="samples/extension-uncertainty/real-life/BPIC_2017_post-drift_transformed.csv.gz",
+        bpmn_model="samples/extension-uncertainty/real-life/BPIC_2017_pre-drift_transformed.bpmn",
+        sim_params="samples/extension-uncertainty/real-life/BPIC_2017_pre-drift_transformed.json",
         total_cases=15_000,
         cut="2016-10-10T13:00:00Z",
         horizon_days=34,
     ),
     "WORK_ORDERS": DatasetConfig(
-        train_log="samples/extension-uncertainty/real-life/work_orders_train.csv",
-        test_log="samples/extension-uncertainty/real-life/work_orders_test.csv",
-        bpmn_model="samples/extension-uncertainty/real-life/work_orders_train.bpmn",
-        sim_params="samples/extension-uncertainty/real-life/work_orders_train.json",
+        train_log="samples/extension-uncertainty/real-life/work_orders_pre-drift_transformed.csv.gz",
+        test_log="samples/extension-uncertainty/real-life/work_orders_post-drift_transformed.csv.gz",
+        bpmn_model="samples/extension-uncertainty/real-life/work_orders_pre-drift_transformed.bpmn",
+        sim_params="samples/extension-uncertainty/real-life/work_orders_pre-drift_transformed.json",
         total_cases=7_000,
         cut="2022-12-22T07:00:00Z",
         horizon_days=13,
@@ -290,64 +289,147 @@ def _to_jsonable(obj):
 # 3. Train/test split and horizon computation
 # ────────────────────────────────────────────────────────────────────
 
+# def split_log_train_test(
+#     df: pd.DataFrame,
+#     original_csv_path: str,
+#     train_fraction: float = 0.7,
+#     seed: int = 42,
+#     log_fraction: float = 1.0,
+# ) -> SplitLogs:
+#     """
+#     Split event log into train/test by *cases* so that each case is
+#     entirely in either split (no overlapping leftovers).
+
+#     New behaviour with log_fraction:
+#     - Order cases by their first start_time (chronological order).
+#     - Keep only the earliest `log_fraction` of cases.
+#     - Within those, take the earliest `train_fraction` as TRAIN and
+#       the next portion as TEST.
+#     - All remaining cases are discarded.
+
+#     Additionally writes the split logs into an `auto/` folder next to
+#     the original CSV.
+#     """
+#     if not (0 < log_fraction <= 1.0):
+#         raise ValueError(f"log_fraction must be in (0,1], got {log_fraction}")
+#     if not (0 < train_fraction < 1.0):
+#         raise ValueError(f"train_fraction must be in (0,1), got {train_fraction}")
+
+#     # 1) Chronological ordering of cases by first start_time
+#     case_starts = (
+#         df.groupby("case_id")["start_time"]
+#           .min()
+#           .sort_values()  # earliest cases first
+#     )
+#     all_case_ids_ordered = case_starts.index.to_numpy()
+#     n_total_cases = len(all_case_ids_ordered)
+#     if n_total_cases == 0:
+#         raise ValueError("No cases found in the log.")
+
+#     # 2) Keep only the earliest `log_fraction` of cases
+#     n_used = int(round(n_total_cases * log_fraction))
+#     n_used = max(1, min(n_total_cases, n_used))
+#     used_case_ids = all_case_ids_ordered[:n_used]
+
+#     # 3) Within the used portion, split into train/test sequentially
+#     n_train = int(round(n_used * train_fraction))
+#     n_train = max(1, min(n_used - 1, n_train))  # ensure both splits non-empty
+
+#     train_cases = set(used_case_ids[:n_train])
+#     test_cases = set(used_case_ids[n_train:])
+
+#     # 4) Build the train/test dataframes (remaining cases are discarded)
+#     train_df = df[df["case_id"].isin(train_cases)].copy()
+#     test_df = df[df["case_id"].isin(test_cases)].copy()
+
+#     orig_path = Path(original_csv_path)
+#     auto_dir = orig_path.parent / "auto"
+#     auto_dir.mkdir(exist_ok=True)
+
+#     stem = orig_path.stem  # works fine with .csv.gz too
+#     train_csv_path = auto_dir / f"{stem}_train.csv.gz"
+#     test_csv_path = auto_dir / f"{stem}_test.csv.gz"
+
+#     train_df.to_csv(train_csv_path, index=False)
+#     test_df.to_csv(test_csv_path, index=False)
+
+#     return SplitLogs(
+#         train=train_df,
+#         test=test_df,
+#         train_csv_path=str(train_csv_path),
+#         test_csv_path=str(test_csv_path),
+#     )
+
 def split_log_train_test(
     df: pd.DataFrame,
     original_csv_path: str,
-    train_fraction: float = 0.7,
-    seed: int = 42,
+    train_fraction: float = 0.5,
+    seed: int = 42,          # kept for API compatibility (unused)
     log_fraction: float = 1.0,
 ) -> SplitLogs:
     """
-    Split event log into train/test by *cases* so that each case is
-    entirely in either split (no overlapping leftovers).
+    Split event log into train/test based on *time span* (not by number of cases):
 
-    New behaviour with log_fraction:
-    - Order cases by their first start_time (chronological order).
-    - Keep only the earliest `log_fraction` of cases.
-    - Within those, take the earliest `train_fraction` as TRAIN and
-      the next portion as TEST.
-    - All remaining cases are discarded.
+    - Compute log_start = min(start_time), log_end = max(end_time)
+    - Optionally restrict to the first `log_fraction` of the time span:
+          used_end = log_start + log_fraction * (log_end - log_start)
+    - Split point in time:
+          cut_time = log_start + train_fraction * (used_end - log_start)
+    - Assign each case to TRAIN if its case_start <= cut_time, else TEST.
+      (Whole-case split; no overlapping cases across splits.)
 
-    Additionally writes the split logs into an `auto/` folder next to
-    the original CSV.
+    Additionally writes split logs into an `auto/` folder next to original_csv_path.
     """
     if not (0 < log_fraction <= 1.0):
         raise ValueError(f"log_fraction must be in (0,1], got {log_fraction}")
     if not (0 < train_fraction < 1.0):
         raise ValueError(f"train_fraction must be in (0,1), got {train_fraction}")
 
-    # 1) Chronological ordering of cases by first start_time
-    case_starts = (
-        df.groupby("case_id")["start_time"]
-          .min()
-          .sort_values()  # earliest cases first
-    )
-    all_case_ids_ordered = case_starts.index.to_numpy()
-    n_total_cases = len(all_case_ids_ordered)
-    if n_total_cases == 0:
-        raise ValueError("No cases found in the log.")
+    df = df.copy()
+    df["start_time"] = pd.to_datetime(df["start_time"], utc=True)
+    df["end_time"] = pd.to_datetime(df["end_time"], utc=True)
 
-    # 2) Keep only the earliest `log_fraction` of cases
-    n_used = int(round(n_total_cases * log_fraction))
-    n_used = max(1, min(n_total_cases, n_used))
-    used_case_ids = all_case_ids_ordered[:n_used]
+    log_start = df["start_time"].min()
+    log_end = df["end_time"].max()
+    if pd.isna(log_start) or pd.isna(log_end):
+        raise ValueError("Log start/end time is NaT.")
+    if log_end <= log_start:
+        raise ValueError(f"Invalid log span: start={log_start}, end={log_end}")
 
-    # 3) Within the used portion, split into train/test sequentially
-    n_train = int(round(n_used * train_fraction))
-    n_train = max(1, min(n_used - 1, n_train))  # ensure both splits non-empty
+    # Restrict to first `log_fraction` of the time span (optional)
+    full_span = (log_end - log_start)
+    used_end = log_start + full_span * float(log_fraction)
 
-    train_cases = set(used_case_ids[:n_train])
-    test_cases = set(used_case_ids[n_train:])
+    # Time-based split cut
+    used_span = used_end - log_start
+    cut_time = log_start + used_span * float(train_fraction)
 
-    # 4) Build the train/test dataframes (remaining cases are discarded)
+    # Case start times define which half of time the case "occurred" in
+    case_starts = df.groupby("case_id")["start_time"].min()
+
+    # Only keep cases that start within the used window (if log_fraction < 1)
+    allowed_cases = set(case_starts[case_starts <= used_end].index)
+
+    train_cases = set(case_starts[(case_starts <= cut_time)].index) & allowed_cases
+    test_cases = set(case_starts[(case_starts > cut_time)].index) & allowed_cases
+
+    # Build the train/test dataframes (whole cases)
     train_df = df[df["case_id"].isin(train_cases)].copy()
     test_df = df[df["case_id"].isin(test_cases)].copy()
+
+    if train_df.empty or test_df.empty:
+        raise ValueError(
+            "Time-based split produced an empty split. "
+            f"train_cases={len(train_cases)}, test_cases={len(test_cases)}. "
+            "This can happen if all cases start on one side of the time cut. "
+            "Try a different train_fraction (e.g. 0.4/0.6) or a different case assignment rule."
+        )
 
     orig_path = Path(original_csv_path)
     auto_dir = orig_path.parent / "auto"
     auto_dir.mkdir(exist_ok=True)
 
-    stem = orig_path.stem  # works fine with .csv.gz too
+    stem = orig_path.stem  # works with .csv.gz too
     train_csv_path = auto_dir / f"{stem}_train.csv.gz"
     test_csv_path = auto_dir / f"{stem}_test.csv.gz"
 
@@ -360,7 +442,6 @@ def split_log_train_test(
         train_csv_path=str(train_csv_path),
         test_csv_path=str(test_csv_path),
     )
-
 
 
 def compute_case_duration_horizon(
@@ -408,7 +489,7 @@ def choose_candidate_cut_times(
     safe_start = first_ts + horizon
     safe_end = last_ts - horizon
     if safe_start >= safe_end:
-        raise ValueError("Log is shorter than twice the horizon – no safe region.")
+        raise ValueError(f"Log is shorter than twice the horizon – no safe region, horizon is {horizon}. First timestamp: {first_ts}, last timestamp: {last_ts}.")
 
     if source == "activity_end":
         all_ts = df["end_time"].dropna().sort_values().unique()
@@ -1469,48 +1550,92 @@ def _process_single_dataset(
 ) -> None:
     cfg_ds = DATASETS[dataset_name]
 
+    out_root = Path(output_root) / dataset_name / generate_short_uuid()
+    out_root.mkdir(parents=True, exist_ok=True)
+    print(f"\n=== [{dataset_name}] Output root: {out_root} ===")
+
+    # 1) Load logs
+    is_real_life = dataset_name in REAL_LIFE_DATASETS
+
+    rename_map = {
+        "CaseId": "case_id",
+        "Activity": "activity",
+        "Resource": "resource",
+        "StartTime": "start_time",
+        "EndTime": "end_time",
+    }
+
+    if is_real_life:
+        # REAL-LIFE: read ONE log (you said: use only the "test" file),
+        # then split it 50/50 time-wise by cases (no case overlap).
+        full_df = read_event_log(
+            cfg_ds.test_log,
+            rename=rename_map,
+            required=["case_id", "activity", "start_time", "end_time", "resource"],
+        )
+
+        splits = split_log_train_test(
+            full_df,
+            original_csv_path=cfg_ds.test_log,
+            train_fraction=0.5,
+            seed=42,
+            log_fraction=1.0,
+        )
+
+        train_df = splits.train
+        test_df = splits.test
+
+        # Use the auto-written split paths as runner inputs (important!)
+        train_log_for_runner = splits.train_csv_path
+        test_log_for_runner = splits.test_csv_path
+
+        print(f"earliest timestamp (full): {full_df['start_time'].min()} and latest: {full_df['end_time'].max()}")
+        print(
+            f"[{dataset_name}] (REAL-LIFE) Split from single log: {cfg_ds.test_log}\n"
+            f"  -> train: {train_df['case_id'].nunique()} cases\n"
+            f"  -> test : {test_df['case_id'].nunique()} cases"
+        )
+    else:
+        # SYNTHETIC: keep your existing behaviour (separate train/test files).
+        train_df = read_event_log(
+            cfg_ds.train_log,
+            rename=rename_map,
+            required=["case_id", "activity", "start_time", "end_time", "resource"],
+        )
+        test_df = read_event_log(
+            cfg_ds.test_log,
+            rename=rename_map,
+            required=["case_id", "activity", "start_time", "end_time", "resource"],
+        )
+
+        train_log_for_runner = cfg_ds.train_log
+        test_log_for_runner = cfg_ds.test_log
+
+        print(
+            f"[{dataset_name}] Train cases: {train_df['case_id'].nunique()}, "
+            f"Test cases: {test_df['case_id'].nunique()}"
+        )
+
     # SimulationConfig still describes how ProSiMoS should run.
     # We use the TRAIN log as the reference event log for simulation.
-    cfg = SimulationConfig(
+    cfg_train = SimulationConfig(
         dataset=dataset_name,
-        event_log_csv=cfg_ds.train_log,
+        event_log_csv=train_log_for_runner,
         bpmn_model=cfg_ds.bpmn_model,
         sim_params=cfg_ds.sim_params,
         total_cases=cfg_ds.total_cases,
     )
 
-    out_root = Path(output_root) / dataset_name / generate_short_uuid()
-    out_root.mkdir(parents=True, exist_ok=True)
-    print(f"\n=== [{dataset_name}] Output root: {out_root} ===")
-
-    # 1) Load TRAIN and TEST event logs (canonical columns)
-    train_df = read_event_log(
-        cfg_ds.train_log,
-        rename={
-            "CaseId": "case_id",
-            "Activity": "activity",
-            "Resource": "resource",
-            "StartTime": "start_time",
-            "EndTime": "end_time",
-        },
-        required=["case_id", "activity", "start_time", "end_time", "resource"],
-    )
-    test_df = read_event_log(
-        cfg_ds.test_log,
-        rename={
-            "CaseId": "case_id",
-            "Activity": "activity",
-            "Resource": "resource",
-            "StartTime": "start_time",
-            "EndTime": "end_time",
-        },
-        required=["case_id", "activity", "start_time", "end_time", "resource"],
+    cfg_test = SimulationConfig(
+        dataset=dataset_name,
+        event_log_csv=test_log_for_runner,
+        bpmn_model=cfg_ds.bpmn_model,
+        sim_params=cfg_ds.sim_params,
+        total_cases=cfg_ds.total_cases,
     )
 
-    print(
-        f"[{dataset_name}] Train cases: {train_df['case_id'].nunique()}, "
-        f"Test cases: {test_df['case_id'].nunique()}"
-    )
+    print(f"train log earliest timestamp: {train_df['start_time'].min()} and latest: {train_df['end_time'].max()}")
+    print(f"test log earliest timestamp: {test_df['start_time'].min()} and latest: {test_df['end_time'].max()}")
 
     # 2) Horizon from TRAIN (95th percentile of case duration)
     horizon = compute_case_duration_horizon(train_df, percentile=0.95)
@@ -1540,7 +1665,7 @@ def _process_single_dataset(
     # 5) Build samples for train and test
     train_samples = build_samples_for_split(
         split_name="train",
-        cfg=cfg,
+        cfg=cfg_train,
         log_df=train_df,
         horizon=horizon,
         feature_env=train_env,
@@ -1550,9 +1675,10 @@ def _process_single_dataset(
         timestamp_source=timestamp_source,
         verbose=True,
     )
+
     test_samples = build_samples_for_split(
         split_name="test",
-        cfg=cfg,
+        cfg=cfg_test,
         log_df=test_df,
         horizon=horizon,
         feature_env=test_env,
@@ -1562,6 +1688,7 @@ def _process_single_dataset(
         timestamp_source=timestamp_source,
         verbose=True,
     )
+
 
     # Save samples
     train_samples.to_csv(out_root / "train_samples.csv", index=False)
@@ -1606,8 +1733,10 @@ def _process_single_dataset(
     # 10) Store global metadata
     meta = {
         "dataset": dataset_name,
-        "train_log": cfg_ds.train_log,
-        "test_log": cfg_ds.test_log,
+        "is_real_life": is_real_life,
+        "source_single_log": cfg_ds.test_log if is_real_life else None,
+        "train_log_used_by_runner": train_log_for_runner,
+        "test_log_used_by_runner": test_log_for_runner,
         "bpmn_model": cfg_ds.bpmn_model,
         "sim_params": cfg_ds.sim_params,
         "total_cases": cfg_ds.total_cases,
@@ -1709,7 +1838,7 @@ def main() -> None:
     # Either:
     #  - a single dataset key (e.g. "LOAN_STABLE", "BPIC_2017"), or
     #  - an alias key from ALIASES ("ALL", "SYNTHETIC", "REAL-LIFE").
-    dataset = "LOAN_CIRCADIAN"
+    dataset = "P2P_UNSTABLE"
 
     # Number of simulation replications per cut timestamp
     runs_per_cut = 5
@@ -1721,7 +1850,7 @@ def main() -> None:
     error_metric = "RTD"
 
     # Root folder for all outputs
-    output_root = "outputs_confidence_v2"
+    output_root = "outputs_confidence_v3"
 
     # Number of clusters for each KMeans / WIP / random model
     n_clusters = 3
