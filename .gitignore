@@ -140,6 +140,9 @@ output.json
 outputs_confidence/
 outputs_confidence_v2/
 outputs_confidence_v3/
+evaluation/evaluation_results/
+evaluation/tmp_dupe_check/
+*.svg
 
 # Sample data artifacts
 *.csv
