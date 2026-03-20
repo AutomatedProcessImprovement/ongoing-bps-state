@@ -140,3 +140,13 @@ output.json
 outputs_confidence/
 outputs_confidence_v2/
 outputs_confidence_v3/
+
+# Sample data artifacts
+*.csv
+*.json
+*.bpmn
+*.zip
+!package.json
+!package-lock.json
+!tsconfig.json
+!pyproject.toml
