@@ -21,13 +21,14 @@ process_state/
   src/                                 -- core library (process state + simulation)
   evaluation/                          -- paper evaluation pipelines
     evaluate_with_existing_alog.py     -- three-flavour comparison (ICPM-2025)
-    clustered_short_term_simulation.py -- uncertainty/clustering extension
+    clustered_short_term_simulation.py -- uncertainty/clustering orchestration
+    features.py                        -- feature engineering at cut timestamps
+    clustering.py                      -- clustering model training & evaluation
     evaluation.py                      -- shared evaluation metrics
     helper.py                          -- data I/O and window utilities
     rtd.py                             -- remaining time distribution metric
     check_ci_calibration.py            -- CI calibration validation
     check_clusters.py                  -- visualization/analysis
-    script.py                          -- post-processing helper
   tests/                               -- automated test suite (pytest)
   tools/
     fix_timestamps.py                  -- timestamp format fixer
