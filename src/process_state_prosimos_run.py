@@ -21,18 +21,8 @@ from prosimos.simulation_engine import run_simulation
 # -----------------------------------------------------------------
 # 1) a tolerant parse_datetime and a global monkey-patch            #
 # -----------------------------------------------------------------
-def parse_datetime(dt_str: Optional[str], has_date: bool | None = None):
-    """
-    Convert an ISO-8601 string (optionally ending with 'Z') into a
-    timezone-aware `datetime`.  The *has_date* parameter is ignored; it
-    exists only so the signature matches Prosimos 1.4.x.
-    """
-    if not dt_str:
-        return None
-    return _dt.datetime.fromisoformat(dt_str.replace("Z", "+00:00"))
+from src.utils import parse_datetime
 
-
-import sys
 for _name, _mod in sys.modules.items():
     if _name.startswith("prosimos") and hasattr(_mod, "parse_datetime"):
         _mod.parse_datetime = parse_datetime

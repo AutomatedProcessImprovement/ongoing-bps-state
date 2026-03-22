@@ -201,6 +201,7 @@ def _add_to_sorted_events(
         start_time: pd.Timestamp,
         end_time: pd.Timestamp
 ):
+    """Insert START and COMPLETE events into *sorted_events* in timestamp order."""
     # Insert start
     if not pd.isna(start_time):
         index = 0

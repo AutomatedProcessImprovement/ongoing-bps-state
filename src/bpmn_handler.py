@@ -144,6 +144,7 @@ class BPMNHandler:
 
 
 def compute_extended_bpmn_model(bpmn_model: BPMNModel, treat_event_as_task: bool = False) -> BPMNModel:
+    """Build an extended BPMN model where each task is split into START/COMPLETE activities."""
     # Build extended BPMN model where each activity is split in Start/End activities
     extended_bpmn_model = BPMNModel()
     split_node_ids = set()

@@ -1,7 +1,9 @@
-# runner.py
+# src/runner.py
+"""Orchestrates process-state computation and optional short-term simulation."""
+from __future__ import annotations
 
 import json
-import datetime
+from dataclasses import dataclass
 
 import pandas as pd
 
@@ -10,18 +12,17 @@ from src.event_log_processor import EventLogProcessor
 from src.bpmn_handler import BPMNHandler
 from src.state_computer import StateComputer
 from src.process_state_prosimos_run import run_short_term_simulation
+from src.utils import parse_datetime
 
 
-def parse_datetime(dt_str, has_date: bool | None = None):
-    """
-    Convert ISO-8601 (optionally ending with 'Z') into a timezone-aware
-    datetime.  The extra *has_date* argument is ignored; it is present
-    only for compatibility with prosimos.utils.parse_datetime().
-    """
-    import datetime
-    if not dt_str:
-        return None
-    return datetime.datetime.fromisoformat(dt_str.replace("Z", "+00:00"))
+@dataclass
+class RunnerArgs:
+    """Arguments expected by InputHandler, replacing the old FakeArgs pattern."""
+    event_log: str
+    bpmn_model: str
+    bpmn_parameters: str
+    start_time: str | None = None
+    column_mapping: str | None = None
 
 
 def run_process_state_and_simulation(
@@ -51,18 +52,16 @@ def run_process_state_and_simulation(
     :param sim_stats_csv: path to final stats CSV
     :param sim_log_csv: path to final event log CSV
     """
-    print("=== RUNNER: Step A: Building a fake args object for InputHandler ===")
+    print("=== RUNNER: Step A: Building args for InputHandler ===")
 
-    # 1) Build a minimal "args" object for InputHandler
-    class FakeArgs:
-        pass
-
-    args = FakeArgs()
-    args.event_log = event_log
-    args.bpmn_model = bpmn_model
-    args.bpmn_parameters = bpmn_parameters
-    args.start_time = start_time
-    args.column_mapping = column_mapping
+    # 1) Build args for InputHandler
+    args = RunnerArgs(
+        event_log=event_log,
+        bpmn_model=bpmn_model,
+        bpmn_parameters=bpmn_parameters,
+        start_time=start_time,
+        column_mapping=column_mapping,
+    )
 
     print("=== RUNNER: Step B: Using InputHandler to read event log & BPMN ===")
     input_handler = InputHandler(args)
