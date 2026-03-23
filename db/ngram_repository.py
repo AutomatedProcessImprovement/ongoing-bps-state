@@ -53,3 +53,7 @@ def get_best_marking_state_for_ngram_from_db(n_gram: List[str], process_id: str,
             return markings[0]
 
     return final_marking
+
+def delete_ngrams_by_process_id(process_id: str, db: Session):
+    db.query(NGramIndexDB).filter(NGramIndexDB.process_id == process_id).delete()
+    db.commit()

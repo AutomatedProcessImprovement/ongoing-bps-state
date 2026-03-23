@@ -13,6 +13,7 @@ from src.compute_frontend_events_from_trace import sim_log_ids
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from db.database import get_db
+from db.ngram_repository import delete_ngrams_by_process_id
 
 app = FastAPI()
 
@@ -133,6 +134,11 @@ def resume_short_term_simulation(request: ResumeRequest, db: Session = Depends(g
     return {
         "frames": frame,
     }
+
+@app.delete("/delete/{process_id}")
+def delete_ngrams(process_id: str, db: Session = Depends(get_db)):
+    delete_ngrams_by_process_id(process_id, db)
+    return {"message": f"Ngrams for process {process_id} deleted successfully"}
 
 def post_process_simulated_log(
         ongoing_log_path: Path,
