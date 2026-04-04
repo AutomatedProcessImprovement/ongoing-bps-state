@@ -138,3 +138,5 @@ poetry.lock
 /processes
 
 output.json
+/None
+/simulation_warnings.txt
