@@ -45,10 +45,6 @@ You can also use dataset groups:
 
 To run the evaluation:
 
-### Running
-
-To run the evaluation:
-
 ```
 python test/evaluate_with_existing_alog.py DATASET_NAME --runs 10 --cut-strategy fixed
 ```
@@ -88,3 +84,63 @@ Results are saved in the `outputs/<DATASET>/<run_id>` directory, including:
   - Cut strategy
   - Per cut-off aggregated metrics
   - Overall averages and comparisons between flavours
+
+---
+
+## Docker on VPS (without docker-compose)
+
+This repository includes a `Dockerfile` and `docker/entrypoint.sh`.
+Use a managed/external MySQL instance on your VPS and run migrations explicitly before app startup.
+
+### 1) Build image
+
+```bash
+docker build -t ongoing-bps-state:local .
+```
+
+### 2) Run DB migrations (one-off)
+
+Set DB variables so Alembic can connect:
+
+- `DB_USER`
+- `DB_PASSWORD`
+- `DB_HOST`
+- `DB_PORT`
+- `DB_NAME`
+
+Then run:
+
+```bash
+docker run --rm \
+  -e DB_USER=<user> \
+  -e DB_PASSWORD=<password> \
+  -e DB_HOST=<host> \
+  -e DB_PORT=3306 \
+  -e DB_NAME=<database> \
+  ongoing-bps-state:local \
+  alembic upgrade head
+```
+
+### 3) Start API container
+
+```bash
+docker run -d --name ongoing-bps-state \
+  -p 8000:8000 \
+  -e DB_USER=<user> \
+  -e DB_PASSWORD=<password> \
+  -e DB_HOST=<host> \
+  -e DB_PORT=3306 \
+  -e DB_NAME=<database> \
+  ongoing-bps-state:local
+```
+
+App endpoint:
+
+- `http://<your-vps-ip>:8000/docs`
+
+### Optional: run migrations automatically on container start
+
+`docker/entrypoint.sh` supports `RUN_MIGRATIONS=1` and waits for DB reachability before `alembic upgrade head`.
+When `RUN_MIGRATIONS=1`, set at least `DB_USER`, `DB_PASSWORD`, and `DB_NAME` (and usually `DB_HOST`/`DB_PORT`).
+For production, prefer explicit one-off migrations during deploys to avoid concurrent migration runners.
+
