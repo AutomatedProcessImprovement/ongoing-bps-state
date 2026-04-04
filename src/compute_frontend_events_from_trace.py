@@ -114,7 +114,7 @@ def sorted_trace_events(trace: pd.DataFrame, start_event: str, end_event: str) -
             processed_event = {
                 'case_id': event[sim_log_ids.case],
                 'lifecycle': "CASE_ARRIVAL",
-                'timestamp': event[sim_log_ids.enabled_time],
+                'timestamp': event[sim_log_ids.end_time],
                 'node_name': event[sim_log_ids.activity]
             }
             add_to_sorted_events(sorted_events, processed_event)

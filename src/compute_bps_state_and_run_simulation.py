@@ -84,7 +84,6 @@ def generate_events_with_token_movements(
         frame = []
     # Read event log and filter out activity instances previous to cut-point
     event_log = read_csv_log(short_term_simulation_path, sim_log_ids)
-    event_log = event_log[event_log[sim_log_ids.end_time] > start_timestamp]
     # Compute current state of tokens (ongoing cases)
     ongoing_token_status = {case['case_id']: case['active_elements'] for case in frame}
     # Read model
@@ -101,6 +100,11 @@ def generate_events_with_token_movements(
     # Go case by case generating the token movements
     events = []
     for case_id, activity_instances in event_log.groupby(sim_log_ids.case):
+        # Filter out previous events
+        activity_instances_pre_start = activity_instances[activity_instances[sim_log_ids.start_time] <= start_timestamp]
+        if len(activity_instances_pre_start) > 1:
+            # Some activities started before the starting point, keep only the ones that complete after start_point
+            activity_instances = activity_instances[activity_instances[sim_log_ids.end_time] > start_timestamp]
         # Nullify enabled/start events previous to cut-point
         activity_instances.loc[
             activity_instances[sim_log_ids.enabled_time] < start_timestamp,
