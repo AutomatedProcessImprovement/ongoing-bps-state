@@ -25,7 +25,8 @@ ARG PROSIMOS_PIP_SPEC="prosimos==2.0.6"
 RUN grep -v "^-e ../prosimos" /tmp/requirements.txt > /tmp/requirements.docker.txt \
     && pip install --upgrade pip \
     && pip install -r /tmp/requirements.docker.txt \
-    && pip install "${PROSIMOS_PIP_SPEC}"
+    && pip install "${PROSIMOS_PIP_SPEC}" \
+    && pip install "pix-framework>=0.14.0,<0.15.0"
 
 COPY . /app
 COPY docker/entrypoint.sh /entrypoint.sh
