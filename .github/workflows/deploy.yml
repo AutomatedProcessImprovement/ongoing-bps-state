@@ -1,0 +1,63 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - web-application-version
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-web-application-version
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.0
+        env:
+          DEPLOY_BRANCH: web-application-version
+          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
+          IMAGE_NAME: ${{ vars.IMAGE_NAME }}
+          CONTAINER_NAME: ${{ vars.CONTAINER_NAME }}
+          APP_PORT: ${{ vars.APP_PORT }}
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          script_stop: true
+          envs: DEPLOY_BRANCH,DEPLOY_PATH,IMAGE_NAME,CONTAINER_NAME,APP_PORT
+          script: |
+            set -euo pipefail
+
+            cd "$DEPLOY_PATH"
+            git fetch origin "$DEPLOY_BRANCH"
+            git checkout "$DEPLOY_BRANCH"
+            git reset --hard "origin/$DEPLOY_BRANCH"
+            
+            cd ~/app
+            docker compose up -d mysql_fastapi
+
+            cd "$DEPLOY_PATH"
+            docker build -t "$IMAGE_NAME" .
+
+            docker rm -f "${CONTAINER_NAME}_migrate" >/dev/null 2>&1 || true
+            docker run --rm \
+              --name "${CONTAINER_NAME}_migrate" \
+              --env-file ~/app/.env \
+              -e RUN_MIGRATIONS=1 \
+              "$IMAGE_NAME" true
+
+            docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
+            docker run -d \
+              --name "$CONTAINER_NAME" \
+              --restart unless-stopped \
+              --env-file ~/app/.env \
+              -p "$APP_PORT:8000" \
+              "$IMAGE_NAME"
+
+            docker image prune -f
