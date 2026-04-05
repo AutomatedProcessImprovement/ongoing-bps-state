@@ -144,3 +144,34 @@ App endpoint:
 When `RUN_MIGRATIONS=1`, set at least `DB_USER`, `DB_PASSWORD`, and `DB_NAME` (and usually `DB_HOST`/`DB_PORT`).
 For production, prefer explicit one-off migrations during deploys to avoid concurrent migration runners.
 
+---
+
+### GitHub auto-deploy to VPS
+
+A workflow is available at `.github/workflows/deploy.yml`.
+It deploys automatically on every push to `web-application-version` (including merges into that branch), and can also be started manually from Actions (`workflow_dispatch`).
+
+Required GitHub **Secrets**:
+
+- `VPS_HOST`
+- `VPS_PORT`
+- `VPS_USER`
+- `VPS_SSH_KEY` (private key content)
+
+Required GitHub **Variables**:
+
+- `DEPLOY_PATH` (absolute path of repo on VPS, e.g. `/opt/ongoing-bps-state`)
+- `IMAGE_NAME` (e.g. `ongoing-bps-state:prod`)
+- `CONTAINER_NAME` (e.g. `ongoing-bps-state`)
+- `APP_PORT` (e.g. `8000`)
+
+What the pipeline does on VPS:
+
+1. Pulls the latest code of `web-application-version`.
+2. Builds the Docker image.
+3. Runs migrations by starting a short-lived container with `RUN_MIGRATIONS=1`.
+4. Replaces the running app container with the new image.
+
+VPS requirement:
+
+- `~/app/.env` must exist on the server and include DB settings (`DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`, `DB_NAME`).
