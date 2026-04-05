@@ -22,8 +22,6 @@ jobs:
           DEPLOY_BRANCH: web-application-version
           DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
           IMAGE_NAME: ${{ vars.IMAGE_NAME }}
-          CONTAINER_NAME: ${{ vars.CONTAINER_NAME }}
-          APP_PORT: ${{ vars.APP_PORT }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
@@ -39,25 +37,11 @@ jobs:
             git checkout "$DEPLOY_BRANCH"
             git reset --hard "origin/$DEPLOY_BRANCH"
             
-            cd ~/app
-            docker compose up -d mysql_fastapi
-
-            cd "$DEPLOY_PATH"
             docker build -t "$IMAGE_NAME" .
 
-            docker rm -f "${CONTAINER_NAME}_migrate" >/dev/null 2>&1 || true
-            docker run --rm \
-              --name "${CONTAINER_NAME}_migrate" \
-              --env-file ~/app/.env \
-              -e RUN_MIGRATIONS=1 \
-              "$IMAGE_NAME" true
-
-            docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
-            docker run -d \
-              --name "$CONTAINER_NAME" \
-              --restart unless-stopped \
-              --env-file ~/app/.env \
-              -p "$APP_PORT:8000" \
-              "$IMAGE_NAME"
+            cd ~/app
+            docker compose up -d mysql_fastapi
+            docker compose run --rm -e RUN_MIGRATIONS=1 fastapi true
+            docker compose up -d fastapi
 
             docker image prune -f
