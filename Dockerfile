@@ -17,7 +17,7 @@ RUN apt-get update \
         libxslt1-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt /tmp/requirements.txt
+COPY . /app
 
 RUN pip install --upgrade pip \
     && pip install -r /tmp/requirements.txt
