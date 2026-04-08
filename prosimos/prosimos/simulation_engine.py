@@ -24,6 +24,17 @@ from prosimos.simulation_stats_calculator import LogInfo
 from prosimos.warning_logger import warning_logger
 
 
+class CountingWriter:
+    def __init__(self, w):
+        self.w = w
+        self.n = 0
+    def writerow(self, row):
+        self.n += 1
+        return self.w.writerow(row)
+    def writerows(self, rows):
+        for r in rows:
+            self.writerow(r)
+
 class SimResource:
     def __init__(self):
         self.switching_time = 0
@@ -48,6 +59,8 @@ class SimBPMEnv:
         self.simulation_horizon = simulation_horizon
         self.cases_first_start = {}
         self.cases_skip = {}
+        self._seen = set()
+        self._debug_rows_written = 0
 
         self.case_prioritisation = CasePrioritisation(
             self.sim_setup.total_num_cases,
@@ -114,9 +127,6 @@ class SimBPMEnv:
             default_avail = self.sim_setup.next_resting_time(r_id, self.sim_setup.start_datetime)
             r_first_available[r_id] = default_avail
 
-        for r_id in self.sim_setup.resources_map:
-            if r_id == '94bb2af225d701db1038d35bc62a1563b0403c76a3eb217ca1e46fb27fc86c35':
-                print(f"[R-INIT] {r_id} default_avail={r_first_available[r_id]} s")
         # We'll keep track of the maximum time each resource is occupied by any ongoing task
         # so that we can update r_first_available properly.
         resource_end_times_map = {r_id: r_first_available[r_id] for r_id in self.sim_setup.resources_map}
@@ -145,8 +155,6 @@ class SimBPMEnv:
             # --------------------------------------
             for activity in case_data.get("ongoing_activities", []):
                 task_id = activity["id"]
-                if case_id == '58':
-                    print("processing case 58")
                 # task_id = self.sim_setup.bpmn_graph.get_task_id_by_name(task_name)
                 resource_name = activity.get("resource")
 
@@ -176,8 +184,6 @@ class SimBPMEnv:
 
                 # Map resource name to ID
                 resource_id = resource_name_to_id.get(resource_name)
-                if int(case_id) == 58:
-                    print(f"[DEBUG] Mapped resource ID: {resource_id}")
 
                 if resource_id is None:
                     # External resource
@@ -200,12 +206,7 @@ class SimBPMEnv:
                         else:
                             print(f"No resources available for task '{task_id}'.")
                             continue
-                if int(case_id) == 58:
-                    print(f"[DEBUG] Ongoing activity for case 58:")
-                    print(f"        Task ID       : {task_id}")
-                    print(f"        Resource      : {resource_name}")
-                    print(f"        Start time    : {start_time}")
-                    print(f"        Enabled time  : {enabled_time_dt}")
+
 
                 # --- BEGIN replacement block ------------------------------------------
                 remaining_duration = activity.get("remaining_duration")
@@ -219,9 +220,9 @@ class SimBPMEnv:
                         resource_id if resource_id in possible
                         else next(iter(possible)) if possible else None
                     )
-                    if dist_res_id is None:
-                        print(f"[WARN] No duration distribution for task '{task_id}'.")
-                        continue
+                    # if dist_res_id is None:
+                    #     print(f"[WARN] No duration distribution for task '{task_id}'.")
+                    #     continue
                     total_working_sec = (
                         self.sim_setup.task_resource[task_id][dist_res_id]
                         .generate_sample(1)[0]
@@ -243,8 +244,6 @@ class SimBPMEnv:
                     remaining_duration = max(total_working_sec - worked_before_anchor, 1)
                 # --- END replacement block --------------------------------------------
 
-                if int(case_id) == 58:
-                    print(f"[DEBUG] Computed heuristic duration for task {task_id}: {remaining_duration}")
 
                 # Create the event in the queue
                 enabled_event = EnabledEvent(
@@ -256,13 +255,6 @@ class SimBPMEnv:
                     duration_sec=remaining_duration,
                     assigned_resource_id=resource_id
                 )
-                if int(case_id == 58):
-                    print(f"[DEBUG] Scheduling EnabledEvent for case 58:")
-                    print(f"        Enabled at     : {enabled_at}")
-                    print(f"        Started at     : {started_at}")
-                    print(f"        Duration       : {remaining_duration}")
-                    print(f"        Assigned Res ID: {resource_id}")
-
 
                 enabled_event.started_at = started_at
                 enabled_event.started_datetime = start_time
@@ -280,8 +272,6 @@ class SimBPMEnv:
                     # Keep the maximum
                     if activity_ends_at > resource_end_times_map[resource_id]:
                         resource_end_times_map[resource_id] = activity_ends_at
-                    if resource_id == '94bb2af225d701db1038d35bc62a1563b0403c76a3eb217ca1e46fb27fc86c35':
-                        print(f"[R-END]  ends_at={activity_ends_at}  current={resource_end_times_map[resource_id]}")
 
                 # print(
                 #     f"Scheduled ongoing '{task_id}' for case {case_id} at sim time {enabled_at} with remaining {remaining_duration}.")
@@ -334,7 +324,7 @@ class SimBPMEnv:
 
                 # We treat the gateway as if it "completed" at its enabled time
                 dummy_time = CustomDatetimeAndSeconds(gw_enabled_at, gw_enabled_time_dt)
-                print(f"gateway enabled in case {case_id} at {dummy_time.datetime} with remaining {dummy_time.seconds_from_start} seconds.")
+                # print(f"gateway enabled in case {case_id} at {dummy_time.datetime} with remaining {dummy_time.seconds_from_start} seconds.")
 
                 # Force the BFS update in control_flow_manager:
                 enabled_tasks, visited_at = self.sim_setup.update_process_state(
@@ -346,7 +336,7 @@ class SimBPMEnv:
                     # print(f"Next task for case ={case_id} after firing gateway: {next_task.task_id}")
                     # next_task.task_id is an ID that must be scheduled
                     visited_time = visited_at[next_task.task_id]
-                    print(f"in case {case_id} next task is: {next_task.task_id} and enabled time at {visited_time.datetime}.")
+                    # print(f"in case {case_id} next task is: {next_task.task_id} and enabled time at {visited_time.datetime}.")
                     new_evt = EnabledEvent(
                         p_case=case_id,
                         p_state=p_state,
@@ -483,8 +473,9 @@ class SimBPMEnv:
 
     def append_enabled_event_to_queue(self, enabled_event: EnabledEvent, is_arrival_event: bool, case_priority):
         "Append as either an arrival event or enabled intermediate/end event"
-        if enabled_event.p_case == 58:
-            print(f"[QUEUE-ADD] {enabled_event.task_id} at t={enabled_event.enabled_at}")
+        key = (enabled_event.p_case, enabled_event.task_id, enabled_event.enabled_at,
+               getattr(enabled_event, "started_at", None))
+        self._seen.add(key)
         if is_arrival_event:
             self.events_queue.append_arrival_event(enabled_event, case_priority)
         else:
@@ -532,10 +523,6 @@ class SimBPMEnv:
         return enabled_datetime
 
     def execute_enabled_event(self, c_event: EnabledEvent, resource_in_pool=True):
-        # ─────── debug helper ───────
-        if c_event.p_case == 58:
-            print(f"[EXECUTE] {c_event.task_id} "
-                  f"resource={c_event.assigned_resource_id}")
 
         self.executed_events += 1
         e_info = self.sim_setup.bpmn_graph.element_info[c_event.task_id]
@@ -557,8 +544,9 @@ class SimBPMEnv:
         # ------------------------------------------------------------------
         elif getattr(c_event, "from_process_state", False) and e_info.is_event():
             completed_at, completed_dt = self.execute_event_from_process_state(c_event)
+            return
 
-        # ------------------------------------------------------------------
+            # ------------------------------------------------------------------
         # 3) NORMAL execution path for everything else
         # ------------------------------------------------------------------
         else:
@@ -659,6 +647,7 @@ class SimBPMEnv:
             self.log_info.add_event_info(p_case, full_evt, 0)
             row_data = self.get_csv_row_data(full_evt)
             if row_data:
+                self._debug_rows_written += 1
                 self.log_writer.add_csv_row(row_data)
 
         return completed_at, completed_datetime
@@ -713,9 +702,6 @@ class SimBPMEnv:
         completed_at = started_at + real_duration
         completed_datetime = self.simulation_datetime_from(completed_at)
 
-        if c_event.p_case == 58:
-            print(f"[START-CLAMP] started_at(raw)={started_datetime} "
-                  f"resource_avail={resource_available_at}")
 
         # Create the TaskEvent
         full_evt = TaskEvent(
@@ -890,8 +876,8 @@ class SimBPMEnv:
     def execute_task_batch(self, c_event: EnabledEvent):
         all_tasks_waiting = len(c_event.batch_info_exec.case_ids)
 
-        if all_tasks_waiting == 0:
-            print("WARNING: Number of tasks in the enabled batch is 0.")
+        # if all_tasks_waiting == 0:
+        #     print("WARNING: Number of tasks in the enabled batch is 0.")
 
         all_case_ids = list(c_event.batch_info_exec.case_ids.items())
         ordered_case_ids = self.case_prioritisation.get_ordered_case_ids_by_priority(all_case_ids)
@@ -902,8 +888,8 @@ class SimBPMEnv:
             return self.execute_seq_task_batch(c_event, chunks)
         elif c_event.batch_info_exec.is_parallel():
             return self.execute_parallel_task_batch(c_event, chunks)
-        else:
-            print(f"WARNING: {c_event.batch_info_exec.task_batch_info.type} not supported")
+        # else:
+        #     print(f"WARNING: {c_event.batch_info_exec.task_batch_info.type} not supported")
 
     def execute_seq_task_batch(self, c_event: EnabledEvent, chunks):
         start_time_from_rule_seconds = (
@@ -1010,15 +996,61 @@ class SimBPMEnv:
             self.sim_resources[r_id].worked_time += full_evt.ideal_duration
 
 
-    def _update_logs_and_resource_availability(self, full_evt: TaskEvent,
-                                               r_id, resource_in_pool=True):
-        # 0) cost
+    # def _update_logs_and_resource_availability(self, full_evt: TaskEvent,
+    #                                            r_id, resource_in_pool=True):
+    #     # 0) cost
+    #     resource_cost = (self.sim_setup.resources_map[r_id].cost_per_hour
+    #                      if resource_in_pool and r_id in self.sim_setup.resources_map
+    #                      else 0)
+    #     self.log_info.add_event_info(full_evt.p_case, full_evt, resource_cost)
+    #
+    #     # 1) update resource calendar / utilisation
+    #     if resource_in_pool and r_id in self.sim_setup.resources_map:
+    #         r_next_available = full_evt.completed_at
+    #         if self.sim_resources[r_id].switching_time > 0:
+    #             r_next_available += self.sim_setup.next_resting_time(
+    #                 r_id, self.simulation_datetime_from(r_next_available)
+    #             )
+    #         self.resource_queue.update_resource_availability(r_id, r_next_available)
+    #         self.sim_resources[r_id].worked_time += full_evt.real_duration
+    #
+    #     # 2) horizon-based **case-skip** – decide once per case
+    #     cid = full_evt.p_case
+    #     first_start = self.cases_first_start.setdefault(cid, full_evt.started_datetime)
+    #     if cid not in self.cases_skip:
+    #         self.cases_skip[cid] = (self.simulation_horizon is not None and
+    #                                 first_start >= self.sim_setup.simulation_horizon)
+    #
+    #     # 3) actually write the CSV row if the case is not skipped
+    #     if not self.cases_skip[cid]:
+    #         row = self.get_csv_row_data(full_evt)
+    #         if row:
+    #             self.log_writer.add_csv_row(row)
+    #
+    #     # 4) If not skipping, then proceed with writing the row to CSV
+    #     row_data = self.get_csv_row_data(full_evt)
+    #     if full_evt.p_case == 58:
+    #         print(f"[LOG] row_data is {'None' if row_data is None else 'OK'}")
+    #
+    #     if row_data:
+    #         self.log_writer.add_csv_row(row_data)
+    #
+    #         try:
+    #             with open("../output.txt", "a", encoding="utf-8") as fh:
+    #                 fh.write(f"{row_data}\n")
+    #         except OSError as err:
+    #             warning_logger.add_warning(
+    #                 f"Could not write to ../output.txt → {err}"
+    #             )
+    #
+    #     return full_evt.completed_at, full_evt.completed_datetime
+
+    def _update_logs_and_resource_availability(self, full_evt: TaskEvent, r_id, resource_in_pool=True):
         resource_cost = (self.sim_setup.resources_map[r_id].cost_per_hour
                          if resource_in_pool and r_id in self.sim_setup.resources_map
                          else 0)
         self.log_info.add_event_info(full_evt.p_case, full_evt, resource_cost)
 
-        # 1) update resource calendar / utilisation
         if resource_in_pool and r_id in self.sim_setup.resources_map:
             r_next_available = full_evt.completed_at
             if self.sim_resources[r_id].switching_time > 0:
@@ -1028,34 +1060,20 @@ class SimBPMEnv:
             self.resource_queue.update_resource_availability(r_id, r_next_available)
             self.sim_resources[r_id].worked_time += full_evt.real_duration
 
-        # 2) horizon-based **case-skip** – decide once per case
         cid = full_evt.p_case
         first_start = self.cases_first_start.setdefault(cid, full_evt.started_datetime)
         if cid not in self.cases_skip:
             self.cases_skip[cid] = (self.simulation_horizon is not None and
                                     first_start >= self.sim_setup.simulation_horizon)
 
-        # 3) actually write the CSV row if the case is not skipped
         if not self.cases_skip[cid]:
             row = self.get_csv_row_data(full_evt)
             if row:
+                self._debug_rows_written += 1
                 self.log_writer.add_csv_row(row)
-
-        # 4) If not skipping, then proceed with writing the row to CSV
-        row_data = self.get_csv_row_data(full_evt)
-        if full_evt.p_case == 58:
-            print(f"[LOG] row_data is {'None' if row_data is None else 'OK'}")
-
-        if row_data:
-            self.log_writer.add_csv_row(row_data)
-
-            try:
+                # optional debug dump:
                 with open("../output.txt", "a", encoding="utf-8") as fh:
-                    fh.write(f"{row_data}\n")
-            except OSError as err:
-                warning_logger.add_warning(
-                    f"Could not write to ../output.txt → {err}"
-                )
+                    fh.write(f"{row}\n")
 
         return full_evt.completed_at, full_evt.completed_datetime
 
@@ -1076,6 +1094,7 @@ class SimBPMEnv:
             # Get the CSV row data
             row_data = self.get_csv_row_data(full_evt)
             if row_data:
+                self._debug_rows_written += 1
                 # Write event to log file
                 self.log_writer.add_csv_row(row_data)
             else:
@@ -1114,12 +1133,12 @@ class SimBPMEnv:
             # The event’s timer expired in the past.
             completed_at = c_event.enabled_at + duration
             completed_datetime = c_event.enabled_datetime + timedelta(seconds=duration)
-            print(f"Event {c_event.task_id} from process state (either enabled event or coming after gateway) expired in the past and completed at {completed_datetime}.")
+            # print(f"Event {c_event.task_id} from process state (either enabled event or coming after gateway) expired in the past and completed at {completed_datetime}.")
         else:
             effective_duration = duration - elapsed
             completed_at = current_sim_time + effective_duration
             completed_datetime = self.simulation_datetime_from(completed_at)
-            print(f"Event {c_event.task_id} from process state (either enabled event or coming after gateway) completed after simulation start at {effective_duration} seconds and completed at {completed_datetime}.")
+            # print(f"Event {c_event.task_id} from process state (either enabled event or coming after gateway) completed after simulation start at {effective_duration} seconds and completed at {completed_datetime}.")
 
         full_evt = TaskEvent.create_event_entity(c_event, completed_at, completed_datetime)
         self.log_info.add_event_info(c_event.p_case, full_evt, 0)
@@ -1195,9 +1214,6 @@ def execute_full_process(bpm_env: SimBPMEnv, fixed_starting_times=None):
     # print("Generation of all cases: %s" %
     #       str(datetime.timedelta(seconds=(datetime.datetime.now() - s_t).total_seconds())))
     current_event = bpm_env.events_queue.pop_next_event()
-    if current_event and current_event.p_case == 58:
-        print(f"[QUEUE-POP] case 58 → {current_event.task_id} "
-              f"enabled@{current_event.enabled_at}")
     executed_cases = set()
 
     while current_event is not None:
@@ -1269,9 +1285,11 @@ def run_simulation(
     try:
         stat_writer = csv.writer(stat_csv_file, **csv_writer_config) if stat_csv_file else None
         log_writer = csv.writer(log_csv_file, **csv_writer_config) if log_csv_file else None
+        log_writer = CountingWriter(log_writer)
 
         result = run_simpy_simulation(diffsim_info, stat_writer, log_writer, fixed_starting_times=fixed_arrival_times, process_state=process_state, simulation_horizon=simulation_horizon)
         # print("run_simulation: result =", result)
+        # print("FINAL writerow calls:", log_writer.n)
     finally:
         if stat_csv_file:
             stat_csv_file.close()
@@ -1303,17 +1321,15 @@ def run_simpy_simulation(diffsim_info, stat_fwriter, log_fwriter, fixed_starting
     if log_fwriter is None and stat_fwriter is None:
         return bpm_env.log_info.compute_process_kpi(bpm_env), bpm_env.log_info
     if log_fwriter:
+        # print("writerow calls before force_write:", getattr(log_fwriter, "n", None))
         bpm_env.log_writer.force_write()
+        # print("writerow calls after  force_write:", getattr(log_fwriter, "n", None))
     if stat_fwriter:
         bpm_env.log_info.save_joint_statistics(bpm_env)
 
     warning_logger.add_warnings(bpm_env.sim_setup.bpmn_graph.simulation_execution_stats.find_issues())
 
-    if 58 in bpm_env.log_info.trace_list:
-        print(f"[TRACE] case 58 produced "
-              f"{len(bpm_env.log_info.trace_list[58].event_list)} events")
-    else:
-        print("[TRACE] case 58 never reached log_info")
+    # print("rows enqueued via add_csv_row:", bpm_env._debug_rows_written)
     # print("run_simpy_simulation: bpm_env =", bpm_env)
     return bpm_env
 
