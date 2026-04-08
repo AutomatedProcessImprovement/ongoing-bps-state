@@ -5,7 +5,7 @@ networkx~=3.2.1
 xmltodict
 poetry~=2.1.1
 ongoing_process_state~=2.1.2
--e ../prosimos
+-e prosimos
 
 numpy~=1.24.3
 scipy~=1.13.1
@@ -21,7 +21,7 @@ attrs~=23.1.0
 filelock~=3.17.0
 cffi~=1.16.0
 setuptools~=65.5.0
-cleo~=2.1.0
+cleo~=2.1.0c
 crashtest~=0.4.1
 RapidFuzz~=3.12.2
 beautifulsoup4~=4.12.2
