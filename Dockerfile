@@ -20,7 +20,7 @@ RUN apt-get update \
 COPY . /app
 
 RUN pip install --upgrade pip \
-    && pip install -r /tmp/requirements.txt
+    && pip install -r requirements.txt
 
 COPY . /app
 COPY docker/entrypoint.sh /entrypoint.sh
