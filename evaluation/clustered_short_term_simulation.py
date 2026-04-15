@@ -80,6 +80,7 @@ class DatasetConfig:
     total_cases: int         # how many cases to simulate in ProSiMoS
     cut: str                 # original cutpoint (kept for reference)
     horizon_days: int        # original horizon in days (kept for reference)
+    horizon_percentile: float = 0.90  # percentile for case-duration horizon
 
 
 DATASETS: dict[str, DatasetConfig] = {
@@ -169,6 +170,16 @@ DATASETS: dict[str, DatasetConfig] = {
         cut="2022-12-22T07:00:00Z",
         horizon_days=13,
     ),
+    "P2PFIN": DatasetConfig(
+        train_log="samples/extension-uncertainty/real-life/P2PFin_train.csv.gz",
+        test_log="samples/extension-uncertainty/real-life/P2PFin_train.csv.gz",
+        bpmn_model="samples/extension-uncertainty/real-life/P2PFin_train.bpmn",
+        sim_params="samples/extension-uncertainty/real-life/P2PFin_train.json",
+        total_cases=4_000,
+        cut="2021-06-30T00:00:00Z",
+        horizon_days=93,
+        # horizon_percentile=0.85,
+    ),
 }
 
 SYNTHETIC_DATASETS = [
@@ -185,7 +196,7 @@ P2P_DATASETS = [
 ]
 
 REAL_LIFE_DATASETS = [
-    "BPIC_2012", "BPIC_2017", "WORK_ORDERS",
+    "BPIC_2012", "BPIC_2017", "WORK_ORDERS", "P2PFIN",
 ]
 
 ALIASES = {
@@ -423,10 +434,10 @@ def choose_candidate_cut_times(
     """
     first_ts = df["start_time"].min()
     last_ts = df["end_time"].max()
-    safe_start = first_ts + horizon
-    safe_end = last_ts - horizon
+    safe_start = first_ts + horizon / 2   # relaxed: only need some history before cut
+    safe_end = last_ts - horizon           # full horizon needed after cut for evaluation
     if safe_start >= safe_end:
-        raise ValueError(f"Log is shorter than twice the horizon – no safe region, horizon is {horizon}. First timestamp: {first_ts}, last timestamp: {last_ts}.")
+        raise ValueError(f"Log is shorter than 1.5× the horizon – no safe region, horizon is {horizon}. First timestamp: {first_ts}, last timestamp: {last_ts}.")
 
     if source == "activity_end":
         all_ts = df["end_time"].dropna().sort_values().unique()
@@ -739,7 +750,7 @@ def build_samples_for_split(
 
 #     # 3) Horizon from train (95th percentile of case duration)
 #     horizon = compute_case_duration_horizon(splits.train, percentile=0.95)
-#     print(f"[{dataset_name}] Horizon (95th percentile case duration): {horizon}")
+#     print(f"[{dataset_name}] Horizon (90th percentile case duration): {horizon}")
 
 #     # 4) Candidate cut times
 #     train_cuts_all = choose_candidate_cut_times(
@@ -887,7 +898,7 @@ def _process_single_dataset(
         splits = split_log_train_test(
             full_df,
             original_csv_path=cfg_ds.test_log,
-            train_fraction=0.5,
+            train_fraction=0.5,  # train_fraction=0.3,
             seed=42,
             log_fraction=1.0,
         )
@@ -948,8 +959,9 @@ def _process_single_dataset(
     print(f"test log earliest timestamp: {test_df['start_time'].min()} and latest: {test_df['end_time'].max()}")
 
     # 2) Horizon from TRAIN (95th percentile of case duration)
-    horizon = compute_case_duration_horizon(train_df, percentile=0.95)
-    print(f"[{dataset_name}] Horizon (95th percentile case duration): {horizon}")
+    pctl = cfg_ds.horizon_percentile
+    horizon = compute_case_duration_horizon(train_df, percentile=pctl)
+    print(f"[{dataset_name}] Horizon ({int(pctl*100)}th percentile case duration): {horizon}")
 
     # 3) Candidate cut times (each log has its own safe region, drop first/last H)
     train_cuts_all = choose_candidate_cut_times(
@@ -1148,7 +1160,7 @@ def main() -> None:
     # Either:
     #  - a single dataset key (e.g. "LOAN_STABLE", "BPIC_2017"), or
     #  - an alias key from ALIASES ("ALL", "SYNTHETIC", "REAL-LIFE").
-    dataset = "P2P_UNSTABLE"
+    dataset = "P2PFIN"
 
     # Number of simulation replications per cut timestamp
     runs_per_cut = 5

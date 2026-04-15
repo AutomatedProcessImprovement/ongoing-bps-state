@@ -71,6 +71,14 @@ DATASETS: dict[str, Dataset] = {
         cut="2022-12-22T07:00:00Z",
         horizon_days=13,
     ),
+    "P2PFIN": Dataset(
+        alog="samples/icpm-2025/real-life-new-simod/P2PFin_train.csv.gz",
+        model="samples/icpm-2025/real-life-new-simod/P2PFin_train.bpmn",
+        params="samples/icpm-2025/real-life-new-simod/P2PFin_train.json",
+        total_cases=4_000,
+        cut="2021-06-30T00:00:00Z",
+        horizon_days=93,
+    ),
     # -------- Synthetic – Loan App ---------------------------------
     "LOAN_STABLE": Dataset(
         alog="samples/icpm-2025/synthetic/Loan-stable.csv",
@@ -129,7 +137,7 @@ SYNTHETIC_DATASETS = [
 ]
 
 REAL_LIFE_DATASETS = [
-    "BPIC_2012", "BPIC_2017", "WORK_ORDERS"
+    "BPIC_2012", "BPIC_2017", "WORK_ORDERS", "P2PFIN"
 ]
 
 ALIASES = {
