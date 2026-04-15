@@ -20,15 +20,17 @@ process_state/
   main.py                              -- CLI entry point
   src/                                 -- core library (process state + simulation)
   evaluation/                          -- paper evaluation pipelines
-    evaluate_with_existing_alog.py     -- three-flavour comparison (ICPM-2025)
-    clustered_short_term_simulation.py -- uncertainty/clustering orchestration
-    features.py                        -- feature engineering at cut timestamps
-    clustering.py                      -- clustering model training & evaluation
     evaluation.py                      -- shared evaluation metrics
     helper.py                          -- data I/O and window utilities
     rtd.py                             -- remaining time distribution metric
-    check_ci_calibration.py            -- CI calibration validation
-    check_clusters.py                  -- visualization/analysis
+    short_term_simulation/
+      evaluate_with_existing_alog.py   -- three-flavour comparison (ICPM-2025)
+    clustering/
+      clustered_short_term_simulation.py -- uncertainty/clustering orchestration
+      features.py                      -- feature engineering at cut timestamps
+      models.py                        -- clustering model training & evaluation
+      check_ci_calibration.py          -- CI calibration validation
+      check_clusters.py                -- visualization/analysis
   tests/                               -- automated test suite (pytest)
   tools/
     fix_timestamps.py                  -- timestamp format fixer
@@ -42,7 +44,7 @@ process_state/
 ### ICPM-2025 pipeline
 
 ```bash
-python -m evaluation.evaluate_with_existing_alog DATASET_NAME --runs 10 --cut-strategy fixed
+python -m evaluation.short_term_simulation.evaluate_with_existing_alog DATASET_NAME --runs 10 --cut-strategy fixed
 ```
 
 **Arguments:**

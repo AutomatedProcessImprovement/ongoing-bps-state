@@ -1,5 +1,5 @@
 # ────────────────────────────────────────────────────────────────────
-# evaluation/clustered_short_term_simulation.py
+# evaluation/clustering/clustered_short_term_simulation.py
 # ────────────────────────────────────────────────────────────────────
 """
 Confidence-estimation & clustering pipeline on top of the existing
@@ -49,18 +49,18 @@ from typing import Dict, List, Literal, Tuple
 import numpy as np
 import pandas as pd
 
-from . import evaluation as ev
-from .helper import (
+from .. import evaluation as ev
+from ..helper import (
     generate_short_uuid,
     read_event_log,
     split_into_subsets,
 )
-from .evaluate_with_existing_alog import (
+from ..short_term_simulation.evaluate_with_existing_alog import (
     SIM_RENAME_MAP,
     ps_runner,
 )
 from .features import FeatureEnv, prepare_feature_env, compute_features_at_cut
-from .clustering import (
+from .models import (
     _to_jsonable,
     train_clustering_models,
     apply_models_to_test,

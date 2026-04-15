@@ -135,6 +135,7 @@ dmypy.json
 .idea/
 poetry.lock
 .DS_Store
+CLAUDE.md
 
 output.json
 outputs_confidence/

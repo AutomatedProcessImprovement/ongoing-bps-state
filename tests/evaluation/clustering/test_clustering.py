@@ -1,11 +1,11 @@
-"""Tests for evaluation.clustering module."""
+"""Tests for evaluation.clustering.models module."""
 from __future__ import annotations
 
 import numpy as np
 import pandas as pd
 import pytest
 
-from evaluation.clustering import (
+from evaluation.clustering.models import (
     _mean_ci,
     _to_jsonable,
     train_baseline_model,

@@ -1,11 +1,11 @@
-"""Tests for evaluation.features module."""
+"""Tests for evaluation.clustering.features module."""
 from __future__ import annotations
 
 import pandas as pd
 import numpy as np
 import pytest
 
-from evaluation.features import _safe_activity_name, prepare_feature_env, compute_features_at_cut
+from evaluation.clustering.features import _safe_activity_name, prepare_feature_env, compute_features_at_cut
 
 
 class TestSafeActivityName:

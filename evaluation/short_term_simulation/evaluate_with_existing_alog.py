@@ -1,5 +1,5 @@
 # ────────────────────────────────────────────────────────────────────
-#  evaluation/evaluate_with_existing_alog.py
+#  evaluation/short_term_simulation/evaluate_with_existing_alog.py
 # ────────────────────────────────────────────────────────────────────
 """
 Run the three-flavour evaluation pipeline.
@@ -18,8 +18,8 @@ from dataclasses import dataclass
 import pandas as pd
 import numpy as np 
 
-from . import evaluation as ev
-from .helper import generate_short_uuid, read_event_log, compute_cut_points, build_aggregated_from_cuts
+from .. import evaluation as ev
+from ..helper import generate_short_uuid, read_event_log, compute_cut_points, build_aggregated_from_cuts
 
 # ────────────────────────────────────────────────────────────────────
 # 1.  Dataset catalogue
