@@ -170,23 +170,28 @@ def post_process_simulated_log(
         ongoing_log_ids.enabled_time: sim_log_ids.enabled_time,
     }, inplace=True)
     simulated_event_log = pd.concat([simulated_event_log, previous_events], ignore_index=True)
+    # Prosimos may already emit rows for the BPMN's start/end events under the same activity name.
+    # Only synthesize them here if they are not already present, to avoid duplicate CASE_ARRIVAL/CASE_END.
+    existing_activities = set(simulated_event_log[sim_log_ids.activity].dropna().unique())
     # Add start event
-    idx_start_events = simulated_event_log.groupby(sim_log_ids.case)[sim_log_ids.start_time].idxmin()
-    start_events = simulated_event_log.loc[idx_start_events].copy()
-    start_events[sim_log_ids.enabled_time] = start_events[sim_log_ids.enabled_time] - pd.Timedelta(milliseconds=100)
-    start_events[sim_log_ids.start_time] = start_events[sim_log_ids.enabled_time] - pd.Timedelta(milliseconds=100)
-    start_events[sim_log_ids.end_time] = start_events[sim_log_ids.enabled_time]
-    start_events[sim_log_ids.resource] = ""
-    start_events[sim_log_ids.activity] = start_event.name
-    simulated_event_log = pd.concat([start_events, simulated_event_log], ignore_index=True)
+    if start_event.name not in existing_activities:
+        idx_start_events = simulated_event_log.groupby(sim_log_ids.case)[sim_log_ids.start_time].idxmin()
+        start_events = simulated_event_log.loc[idx_start_events].copy()
+        start_events[sim_log_ids.enabled_time] = start_events[sim_log_ids.enabled_time] - pd.Timedelta(milliseconds=100)
+        start_events[sim_log_ids.start_time] = start_events[sim_log_ids.enabled_time] - pd.Timedelta(milliseconds=100)
+        start_events[sim_log_ids.end_time] = start_events[sim_log_ids.enabled_time]
+        start_events[sim_log_ids.resource] = ""
+        start_events[sim_log_ids.activity] = start_event.name
+        simulated_event_log = pd.concat([start_events, simulated_event_log], ignore_index=True)
     # Add end event
-    idx_end_events = simulated_event_log.groupby(sim_log_ids.case)[sim_log_ids.end_time].idxmax()
-    end_events = simulated_event_log.loc[idx_end_events].copy()
-    end_events[sim_log_ids.enabled_time] = end_events[sim_log_ids.end_time]
-    end_events[sim_log_ids.start_time] = end_events[sim_log_ids.end_time] + pd.Timedelta(milliseconds=100)
-    end_events[sim_log_ids.end_time] = end_events[sim_log_ids.end_time] + pd.Timedelta(milliseconds=100)
-    end_events[sim_log_ids.resource] = ""
-    end_events[sim_log_ids.activity] = end_event.name
-    simulated_event_log = pd.concat([simulated_event_log, end_events], ignore_index=True)
+    if end_event.name not in existing_activities:
+        idx_end_events = simulated_event_log.groupby(sim_log_ids.case)[sim_log_ids.end_time].idxmax()
+        end_events = simulated_event_log.loc[idx_end_events].copy()
+        end_events[sim_log_ids.enabled_time] = end_events[sim_log_ids.end_time]
+        end_events[sim_log_ids.start_time] = end_events[sim_log_ids.end_time] + pd.Timedelta(milliseconds=100)
+        end_events[sim_log_ids.end_time] = end_events[sim_log_ids.end_time] + pd.Timedelta(milliseconds=100)
+        end_events[sim_log_ids.resource] = ""
+        end_events[sim_log_ids.activity] = end_event.name
+        simulated_event_log = pd.concat([simulated_event_log, end_events], ignore_index=True)
     # Write extended event log to file
     simulated_event_log.to_csv(post_processed_log_path, date_format="%Y-%m-%dT%H:%M:%S.%f%z", index=False)
