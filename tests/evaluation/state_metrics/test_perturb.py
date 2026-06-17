@@ -6,6 +6,7 @@ import pytest
 from evaluation.state_metrics.perturb import (
     build_arrival_burstier_params,
     build_calendar_shifted_params,
+    build_case_route_params,
     build_gateway_biased_params,
     build_perturbed_params,
     build_role_swap_params,
@@ -14,6 +15,66 @@ from evaluation.state_metrics.perturb import (
 
 XOR_JSON = Path(__file__).resolve().parents[3] / "samples" / "dev-samples" / "synthetic_xor_loop.json"
 LOAN_JSON = Path(__file__).resolve().parents[3] / "samples" / "icpm-2025" / "synthetic" / "Loan-stable.json"
+CASE_ROUTE_JSON = (
+    Path(__file__).resolve().parents[3] / "samples" / "dev-samples" / "synthetic_case_route.json"
+)
+
+
+@pytest.mark.skipif(not CASE_ROUTE_JSON.exists(), reason="synthetic_case_route.json missing")
+def test_case_route_zero_is_noop(tmp_path):
+    out = tmp_path / "p.json"
+    manifest = build_case_route_params(CASE_ROUTE_JSON, n_gateways_ruled=0, out_json_path=out)
+    assert manifest["n_gateways_ruled"] == 0
+    assert manifest["ruled_gateways"] == []
+    data = json.loads(out.read_text())
+    # No path anywhere is bound to a condition; all keep static probabilities.
+    for e in data["gateway_branching_probabilities"]:
+        for p in e["probabilities"]:
+            assert "condition_id" not in p
+            assert "value" in p
+
+
+@pytest.mark.skipif(not CASE_ROUTE_JSON.exists(), reason="synthetic_case_route.json missing")
+def test_case_route_rules_first_k_splits(tmp_path):
+    out = tmp_path / "p.json"
+    manifest = build_case_route_params(CASE_ROUTE_JSON, n_gateways_ruled=2, out_json_path=out)
+    assert manifest["n_gateways_ruled"] == 2
+    assert manifest["ruled_gateways"] == ["g1s", "g2s"]   # ordered, first two splits
+    assert manifest["n_split_gateways"] == 3
+
+    data = json.loads(out.read_text())
+    by_id = {e["gateway_id"]: e for e in data["gateway_branching_probabilities"]}
+    # Ruled gateways: _a -> rule_red, _b -> rule_blue, no static value left.
+    for gid in ("g1s", "g2s"):
+        for p in by_id[gid]["probabilities"]:
+            assert "value" not in p
+            assert p["condition_id"] == ("rule_red" if p["path_id"].endswith("_a") else "rule_blue")
+    # Untouched split keeps static probabilities.
+    for p in by_id["g3s"]["probabilities"]:
+        assert "condition_id" not in p and "value" in p
+    # Join gateways (single outgoing) are never ruled.
+    assert all("condition_id" not in p
+               for e in data["gateway_branching_probabilities"]
+               for p in e["probabilities"] if len(e["probabilities"]) == 1)
+
+
+@pytest.mark.skipif(not CASE_ROUTE_JSON.exists(), reason="synthetic_case_route.json missing")
+def test_case_route_too_many_raises(tmp_path):
+    with pytest.raises(ValueError, match="only 3 split"):
+        build_case_route_params(CASE_ROUTE_JSON, n_gateways_ruled=99, out_json_path=tmp_path / "p.json")
+
+
+def test_case_route_missing_branch_rules_raises(tmp_path):
+    base = tmp_path / "base.json"
+    base.write_text(json.dumps({
+        "gateway_branching_probabilities": [
+            {"gateway_id": "g1s", "probabilities": [
+                {"path_id": "f_g1s_a", "value": "0.5"}, {"path_id": "f_g1s_b", "value": "0.5"}]},
+        ],
+        "branch_rules": [],   # no rule_red / rule_blue
+    }))
+    with pytest.raises(ValueError, match="missing branch rule"):
+        build_case_route_params(base, n_gateways_ruled=1, out_json_path=tmp_path / "p.json")
 
 
 @pytest.mark.skipif(not XOR_JSON.exists(), reason="synthetic_xor_loop.json missing")

@@ -1,3 +1,5 @@
+import json
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -5,9 +7,12 @@ import pytest
 from evaluation.state_metrics.pipeline import (
     _compute_horizon,
     _compute_utilization_rows,
+    _count_split_gateways,
+    _load_prosimos_log,
     _select_fraction_of_log_cutoff,
     _select_high_wip_cutoff,
     _select_n_ongoing_cutoff,
+    _write_prefix_csv,
     filter_to_cases_in_window,
     get_ongoing_case_ids,
     label_swap_case_types,
@@ -382,6 +387,78 @@ def test_label_swap_requires_case_type_column():
     ])
     with pytest.raises(ValueError):
         label_swap_case_types(log, fraction=0.5, rng=np.random.default_rng(0))
+
+
+def test_label_swap_auto_detects_red_blue():
+    # The case_route oracle tags cases red/blue, not green/red; auto-detection
+    # must handle any binary tagging without an explicit `values` argument.
+    log = _mklog_typed([
+        ("c1", "A", "2025-01-01 10:00", "2025-01-01 11:00", "R1", "red"),
+        ("c2", "A", "2025-01-01 10:00", "2025-01-01 11:00", "R1", "red"),
+        ("c3", "A", "2025-01-01 10:00", "2025-01-01 11:00", "R1", "blue"),
+        ("c4", "A", "2025-01-01 10:00", "2025-01-01 11:00", "R1", "blue"),
+    ])
+    out = label_swap_case_types(log, fraction=1.0, rng=np.random.default_rng(3))
+    # Balanced flip preserves the marginal exactly.
+    assert (out["case_type"] == "red").sum() == 2
+    assert (out["case_type"] == "blue").sum() == 2
+    # Only the case_type column changed.
+    for col in ("case_id", "activity", "start_time", "end_time", "resource"):
+        assert (out[col].values == log[col].values).all()
+
+
+def test_label_swap_three_values_raises():
+    log = _mklog_typed([
+        ("c1", "A", "2025-01-01 10:00", "2025-01-01 11:00", "R1", "red"),
+        ("c2", "A", "2025-01-01 10:00", "2025-01-01 11:00", "R1", "blue"),
+        ("c3", "A", "2025-01-01 10:00", "2025-01-01 11:00", "R1", "green"),
+    ])
+    with pytest.raises(ValueError, match="exactly two case_type"):
+        label_swap_case_types(log, fraction=0.5, rng=np.random.default_rng(0))
+
+
+def test_count_split_gateways(tmp_path):
+    params = {"gateway_branching_probabilities": [
+        {"gateway_id": "g1s", "probabilities": [
+            {"path_id": "f_g1s_a", "value": "0.5"}, {"path_id": "f_g1s_b", "value": "0.5"}]},
+        {"gateway_id": "g1j", "probabilities": [{"path_id": "f_g1j_x", "value": "1"}]},
+        {"gateway_id": "g2s", "probabilities": [
+            {"path_id": "f_g2s_a", "value": "0.5"}, {"path_id": "f_g2s_b", "value": "0.5"}]},
+        # A 2-way gateway that is NOT a case-route split (no _a/_b convention).
+        {"gateway_id": "other", "probabilities": [
+            {"path_id": "Flow_1", "value": "0.5"}, {"path_id": "Flow_2", "value": "0.5"}]},
+    ]}
+    p = tmp_path / "p.json"
+    p.write_text(json.dumps(params))
+    assert _count_split_gateways(p) == 2
+
+
+def test_load_prosimos_log_keeps_case_type(tmp_path):
+    csv = tmp_path / "sim.csv"
+    pd.DataFrame({
+        "case_id": [1, 1], "activity": ["A", "B"],
+        "enable_time": ["2025-01-01T10:00:00.000+00:00"] * 2,
+        "start_time": ["2025-01-01T10:00:00.000+00:00", "2025-01-01T10:05:00.000+00:00"],
+        "end_time": ["2025-01-01T10:05:00.000+00:00", "2025-01-01T10:10:00.000+00:00"],
+        "resource": ["R1", "R1"], "case_type": ["red", "red"],
+    }).to_csv(csv, index=False)
+    df = _load_prosimos_log(csv)
+    assert "case_type" in df.columns
+    assert (df["case_type"] == "red").all()
+
+
+def test_write_prefix_csv_carries_case_type(tmp_path):
+    log = _mklog_typed([
+        ("c1", "A", "2025-01-01 10:00", "2025-01-01 10:30", "R1", "red"),
+        ("c1", "B", "2025-01-01 11:30", "2025-01-01 12:00", "R1", "red"),  # after cutoff
+    ])
+    out = tmp_path / "prefix.csv"
+    _write_prefix_csv(log, pd.Timestamp("2025-01-01 11:00", tz="UTC"), out)
+    prefix = pd.read_csv(out)
+    # Only the pre-cutoff event is written, and it carries case_type un-renamed.
+    assert list(prefix["CaseId"]) == ["c1"]
+    assert "case_type" in prefix.columns
+    assert prefix["case_type"].iloc[0] == "red"
 
 
 def test_compute_utilization_rows_partial_busy():

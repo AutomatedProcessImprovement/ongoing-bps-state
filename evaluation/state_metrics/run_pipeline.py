@@ -52,7 +52,7 @@ def main() -> None:
                    choices=["resources", "duration", "role_swap",
                             "calendar_shift", "calendar_shift_all", "gateway",
                             "arrival_burst", "relabel", "rephase",
-                            "mix_ratio", "label_swap"],
+                            "mix_ratio", "label_swap", "case_route"],
                    default="resources",
                    help="which perturbation family to apply")
     p.add_argument("--remove-from-profile", default=None,
@@ -81,6 +81,9 @@ def main() -> None:
     p.add_argument("--mix-baseline-green", type=float, default=0.5,
                    help="mix_ratio: baseline fraction of green cases (the "
                         "reference mix). Default 0.5.")
+    p.add_argument("--case-route-ruled", type=int, default=None,
+                   help="case_route: number of XOR splits the reference sim "
+                        "routes by case_type (default: all splits)")
     p.add_argument("--gt-total-cases", type=int, default=2000)
     p.add_argument("--sim-total-cases", type=int, default=2000)
     p.add_argument("--outputs-root", type=Path,
@@ -144,6 +147,9 @@ def main() -> None:
     elif args.perturbation == "label_swap":
         # Percentage of cases whose green/red label is flipped (balanced).
         levels = (0, 10, 20, 30, 40)
+    elif args.perturbation == "case_route":
+        # Percentage of case_type tags swapped on a real attribute-routed sim.
+        levels = (0, 10, 20, 30, 40)
     else:
         levels = spec.default_levels
 
@@ -170,6 +176,7 @@ def main() -> None:
         mix_green_params=args.mix_green_params,
         mix_red_params=args.mix_red_params,
         mix_baseline_green=args.mix_baseline_green,
+        case_route_ruled=args.case_route_ruled,
     )
     run_pipeline(cfg)
 

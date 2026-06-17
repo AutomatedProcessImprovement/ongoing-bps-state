@@ -61,6 +61,7 @@ from evaluation.state_metrics.perturb import (
     build_all_calendars_shifted_params,
     build_arrival_burstier_params,
     build_calendar_shifted_params,
+    build_case_route_params,
     build_duration_scaled_params,
     build_gateway_biased_params,
     build_perturbed_params,
@@ -140,6 +141,11 @@ class PipelineConfig:
     mix_green_params: Path | None = None    # required for mix_ratio
     mix_red_params: Path | None = None      # required for mix_ratio
     mix_baseline_green: float = 0.5         # baseline fraction of green cases
+    # case_route kwargs. The reference is a real short-term sim whose first
+    # `case_route_ruled` XOR splits route by case_type (None -> all splits);
+    # `level` is then the percentage of case_type tags swapped on that
+    # reference (the pairing-unique attack on a genuinely attribute-routed log).
+    case_route_ruled: int | None = None
     # Windowing controls (added 2026-05 to enable cross-utilization comparison).
     # cutoff_strategy:
     #   "p90_wip"   — middle of top-decile WIP band (legacy default).
@@ -159,10 +165,19 @@ class PipelineConfig:
 
 
 def _load_prosimos_log(csv_path: Path) -> pd.DataFrame:
-    """Read a Prosimos output CSV, returning canonical snake-case columns."""
+    """Read a Prosimos output CSV, returning canonical snake-case columns.
+
+    Keeps a ``case_type`` column when the simulation logged one (i.e. the params
+    declared a ``case_type`` case attribute). Carrying it through lets the
+    state-metrics ``case_type`` / ``activity_type`` projections fire on real
+    attribute-driven runs (the case_route oracle) instead of only on the
+    post-hoc merge oracles that inject case_type by hand.
+    """
     df = read_event_log(str(csv_path), rename=PROSIMOS_TO_CANONICAL)
-    # Drop auxiliary columns we don't need downstream.
-    return df[["case_id", "activity", "start_time", "end_time", "resource"]].copy()
+    keep = ["case_id", "activity", "start_time", "end_time", "resource"]
+    if "case_type" in df.columns:
+        keep.append("case_type")
+    return df[keep].copy()
 
 
 def build_basic_sim_for_prefix(cfg: PipelineConfig) -> Path:
@@ -474,9 +489,16 @@ def relabel_activity_fraction(
 
 
 def _write_prefix_csv(log: pd.DataFrame, cutoff: pd.Timestamp, out_path: Path) -> None:
-    """Write all events with start_time < cutoff, renamed to Prosimos columns."""
+    """Write all events with start_time < cutoff, renamed to Prosimos columns.
+
+    A ``case_type`` column, when present, is carried through un-renamed so the
+    short-term runner can restore each ongoing case's historical attribute value
+    into the partial-state snapshot (and thus keep attribute-driven routing
+    consistent on resume) instead of re-sampling it.
+    """
     cols = [c for c in CANONICAL_TO_PROSIMOS if c in log.columns]
-    prefix = log.loc[log["start_time"] < cutoff, cols].copy()
+    extra = ["case_type"] if "case_type" in log.columns else []
+    prefix = log.loc[log["start_time"] < cutoff, cols + extra].copy()
     prefix = prefix.rename(columns={c: CANONICAL_TO_PROSIMOS[c] for c in cols})
     # Prosimos/InputHandler wants ISO-8601 strings with fractional seconds.
     for c in ("StartTime", "EndTime"):
@@ -1057,21 +1079,23 @@ def label_swap_case_types(
     *,
     fraction: float,
     rng: np.random.Generator,
+    values: tuple[str, str] | None = None,
 ) -> pd.DataFrame:
     """Return a copy of ``log`` with ``fraction`` of the cases' ``case_type``
-    tags flipped between "green" and "red".
+    tags flipped between the two case-type values.
+
+    The two values default to ("green", "red") for the merge-based label_swap
+    oracle, but any binary tagging works — pass ``values`` or leave it None to
+    auto-detect the two distinct case_type values present (used by the
+    case_route oracle, whose tags are red/blue).
 
     The activity rows, timestamps, case IDs, and resources are left
-    untouched — only the per-case ``case_type`` column changes. Cases are
-    drawn uniformly without replacement from those tagged "green" or "red";
-    each chosen case has its tag toggled. The marginal proportion of green
-    vs red cases is preserved on expectation only when flips are balanced;
-    in this implementation we flip an equal number from each side
-    (``floor(fraction × min(n_green, n_red))``) so the marginal is
-    preserved exactly. That is the pairing-unique attack: every per-case
-    marginal (including ngd's bigram histogram and the activity-only state
-    projections) is invariant, and only case_type-aware projections detect
-    the swap.
+    untouched — only the per-case ``case_type`` column changes. We flip an
+    equal number from each side (``floor(fraction × min(n_a, n_b))``) so the
+    marginal is preserved exactly. That is the pairing-unique attack: every
+    per-case marginal (including ngd's bigram histogram and the activity-only
+    state projections) is invariant, and only case_type-aware projections
+    detect the swap.
 
     At ``fraction == 0`` the output is identical to the input.
     """
@@ -1083,18 +1107,27 @@ def label_swap_case_types(
     if fraction > 1.0:
         raise ValueError("fraction must be in [0, 1]")
     by_case = out.groupby("case_id")["case_type"].first()
-    green_cases = by_case[by_case == "green"].index.to_numpy()
-    red_cases = by_case[by_case == "red"].index.to_numpy()
-    n_flip = int(fraction * min(len(green_cases), len(red_cases)))
+    if values is None:
+        present = sorted(by_case.dropna().unique().tolist())
+        if len(present) != 2:
+            raise ValueError(
+                f"label swap needs exactly two case_type values, found {present!r}"
+            )
+        a, b = present
+    else:
+        a, b = values
+    a_cases = by_case[by_case == a].index.to_numpy()
+    b_cases = by_case[by_case == b].index.to_numpy()
+    n_flip = int(fraction * min(len(a_cases), len(b_cases)))
     if n_flip <= 0:
         return out
-    swap_green = rng.choice(green_cases, size=n_flip, replace=False)
-    swap_red = rng.choice(red_cases, size=n_flip, replace=False)
-    swap_set = set(swap_green.tolist()) | set(swap_red.tolist())
+    swap_a = rng.choice(a_cases, size=n_flip, replace=False)
+    swap_b = rng.choice(b_cases, size=n_flip, replace=False)
+    swap_set = set(swap_a.tolist()) | set(swap_b.tolist())
     # Vectorised flip: build a new column from the case_id mask.
     def flip(row_case_id: str, row_type: str) -> str:
         if row_case_id in swap_set:
-            return "red" if row_type == "green" else "green"
+            return b if row_type == a else a
         return row_type
     out["case_type"] = [
         flip(c, t)
@@ -1309,6 +1342,101 @@ def _run_rephase_levels(
             # call with scope="B_all".
 
 
+def _count_split_gateways(params_path: Path) -> int:
+    """Number of two-way XOR splits in a case-route params file (paths _a/_b)."""
+    with open(params_path, encoding="utf-8") as f:
+        params = json.load(f)
+    n = 0
+    for e in params.get("gateway_branching_probabilities", []):
+        ids = [p["path_id"] for p in e.get("probabilities", [])]
+        if len(ids) == 2 and any(i.endswith("_a") for i in ids) and any(
+            i.endswith("_b") for i in ids
+        ):
+            n += 1
+    return n
+
+
+def _run_case_route_levels(
+    cfg: PipelineConfig,
+    run_dir: Path,
+    *,
+    prefix_csv: Path,
+    cutoff: pd.Timestamp,
+    horizon: pd.Timedelta,
+    horizon_end: pd.Timestamp,
+    ongoing_ids: set[str],
+    results: list[dict],
+    util_rows: list[dict],
+) -> None:
+    """Case-route oracle: the reference is a REAL short-term sim in which
+    ``case_type`` genuinely drives XOR routing (red -> A-branch, blue ->
+    B-branch) via Prosimos branch_rules, with each ongoing case's historical
+    ``case_type`` restored from the partial-state snapshot on resume. Each
+    ``level`` then swaps ``level%`` of the case_type tags on that reference.
+
+    Because every branch is duration-symmetric and the branches are separated
+    by common activities, the swap leaves cycle_time / ngd_n2 / rtd and the
+    type-agnostic state projections (activity, case, cardinality) exactly
+    unchanged, and preserves the red/blue marginal — so the ``case_type``
+    projection is blind too. Only the joint ``activity_type`` projection, which
+    sees that (B-branch, red) and (A-branch, blue) instances appear after the
+    swap, detects it. This is the pairing-unique result of the label_swap
+    oracle, but on a genuinely attribute-routed simulation rather than a
+    post-hoc merge of two basic sims.
+    """
+    n_splits = _count_split_gateways(Path(cfg.params_path))
+    n_ruled = cfg.case_route_ruled if cfg.case_route_ruled is not None else n_splits
+    ruled_params = run_dir / "case_route_ruled.json"
+    route_manifest = build_case_route_params(
+        cfg.params_path, n_gateways_ruled=n_ruled, out_json_path=ruled_params,
+    )
+    with open(ruled_params, encoding="utf-8") as f:
+        level_params = json.load(f)
+    role_map = _resource_to_profile(level_params)
+
+    ref_logs: list[pd.DataFrame] = []
+    for k in range(1, cfg.runs + 1):
+        print(f"[case_route] reference (real attribute-routed) sim k={k}/{cfg.runs}")
+        ref = _run_short_term(
+            prefix_csv=prefix_csv, bpmn=cfg.bpmn_path, params=ruled_params,
+            cutoff=cutoff, horizon_end=horizon_end,
+            total_cases=cfg.sim_total_cases,
+            out_dir=run_dir / "reference" / f"k_{k}",
+            seed=10_000 + k,
+        )
+        if "case_type" not in ref.columns:
+            raise RuntimeError(
+                "reference sim has no case_type column; the params must declare "
+                "a case_type case attribute"
+            )
+        ref_logs.append(ref)
+
+    (run_dir / "case_route_manifest.json").write_text(json.dumps({
+        **route_manifest,
+        "levels_are_percent_tags_swapped": True,
+        "reference": "real short-term sim with case_type-driven branch_rules",
+    }, indent=2))
+
+    for level in cfg.levels:
+        frac = level / 100.0
+        for k in range(1, cfg.runs + 1):
+            print(f"[case_route] swap level={level}% k={k}/{cfg.runs}")
+            ref = ref_logs[k - 1]
+            rng = np.random.default_rng(60_000 + 1_000 * level + k)
+            perturbed = label_swap_case_types(ref, fraction=frac, rng=rng)
+            base_A = filter_to_cases_in_window(ref, ongoing_ids, cutoff, horizon)
+            sim_A = filter_to_cases_in_window(perturbed, ongoing_ids, cutoff, horizon)
+            util_rows.extend(_compute_utilization_rows(
+                sim_log=ref, params=level_params,
+                cutoff=cutoff, horizon_end=horizon_end, level=level, k_sim=k,
+            ))
+            results.extend(_compute_metrics_row(
+                baseline_continuation=base_A, sim_continuation=sim_A,
+                level=level, k_baseline=k, k_sim=k, scope="A_ongoing",
+                window=(cutoff, horizon_end), role_map=role_map,
+            ))
+
+
 def run_pipeline(cfg: PipelineConfig) -> Path:
     """Run the end-to-end pipeline; return path to the results.csv."""
     run_id = generate_short_uuid()
@@ -1383,6 +1511,13 @@ def run_pipeline(cfg: PipelineConfig) -> Path:
         return _finalize_pipeline_outputs(run_dir, results, util_rows)
     if cfg.perturbation == "rephase":
         _run_rephase_levels(
+            cfg, run_dir, prefix_csv=prefix_csv, cutoff=cutoff,
+            horizon=horizon, horizon_end=horizon_end, ongoing_ids=ongoing_ids,
+            results=results, util_rows=util_rows,
+        )
+        return _finalize_pipeline_outputs(run_dir, results, util_rows)
+    if cfg.perturbation == "case_route":
+        _run_case_route_levels(
             cfg, run_dir, prefix_csv=prefix_csv, cutoff=cutoff,
             horizon=horizon, horizon_end=horizon_end, ongoing_ids=ongoing_ids,
             results=results, util_rows=util_rows,

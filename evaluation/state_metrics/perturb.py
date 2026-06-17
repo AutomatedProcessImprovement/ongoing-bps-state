@@ -571,6 +571,77 @@ def build_gateway_biased_params(
     }
 
 
+def build_case_route_params(
+    base_json_path: str | Path,
+    *,
+    n_gateways_ruled: int,
+    out_json_path: str | Path,
+) -> dict:
+    """Make the first ``n_gateways_ruled`` XOR splits route by ``case_type``.
+
+    Designed for the *case-route* synthetic (see
+    ``tools/generate_case_route.py``): every split gateway has two
+    duration-symmetric branches whose flow ids end in ``_a`` / ``_b``. In the
+    base params each split routes 50/50 by static probability, so ``case_type``
+    is independent of the path. This builder rewrites the first
+    ``n_gateways_ruled`` split gateways (ordered by gateway id) to bind the
+    ``_a`` branch to ``rule_red`` and the ``_b`` branch to ``rule_blue`` (the
+    equality branch_rules already declared in the base params), so red cases
+    take the A-branch and blue cases the B-branch at those gateways.
+
+    Each gateway's path marginal stays 50/50 (population is 50/50 red/blue), so
+    cycle time and the 2-gram distribution are unchanged; only the joint
+    (activity, case_type) distribution shifts. ``n_gateways_ruled == 0`` is a
+    no-op (copies the base params verbatim).
+
+    Returns a manifest listing which gateways were ruled.
+    """
+    if n_gateways_ruled < 0:
+        raise ValueError("n_gateways_ruled must be >= 0")
+    params = _load_params(base_json_path)
+
+    # A "split" gateway here is any branching entry with exactly two paths whose
+    # ids end in _a / _b — the convention emitted by the case-route generator.
+    def _is_split(entry: dict) -> bool:
+        ids = [p["path_id"] for p in entry.get("probabilities", [])]
+        return len(ids) == 2 and any(i.endswith("_a") for i in ids) and any(
+            i.endswith("_b") for i in ids
+        )
+
+    splits = sorted(
+        (e for e in params.get("gateway_branching_probabilities", []) if _is_split(e)),
+        key=lambda e: e["gateway_id"],
+    )
+    if n_gateways_ruled > len(splits):
+        raise ValueError(
+            f"requested {n_gateways_ruled} ruled gateways but only "
+            f"{len(splits)} split gateways exist"
+        )
+
+    rule_ids = {r["id"] for r in params.get("branch_rules", [])}
+    for needed in ("rule_red", "rule_blue"):
+        if needed not in rule_ids:
+            raise ValueError(f"base params is missing branch rule {needed!r}")
+
+    ruled: list[str] = []
+    for entry in splits[:n_gateways_ruled]:
+        for p in entry["probabilities"]:
+            cond = "rule_red" if p["path_id"].endswith("_a") else "rule_blue"
+            # Bind to the rule; drop the static probability so the engine uses
+            # the condition (a probabilities entry is either value- or
+            # condition-keyed, never both).
+            p.pop("value", None)
+            p["condition_id"] = cond
+        ruled.append(entry["gateway_id"])
+
+    _write_params(params, out_json_path)
+    return {
+        "n_gateways_ruled": n_gateways_ruled,
+        "ruled_gateways": ruled,
+        "n_split_gateways": len(splits),
+    }
+
+
 def build_arrival_burstier_params(
     base_json_path: str | Path,
     *,
