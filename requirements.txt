@@ -1,5 +1,5 @@
 log-distance-measures==2.1.0
-pix-framework==0.13.17
+pix-framework==0.14.2
 ongoing-process-state==2.1.2
 git+https://github.com/AutomatedProcessImprovement/Prosimos@short-term-simulation
 pandas==2.2.3

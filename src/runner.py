@@ -13,6 +13,11 @@ from src.bpmn_handler import BPMNHandler
 from src.state_computer import StateComputer
 from src.process_state_prosimos_run import run_short_term_simulation
 from src.utils import parse_datetime
+from src.attributes import (
+    declared_attribute_names,
+    latest_attribute_values,
+    present_columns,
+)
 
 
 @dataclass
@@ -81,9 +86,20 @@ def run_process_state_and_simulation(
     reachability_graph = bpmn_handler.get_reachability_graph()
 
     print("=== RUNNER: Step E: Compute process state ===")
+    # Discover which Prosimos attribute columns the log actually carries, so the
+    # snapshot can hand the real values to the updated short-term engine
+    # (restored on resume instead of re-sampled). No declared attributes / no
+    # matching columns -> these lists are empty and the snapshot is unchanged.
+    declared = declared_attribute_names(bpmn_params)
+    attribute_columns = {
+        family: present_columns(names, processed_event_log)
+        for family, names in declared.items()
+    }
+
     state_computer = StateComputer(
         n_gram_index, reachability_graph, processed_event_log,
-        bpmn_handler, concurrency_oracle, event_log_ids
+        bpmn_handler, concurrency_oracle, event_log_ids,
+        attribute_columns=attribute_columns,
     )
 
     case_states = state_computer.compute_case_states()
@@ -102,12 +118,20 @@ def run_process_state_and_simulation(
 
     # 2) Prepare partial-state as a dict
     output_data = {
-        "last_case_arrival": last_case_arrival_dt,   
+        "last_case_arrival": last_case_arrival_dt,
         "cases": {}
     }
 
+    # Current process-wide global attribute values (most recent before the cut).
+    # Emitted only when global attributes are declared and present in the log.
+    global_attributes = latest_attribute_values(
+        processed_event_log, event_log_ids.start_time, attribute_columns.get("global", [])
+    )
+    if global_attributes:
+        output_data["global_attributes"] = global_attributes
+
     for case_id, case_info in case_states.items():
-        output_data['cases'][str(case_id)] = {
+        case_entry = {
             "control_flow_state": {
                 "flows": list(case_info["control_flow_state"]["flows"]),
                 "activities": list(case_info["control_flow_state"]["activities"])
@@ -117,6 +141,12 @@ def run_process_state_and_simulation(
             "enabled_gateways": case_info["enabled_gateways"],
             "enabled_events": case_info["enabled_events"]
         }
+        # Optional attribute fields restored by the updated engine on resume.
+        if "case_attributes" in case_info:
+            case_entry["case_attributes"] = case_info["case_attributes"]
+        if "event_attributes" in case_info:
+            case_entry["event_attributes"] = case_info["event_attributes"]
+        output_data['cases'][str(case_id)] = case_entry
 
     # 3) Write partial state to output.json
     print("=== RUNNER: Step F: Writing partial-state to output.json ===")

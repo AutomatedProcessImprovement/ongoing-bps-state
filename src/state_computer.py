@@ -4,15 +4,28 @@ from typing import List
 import pandas as pd
 from ongoing_process_state.n_gram_index import NGramIndex
 
+from src.attributes import (
+    case_attribute_values,
+    latest_attribute_values,
+    row_attributes,
+)
+
 class StateComputer:
     """Computes the state of each case using the N-Gram index."""
-    def __init__(self, n_gram_index, reachability_graph, event_log_df, bpmn_handler, concurrency_oracle, event_log_ids):
+    def __init__(self, n_gram_index, reachability_graph, event_log_df, bpmn_handler,
+                 concurrency_oracle, event_log_ids, attribute_columns=None):
         self.n_gram_index = n_gram_index
         self.reachability_graph = reachability_graph
         self.event_log_df = event_log_df
         self.bpmn_handler = bpmn_handler
         self.concurrency_oracle = concurrency_oracle
         self.event_log_ids = event_log_ids
+        # Names of attribute columns present in the log, grouped by family
+        # ({"case": [...], "event": [...]}). Used to carry the real attribute
+        # values into the process-state snapshot so the updated Prosimos engine
+        # restores them instead of re-sampling. Empty/absent -> no attribute
+        # fields are emitted (snapshot identical to the pre-attribute behaviour).
+        self.attribute_columns = attribute_columns or {}
 
     def compute_case_states(self):
         """Computes states and active activities for all cases."""
@@ -45,13 +58,20 @@ class StateComputer:
                         })
                         enabled_time = row[ids.enabled_time]
 
-                ongoing_activities.append({
+                ongoing_activity = {
                     "id": task_id,
                     "label": original_activity,
                     "start_time": stime,
                     "resource": row[ids.resource],
                     "enabled_time": enabled_time
-                })
+                }
+                # Point-in-time (historical) event-attribute values this activity
+                # carried in the log, so the resumed run logs them instead of
+                # recomputing from scratch.
+                hist_event_attrs = row_attributes(row, self.attribute_columns.get("event", []))
+                if hist_event_attrs:
+                    ongoing_activity["event_attributes"] = hist_event_attrs
+                ongoing_activities.append(ongoing_activity)
 
             # Get the entire sequence of activities (including ongoing ones)
             sorted_events = list()
@@ -167,7 +187,7 @@ class StateComputer:
 
 
             # Store case information
-            case_states[case_id] = {
+            case_info = {
                 "control_flow_state": {
                     "flows": list(state_flows),
                     "activities": list(state_activities)
@@ -177,6 +197,21 @@ class StateComputer:
                 "enabled_gateways": enabled_gateways,
                 "enabled_events": enabled_events
             }
+
+            # Carry the case's real attribute values into the snapshot so the
+            # updated Prosimos engine restores them on resume (gateway branching
+            # / prioritisation) instead of re-sampling. Only emitted when the
+            # log actually carries the declared attribute columns.
+            case_attrs = case_attribute_values(group, self.attribute_columns.get("case", []))
+            if case_attrs:
+                case_info["case_attributes"] = case_attrs
+            event_attrs = latest_attribute_values(
+                group, ids.start_time, self.attribute_columns.get("event", [])
+            )
+            if event_attrs:
+                case_info["event_attributes"] = event_attrs
+
+            case_states[case_id] = case_info
         return case_states
 
     def _compute_gateway_enabled_time(self, gateway_id, group_df, ended_df):
