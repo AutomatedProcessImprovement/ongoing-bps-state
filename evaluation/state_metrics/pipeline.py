@@ -60,9 +60,11 @@ from evaluation.helper import generate_short_uuid, read_event_log
 from evaluation.state_metrics.perturb import (
     build_all_calendars_shifted_params,
     build_arrival_burstier_params,
+    build_branch_automation_params,
     build_calendar_shifted_params,
     build_case_route_params,
     build_duration_scaled_params,
+    build_front_back_load_params,
     build_gateway_biased_params,
     build_perturbed_params,
     build_role_swap_params,
@@ -146,6 +148,15 @@ class PipelineConfig:
     # `level` is then the percentage of case_type tags swapped on that
     # reference (the pairing-unique attack on a genuinely attribute-routed log).
     case_route_ruled: int | None = None
+    # parallel_auto kwargs (scenario #2). The non-critical AND-branch tasks to
+    # automate; `level` is read as the percent shrink toward `automation_floor`.
+    automate_task_ids: tuple[str, ...] | None = None
+    automation_floor_seconds: float = 1.0
+    # front_back_load kwargs (scenario #4). The ordered chain tasks whose mean
+    # durations are reweighted total-invariantly; `load_direction` decides the
+    # sign so the (non-negative) `level` ladder stays monotone for ranking.
+    chain_task_ids: tuple[str, ...] | None = None
+    load_direction: str = "front"           # "front" or "back"
     # Windowing controls (added 2026-05 to enable cross-utilization comparison).
     # cutoff_strategy:
     #   "p90_wip"   — middle of top-decile WIP band (legacy default).
@@ -804,6 +815,37 @@ def _prepare_params_for_level(
             cv2_multiplier=cv2_mult,
             out_json_path=out_params,
         )
+    elif cfg.perturbation == "parallel_auto":
+        if cfg.automate_task_ids is None:
+            raise ValueError("parallel_auto requires cfg.automate_task_ids")
+        if level < 0:
+            raise ValueError("parallel_auto levels must be >= 0 (percent automated)")
+        manifest = build_branch_automation_params(
+            cfg.params_path,
+            automate_task_ids=list(cfg.automate_task_ids),
+            level=level,
+            floor_seconds=cfg.automation_floor_seconds,
+            out_json_path=out_params,
+        )
+    elif cfg.perturbation == "front_back_load":
+        if cfg.chain_task_ids is None:
+            raise ValueError("front_back_load requires cfg.chain_task_ids")
+        if level < 0:
+            raise ValueError(
+                "front_back_load levels must be >= 0; direction is set by "
+                "cfg.load_direction"
+            )
+        if cfg.load_direction not in ("front", "back"):
+            raise ValueError("load_direction must be 'front' or 'back'")
+        # Non-negative ladder stays monotone for the c-index; the sign of the
+        # shift is taken from the configured direction.
+        signed = level if cfg.load_direction == "front" else -level
+        manifest = build_front_back_load_params(
+            cfg.params_path,
+            chain_task_ids=list(cfg.chain_task_ids),
+            shift=signed,
+            out_json_path=out_params,
+        )
     else:
         raise ValueError(f"unknown perturbation type {cfg.perturbation!r}")
     manifest = {"perturbation": cfg.perturbation, "level": level, **manifest}
@@ -1136,6 +1178,71 @@ def label_swap_case_types(
     return out
 
 
+def drift_case_types(
+    log: pd.DataFrame,
+    *,
+    strength: float,
+    rng: np.random.Generator,
+) -> pd.DataFrame:
+    """Return a copy of ``log`` whose ``case_type`` tags are made to *drift*
+    along the arrival timeline, with the global marginal preserved exactly.
+
+    A fraction ``strength`` of the cases (chosen at random, by arrival
+    position) have their tags re-sorted so that — among the chosen positions —
+    the lexicographically-smaller value lands on the earlier arrivals and the
+    larger value on the later ones. Because the re-sort only permutes the tags
+    *already present* on the chosen positions, the per-value counts (and hence
+    the global red/blue marginal) are unchanged; only the temporal arrangement
+    shifts. At ``strength == 1`` the chosen set is the whole log and the tags
+    are fully time-sorted; at ``strength == 0`` the output is identical.
+
+    This is the controlled, synthetic analogue of a real log whose case-type
+    mix drifts over time (scenario #6). Unlike ``label_swap_case_types`` (random
+    marginal-preserving swaps → only the *paired* ``activity_type`` projection
+    moves), a temporal drift skews the active case_type composition inside any
+    sub-window, so the marginal-blind baselines stay flat while BOTH the
+    ``case_type`` and ``activity_type`` state projections detect it.
+
+    The event stream (activities, timestamps, resources, case ids) is untouched,
+    so cycle_time / ngd / red / rtd and the type-agnostic state projections are
+    invariant by construction.
+    """
+    out = log.copy()
+    if "case_type" not in out.columns:
+        raise ValueError("log has no 'case_type' column to drift")
+    if not 0.0 <= strength <= 1.0:
+        raise ValueError("strength must be in [0, 1]")
+    if strength <= 0:
+        return out
+
+    first_start = out.groupby("case_id")["start_time"].min().sort_values()
+    case_order = list(first_start.index)
+    tag_by_case = out.groupby("case_id")["case_type"].first().to_dict()
+    n = len(case_order)
+    k = int(round(strength * n))
+    if k <= 1:
+        return out
+
+    # Choose k arrival positions to re-sort; keep them in arrival order.
+    positions = np.sort(rng.choice(n, size=k, replace=False))
+    chosen_cases = [case_order[p] for p in positions]
+    chosen_tags = [tag_by_case[c] for c in chosen_cases]
+    distinct = sorted(set(t for t in chosen_tags if t is not None and t == t))
+    if len(distinct) < 2:
+        return out  # only one value among the chosen — nothing to drift
+    early_val = distinct[0]
+    n_early = sum(t == early_val for t in chosen_tags)
+    # early_val first (earliest arrivals), everything else after.
+    resorted = [early_val] * n_early + [
+        t for t in chosen_tags if t != early_val
+    ]
+    new_tag = dict(tag_by_case)
+    for case, nt in zip(chosen_cases, resorted):
+        new_tag[case] = nt
+    out["case_type"] = out["case_id"].map(new_tag)
+    return out
+
+
 def _run_label_swap_levels(
     cfg: PipelineConfig,
     run_dir: Path,
@@ -1437,6 +1544,87 @@ def _run_case_route_levels(
             ))
 
 
+def _run_case_type_drift_levels(
+    cfg: PipelineConfig,
+    run_dir: Path,
+    *,
+    prefix_csv: Path,
+    cutoff: pd.Timestamp,
+    horizon: pd.Timedelta,
+    horizon_end: pd.Timestamp,
+    ongoing_ids: set[str],
+    results: list[dict],
+    util_rows: list[dict],
+) -> None:
+    """Case-type-drift oracle (scenario #6, controlled synthetic form).
+
+    Like ``_run_case_route_levels`` the reference is a REAL short-term sim in
+    which ``case_type`` genuinely drives XOR routing (red -> A-branch, blue ->
+    B-branch) via Prosimos branch_rules. Each ``level`` then makes the
+    ``case_type`` tags *drift* along the arrival timeline at strength
+    ``level%`` (``drift_case_types``), holding the global red/blue marginal
+    fixed.
+
+    Because the event stream is untouched and the marginal is preserved,
+    cycle_time / ngd_n2 / red / rtd and the type-agnostic state projections are
+    blind. Unlike the random label_swap, a *temporal* drift skews the active
+    case_type composition inside the evaluation window, so BOTH the
+    ``case_type`` and the joint ``activity_type`` state projections detect it —
+    the data-attribute, drift-over-time win.
+    """
+    n_splits = _count_split_gateways(Path(cfg.params_path))
+    n_ruled = cfg.case_route_ruled if cfg.case_route_ruled is not None else n_splits
+    ruled_params = run_dir / "case_route_ruled.json"
+    route_manifest = build_case_route_params(
+        cfg.params_path, n_gateways_ruled=n_ruled, out_json_path=ruled_params,
+    )
+    with open(ruled_params, encoding="utf-8") as f:
+        level_params = json.load(f)
+    role_map = _resource_to_profile(level_params)
+
+    ref_logs: list[pd.DataFrame] = []
+    for k in range(1, cfg.runs + 1):
+        print(f"[case_type_drift] reference (real attribute-routed) sim k={k}/{cfg.runs}")
+        ref = _run_short_term(
+            prefix_csv=prefix_csv, bpmn=cfg.bpmn_path, params=ruled_params,
+            cutoff=cutoff, horizon_end=horizon_end,
+            total_cases=cfg.sim_total_cases,
+            out_dir=run_dir / "reference" / f"k_{k}",
+            seed=10_000 + k,
+        )
+        if "case_type" not in ref.columns:
+            raise RuntimeError(
+                "reference sim has no case_type column; the params must declare "
+                "a case_type case attribute"
+            )
+        ref_logs.append(ref)
+
+    (run_dir / "case_type_drift_manifest.json").write_text(json.dumps({
+        **route_manifest,
+        "levels_are_percent_drift_strength": True,
+        "reference": "real short-term sim with case_type-driven branch_rules",
+    }, indent=2))
+
+    for level in cfg.levels:
+        strength = level / 100.0
+        for k in range(1, cfg.runs + 1):
+            print(f"[case_type_drift] drift level={level}% k={k}/{cfg.runs}")
+            ref = ref_logs[k - 1]
+            rng = np.random.default_rng(70_000 + 1_000 * level + k)
+            perturbed = drift_case_types(ref, strength=strength, rng=rng)
+            base_A = filter_to_cases_in_window(ref, ongoing_ids, cutoff, horizon)
+            sim_A = filter_to_cases_in_window(perturbed, ongoing_ids, cutoff, horizon)
+            util_rows.extend(_compute_utilization_rows(
+                sim_log=ref, params=level_params,
+                cutoff=cutoff, horizon_end=horizon_end, level=level, k_sim=k,
+            ))
+            results.extend(_compute_metrics_row(
+                baseline_continuation=base_A, sim_continuation=sim_A,
+                level=level, k_baseline=k, k_sim=k, scope="A_ongoing",
+                window=(cutoff, horizon_end), role_map=role_map,
+            ))
+
+
 def run_pipeline(cfg: PipelineConfig) -> Path:
     """Run the end-to-end pipeline; return path to the results.csv."""
     run_id = generate_short_uuid()
@@ -1518,6 +1706,13 @@ def run_pipeline(cfg: PipelineConfig) -> Path:
         return _finalize_pipeline_outputs(run_dir, results, util_rows)
     if cfg.perturbation == "case_route":
         _run_case_route_levels(
+            cfg, run_dir, prefix_csv=prefix_csv, cutoff=cutoff,
+            horizon=horizon, horizon_end=horizon_end, ongoing_ids=ongoing_ids,
+            results=results, util_rows=util_rows,
+        )
+        return _finalize_pipeline_outputs(run_dir, results, util_rows)
+    if cfg.perturbation == "case_type_drift":
+        _run_case_type_drift_levels(
             cfg, run_dir, prefix_csv=prefix_csv, cutoff=cutoff,
             horizon=horizon, horizon_end=horizon_end, ongoing_ids=ongoing_ids,
             results=results, util_rows=util_rows,

@@ -642,6 +642,172 @@ def build_case_route_params(
     }
 
 
+def build_branch_automation_params(
+    base_json_path: str | Path,
+    *,
+    automate_task_ids: list[str],
+    level: int,
+    floor_seconds: float = 1.0,
+    out_json_path: str | Path,
+) -> dict:
+    """Automate (shrink) the durations of the non-critical branch tasks.
+
+    Designed for the *parallel-automation* synthetic (see
+    ``tools/generate_parallel_auto.py``): the listed ``automate_task_ids`` are
+    the non-critical AND branch, whose total duration is dominated by the
+    critical branch. Each task's duration params are scaled by
+    ``(1 - level/100)``, with the location parameter floored at
+    ``floor_seconds`` so the activity still appears once per case (keeping the
+    bigram histogram and per-case activity counts identical, hence ``ngd_n2``
+    blind). Because the critical branch sets the cycle time and runs on a
+    separate pool, ``cycle_time`` is blind too — only the time-weighted state
+    metric sees the non-critical branch shrink out of the concurrent active set.
+
+    ``level == 0`` is a no-op (factor 1.0). ``level`` is read as a percentage in
+    ``[0, 100]``; ``level == 100`` collapses every automated task to the floor.
+
+    Returns a manifest with the scale factor and which tasks were touched.
+    """
+    if level < 0:
+        raise ValueError("level must be >= 0")
+    if level > 100:
+        raise ValueError("level must be <= 100")
+    if not automate_task_ids:
+        raise ValueError("automate_task_ids must be non-empty")
+    if floor_seconds <= 0:
+        raise ValueError("floor_seconds must be > 0")
+
+    params = _load_params(base_json_path)
+    factor = 1.0 - level / 100.0
+    targets = set(automate_task_ids)
+    touched: list[str] = []
+    for task in params.get("task_resource_distribution", []):
+        if task.get("task_id") not in targets:
+            continue
+        touched.append(task["task_id"])
+        for r in task.get("resources", []):
+            dparams = r.get("distribution_params", [])
+            new_params = []
+            for i, p in enumerate(dparams):
+                scaled = p["value"] * factor
+                # Floor only the location/value parameter (index 0) so the
+                # activity keeps a strictly positive duration and stays in the
+                # trace; scale any shape/min/max params by the same factor.
+                if i == 0:
+                    scaled = max(scaled, floor_seconds)
+                new_params.append({"value": scaled})
+            r["distribution_params"] = new_params
+
+    missing = targets - set(touched)
+    if missing:
+        raise ValueError(
+            f"automate_task_ids not found in task_resource_distribution: {sorted(missing)}"
+        )
+
+    _write_params(params, out_json_path)
+    return {
+        "automate_task_ids": list(automate_task_ids),
+        "level": level,
+        "factor": factor,
+        "floor_seconds": floor_seconds,
+        "tasks_touched": touched,
+    }
+
+
+def build_front_back_load_params(
+    base_json_path: str | Path,
+    *,
+    chain_task_ids: list[str],
+    shift: int,
+    out_json_path: str | Path,
+) -> dict:
+    """Redistribute duration mass along a sequential chain, total-invariant.
+
+    Designed for the *linear-chain* synthetic (see
+    ``tools/generate_linear_chain.py``): the ordered ``chain_task_ids`` form a
+    sequence of comparable-duration activities on one pool. This builder
+    reweights their mean durations by position so the per-case **total**
+    duration (and hence cycle time and aggregate utilisation) is held constant,
+    but the duration mass moves toward the front or the back of the chain.
+
+    Signed ``shift`` (a percentage):
+      * ``shift > 0`` *front-loads* — early tasks longer, late tasks shorter.
+      * ``shift < 0`` *back-loads* — late tasks longer, early tasks shorter.
+      * ``shift == 0`` is a no-op.
+
+    For a chain of ``n`` tasks at ordered positions ``p_i = i/(n-1) ∈ [0, 1]``
+    the per-task weight is ``w_i = 1 + (shift/100)·(1 - 2·p_i)`` — an
+    antisymmetric ramp about the chain midpoint. New means are ``m_i·w_i``,
+    then globally renormalised by ``Σm_i / Σ(m_i·w_i)`` so the total is held
+    **exactly** regardless of any base-mean asymmetry.
+
+    Because only *where* the duration sits changes (not the per-case total, the
+    activities, the bigrams, or aggregate ρ), ``cycle_time`` and ``ngd_n2`` are
+    blind, while the time-weighted state metric localises the moved mass.
+    ``|shift|`` must be < 100 so every weight stays positive.
+
+    Returns a manifest with the per-task factors actually applied.
+    """
+    if abs(shift) >= 100:
+        raise ValueError("|shift| must be < 100 so all task weights stay positive")
+    if len(chain_task_ids) < 2:
+        raise ValueError("chain_task_ids must list at least two tasks (ordered)")
+
+    params = _load_params(base_json_path)
+    trd_by_id = {t.get("task_id"): t for t in params.get("task_resource_distribution", [])}
+    missing = [tid for tid in chain_task_ids if tid not in trd_by_id]
+    if missing:
+        raise ValueError(f"chain_task_ids not found in params: {missing}")
+
+    n = len(chain_task_ids)
+    s = shift / 100.0
+
+    def _task_mean(task: dict) -> float:
+        # Representative mean = first resource's location parameter.
+        resources = task.get("resources", [])
+        if not resources or not resources[0].get("distribution_params"):
+            raise ValueError(f"task {task.get('task_id')!r} has no distribution params")
+        return float(resources[0]["distribution_params"][0]["value"])
+
+    if shift == 0:
+        _write_params(params, out_json_path)
+        return {
+            "chain_task_ids": list(chain_task_ids), "shift": 0,
+            "factors": {tid: 1.0 for tid in chain_task_ids},
+            "total_invariant": True,
+        }
+
+    weights: dict[str, float] = {}
+    for i, tid in enumerate(chain_task_ids):
+        p_i = i / (n - 1)
+        weights[tid] = 1.0 + s * (1.0 - 2.0 * p_i)
+
+    base_total = sum(_task_mean(trd_by_id[tid]) for tid in chain_task_ids)
+    new_total = sum(_task_mean(trd_by_id[tid]) * weights[tid] for tid in chain_task_ids)
+    g = base_total / new_total if new_total > 0 else 1.0
+
+    factors: dict[str, float] = {}
+    for tid in chain_task_ids:
+        f = weights[tid] * g
+        factors[tid] = f
+        for r in trd_by_id[tid].get("resources", []):
+            r["distribution_params"] = [
+                {"value": p["value"] * f} for p in r.get("distribution_params", [])
+            ]
+
+    _write_params(params, out_json_path)
+    return {
+        "chain_task_ids": list(chain_task_ids),
+        "shift": shift,
+        "factors": factors,
+        "base_total_mean": base_total,
+        "renormalised_total_mean": sum(
+            _task_mean(trd_by_id[tid]) for tid in chain_task_ids
+        ),
+        "total_invariant": True,
+    }
+
+
 def build_arrival_burstier_params(
     base_json_path: str | Path,
     *,

@@ -52,7 +52,9 @@ def main() -> None:
                    choices=["resources", "duration", "role_swap",
                             "calendar_shift", "calendar_shift_all", "gateway",
                             "arrival_burst", "relabel", "rephase",
-                            "mix_ratio", "label_swap", "case_route"],
+                            "mix_ratio", "label_swap", "case_route",
+                            "parallel_auto", "front_back_load",
+                            "case_type_drift"],
                    default="resources",
                    help="which perturbation family to apply")
     p.add_argument("--remove-from-profile", default=None,
@@ -82,8 +84,11 @@ def main() -> None:
                    help="mix_ratio: baseline fraction of green cases (the "
                         "reference mix). Default 0.5.")
     p.add_argument("--case-route-ruled", type=int, default=None,
-                   help="case_route: number of XOR splits the reference sim "
-                        "routes by case_type (default: all splits)")
+                   help="case_route / case_type_drift: number of XOR splits the "
+                        "reference sim routes by case_type (default: all splits)")
+    p.add_argument("--load-direction", choices=["front", "back"], default="front",
+                   help="front_back_load: which end of the chain gets the "
+                        "duration mass (default: front)")
     p.add_argument("--gt-total-cases", type=int, default=2000)
     p.add_argument("--sim-total-cases", type=int, default=2000)
     p.add_argument("--outputs-root", type=Path,
@@ -150,6 +155,15 @@ def main() -> None:
     elif args.perturbation == "case_route":
         # Percentage of case_type tags swapped on a real attribute-routed sim.
         levels = (0, 10, 20, 30, 40)
+    elif args.perturbation == "case_type_drift":
+        # Percentage drift strength of case_type tags along the timeline.
+        levels = (0, 25, 50, 75, 100)
+    elif args.perturbation == "parallel_auto":
+        # Percentage automation (duration shrink) of the non-critical branch.
+        levels = spec.default_levels
+    elif args.perturbation == "front_back_load":
+        # Percentage of duration mass moved toward the chosen chain end.
+        levels = spec.default_levels
     else:
         levels = spec.default_levels
 
@@ -177,6 +191,9 @@ def main() -> None:
         mix_red_params=args.mix_red_params,
         mix_baseline_green=args.mix_baseline_green,
         case_route_ruled=args.case_route_ruled,
+        automate_task_ids=spec.automate_task_ids or None,
+        chain_task_ids=spec.chain_task_ids or None,
+        load_direction=args.load_direction,
     )
     run_pipeline(cfg)
 
