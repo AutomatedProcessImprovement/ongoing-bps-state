@@ -5,19 +5,31 @@ import pytest
 
 from evaluation.state_metrics.perturb import (
     build_arrival_burstier_params,
+    build_branch_automation_params,
     build_calendar_shifted_params,
     build_case_route_params,
+    build_front_back_load_params,
     build_gateway_biased_params,
     build_perturbed_params,
     build_role_swap_params,
 )
 
 
-XOR_JSON = Path(__file__).resolve().parents[3] / "samples" / "dev-samples" / "synthetic_xor_loop.json"
+_DEV = Path(__file__).resolve().parents[3] / "samples" / "dev-samples"
+XOR_JSON = _DEV / "synthetic_xor_loop.json"
 LOAN_JSON = Path(__file__).resolve().parents[3] / "samples" / "icpm-2025" / "synthetic" / "Loan-stable.json"
-CASE_ROUTE_JSON = (
-    Path(__file__).resolve().parents[3] / "samples" / "dev-samples" / "synthetic_case_route.json"
-)
+CASE_ROUTE_JSON = _DEV / "synthetic_case_route.json"
+PARALLEL_AUTO_JSON = _DEV / "synthetic_parallel_auto.json"
+LINEAR_CHAIN_JSON = _DEV / "synthetic_linear_chain.json"
+
+
+def _task_mean(data, task_id):
+    t = next(t for t in data["task_resource_distribution"] if t["task_id"] == task_id)
+    return t["resources"][0]["distribution_params"][0]["value"]
+
+
+def _chain_total_mean(data, task_ids):
+    return sum(_task_mean(data, t) for t in task_ids)
 
 
 @pytest.mark.skipif(not CASE_ROUTE_JSON.exists(), reason="synthetic_case_route.json missing")
@@ -438,3 +450,130 @@ def test_arrival_burst_rejects_non_gamma(tmp_path):
         build_arrival_burstier_params(
             src, cv2_multiplier=2.0, out_json_path=tmp_path / "dst.json",
         )
+
+
+# ---------------------------------------------------------------------------
+# parallel_auto: branch automation (scenario #2)
+# ---------------------------------------------------------------------------
+
+@pytest.mark.skipif(not PARALLEL_AUTO_JSON.exists(), reason="synthetic_parallel_auto.json missing")
+def test_branch_automation_zero_is_noop(tmp_path):
+    out = tmp_path / "p.json"
+    m = build_branch_automation_params(
+        PARALLEL_AUTO_JSON, automate_task_ids=["t_nc1", "t_nc2", "t_nc3"],
+        level=0, out_json_path=out,
+    )
+    assert m["factor"] == 1.0
+    src = json.loads(PARALLEL_AUTO_JSON.read_text())
+    dst = json.loads(out.read_text())
+    assert src["task_resource_distribution"] == dst["task_resource_distribution"]
+
+
+@pytest.mark.skipif(not PARALLEL_AUTO_JSON.exists(), reason="synthetic_parallel_auto.json missing")
+def test_branch_automation_shrinks_only_targets(tmp_path):
+    out = tmp_path / "p.json"
+    build_branch_automation_params(
+        PARALLEL_AUTO_JSON, automate_task_ids=["t_nc1", "t_nc2", "t_nc3"],
+        level=50, out_json_path=out,
+    )
+    src = json.loads(PARALLEL_AUTO_JSON.read_text())
+    dst = json.loads(out.read_text())
+    # Non-critical tasks halved; critical and common tasks untouched.
+    for tid in ("t_nc1", "t_nc2", "t_nc3"):
+        assert _task_mean(dst, tid) == pytest.approx(_task_mean(src, tid) * 0.5)
+    for tid in ("t_crit", "t_reg", "t_dec"):
+        assert _task_mean(dst, tid) == _task_mean(src, tid)
+
+
+@pytest.mark.skipif(not PARALLEL_AUTO_JSON.exists(), reason="synthetic_parallel_auto.json missing")
+def test_branch_automation_floors_at_full_level(tmp_path):
+    out = tmp_path / "p.json"
+    build_branch_automation_params(
+        PARALLEL_AUTO_JSON, automate_task_ids=["t_nc1"], level=100,
+        floor_seconds=2.0, out_json_path=out,
+    )
+    dst = json.loads(out.read_text())
+    # The activity must still carry a strictly-positive (floored) duration so it
+    # stays in the trace -> ngd stays blind.
+    assert _task_mean(dst, "t_nc1") == 2.0
+
+
+def test_branch_automation_rejects_bad_args(tmp_path):
+    base = tmp_path / "base.json"
+    base.write_text(json.dumps({"task_resource_distribution": [
+        {"task_id": "t_nc1", "resources": [
+            {"distribution_name": "fix", "distribution_params": [{"value": 100.0}], "resource_id": "R1"}]},
+    ]}))
+    with pytest.raises(ValueError):
+        build_branch_automation_params(base, automate_task_ids=[], level=10, out_json_path=tmp_path / "o.json")
+    with pytest.raises(ValueError):
+        build_branch_automation_params(base, automate_task_ids=["t_nc1"], level=-1, out_json_path=tmp_path / "o.json")
+    with pytest.raises(ValueError):
+        build_branch_automation_params(base, automate_task_ids=["t_nc1"], level=101, out_json_path=tmp_path / "o.json")
+    with pytest.raises(ValueError, match="not found"):
+        build_branch_automation_params(base, automate_task_ids=["nope"], level=10, out_json_path=tmp_path / "o.json")
+
+
+# ---------------------------------------------------------------------------
+# front_back_load: total-invariant duration redistribution (scenario #4)
+# ---------------------------------------------------------------------------
+
+_CHAIN = ["t_step1", "t_step2", "t_step3", "t_step4", "t_step5"]
+
+
+@pytest.mark.skipif(not LINEAR_CHAIN_JSON.exists(), reason="synthetic_linear_chain.json missing")
+def test_front_back_load_zero_is_noop(tmp_path):
+    out = tmp_path / "p.json"
+    m = build_front_back_load_params(
+        LINEAR_CHAIN_JSON, chain_task_ids=_CHAIN, shift=0, out_json_path=out,
+    )
+    assert all(f == 1.0 for f in m["factors"].values())
+    src = json.loads(LINEAR_CHAIN_JSON.read_text())
+    dst = json.loads(out.read_text())
+    assert src["task_resource_distribution"] == dst["task_resource_distribution"]
+
+
+@pytest.mark.skipif(not LINEAR_CHAIN_JSON.exists(), reason="synthetic_linear_chain.json missing")
+@pytest.mark.parametrize("shift", [30, 60, -30, -60])
+def test_front_back_load_preserves_total(tmp_path, shift):
+    out = tmp_path / "p.json"
+    build_front_back_load_params(
+        LINEAR_CHAIN_JSON, chain_task_ids=_CHAIN, shift=shift, out_json_path=out,
+    )
+    src = json.loads(LINEAR_CHAIN_JSON.read_text())
+    dst = json.loads(out.read_text())
+    # Per-case total duration (= cycle time, aggregate ρ) held exactly.
+    assert _chain_total_mean(dst, _CHAIN) == pytest.approx(_chain_total_mean(src, _CHAIN))
+
+
+@pytest.mark.skipif(not LINEAR_CHAIN_JSON.exists(), reason="synthetic_linear_chain.json missing")
+def test_front_back_load_direction(tmp_path):
+    src = json.loads(LINEAR_CHAIN_JSON.read_text())
+    front = tmp_path / "front.json"
+    back = tmp_path / "back.json"
+    build_front_back_load_params(LINEAR_CHAIN_JSON, chain_task_ids=_CHAIN, shift=60, out_json_path=front)
+    build_front_back_load_params(LINEAR_CHAIN_JSON, chain_task_ids=_CHAIN, shift=-60, out_json_path=back)
+    fd, bd = json.loads(front.read_text()), json.loads(back.read_text())
+    # Front-load: early step longer than late step. Back-load: mirror image.
+    assert _task_mean(fd, "t_step1") > _task_mean(fd, "t_step5")
+    assert _task_mean(bd, "t_step1") < _task_mean(bd, "t_step5")
+    # Midpoint is the fixed pivot of the antisymmetric ramp.
+    assert _task_mean(fd, "t_step3") == pytest.approx(_task_mean(src, "t_step3"))
+    # Front(+s) and back(-s) are reflections about the chain midpoint.
+    assert _task_mean(fd, "t_step1") == pytest.approx(_task_mean(bd, "t_step5"))
+
+
+def test_front_back_load_rejects_bad_args(tmp_path):
+    base = tmp_path / "base.json"
+    base.write_text(json.dumps({"task_resource_distribution": [
+        {"task_id": "t_step1", "resources": [
+            {"distribution_name": "fix", "distribution_params": [{"value": 100.0}], "resource_id": "R1"}]},
+        {"task_id": "t_step2", "resources": [
+            {"distribution_name": "fix", "distribution_params": [{"value": 100.0}], "resource_id": "R1"}]},
+    ]}))
+    with pytest.raises(ValueError, match="weights stay positive"):
+        build_front_back_load_params(base, chain_task_ids=["t_step1", "t_step2"], shift=100, out_json_path=tmp_path / "o.json")
+    with pytest.raises(ValueError, match="at least two"):
+        build_front_back_load_params(base, chain_task_ids=["t_step1"], shift=10, out_json_path=tmp_path / "o.json")
+    with pytest.raises(ValueError, match="not found"):
+        build_front_back_load_params(base, chain_task_ids=["t_step1", "nope"], shift=10, out_json_path=tmp_path / "o.json")

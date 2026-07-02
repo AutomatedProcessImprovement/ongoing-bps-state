@@ -14,6 +14,7 @@ from evaluation.state_metrics.pipeline import (
     _select_n_ongoing_cutoff,
     _write_prefix_csv,
     filter_to_cases_in_window,
+    drift_case_types,
     get_ongoing_case_ids,
     label_swap_case_types,
     merge_logs_at_ratio,
@@ -487,3 +488,67 @@ def test_compute_utilization_rows_partial_busy():
     assert by_role["Team A"]["utilization"] == pytest.approx(9000 / (2 * 14400))
     # Team B never used → 0.
     assert by_role["Team B"]["utilization"] == 0.0
+
+
+# ---------------------------------------------------------------------------
+# drift_case_types: temporal case-type drift (scenario #6)
+# ---------------------------------------------------------------------------
+
+def _typed_timeline(n, rng_tags=None):
+    """n cases, one event each, arrival-ordered; alternating red/blue tags."""
+    rows = []
+    base = pd.Timestamp("2025-01-01", tz="UTC")
+    for i in range(n):
+        tag = "red" if i % 2 == 0 else "blue"
+        rows.append((f"c{i}", "A", base + pd.Timedelta(hours=i),
+                     base + pd.Timedelta(hours=i + 1), "R1", tag))
+    return _mklog_typed(rows)
+
+
+def test_drift_zero_is_identity():
+    log = _typed_timeline(10)
+    out = drift_case_types(log, strength=0.0, rng=np.random.default_rng(0))
+    assert out.equals(log)
+
+
+def test_drift_preserves_marginal():
+    log = _typed_timeline(20)
+    for s in (0.25, 0.5, 0.75, 1.0):
+        out = drift_case_types(log, strength=s, rng=np.random.default_rng(1))
+        assert (out["case_type"] == "red").sum() == 10
+        assert (out["case_type"] == "blue").sum() == 10
+
+
+def test_drift_full_strength_is_time_sorted():
+    log = _typed_timeline(20)
+    out = drift_case_types(log, strength=1.0, rng=np.random.default_rng(2))
+    ordered = out.sort_values("start_time")["case_type"].tolist()
+    # Lexicographically-smaller value ("blue") lands on the earliest arrivals.
+    assert ordered == ["blue"] * 10 + ["red"] * 10
+
+
+def test_drift_leaves_event_stream_untouched():
+    log = _typed_timeline(12)
+    out = drift_case_types(log, strength=1.0, rng=np.random.default_rng(3))
+    for col in ("case_id", "activity", "start_time", "end_time", "resource"):
+        assert (out[col].values == log[col].values).all()
+
+
+def test_drift_requires_case_type_column():
+    log = _mklog([("c1", "A", "2025-01-01 10:00", "2025-01-01 11:00", "R1")])
+    with pytest.raises(ValueError):
+        drift_case_types(log, strength=0.5, rng=np.random.default_rng(0))
+
+
+def test_drift_increases_temporal_sortedness_monotonically():
+    # As strength rises, the first-half red fraction falls toward 0 (blue early).
+    log = _typed_timeline(40)
+    n = 40
+    prev = None
+    for s in (0.0, 0.5, 1.0):
+        out = drift_case_types(log, strength=s, rng=np.random.default_rng(7))
+        ordered = out.sort_values("start_time")["case_type"].tolist()
+        first_half_red = sum(t == "red" for t in ordered[: n // 2])
+        if prev is not None:
+            assert first_half_red <= prev
+        prev = first_half_red
