@@ -68,6 +68,7 @@ from evaluation.state_metrics.perturb import (
     build_gateway_biased_params,
     build_perturbed_params,
     build_role_swap_params,
+    build_route_error_params,
 )
 from src.process_state_prosimos_run import run_basic_simulation
 from src.runner import run_process_state_and_simulation
@@ -844,6 +845,19 @@ def _prepare_params_for_level(
             cfg.params_path,
             chain_task_ids=list(cfg.chain_task_ids),
             shift=signed,
+            out_json_path=out_params,
+        )
+    elif cfg.perturbation == "route_error":
+        if level < 0:
+            raise ValueError(
+                "route_error levels must be >= 0 (number of gateways inverted)"
+            )
+        # level = number of leading XOR splits whose case_type routing is
+        # inverted (red->short, blue->long) — the model error. The base params
+        # already route CORRECTLY, so level 0 is a verbatim copy.
+        manifest = build_route_error_params(
+            cfg.params_path,
+            n_gateways_inverted=level,
             out_json_path=out_params,
         )
     else:

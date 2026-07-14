@@ -642,6 +642,79 @@ def build_case_route_params(
     }
 
 
+def build_route_error_params(
+    base_json_path: str | Path,
+    *,
+    n_gateways_inverted: int,
+    out_json_path: str | Path,
+) -> dict:
+    """Invert the ``case_type`` routing on the first ``n_gateways_inverted``
+    XOR splits — the *model error* for scenario #3.
+
+    Designed for the *route-error* synthetic (see
+    ``tools/generate_route_error.py``), whose base params already route
+    CORRECTLY by case_type at every split gateway: the ``_a`` (long) branch is
+    bound to ``rule_red`` and the ``_b`` (short) branch to ``rule_blue`` via
+    ``condition_id``. This builder rewrites the first ``n_gateways_inverted``
+    split gateways (ordered by gateway id) to **swap** those bindings — the
+    ``_a`` branch now fires on ``rule_blue`` and the ``_b`` branch on
+    ``rule_red`` — so red cases take the short branch and blue cases the long
+    branch at those gateways.
+
+    Because the population is 50/50 red/blue, each gateway's path marginal stays
+    50/50, so cycle time, the 2-gram distribution and the aggregate
+    relative-event-distribution are all unchanged; only each case's *own* path
+    (paired by case_id) flips. ``n_gateways_inverted == 0`` is a no-op (copies
+    the base params verbatim).
+
+    Returns a manifest listing which gateways were inverted.
+    """
+    if n_gateways_inverted < 0:
+        raise ValueError("n_gateways_inverted must be >= 0")
+    params = _load_params(base_json_path)
+
+    # A "split" gateway here is any branching entry with exactly two paths whose
+    # ids end in _a / _b — the convention emitted by the route-error generator.
+    def _is_split(entry: dict) -> bool:
+        ids = [p["path_id"] for p in entry.get("probabilities", [])]
+        return len(ids) == 2 and any(i.endswith("_a") for i in ids) and any(
+            i.endswith("_b") for i in ids
+        )
+
+    splits = sorted(
+        (e for e in params.get("gateway_branching_probabilities", []) if _is_split(e)),
+        key=lambda e: e["gateway_id"],
+    )
+    if n_gateways_inverted > len(splits):
+        raise ValueError(
+            f"requested {n_gateways_inverted} inverted gateways but only "
+            f"{len(splits)} split gateways exist"
+        )
+
+    inverted: list[str] = []
+    for entry in splits[:n_gateways_inverted]:
+        for p in entry["probabilities"]:
+            # Swap the rule so the long (_a) branch fires on blue and the short
+            # (_b) branch on red — the inverse of the correct base routing.
+            if "condition_id" not in p:
+                raise ValueError(
+                    f"gateway {entry['gateway_id']!r} path {p['path_id']!r} has no "
+                    "condition_id; base params must route by case_type "
+                    "(generate_route_error bakes this in)"
+                )
+            p["condition_id"] = (
+                "rule_blue" if p["path_id"].endswith("_a") else "rule_red"
+            )
+        inverted.append(entry["gateway_id"])
+
+    _write_params(params, out_json_path)
+    return {
+        "n_gateways_inverted": n_gateways_inverted,
+        "inverted_gateways": inverted,
+        "n_split_gateways": len(splits),
+    }
+
+
 def build_branch_automation_params(
     base_json_path: str | Path,
     *,
