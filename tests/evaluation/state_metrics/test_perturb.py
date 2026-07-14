@@ -12,6 +12,7 @@ from evaluation.state_metrics.perturb import (
     build_gateway_biased_params,
     build_perturbed_params,
     build_role_swap_params,
+    build_route_error_params,
 )
 
 
@@ -19,6 +20,7 @@ _DEV = Path(__file__).resolve().parents[3] / "samples" / "dev-samples"
 XOR_JSON = _DEV / "synthetic_xor_loop.json"
 LOAN_JSON = Path(__file__).resolve().parents[3] / "samples" / "icpm-2025" / "synthetic" / "Loan-stable.json"
 CASE_ROUTE_JSON = _DEV / "synthetic_case_route.json"
+ROUTE_ERROR_JSON = _DEV / "synthetic_route_error.json"
 PARALLEL_AUTO_JSON = _DEV / "synthetic_parallel_auto.json"
 LINEAR_CHAIN_JSON = _DEV / "synthetic_linear_chain.json"
 
@@ -68,6 +70,52 @@ def test_case_route_rules_first_k_splits(tmp_path):
     assert all("condition_id" not in p
                for e in data["gateway_branching_probabilities"]
                for p in e["probabilities"] if len(e["probabilities"]) == 1)
+
+
+@pytest.mark.skipif(not ROUTE_ERROR_JSON.exists(), reason="synthetic_route_error.json missing")
+def test_route_error_zero_is_noop(tmp_path):
+    out = tmp_path / "p.json"
+    base = json.loads(ROUTE_ERROR_JSON.read_text())
+    manifest = build_route_error_params(ROUTE_ERROR_JSON, n_gateways_inverted=0, out_json_path=out)
+    assert manifest["n_gateways_inverted"] == 0
+    assert manifest["inverted_gateways"] == []
+    assert json.loads(out.read_text()) == base   # verbatim copy
+
+
+@pytest.mark.skipif(not ROUTE_ERROR_JSON.exists(), reason="synthetic_route_error.json missing")
+def test_route_error_inverts_first_k_splits(tmp_path):
+    out = tmp_path / "p.json"
+    manifest = build_route_error_params(ROUTE_ERROR_JSON, n_gateways_inverted=2, out_json_path=out)
+    assert manifest["inverted_gateways"] == ["g1s", "g2s"]   # ordered, first two
+    assert manifest["n_split_gateways"] == 3
+
+    data = json.loads(out.read_text())
+    by_id = {e["gateway_id"]: e for e in data["gateway_branching_probabilities"]}
+    # Inverted gateways: _a (long) now fires on blue, _b (short) on red.
+    for gid in ("g1s", "g2s"):
+        for p in by_id[gid]["probabilities"]:
+            assert p["condition_id"] == ("rule_blue" if p["path_id"].endswith("_a") else "rule_red")
+    # Untouched split keeps the CORRECT base routing (_a -> red, _b -> blue).
+    for p in by_id["g3s"]["probabilities"]:
+        assert p["condition_id"] == ("rule_red" if p["path_id"].endswith("_a") else "rule_blue")
+
+
+@pytest.mark.skipif(not ROUTE_ERROR_JSON.exists(), reason="synthetic_route_error.json missing")
+def test_route_error_too_many_raises(tmp_path):
+    with pytest.raises(ValueError, match="only 3 split"):
+        build_route_error_params(ROUTE_ERROR_JSON, n_gateways_inverted=99, out_json_path=tmp_path / "p.json")
+
+
+def test_route_error_missing_condition_raises(tmp_path):
+    base = tmp_path / "base.json"
+    base.write_text(json.dumps({
+        "gateway_branching_probabilities": [
+            {"gateway_id": "g1s", "probabilities": [
+                {"path_id": "f_g1s_a", "value": "0.5"}, {"path_id": "f_g1s_b", "value": "0.5"}]},
+        ],
+    }))
+    with pytest.raises(ValueError, match="no condition_id"):
+        build_route_error_params(base, n_gateways_inverted=1, out_json_path=tmp_path / "p.json")
 
 
 @pytest.mark.skipif(not CASE_ROUTE_JSON.exists(), reason="synthetic_case_route.json missing")

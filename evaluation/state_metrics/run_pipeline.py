@@ -54,7 +54,7 @@ def main() -> None:
                             "arrival_burst", "relabel", "rephase",
                             "mix_ratio", "label_swap", "case_route",
                             "parallel_auto", "front_back_load",
-                            "case_type_drift"],
+                            "case_type_drift", "route_error"],
                    default="resources",
                    help="which perturbation family to apply")
     p.add_argument("--remove-from-profile", default=None,
@@ -163,6 +163,9 @@ def main() -> None:
         levels = spec.default_levels
     elif args.perturbation == "front_back_load":
         # Percentage of duration mass moved toward the chosen chain end.
+        levels = spec.default_levels
+    elif args.perturbation == "route_error":
+        # Number of leading XOR splits whose case_type routing is inverted.
         levels = spec.default_levels
     else:
         levels = spec.default_levels
