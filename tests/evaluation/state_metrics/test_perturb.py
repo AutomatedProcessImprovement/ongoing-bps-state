@@ -9,6 +9,7 @@ from evaluation.state_metrics.perturb import (
     build_calendar_shifted_params,
     build_case_route_params,
     build_front_back_load_params,
+    build_front_back_swap_params,
     build_gateway_biased_params,
     build_perturbed_params,
     build_role_swap_params,
@@ -21,6 +22,7 @@ XOR_JSON = _DEV / "synthetic_xor_loop.json"
 LOAN_JSON = Path(__file__).resolve().parents[3] / "samples" / "icpm-2025" / "synthetic" / "Loan-stable.json"
 CASE_ROUTE_JSON = _DEV / "synthetic_case_route.json"
 ROUTE_ERROR_JSON = _DEV / "synthetic_route_error.json"
+FRONT_BACK_XOR_JSON = _DEV / "synthetic_front_back_xor.json"
 PARALLEL_AUTO_JSON = _DEV / "synthetic_parallel_auto.json"
 LINEAR_CHAIN_JSON = _DEV / "synthetic_linear_chain.json"
 
@@ -116,6 +118,64 @@ def test_route_error_missing_condition_raises(tmp_path):
     }))
     with pytest.raises(ValueError, match="no condition_id"):
         build_route_error_params(base, n_gateways_inverted=1, out_json_path=tmp_path / "p.json")
+
+
+_FBX_P = ["t_p1", "t_p2", "t_p3"]
+_FBX_Q = ["t_q1", "t_q2", "t_q3"]
+
+
+@pytest.mark.skipif(not FRONT_BACK_XOR_JSON.exists(), reason="synthetic_front_back_xor.json missing")
+def test_front_back_swap_zero_is_noop(tmp_path):
+    out = tmp_path / "p.json"
+    base = json.loads(FRONT_BACK_XOR_JSON.read_text())
+    manifest = build_front_back_swap_params(
+        FRONT_BACK_XOR_JSON, branch_p_task_ids=_FBX_P, branch_q_task_ids=_FBX_Q,
+        level=0, out_json_path=out)
+    assert manifest["level"] == 0
+    assert json.loads(out.read_text()) == base   # verbatim copy
+
+
+@pytest.mark.skipif(not FRONT_BACK_XOR_JSON.exists(), reason="synthetic_front_back_xor.json missing")
+def test_front_back_swap_full_swaps_profiles_total_invariant(tmp_path):
+    out = tmp_path / "p.json"
+    p0 = _chain_total_mean(json.loads(FRONT_BACK_XOR_JSON.read_text()), _FBX_P)
+    q0 = _chain_total_mean(json.loads(FRONT_BACK_XOR_JSON.read_text()), _FBX_Q)
+    base_p_means = [_task_mean(json.loads(FRONT_BACK_XOR_JSON.read_text()), t) for t in _FBX_P]
+    base_q_means = [_task_mean(json.loads(FRONT_BACK_XOR_JSON.read_text()), t) for t in _FBX_Q]
+
+    build_front_back_swap_params(
+        FRONT_BACK_XOR_JSON, branch_p_task_ids=_FBX_P, branch_q_task_ids=_FBX_Q,
+        level=100, out_json_path=out)
+    data = json.loads(out.read_text())
+    # Full swap: P now carries Q's profile and vice versa (positionally).
+    assert [round(_task_mean(data, t)) for t in _FBX_P] == [round(m) for m in base_q_means]
+    assert [round(_task_mean(data, t)) for t in _FBX_Q] == [round(m) for m in base_p_means]
+    # Each branch total held exactly invariant.
+    assert _chain_total_mean(data, _FBX_P) == pytest.approx(p0)
+    assert _chain_total_mean(data, _FBX_Q) == pytest.approx(q0)
+
+
+@pytest.mark.skipif(not FRONT_BACK_XOR_JSON.exists(), reason="synthetic_front_back_xor.json missing")
+def test_front_back_swap_half_is_flat(tmp_path):
+    out = tmp_path / "p.json"
+    build_front_back_swap_params(
+        FRONT_BACK_XOR_JSON, branch_p_task_ids=_FBX_P, branch_q_task_ids=_FBX_Q,
+        level=50, out_json_path=out)
+    data = json.loads(out.read_text())
+    # At 50% both branches collapse to the shared average profile.
+    p_means = [_task_mean(data, t) for t in _FBX_P]
+    q_means = [_task_mean(data, t) for t in _FBX_Q]
+    assert p_means == pytest.approx(q_means)
+    assert p_means[0] == pytest.approx(p_means[-1])   # flat
+
+
+def test_front_back_swap_mismatched_branches_raises(tmp_path):
+    base = tmp_path / "base.json"
+    base.write_text(json.dumps({"task_resource_distribution": []}))
+    with pytest.raises(ValueError, match="same number of tasks"):
+        build_front_back_swap_params(
+            base, branch_p_task_ids=["a", "b"], branch_q_task_ids=["c"],
+            level=50, out_json_path=tmp_path / "p.json")
 
 
 @pytest.mark.skipif(not CASE_ROUTE_JSON.exists(), reason="synthetic_case_route.json missing")

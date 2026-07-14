@@ -65,6 +65,7 @@ from evaluation.state_metrics.perturb import (
     build_case_route_params,
     build_duration_scaled_params,
     build_front_back_load_params,
+    build_front_back_swap_params,
     build_gateway_biased_params,
     build_perturbed_params,
     build_role_swap_params,
@@ -158,6 +159,11 @@ class PipelineConfig:
     # sign so the (non-negative) `level` ladder stays monotone for ranking.
     chain_task_ids: tuple[str, ...] | None = None
     load_direction: str = "front"           # "front" or "back"
+    # front_back_swap kwargs (scenario #4). The two equal-total XOR branches
+    # whose front/back time profiles are swapped; `level` is the percent swapped
+    # (0 = ground truth, 100 = full swap). Positional correspondence P_i <-> Q_i.
+    swap_p_task_ids: tuple[str, ...] | None = None
+    swap_q_task_ids: tuple[str, ...] | None = None
     # Windowing controls (added 2026-05 to enable cross-utilization comparison).
     # cutoff_strategy:
     #   "p90_wip"   — middle of top-decile WIP band (legacy default).
@@ -845,6 +851,18 @@ def _prepare_params_for_level(
             cfg.params_path,
             chain_task_ids=list(cfg.chain_task_ids),
             shift=signed,
+            out_json_path=out_params,
+        )
+    elif cfg.perturbation == "front_back_swap":
+        if cfg.swap_p_task_ids is None or cfg.swap_q_task_ids is None:
+            raise ValueError("front_back_swap requires cfg.swap_p_task_ids and cfg.swap_q_task_ids")
+        if not 0 <= level <= 100:
+            raise ValueError("front_back_swap levels must be in [0, 100] (percent swapped)")
+        manifest = build_front_back_swap_params(
+            cfg.params_path,
+            branch_p_task_ids=list(cfg.swap_p_task_ids),
+            branch_q_task_ids=list(cfg.swap_q_task_ids),
+            level=level,
             out_json_path=out_params,
         )
     elif cfg.perturbation == "route_error":

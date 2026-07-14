@@ -48,7 +48,7 @@ only *what is active*, *where in time*, or *which case is on which path*.
 |---|----------|--------|-----------|-------------------|-----------------|--------|
 | 2 | **Parallel-branch automation** | `parallel_auto` | composition / timeline | activity, case, cardinality, role (c-index 1.0) | cycle_time, ngd, red, rtd | ✅ built & validated — *"very good"* |
 | 3 | **Model-error routing** (was "XOR redistribution") | `route_error` *(new)* | pairing | activity_case, activity_type | cycle_time, ngd_n2, (red if branches balanced) | 🔨 **to build** — replaces old #3 |
-| 4 | **Compensating front/back XOR** | `front_back_load` *(redesign)* | **timeline** | time-weighted state | cycle_time, ngd, **and red** | 🔨 **to rebuild** — beats RED |
+| 4 | **Compensating front/back XOR** | `front_back_swap` *(new)* | **timeline** | activity/case/activity_case (0.94–0.96) | cycle_time, rtd, ngd, **and red** (all ~0.5) | ✅ **built & validated** — beats RED |
 | 1 | **Single-activity rename** | `relabel` | composition | activity, activity_case | cycle_time, ngd, red, rtd | ✅ built — *keep, needs justification* |
 | 7 | **Per-case timeline jitter** | `rephase` | timeline | all projections | ctd, ngd, red (exactly 0) | ✅ built |
 
@@ -101,12 +101,14 @@ impact — but the population is 50/50, so the *aggregate* cycle time compensate
   `case_type` tuple to detect it, because the case demonstrably leaves its
   ground-truth path. Modifying the **model** (not the log) is the clean framing.
 
-### 4 · Compensating front/back XOR — `front_back_load` *(redesign)*
+### 4 · Compensating front/back XOR — `front_back_swap` *(built & validated)*
 - **Process:** an XOR with **two branches of equal total duration** — one
   **front-loaded** (early steps long, late short) and one **back-loaded** (the
-  mirror). 50/50 population.
+  mirror). 50/50 population. (`tools/generate_front_back_xor.py`.)
 - **Change (in the model):** **swap** the two loadings (the front-loaded branch
-  becomes back-loaded and vice-versa). Each case's total duration is unchanged.
+  becomes back-loaded and vice-versa) via `build_front_back_swap_params`; `level`
+  = percent swapped (0 = GT, 100 = full swap). Each branch's total duration is
+  held exactly invariant at every level.
 - **Kept identical:** per-case total duration → cycle time; the activity
   sequence; **and the aggregate relative-event-distribution** — because the two
   branches compensate each other across the population.
@@ -116,6 +118,11 @@ impact — but the population is 50/50, so the *aggregate* cycle time compensate
   front/back-load, which RED *would* detect.)
 - **Why state catches it:** *where in time the work sits* changed per case — the
   per-instant active-set view localises it. The "where is the error" story.
+- **Validated result** (Scope A, 5 runs, levels 0/25/50/75/100): every baseline
+  blind — `cycle_time` / `red` / `rtd` c-index **0.500** (distances exactly 0 at
+  every level), `ngd_n2` 0.55; state detects — `activity` 0.956, `case` 0.952,
+  `activity_case` 0.936. The cleanest shutout in the set: **all four baselines,
+  RED included, are blind while state localises the per-case timeline shift.**
 
 ### 1 · Single-activity rename — `relabel`  *(David: keep, needs justification)*
 - **Change:** rename a fraction of one activity's occurrences to a new label;
@@ -185,12 +192,16 @@ Tight, non-redundant, one per mechanism:
   enhancement) may exceed Prosimos `branch_rules` (deterministic conditions).
   Ship deterministic red→A / blue→B first; verify 90/10 capability separately.
 
-### P2 · `front_back_load` (scenario #4) — redesign to compensating branches
+### P2 · `front_back_swap` (scenario #4) — ✅ DELIVERED
 
-- Replace the single linear chain with an **XOR of a front-loaded and a
-  back-loaded branch of equal total**; the model error **swaps** the loadings.
-- Aggregate relative-event-distribution compensates → **RED blind**; per-instant
-  state localises it.
+- `tools/generate_front_back_xor.py` → `synthetic_front_back_xor.{bpmn,json}`:
+  a 50/50 XOR into an equal-total front-loaded (P) and back-loaded (Q) branch.
+- `perturb.build_front_back_swap_params`: morphs each branch toward the other's
+  profile (`level` = percent swapped), holding each branch total exactly fixed.
+- Wired as a simulator-driven param family (`--perturbation front_back_swap`),
+  `DatasetSpec synthetic_front_back_xor`, unit tests.
+- **Result:** all baselines (cycle_time/red/rtd/ngd) ~0.5; state 0.94–0.96.
+  RED confirmed blind — the compensating design defeats it.
 
 ### Not doing
 

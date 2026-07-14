@@ -54,7 +54,8 @@ def main() -> None:
                             "arrival_burst", "relabel", "rephase",
                             "mix_ratio", "label_swap", "case_route",
                             "parallel_auto", "front_back_load",
-                            "case_type_drift", "route_error"],
+                            "case_type_drift", "route_error",
+                            "front_back_swap"],
                    default="resources",
                    help="which perturbation family to apply")
     p.add_argument("--remove-from-profile", default=None,
@@ -167,6 +168,9 @@ def main() -> None:
     elif args.perturbation == "route_error":
         # Number of leading XOR splits whose case_type routing is inverted.
         levels = spec.default_levels
+    elif args.perturbation == "front_back_swap":
+        # Percent the two branch time profiles are swapped (0=GT, 100=full).
+        levels = spec.default_levels
     else:
         levels = spec.default_levels
 
@@ -197,6 +201,8 @@ def main() -> None:
         automate_task_ids=spec.automate_task_ids or None,
         chain_task_ids=spec.chain_task_ids or None,
         load_direction=args.load_direction,
+        swap_p_task_ids=spec.swap_p_task_ids or None,
+        swap_q_task_ids=spec.swap_q_task_ids or None,
     )
     run_pipeline(cfg)
 

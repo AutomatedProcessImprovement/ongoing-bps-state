@@ -881,6 +881,84 @@ def build_front_back_load_params(
     }
 
 
+def build_front_back_swap_params(
+    base_json_path: str | Path,
+    *,
+    branch_p_task_ids: list[str],
+    branch_q_task_ids: list[str],
+    level: int,
+    out_json_path: str | Path,
+) -> dict:
+    """Swap the front-/back-loaded time profiles of two equal-total XOR branches.
+
+    Designed for the *front/back-XOR* synthetic (see
+    ``tools/generate_front_back_xor.py``): Branch P is front-loaded and Branch Q
+    back-loaded, both with the same number of activities and the same total
+    duration. This builder morphs each branch's per-activity mean toward the
+    OTHER branch's profile by a fraction ``a = level/100`` (positionally):
+
+        P_i(a) = (1-a)·P0_i + a·Q0_i        Q_i(a) = (1-a)·Q0_i + a·P0_i
+
+    ``level == 0`` is the ground-truth model; ``level == 100`` is the full swap
+    (P becomes back-loaded, Q front-loaded). Because the two base profiles have
+    equal sums, each branch's TOTAL duration is invariant at every level, so
+    cycle time and aggregate utilisation are unchanged; only *where in the
+    timeline* the work sits moves — and, since P and Q compensate across the
+    50/50 population, the aggregate relative-event-distribution is unchanged too
+    (``red`` blind). Only pairing by case_id sees the per-case shift.
+
+    All of a task's distribution params (mean, std, min, max) are scaled by the
+    same factor so the distribution shape is preserved. Returns a manifest.
+    """
+    if not 0 <= level <= 100:
+        raise ValueError("level must be in [0, 100] (percent swapped)")
+    if len(branch_p_task_ids) != len(branch_q_task_ids):
+        raise ValueError("branch P and Q must have the same number of tasks")
+    if len(branch_p_task_ids) < 2:
+        raise ValueError("each branch must list at least two ordered tasks")
+
+    params = _load_params(base_json_path)
+    trd_by_id = {t.get("task_id"): t for t in params.get("task_resource_distribution", [])}
+    missing = [tid for tid in (*branch_p_task_ids, *branch_q_task_ids) if tid not in trd_by_id]
+    if missing:
+        raise ValueError(f"branch tasks not found in params: {missing}")
+
+    def _task_mean(tid: str) -> float:
+        resources = trd_by_id[tid].get("resources", [])
+        if not resources or not resources[0].get("distribution_params"):
+            raise ValueError(f"task {tid!r} has no distribution params")
+        return float(resources[0]["distribution_params"][0]["value"])
+
+    p0 = [_task_mean(t) for t in branch_p_task_ids]
+    q0 = [_task_mean(t) for t in branch_q_task_ids]
+    a = level / 100.0
+
+    def _apply(tid: str, base_mean: float, new_mean: float) -> float:
+        f = new_mean / base_mean if base_mean > 0 else 1.0
+        for r in trd_by_id[tid].get("resources", []):
+            r["distribution_params"] = [
+                {"value": p["value"] * f} for p in r.get("distribution_params", [])
+            ]
+        return f
+
+    factors: dict[str, float] = {}
+    for i, tid in enumerate(branch_p_task_ids):
+        factors[tid] = _apply(tid, p0[i], (1 - a) * p0[i] + a * q0[i])
+    for i, tid in enumerate(branch_q_task_ids):
+        factors[tid] = _apply(tid, q0[i], (1 - a) * q0[i] + a * p0[i])
+
+    _write_params(params, out_json_path)
+    return {
+        "branch_p_task_ids": list(branch_p_task_ids),
+        "branch_q_task_ids": list(branch_q_task_ids),
+        "level": level,
+        "factors": factors,
+        "branch_p_total_mean": sum(p0),
+        "branch_q_total_mean": sum(q0),
+        "total_invariant": abs(sum(p0) - sum(q0)) < 1e-6,
+    }
+
+
 def build_arrival_burstier_params(
     base_json_path: str | Path,
     *,
