@@ -150,6 +150,14 @@ evaluation/tmp_dupe_check/
 *.json
 *.bpmn
 *.zip
+# The state-metrics BPS models are the experimental apparatus, not build
+# output: the blanket *.json / *.bpmn rules above would otherwise leave the
+# models a paper's results depend on untracked. Generator scripts live in
+# tools/generate_*.py, but they are unseeded, so re-running them does NOT
+# reproduce these exact files.
+!samples/dev-samples/*.bpmn
+!samples/dev-samples/*.json
+
 !package.json
 !package-lock.json
 !tsconfig.json

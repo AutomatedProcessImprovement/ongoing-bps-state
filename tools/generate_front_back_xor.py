@@ -67,11 +67,19 @@ def _flow(fid: str, src: str, tgt: str) -> str:
     return f'<bpmn:sequenceFlow id="{fid}" sourceRef="{src}" targetRef="{tgt}" />'
 
 
-def _norm(mean: float) -> dict:
+def _norm(mean: float, cv: float = 0.07) -> dict:
     """Narrow normal duration (Prosimos ``norm`` order ``[mean, std, min, max]``).
-    Std = 7 % of the mean so two same-model sims diverge little (low state
-    noise floor), letting the per-case timeline shift stand out."""
-    std = 0.07 * mean
+
+    ``cv`` is the coefficient of variation. The default 7 % keeps two same-model
+    sims close, but that is a *relative* bound and the gate activity is an order
+    of magnitude longer than the branch tasks: at 7 % its absolute jitter is
+    ~660 s against the branch tasks' ~40 s, which desynchronises when each case
+    enters its branch and dominates the level-0 floor of any case-keyed view.
+    ``build_model(gate_cv=...)`` therefore sets the gate's CV independently.
+    The gate is common to both logs and carries no injected error, so its
+    variance is pure measurement noise.
+    """
+    std = cv * mean
     return {
         "distribution_name": "norm",
         "distribution_params": [
@@ -101,6 +109,8 @@ def build_model(
     branch_len: int = 3,
     branch_total: float = 1200.0,
     common_service: float = 180.0,
+    gate_service: float = 0.0,
+    gate_cv: float = 0.07,
     workers: int = 64,
     arrival_mean: float = 60.0,
 ) -> tuple[str, dict]:
@@ -109,6 +119,14 @@ def build_model(
     Branch P (front-loaded) and Branch Q (back-loaded) each have ``branch_len``
     activities summing to ``branch_total`` seconds. ``workers`` / ``arrival_mean``
     set the offered load.
+
+    ``gate_service > 0`` inserts a long common "Intake" activity between Register
+    and the XOR split. Its purpose is to move the high-WIP cutoff *before* the
+    branch: with a gate this long, most cases in flight at any instant are still
+    inside Intake, so their whole branch runs after the cutoff under a single
+    time profile. Without it the cutoff lands mid-branch and the swap splices the
+    head of one profile onto the tail of the other, which does NOT preserve the
+    case total — the leak that makes cycle_time and rtd detect the perturbation.
     """
     if branch_len < 2:
         raise ValueError("branch_len must be >= 2 to carry a front/back profile")
@@ -122,11 +140,21 @@ def build_model(
     task_means["t_reg"] = common_service
     flows.append(_flow("f_start", "StartEvent_1", "t_reg"))
 
+    # Optional long common activity ahead of the split (see build_model docstring).
+    if gate_service > 0:
+        nodes.append(_task("t_gate", "Intake", "f_reg_gs", "f_gate_gs"))
+        task_means["t_gate"] = gate_service
+        flows.append(_flow("f_reg_gs", "t_reg", "t_gate"))
+        flows.append(_flow("f_gate_gs", "t_gate", "gs"))
+        split_in = "f_gate_gs"
+    else:
+        flows.append(_flow("f_reg_gs", "t_reg", "gs"))
+        split_in = "f_reg_gs"
+
     # Split gateway. Flow ids leaving keep the _p / _q suffix so the builder can
     # find the two branches.
     f_sp, f_sq = "f_gs_p", "f_gs_q"
-    nodes.append(_xor("gs", "XOR-split", ["f_reg_gs"], [f_sp, f_sq]))
-    flows.append(_flow("f_reg_gs", "t_reg", "gs"))
+    nodes.append(_xor("gs", "XOR-split", [split_in], [f_sp, f_sq]))
 
     p_front = _profile(branch_len, branch_total, front=True)   # Branch P front-loaded
     q_back = _profile(branch_len, branch_total, front=False)   # Branch Q back-loaded
@@ -165,11 +193,13 @@ def build_model(
         "</bpmn:process></bpmn:definitions>"
     )
 
-    params = _build_params(task_means, workers=workers, arrival_mean=arrival_mean)
+    params = _build_params(task_means, workers=workers, arrival_mean=arrival_mean,
+                           task_cv={"t_gate": gate_cv})
     return bpmn, params
 
 
-def _build_params(task_means: dict[str, float], *, workers: int, arrival_mean: float) -> dict:
+def _build_params(task_means: dict[str, float], *, workers: int, arrival_mean: float,
+                  task_cv: dict[str, float] | None = None) -> dict:
     cal_id = "cal_247"
     periods = [{"from": "MONDAY", "to": "SUNDAY",
                 "beginTime": "00:00:00", "endTime": "23:59:59.999"}]
@@ -178,7 +208,8 @@ def _build_params(task_means: dict[str, float], *, workers: int, arrival_mean: f
 
     task_resource_distribution = [
         {"task_id": tid,
-         "resources": [{**_norm(task_means[tid]), "resource_id": rid} for rid in resource_ids]}
+         "resources": [{**_norm(task_means[tid], (task_cv or {}).get(tid, 0.07)),
+                        "resource_id": rid} for rid in resource_ids]}
         for tid in task_ids
     ]
     resource_profiles = [{
@@ -221,6 +252,13 @@ def main() -> None:
     ap.add_argument("--branch-total", type=float, default=1200.0,
                     help="total seconds of work per branch (equal for P and Q)")
     ap.add_argument("--common-service", type=float, default=180.0)
+    ap.add_argument("--gate-cv", type=float, default=0.07,
+                    help="coefficient of variation for the gate activity only "
+                         "(default 0.07, same as every other task)")
+    ap.add_argument("--gate-service", type=float, default=0.0,
+                    help="seconds of a common 'Intake' activity before the XOR "
+                         "(0 = none). Long values push the high-WIP cutoff "
+                         "ahead of the branch.")
     ap.add_argument("--workers", type=int, default=64)
     ap.add_argument("--arrival-mean", type=float, default=60.0)
     ap.add_argument("--out-dir", type=Path,
@@ -230,7 +268,9 @@ def main() -> None:
 
     bpmn, params = build_model(
         branch_len=args.branch_len, branch_total=args.branch_total,
-        common_service=args.common_service, workers=args.workers,
+        common_service=args.common_service, gate_service=args.gate_service,
+        gate_cv=args.gate_cv,
+        workers=args.workers,
         arrival_mean=args.arrival_mean,
     )
     args.out_dir.mkdir(parents=True, exist_ok=True)

@@ -27,6 +27,8 @@ and the [α/2, 1-α/2] percentiles of the resampled values give the interval.
 
 from __future__ import annotations
 
+import hashlib
+
 from collections.abc import Callable, Mapping
 from typing import TypeAlias
 
@@ -67,6 +69,35 @@ def concordance_index(values_by_level: ValuesByLevel) -> float:
     return score / total if total else float("nan")
 
 
+def concordance_index_on_means(values_by_level: ValuesByLevel) -> float:
+    """C-index over per-level *means* rather than over individual replicates.
+
+    Averages the replicates of a level into one value first, so the simulator's
+    run-to-run stochasticity is averaged out of the distance before the ranking
+    is graded, then scores the C(L,2) level pairs. ``+1`` if the higher level
+    has the larger mean, ``+0.5`` on an exact tie.
+
+    This is the variant to report when the question is "does the *measure*
+    rank the levels?" rather than "can a single replicate be ranked?" — the
+    latter is what :func:`concordance_index` answers, and it charges the
+    measure for replication noise. Granularity is coarse by construction:
+    1/C(L,2), i.e. 1/10 for five levels and 1/6 for four. Equivalent to
+    ``(kendall_on_means + 1) / 2`` when no two level means coincide.
+    """
+    levels = sorted(values_by_level)
+    if len(levels) < 2:
+        return float("nan")
+    means = [float(np.mean(values_by_level[L])) for L in levels]
+    score = 0.0
+    total = 0
+    for i in range(len(levels)):
+        for j in range(i + 1, len(levels)):
+            diff = means[j] - means[i]
+            score += 1.0 if diff > 0 else (0.5 if diff == 0 else 0.0)
+            total += 1
+    return score / total
+
+
 def _correlation_on_means(values_by_level: ValuesByLevel, fn) -> float:
     levels = sorted(values_by_level)
     if len(levels) < 2:
@@ -87,6 +118,17 @@ def spearman_on_means(values_by_level: ValuesByLevel) -> float:
 def kendall_on_means(values_by_level: ValuesByLevel) -> float:
     """Kendall τ between the level index and the per-level mean metric."""
     return _correlation_on_means(values_by_level, _scipy_stats.kendalltau)
+
+
+def _stable_seed(*parts: object) -> int:
+    """Deterministic 32-bit seed from a key, stable across processes.
+
+    ``hash()`` cannot be used: CPython randomises string hashing per process
+    (PEP 456) unless ``PYTHONHASHSEED`` is set, so a seed derived from it
+    changes on every interpreter start. SHA-256 of the joined key does not.
+    """
+    digest = hashlib.sha256("|".join(map(str, parts)).encode()).digest()
+    return int.from_bytes(digest[:8], "big") % (2 ** 32)
 
 
 def bootstrap_ci(
@@ -140,7 +182,6 @@ def compute_rankings(
     if missing:
         raise ValueError(f"results_df is missing columns: {sorted(missing)}")
 
-    rng = np.random.default_rng(seed)
     clean = results_df.dropna(subset=["value"]).copy()
     clean["level"] = clean["level"].astype(int)
 
@@ -155,11 +196,27 @@ def compute_rankings(
         if len(vbl) < 2:
             continue
 
+        # Seed per (scope, family, metric) rather than sharing one advancing
+        # generator across the loop: with a shared generator two metrics
+        # holding identical data get different intervals purely because of
+        # their position in the iteration order, which is not reproducible in
+        # any way a reader could check.
+        #
+        # The key is hashed with SHA-256, NOT the builtin ``hash()``. Python
+        # randomises string hashing per process unless PYTHONHASHSEED is set,
+        # so ``hash()`` here made every interpreter produce a different seed:
+        # the intervals moved between runs of the same script on the same
+        # data, which is the opposite of what this block is for.
+        rng = np.random.default_rng(_stable_seed(seed, scope, family, metric))
         c_idx = concordance_index(vbl)
+        c_mean = concordance_index_on_means(vbl)
         rho = spearman_on_means(vbl)
         tau = kendall_on_means(vbl)
         c_lo, c_hi = bootstrap_ci(
             concordance_index, vbl, n_iter=n_bootstrap, alpha=alpha, rng=rng,
+        )
+        cm_lo, cm_hi = bootstrap_ci(
+            concordance_index_on_means, vbl, n_iter=n_bootstrap, alpha=alpha, rng=rng,
         )
         rho_lo, rho_hi = bootstrap_ci(
             spearman_on_means, vbl, n_iter=n_bootstrap, alpha=alpha, rng=rng,
@@ -168,6 +225,14 @@ def compute_rankings(
             kendall_on_means, vbl, n_iter=n_bootstrap, alpha=alpha, rng=rng,
         )
 
+        # Per-level means travel with the ranking statistics: a c-index says
+        # only whether the measure ordered the levels, never how far it moved
+        # or how much of that movement is above its own level-0 noise floor.
+        # Both arguments in the write-up need the raw means visible.
+        level_means = {L: float(np.mean(v)) for L, v in sorted(vbl.items())}
+        floor = level_means[min(level_means)]
+        top = level_means[max(level_means)]
+
         out_rows.append({
             "scope": scope,
             "family": family,
@@ -175,6 +240,9 @@ def compute_rankings(
             "c_index": c_idx,
             "c_index_ci_low": c_lo,
             "c_index_ci_high": c_hi,
+            "c_index_means": c_mean,
+            "c_index_means_ci_low": cm_lo,
+            "c_index_means_ci_high": cm_hi,
             "spearman": rho,
             "spearman_ci_low": rho_lo,
             "spearman_ci_high": rho_hi,
@@ -183,6 +251,13 @@ def compute_rankings(
             "kendall_ci_high": tau_hi,
             "n_levels": len(vbl),
             "min_replicates_per_level": min(len(v) for v in vbl.values()),
+            "level_0_mean": floor,
+            "top_level_mean": top,
+            # Movement across the ladder as a multiple of the level-0 floor.
+            # NaN when the floor is 0 (nothing to divide by, and the measure is
+            # exactly blind or exactly noiseless there).
+            "rise_over_floor": (top / floor) if floor > 0 else float("nan"),
+            **{f"mean_L{L}": m for L, m in level_means.items()},
         })
 
     return pd.DataFrame(out_rows)

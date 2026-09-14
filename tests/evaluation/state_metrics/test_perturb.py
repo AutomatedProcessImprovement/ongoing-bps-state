@@ -685,3 +685,49 @@ def test_front_back_load_rejects_bad_args(tmp_path):
         build_front_back_load_params(base, chain_task_ids=["t_step1"], shift=10, out_json_path=tmp_path / "o.json")
     with pytest.raises(ValueError, match="not found"):
         build_front_back_load_params(base, chain_task_ids=["t_step1", "nope"], shift=10, out_json_path=tmp_path / "o.json")
+
+
+# ---- automation floor_fraction --------------------------------------------
+
+
+def _nc_mean(params, task_id="t_nc1"):
+    task = next(t for t in params["task_resource_distribution"] if t["task_id"] == task_id)
+    return task["resources"][0]["distribution_params"][0]["value"]
+
+
+def test_floor_fraction_bounds_the_scale(tmp_path):
+    """Full automation must not collapse the chain when a floor is set.
+
+    Level 100 with floor_fraction=0.6 leaves the task at 60% of its original
+    duration, keeping it inside the active set instead of vanishing from it.
+    """
+    base = Path("samples/dev-samples/synthetic_parallel_auto.json")
+    original = _nc_mean(json.loads(base.read_text()))
+
+    out = tmp_path / "floored.json"
+    manifest = build_branch_automation_params(
+        base, automate_task_ids=["t_nc1", "t_nc2", "t_nc3"],
+        level=100, floor_fraction=0.6, out_json_path=out,
+    )
+    assert manifest["factor"] == pytest.approx(0.6)
+    assert _nc_mean(json.loads(out.read_text())) == pytest.approx(0.6 * original)
+
+
+def test_floor_fraction_inactive_above_the_floor(tmp_path):
+    base = Path("samples/dev-samples/synthetic_parallel_auto.json")
+    original = _nc_mean(json.loads(base.read_text()))
+    out = tmp_path / "unfloored.json"
+    build_branch_automation_params(
+        base, automate_task_ids=["t_nc1", "t_nc2", "t_nc3"],
+        level=20, floor_fraction=0.6, out_json_path=out,
+    )
+    assert _nc_mean(json.loads(out.read_text())) == pytest.approx(0.8 * original)
+
+
+def test_floor_fraction_rejects_out_of_range(tmp_path):
+    base = Path("samples/dev-samples/synthetic_parallel_auto.json")
+    with pytest.raises(ValueError, match="floor_fraction"):
+        build_branch_automation_params(
+            base, automate_task_ids=["t_nc1"], level=50,
+            floor_fraction=1.0, out_json_path=tmp_path / "x.json",
+        )

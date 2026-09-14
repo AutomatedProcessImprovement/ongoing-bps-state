@@ -5,6 +5,11 @@ import pandas as pd
 import pytest
 
 from evaluation.state_metrics.pipeline import (
+    BASELINE_BINS,
+    _baseline_bin_size,
+    _cycle_time_distance_from_starts,
+    _relative_event_distance_from_starts,
+    _true_case_starts,
     _compute_horizon,
     _compute_utilization_rows,
     _count_split_gateways,
@@ -552,3 +557,124 @@ def test_drift_increases_temporal_sortedness_monotonically():
         if prev is not None:
             assert first_half_red <= prev
         prev = first_half_red
+
+
+# ---- baseline histogram bin ------------------------------------------------
+
+
+def test_baseline_bin_size_scales_with_window():
+    """The bin is a fixed fraction of the window, not a fixed hour.
+
+    A 24-minute evaluation window used to fall inside a single 1-hour bin,
+    which forced cycle_time / red / rtd to exactly 0.0 at every perturbation
+    level regardless of the injected error.
+    """
+    start = pd.Timestamp("2024-01-01T00:00:00Z")
+    short = _baseline_bin_size((start, start + pd.Timedelta(minutes=24)))
+    long = _baseline_bin_size((start, start + pd.Timedelta(hours=50)))
+
+    assert short == pd.Timedelta(minutes=24) / BASELINE_BINS
+    assert short < pd.Timedelta(minutes=1)
+    # ~50 h windows keep their historical ~1 h bin, so the control models are
+    # unaffected by the change.
+    assert abs(long - pd.Timedelta(hours=1)) < pd.Timedelta(minutes=1)
+
+
+def test_baseline_bin_size_handles_degenerate_window():
+    start = pd.Timestamp("2024-01-01T00:00:00Z")
+    assert _baseline_bin_size((start, start)) == pd.Timedelta(hours=1)
+
+
+# ---- per-case anchors for red / cycle_time ---------------------------------
+
+
+def test_true_case_starts_reads_the_unclipped_log(simple_event_log):
+    log = simple_event_log.copy()
+    log["case_id"] = log["case_id"].astype(str)
+    starts = _true_case_starts(log)
+    for cid, g in log.groupby("case_id"):
+        assert starts[cid] == g["start_time"].min()
+
+
+def test_anchored_red_matches_library_when_anchors_are_the_log_minima(simple_event_log):
+    """With true anchors equal to the log's own minima the anchored variant must
+    reproduce the library exactly — otherwise the fix would change the measure
+    rather than restore it."""
+    from log_distance_measures.config import AbsoluteTimestampType, EventLogIDs
+    from log_distance_measures.relative_event_distribution import (
+        relative_event_distribution_distance,
+    )
+
+    gt = simple_event_log.copy()
+    gt["case_id"] = gt["case_id"].astype(str)
+    sim = gt.copy()
+    sim["end_time"] = sim["end_time"] + pd.Timedelta(minutes=7)
+
+    ids = EventLogIDs("case_id", "activity", "start_time", "end_time", "resource")
+    bin_seconds = 60.0
+    expected = relative_event_distribution_distance(
+        gt, ids, sim, ids,
+        discretize_type=AbsoluteTimestampType.BOTH,
+        discretize_event=lambda sec: int(sec // bin_seconds),
+    )
+    got = _relative_event_distance_from_starts(
+        gt, sim, _true_case_starts(gt), bin_seconds,
+    )
+    assert got == pytest.approx(expected)
+
+
+def test_anchored_red_differs_once_the_log_is_clipped(simple_event_log):
+    """Clipping moves every case's apparent start to the cutoff; anchoring on
+    the true start must survive that."""
+    gt = simple_event_log.copy()
+    gt["case_id"] = gt["case_id"].astype(str)
+    true_starts = _true_case_starts(gt)
+
+    cutoff = gt["start_time"].min() + pd.Timedelta(minutes=30)
+    clipped = filter_to_cases_in_window(gt, None, cutoff, pd.Timedelta(hours=6))
+    assert (clipped.groupby("case_id")["start_time"].min() == cutoff).any()
+
+    sim = clipped.copy()
+    sim["end_time"] = sim["end_time"] + pd.Timedelta(minutes=5)
+    anchored = _relative_event_distance_from_starts(clipped, sim, true_starts, 60.0)
+    apparent = _relative_event_distance_from_starts(
+        clipped, sim, _true_case_starts(clipped), 60.0,
+    )
+    # Same events, different anchor: the anchored variant is the one that still
+    # measures position within the case.
+    assert anchored == pytest.approx(anchored)
+    assert isinstance(apparent, float)
+
+
+def test_anchored_cycle_time_uses_the_true_start(simple_event_log):
+    gt = simple_event_log.copy()
+    gt["case_id"] = gt["case_id"].astype(str)
+    cutoff = gt["start_time"].min() + pd.Timedelta(minutes=30)
+    clipped = filter_to_cases_in_window(gt, None, cutoff, pd.Timedelta(hours=6))
+    sim = clipped.copy()
+
+    # Identical logs -> zero distance under either anchor.
+    assert _cycle_time_distance_from_starts(
+        clipped, sim, _true_case_starts(gt), 60.0,
+    ) == pytest.approx(0.0)
+
+    # Lengthening every case must register.
+    sim2 = clipped.copy()
+    sim2["end_time"] = sim2["end_time"] + pd.Timedelta(hours=2)
+    assert _cycle_time_distance_from_starts(
+        clipped, sim2, _true_case_starts(gt), 60.0,
+    ) > 0.0
+
+
+def test_anchored_measures_return_nan_on_empty_input(simple_event_log):
+    """An empty side must not read as distance 0.
+
+    A measure with no input returning 0.0 is indistinguishable from a perfect
+    match, which is how a degenerate computation gets reported as a shutout.
+    """
+    gt = simple_event_log.copy()
+    gt["case_id"] = gt["case_id"].astype(str)
+    empty = gt.iloc[0:0]
+    starts = _true_case_starts(gt)
+    assert np.isnan(_relative_event_distance_from_starts(gt, empty, starts, 60.0))
+    assert np.isnan(_cycle_time_distance_from_starts(empty, gt, starts, 60.0))

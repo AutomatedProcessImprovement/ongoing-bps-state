@@ -50,6 +50,7 @@ from __future__ import annotations
 import json
 import random
 import shutil
+from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -552,6 +553,124 @@ def _run_one_sim(
     return sim_log_csv
 
 
+# Number of histogram bins the timestamp-distribution baselines (cycle_time,
+# red, rtd) get over the evaluation window. A *fixed* 1-hour bin — what this
+# module used before — is meaningless when the window is shorter than an hour:
+# every event lands in a single bin and all three distances are forced to
+# exactly 0.0 whatever the perturbation does, which reads as "blind by
+# construction" when it is only "unresolved by construction". The synthetic
+# datasets run 24–120 minute windows, so they were all in that regime.
+# Scaling the bin to the window gives every dataset the same time resolution;
+# at 50 bins the ~50 h control-model windows keep their previous 1-hour bin, so
+# only the short-window synthetics change.
+BASELINE_BINS = 50
+
+
+def _baseline_bin_size(window: tuple[pd.Timestamp, pd.Timestamp]) -> pd.Timedelta:
+    """Histogram bin for the distribution baselines: 1/BASELINE_BINS of the window."""
+    span = window[1] - window[0]
+    if span <= pd.Timedelta(0):
+        return pd.Timedelta(hours=1)
+    return span / BASELINE_BINS
+
+
+def _true_case_starts(
+    source_log: pd.DataFrame, case_ids: set[str] | None = None
+) -> dict[str, pd.Timestamp]:
+    """Each case's real first-event time, taken from the UNCLIPPED source log.
+
+    The evaluation window is clipped at the cutoff, so in the log handed to the
+    baselines every ongoing case appears to begin exactly at the cutoff. Two of
+    them anchor per-case quantities on that apparent start and are silently
+    redefined by it:
+
+    * ``red`` relativises each event to its case's start, so on Scope A it
+      measures position relative to the *cutoff* rather than position within
+      the case -- which makes it a near-duplicate of ``rtd``.
+    * ``cycle_time`` takes ``end.max() - start.min()``, so it measures the
+      in-window duration rather than the case's cycle time.
+
+    ``rtd`` is unaffected: it anchors on the explicit ``reference_point`` and
+    only reads ``end.max()``.
+
+    Passing this map to :func:`_compute_metrics_row` restores the intended
+    semantics for both.
+    """
+    log = source_log
+    if case_ids is not None:
+        log = log[log["case_id"].astype(str).isin(case_ids)]
+    starts = log.groupby(log["case_id"].astype(str))["start_time"].min()
+    return {str(k): v for k, v in starts.items()}
+
+
+def _relative_event_distance_from_starts(
+    gt: pd.DataFrame,
+    sim: pd.DataFrame,
+    case_starts: Mapping[str, pd.Timestamp],
+    bin_seconds: float,
+) -> float:
+    """``red``, but each case anchored on its true start (see _true_case_starts).
+
+    Mirrors ``relative_event_distribution_distance`` with
+    ``discretize_type=BOTH``: every start and end timestamp is expressed
+    relative to its case start, discretized, and the two samples compared with
+    a Wasserstein distance. Cases absent from ``case_starts`` fall back to
+    their own earliest timestamp in the given log.
+    """
+    from scipy.stats import wasserstein_distance
+
+    def offsets(df: pd.DataFrame) -> list[int]:
+        out: list[int] = []
+        for cid, g in df.groupby(df["case_id"].astype(str)):
+            anchor = case_starts.get(cid)
+            if anchor is None:
+                anchor = g["start_time"].min()
+            for col in ("start_time", "end_time"):
+                out += [
+                    int((t - anchor).total_seconds() // bin_seconds) for t in g[col]
+                ]
+        return out
+
+    a, b = offsets(gt), offsets(sim)
+    if not a or not b:
+        # NaN, not 0.0: an empty side means the measure had nothing to compare,
+        # which must not be reported as a perfect match. compute_rankings drops
+        # NaN rows, so a degenerate cell is visible rather than a fake shutout.
+        return float("nan")
+    return float(wasserstein_distance(a, b))
+
+
+def _cycle_time_distance_from_starts(
+    gt: pd.DataFrame,
+    sim: pd.DataFrame,
+    case_starts: Mapping[str, pd.Timestamp],
+    bin_seconds: float,
+) -> float:
+    """``cycle_time``, but each case anchored on its true start.
+
+    Mirrors ``cycle_time_distribution_distance``: per-case duration, shifted by
+    the smallest duration across both logs, discretized, Wasserstein.
+    """
+    from scipy.stats import wasserstein_distance
+
+    def durations(df: pd.DataFrame) -> list[float]:
+        out: list[float] = []
+        for cid, g in df.groupby(df["case_id"].astype(str)):
+            anchor = case_starts.get(cid)
+            if anchor is None:
+                anchor = g["start_time"].min()
+            out.append((g["end_time"].max() - anchor).total_seconds())
+        return out
+
+    a, b = durations(gt), durations(sim)
+    if not a or not b:
+        return float("nan")   # see _relative_event_distance_from_starts
+    floor = min(a + b)
+    da = [int((d - floor) // bin_seconds) for d in a]
+    db = [int((d - floor) // bin_seconds) for d in b]
+    return float(wasserstein_distance(da, db))
+
+
 def _compute_metrics_row(
     *,
     baseline_continuation: pd.DataFrame,
@@ -562,11 +681,11 @@ def _compute_metrics_row(
     scope: str,
     window: tuple[pd.Timestamp, pd.Timestamp],
     role_map: dict[str, str] | None = None,
+    case_starts: Mapping[str, pd.Timestamp] | None = None,
 ) -> list[dict]:
     from log_distance_measures.config import (
         AbsoluteTimestampType,
         EventLogIDs,
-        discretize_to_hour,
     )
     from log_distance_measures.cycle_time_distribution import (
         cycle_time_distribution_distance,
@@ -621,6 +740,54 @@ def _compute_metrics_row(
             "family": "state", "metric": metric, "value": r.summary_distance,
         })
 
+    # ---- Per-case (paired) baselines --------------------------------------
+    # Unlike the aggregate baselines below, these USE the case pairing: they
+    # align each ongoing case to its own continuation by case_id. paired_cf
+    # compares each case's set of activities (control flow); paired_ct its
+    # realised duration. They are the "case-aware" comparison a reviewer asks
+    # for. Because the win scenarios are timing-neutral per case, paired_ct
+    # stays blind on them too; paired_cf detects a wrong ROUTING (different
+    # activities) but not a composition/timeline shift (same activities) — which
+    # is exactly what isolates the time-resolved state view.
+    def _by_case_activities(df):
+        return {c: frozenset(g["activity"].astype(str))
+                for c, g in df.groupby("case_id")}
+
+    def _by_case_duration(df):
+        g = df.groupby("case_id")
+        dur = (g["end_time"].max() - g["start_time"].min()).dt.total_seconds()
+        return dur.to_dict()
+
+    try:
+        ba, sa = _by_case_activities(baseline_continuation), _by_case_activities(sim_continuation)
+        cases = set(ba) | set(sa)
+        def _jac(x, y):
+            if not x and not y:
+                return 0.0
+            return 1.0 - len(x & y) / len(x | y)
+        vcf = (sum(_jac(ba.get(c, frozenset()), sa.get(c, frozenset())) for c in cases)
+               / len(cases)) if cases else None
+    except Exception as e:
+        print(f"[baseline paired_cf] failed: {e}")
+        vcf = None
+    rows.append({"level": level, "k_baseline": k_baseline, "k_sim": k_sim,
+                 "scope": scope, "family": "baseline", "metric": "paired_cf", "value": vcf})
+
+    try:
+        bd, sd = _by_case_duration(baseline_continuation), _by_case_duration(sim_continuation)
+        common = set(bd) & set(sd)
+        if common:
+            mae = sum(abs(bd[c] - sd[c]) for c in common) / len(common)
+            denom = (sum(bd[c] for c in common) / len(common)) or 1.0
+            vct = mae / denom
+        else:
+            vct = None
+    except Exception as e:
+        print(f"[baseline paired_ct] failed: {e}")
+        vct = None
+    rows.append({"level": level, "k_baseline": k_baseline, "k_sim": k_sim,
+                 "scope": scope, "family": "baseline", "metric": "paired_ct", "value": vct})
+
     def _safe(name, fn, *a, **kw):
         try:
             v = fn(*a, **kw)
@@ -637,18 +804,42 @@ def _compute_metrics_row(
         n_gram_distribution_distance,
         baseline_continuation, ids, sim_continuation, ids, n=2,
     )
-    _safe(
-        "red",
-        relative_event_distribution_distance,
-        baseline_continuation, ids, sim_continuation, ids,
-        discretize_type=AbsoluteTimestampType.BOTH, discretize_event=discretize_to_hour,
-    )
-    _safe(
-        "cycle_time",
-        cycle_time_distribution_distance,
-        baseline_continuation, ids, sim_continuation, ids,
-        bin_size=pd.Timedelta(hours=1),
-    )
+
+    # Window-relative bin for the three histogram baselines (see BASELINE_BINS).
+    bin_size = _baseline_bin_size(window)
+    bin_seconds = bin_size.total_seconds()
+
+    def _discretize(seconds: float, _b: float = bin_seconds) -> int:
+        return int(seconds // _b)
+
+    # red and cycle_time both anchor on the case's earliest timestamp in the
+    # log they are given, which the window clipping moves to the cutoff. When
+    # the caller supplies true case starts, use the anchored implementations so
+    # both measure what they are defined to measure (see _true_case_starts).
+    if case_starts is not None:
+        _safe(
+            "red",
+            _relative_event_distance_from_starts,
+            baseline_continuation, sim_continuation, case_starts, bin_seconds,
+        )
+        _safe(
+            "cycle_time",
+            _cycle_time_distance_from_starts,
+            baseline_continuation, sim_continuation, case_starts, bin_seconds,
+        )
+    else:
+        _safe(
+            "red",
+            relative_event_distribution_distance,
+            baseline_continuation, ids, sim_continuation, ids,
+            discretize_type=AbsoluteTimestampType.BOTH, discretize_event=_discretize,
+        )
+        _safe(
+            "cycle_time",
+            cycle_time_distribution_distance,
+            baseline_continuation, ids, sim_continuation, ids,
+            bin_size=bin_size,
+        )
     # RTD: remaining-time-distribution distance from the cutoff. Most
     # meaningful for Scope A (ongoing cases) but computable on any log.
     from evaluation.rtd import rtd as rtd_distance
@@ -657,7 +848,7 @@ def _compute_metrics_row(
         rtd_distance,
         baseline_continuation, ids, sim_continuation, ids,
         reference_point=window[0],
-        bin_size=pd.Timedelta(hours=1),
+        bin_size=bin_size,
     )
     return rows
 
@@ -907,6 +1098,7 @@ def _run_relabel_levels(
     horizon: pd.Timedelta,
     horizon_end: pd.Timestamp,
     ongoing_ids: set[str],
+    case_starts: Mapping[str, pd.Timestamp],
     results: list[dict],
     util_rows: list[dict],
 ) -> None:
@@ -986,12 +1178,14 @@ def _run_relabel_levels(
             results.extend(_compute_metrics_row(
                 baseline_continuation=base_A, sim_continuation=sim_A,
                 level=level, k_baseline=k, k_sim=k, scope="A_ongoing",
-                window=(cutoff, horizon_end), role_map=role_map,
+                window=(cutoff, horizon_end),
+                case_starts=case_starts, role_map=role_map,
             ))
             results.extend(_compute_metrics_row(
                 baseline_continuation=base_B, sim_continuation=sim_B,
                 level=level, k_baseline=k, k_sim=k, scope="B_all",
-                window=(cutoff, horizon_end), role_map=role_map,
+                window=(cutoff, horizon_end),
+                case_starts=case_starts, role_map=role_map,
             ))
 
 
@@ -1144,7 +1338,8 @@ def _run_mix_levels(
             results.extend(_compute_metrics_row(
                 baseline_continuation=base_A, sim_continuation=sim_A,
                 level=level, k_baseline=k, k_sim=k, scope="A_ongoing",
-                window=(cutoff, horizon_end), role_map=role_map,
+                window=(cutoff, horizon_end),
+                case_starts=case_starts, role_map=role_map,
             ))
 
 
@@ -1391,7 +1586,8 @@ def _run_label_swap_levels(
             results.extend(_compute_metrics_row(
                 baseline_continuation=base_A, sim_continuation=sim_A,
                 level=level, k_baseline=k, k_sim=k, scope="A_ongoing",
-                window=(cutoff, horizon_end), role_map=role_map,
+                window=(cutoff, horizon_end),
+                case_starts=case_starts, role_map=role_map,
             ))
 
 
@@ -1404,6 +1600,7 @@ def _run_rephase_levels(
     horizon: pd.Timedelta,
     horizon_end: pd.Timestamp,
     ongoing_ids: set[str],
+    case_starts: Mapping[str, pd.Timestamp],
     results: list[dict],
     util_rows: list[dict],
 ) -> None:
@@ -1471,7 +1668,8 @@ def _run_rephase_levels(
             results.extend(_compute_metrics_row(
                 baseline_continuation=base_A, sim_continuation=sim_A,
                 level=level, k_baseline=k, k_sim=k, scope="A_ongoing",
-                window=(cutoff, horizon_end), role_map=role_map,
+                window=(cutoff, horizon_end),
+                case_starts=case_starts, role_map=role_map,
             ))
             # Scope B (ongoing + new arrivals) intentionally disabled — we
             # focus exclusively on ongoing cases. To re-enable, restore
@@ -1504,6 +1702,7 @@ def _run_case_route_levels(
     horizon: pd.Timedelta,
     horizon_end: pd.Timestamp,
     ongoing_ids: set[str],
+    case_starts: Mapping[str, pd.Timestamp],
     results: list[dict],
     util_rows: list[dict],
 ) -> None:
@@ -1572,7 +1771,8 @@ def _run_case_route_levels(
             results.extend(_compute_metrics_row(
                 baseline_continuation=base_A, sim_continuation=sim_A,
                 level=level, k_baseline=k, k_sim=k, scope="A_ongoing",
-                window=(cutoff, horizon_end), role_map=role_map,
+                window=(cutoff, horizon_end),
+                case_starts=case_starts, role_map=role_map,
             ))
 
 
@@ -1585,6 +1785,7 @@ def _run_case_type_drift_levels(
     horizon: pd.Timedelta,
     horizon_end: pd.Timestamp,
     ongoing_ids: set[str],
+    case_starts: Mapping[str, pd.Timestamp],
     results: list[dict],
     util_rows: list[dict],
 ) -> None:
@@ -1653,7 +1854,8 @@ def _run_case_type_drift_levels(
             results.extend(_compute_metrics_row(
                 baseline_continuation=base_A, sim_continuation=sim_A,
                 level=level, k_baseline=k, k_sim=k, scope="A_ongoing",
-                window=(cutoff, horizon_end), role_map=role_map,
+                window=(cutoff, horizon_end),
+                case_starts=case_starts, role_map=role_map,
             ))
 
 
@@ -1703,6 +1905,9 @@ def run_pipeline(cfg: PipelineConfig) -> Path:
         horizon = _compute_horizon(source_log, cutoff)
     horizon_end = cutoff + horizon
     ongoing_ids = get_ongoing_case_ids(source_log, cutoff)
+    # True per-case starts, for the two baselines whose anchor the window
+    # clipping would otherwise move to the cutoff (see _true_case_starts).
+    case_starts = _true_case_starts(source_log, ongoing_ids)
 
     prefix_csv = run_dir / "prefix.csv"
     _write_prefix_csv(source_log, cutoff, prefix_csv)
@@ -1726,6 +1931,7 @@ def run_pipeline(cfg: PipelineConfig) -> Path:
         _run_relabel_levels(
             cfg, run_dir, prefix_csv=prefix_csv, cutoff=cutoff,
             horizon=horizon, horizon_end=horizon_end, ongoing_ids=ongoing_ids,
+            case_starts=case_starts,
             results=results, util_rows=util_rows,
         )
         return _finalize_pipeline_outputs(run_dir, results, util_rows)
@@ -1733,6 +1939,7 @@ def run_pipeline(cfg: PipelineConfig) -> Path:
         _run_rephase_levels(
             cfg, run_dir, prefix_csv=prefix_csv, cutoff=cutoff,
             horizon=horizon, horizon_end=horizon_end, ongoing_ids=ongoing_ids,
+            case_starts=case_starts,
             results=results, util_rows=util_rows,
         )
         return _finalize_pipeline_outputs(run_dir, results, util_rows)
@@ -1740,6 +1947,7 @@ def run_pipeline(cfg: PipelineConfig) -> Path:
         _run_case_route_levels(
             cfg, run_dir, prefix_csv=prefix_csv, cutoff=cutoff,
             horizon=horizon, horizon_end=horizon_end, ongoing_ids=ongoing_ids,
+            case_starts=case_starts,
             results=results, util_rows=util_rows,
         )
         return _finalize_pipeline_outputs(run_dir, results, util_rows)
@@ -1747,6 +1955,7 @@ def run_pipeline(cfg: PipelineConfig) -> Path:
         _run_case_type_drift_levels(
             cfg, run_dir, prefix_csv=prefix_csv, cutoff=cutoff,
             horizon=horizon, horizon_end=horizon_end, ongoing_ids=ongoing_ids,
+            case_starts=case_starts,
             results=results, util_rows=util_rows,
         )
         return _finalize_pipeline_outputs(run_dir, results, util_rows)
@@ -1814,12 +2023,14 @@ def run_pipeline(cfg: PipelineConfig) -> Path:
             results.extend(_compute_metrics_row(
                 baseline_continuation=baseline_conts_A[k], sim_continuation=sim_A,
                 level=level, k_baseline=k, k_sim=k, scope="A_ongoing",
-                window=(cutoff, horizon_end), role_map=level_role_map,
+                window=(cutoff, horizon_end),
+                case_starts=case_starts, role_map=level_role_map,
             ))
             results.extend(_compute_metrics_row(
                 baseline_continuation=baseline_conts_B[k], sim_continuation=sim_B,
                 level=level, k_baseline=k, k_sim=k, scope="B_all",
-                window=(cutoff, horizon_end), role_map=level_role_map,
+                window=(cutoff, horizon_end),
+                case_starts=case_starts, role_map=level_role_map,
             ))
 
     return _finalize_pipeline_outputs(run_dir, results, util_rows)

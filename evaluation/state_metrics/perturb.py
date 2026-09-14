@@ -721,6 +721,7 @@ def build_branch_automation_params(
     automate_task_ids: list[str],
     level: int,
     floor_seconds: float = 1.0,
+    floor_fraction: float = 0.0,
     out_json_path: str | Path,
 ) -> dict:
     """Automate (shrink) the durations of the non-critical branch tasks.
@@ -739,6 +740,31 @@ def build_branch_automation_params(
     ``level == 0`` is a no-op (factor 1.0). ``level`` is read as a percentage in
     ``[0, 100]``; ``level == 100`` collapses every automated task to the floor.
 
+    ``floor_fraction`` bounds the scale factor from below at that fraction of
+    the ORIGINAL duration, so the chain can never shrink into the degenerate
+    regime where its activities occupy no time at all. That regime is a ceiling
+    for any case-keyed projection: a sequential chain task ``k`` stops
+    overlapping its own ground-truth instance entirely once the scale drops to
+    ``(k-1)/k``, after which the perturbed chain is "absent" rather than
+    "displaced" and the measured difference stops growing (it can even fall
+    back, because the absent instances no longer inflate the union). Keeping
+    ``floor_fraction`` above ``(n-1)/n`` for an ``n``-task chain holds every
+    task inside the overlapping regime. Note this floors the scale, so levels
+    beyond ``100 * (1 - floor_fraction)`` all collapse to the same model — pair
+    it with a ladder that stops there rather than one that runs to 100.
+
+    **Reported configuration: ``floor_fraction = 0.0`` (uncapped).** The C
+    family is reported on the uncapped ladder, which runs to level 100 and lets
+    the case-keyed projections saturate. A capped ladder was built and run; both
+    versions star, so the capped one buys no claim and costs a post-hoc choice
+    to defend. The saturation is explained rather than engineered away: an
+    ``(activity, case)`` key holds at most one instance, so it degrades
+    all-or-nothing and tops out once each chain task has slid clear of its
+    ground-truth twin, whereas an ``activity`` key holds up to 30 and keeps
+    degrading gradually. That contrast is the mechanism the family exists to
+    show, and capping the ladder would hide it. No dataset passes
+    ``floor_fraction``; it is retained for the ceiling diagnostic only.
+
     Returns a manifest with the scale factor and which tasks were touched.
     """
     if level < 0:
@@ -749,9 +775,11 @@ def build_branch_automation_params(
         raise ValueError("automate_task_ids must be non-empty")
     if floor_seconds <= 0:
         raise ValueError("floor_seconds must be > 0")
+    if not 0.0 <= floor_fraction < 1.0:
+        raise ValueError("floor_fraction must be in [0, 1)")
 
     params = _load_params(base_json_path)
-    factor = 1.0 - level / 100.0
+    factor = max(1.0 - level / 100.0, floor_fraction)
     targets = set(automate_task_ids)
     touched: list[str] = []
     for task in params.get("task_resource_distribution", []):
@@ -783,6 +811,7 @@ def build_branch_automation_params(
         "level": level,
         "factor": factor,
         "floor_seconds": floor_seconds,
+        "floor_fraction": floor_fraction,
         "tasks_touched": touched,
     }
 
