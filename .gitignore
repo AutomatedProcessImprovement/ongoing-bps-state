@@ -158,6 +158,20 @@ evaluation/tmp_dupe_check/
 !samples/dev-samples/*.bpmn
 !samples/dev-samples/*.json
 
+# The experiment records the harness's numbers are cited from. They stay in the
+# repository even though the paper sources do not, so the blanket *.csv rule
+# above must not swallow the results table the records refer to.
+!docs/state-metrics/*.csv
+
+# Paper sources: LaTeX, the figure PDFs and the data the figure scripts read.
+# Drafted outside this repository; the durable record is docs/state-metrics/.
+/paper/
+
+# Loose working files at the root -- run logs, half-finished notes, one-off
+# scripts. Anything worth keeping goes to docs/state-metrics/ under a real name.
+/scratch_*
+/.codex
+
 !package.json
 !package-lock.json
 !tsconfig.json
