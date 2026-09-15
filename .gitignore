@@ -150,13 +150,14 @@ evaluation/tmp_dupe_check/
 *.json
 *.bpmn
 *.zip
-# The state-metrics BPS models are the experimental apparatus, not build
-# output: the blanket *.json / *.bpmn rules above would otherwise leave the
-# models a paper's results depend on untracked. Generator scripts live in
-# tools/generate_*.py, but they are unseeded, so re-running them does NOT
-# reproduce these exact files.
-!samples/dev-samples/*.bpmn
-!samples/dev-samples/*.json
+# BPS models are the experimental apparatus, not build output: the blanket
+# *.json / *.bpmn rules above would otherwise leave every model a paper's
+# results depend on untracked, while tracking the .csv.gz logs that go with
+# them -- a clone would get the logs and not the models, and the evaluation
+# pipelines would not run. Generator scripts live in tools/generate_*.py, but
+# they are unseeded, so re-running them does NOT reproduce these exact files.
+!samples/**/*.bpmn
+!samples/**/*.json
 
 # The experiment records the harness's numbers are cited from. They stay in the
 # repository even though the paper sources do not, so the blanket *.csv rule
