@@ -927,6 +927,18 @@ def build_branch_automation_params(
     ``cycle_time``, ``rtd``, ``paired_ct``, ``paired_cf`` and ``ngd_n2`` are
     all identically 0 at every level.
 
+    One caveat on the closed form. ``overlap_bound`` is derived for
+    DETERMINISTIC durations, and the composition model is no longer generated
+    with them: it ran on ``fix`` distributions, which made two level-0 runs
+    produce the same log and the measured noise floor exactly zero -- twenty
+    replications became twenty copies, every bootstrap interval collapsed to a
+    point, and ``rise_over_floor`` was undefined. It now runs at CV 7 %, like
+    the other two families. With variance the displacement point is a
+    distribution rather than a threshold, so the bound is where saturation
+    STARTS rather than where it completes. That weakens the bound as a
+    prediction but not as an argument, and it does not touch the reported
+    ladder at all: stretching has no bound to approach in the first place.
+
     ``floor_fraction`` is used by ``ladder="shrink_bounded"`` and clamps
     ``ladder="shrink"``; the binding value for a family is taken from the
     LARGEST extent it runs (``overlap_bound(max_k)``), so that the three models

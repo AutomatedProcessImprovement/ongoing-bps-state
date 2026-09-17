@@ -164,9 +164,19 @@ evaluation/tmp_dupe_check/
 # above must not swallow the results table the records refer to.
 !docs/state-metrics/*.csv
 
-# Paper sources: LaTeX, the figure PDFs and the data the figure scripts read.
-# Drafted outside this repository; the durable record is docs/state-metrics/.
-/paper/
+# Paper sources. The LaTeX is drafted outside this repository, but the figure
+# GENERATORS and the data they read are not optional extras: Section 7.2 claims
+# every reported figure's script is in the repository, so the scripts, their
+# input CSVs and the rendered PDFs are tracked. The PNG previews and __pycache__
+# are not.
+/paper/*
+!/paper/figures/
+/paper/figures/*
+!/paper/figures/*.py
+!/paper/figures/*.csv
+!/paper/figures/*.pdf
+!/paper/figures/*.md
+/paper/figures/__pycache__/
 
 # Loose working files at the root -- run logs, half-finished notes, one-off
 # scripts. Anything worth keeping goes to docs/state-metrics/ under a real name.

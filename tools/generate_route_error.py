@@ -74,14 +74,14 @@ def _flow(fid: str, src: str, tgt: str) -> str:
     return f'<bpmn:sequenceFlow id="{fid}" sourceRef="{src}" targetRef="{tgt}" />'
 
 
-def _norm(mean: float) -> dict:
+def _norm(mean: float, cv: float = 0.07) -> dict:
     """A *narrow* normal duration distribution (Prosimos ``norm`` order:
     ``[mean, stddev, min, max]``). Std = 7 % of the mean, clamped to a
     non-negative floor — deliberately tight ("not very wide") so two same-model
     sims diverge little: this keeps the per-instant state metric's level-0 noise
     floor low, so the (structurally large) per-case path change from a routing
     inversion stands out against it."""
-    std = 0.07 * mean
+    std = cv * mean
     return {
         "distribution_name": "norm",
         "distribution_params": [
@@ -304,6 +304,7 @@ def _build_params(
     arrival_mean: float,
     route_attribute: str = "discrete",
     threshold: float = 50.0,
+    cv: float = 0.07,
 ) -> dict:
     cal_id = "cal_247"
     periods = [{"from": "MONDAY", "to": "SUNDAY",
@@ -315,7 +316,7 @@ def _build_params(
         {
             "task_id": tid,
             "resources": [
-                {**_norm(task_means[tid]), "resource_id": rid}
+                {**_norm(task_means[tid], cv), "resource_id": rid}
                 for rid in resource_ids
             ],
         }
@@ -370,6 +371,12 @@ def _build_params(
         "branch_rules": branch_rules,
         "prioritisation_rules": [],
     }
+
+
+# Public alias: the mirrored-branch pairing generator reuses this verbatim --
+# same single worker pool, same continuous case_type declaration, same
+# `_a`/`_b` path-id convention the route-error builders key off.
+_build_params_common = _build_params
 
 
 def main() -> None:

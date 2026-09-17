@@ -1,0 +1,28 @@
+{
+  "name": "synthetic_pairing_mirror6",
+  "generator": "tools/generate_pairing_mirror.py",
+  "argv": [
+    "/root/process_state/tools/generate_pairing_mirror.py",
+    "--positions",
+    "6",
+    "--workers",
+    "1000",
+    "--arrival-mean",
+    "10",
+    "--name",
+    "synthetic_pairing_mirror6"
+  ],
+  "generated_utc": "2026-09-17T16:40:43+00:00",
+  "git_commit": "9251046",
+  "parameters": {
+    "positions": 6,
+    "workers": 1000,
+    "arrival_mean": 10.0,
+    "position_service": 300.0,
+    "register_service": 180.0,
+    "assess_service": 1200.0,
+    "settle_service": 180.0,
+    "cv": 0.07,
+    "threshold": 50.0
+  }
+}

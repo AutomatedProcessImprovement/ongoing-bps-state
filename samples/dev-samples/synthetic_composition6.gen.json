@@ -20,10 +20,12 @@
     "--out-dir",
     "samples/dev-samples",
     "--name",
-    "synthetic_composition6"
+    "synthetic_composition6",
+    "--cv",
+    "0.07"
   ],
-  "generated_utc": "2026-09-17T10:38:46+00:00",
-  "git_commit": "c5e85ed",
+  "generated_utc": "2026-09-17T16:37:27+00:00",
+  "git_commit": "9251046",
   "parameters": {
     "nc_tasks": 6,
     "arrival_mean": 30.0,
@@ -31,6 +33,7 @@
     "nc_service": 120.0,
     "common_workers": 12,
     "critical_workers": 200,
-    "nc_workers": 100
+    "nc_workers": 100,
+    "cv": 0.07
   }
 }

@@ -79,6 +79,7 @@ def build_model(
     common_service: float = 60.0,
     critical_service: float = 600.0,
     nc_service: float = 120.0,
+    cv: float = 0.07,
 ) -> tuple[str, dict, list[str]]:
     """Return (bpmn_xml, prosimos_params, nc_task_ids).
 
@@ -157,7 +158,7 @@ def build_model(
         common_workers=common_workers, critical_workers=critical_workers,
         nc_workers=nc_workers, arrival_mean=arrival_mean,
         common_service=common_service, critical_service=critical_service,
-        nc_service=nc_service,
+        nc_service=nc_service, cv=cv,
     )
     return bpmn, params, nc_task_ids
 
@@ -184,6 +185,7 @@ def _build_params(
     common_service: float,
     critical_service: float,
     nc_service: float,
+    cv: float = 0.07,
 ) -> dict:
     cal_id = "cal_247"
     periods = [{"from": "MONDAY", "to": "SUNDAY",
@@ -196,12 +198,39 @@ def _build_params(
     critical_pool = _pool("Critical", "Critical", critical_workers, cal_id, critical_tasks)
     nc_pool = _pool("NonCritical", "NonCritical", nc_workers, cal_id, nc_task_ids)
 
-    def fix(rid: str, service: float) -> dict:
+    def dur(rid: str, service: float) -> dict:
+        """One activity's duration for one resource.
+
+        ``cv == 0`` emits a ``fix`` distribution -- the original behaviour, kept
+        because the saturation bound in ``perturb.overlap_bound`` is derived for
+        deterministic durations. It is NOT what the family is generated with:
+        with fixed durations, a fully restored snapshot and Scope A excluding
+        new arrivals, two level-0 runs of the same model produce the same log,
+        so the measured noise floor is exactly zero. Twenty replications become
+        twenty copies, every bootstrap interval collapses to a point, the star
+        test degenerates into "is the c-index different from 0.50", and
+        rise_over_floor is undefined. A small CV restores the floor and makes
+        the family comparable to the other two, which both run at CV 7 %.
+        """
+        if cv <= 0.0:
+            return {
+                "distribution_name": "fix",
+                "distribution_params": [{"value": service}],
+                "resource_id": rid,
+            }
+        std = cv * service
         return {
-            "distribution_name": "fix",
-            "distribution_params": [{"value": service}],
+            "distribution_name": "norm",
+            "distribution_params": [
+                {"value": service},
+                {"value": std},
+                {"value": max(1.0, service - 2 * std)},
+                {"value": service + 3 * std},
+            ],
             "resource_id": rid,
         }
+
+    fix = dur      # call sites below read as before
 
     trd: list[dict] = []
     for tid in common_tasks:
@@ -242,6 +271,13 @@ def main() -> None:
     ap.add_argument("--arrival-mean", type=float, default=30.0)
     ap.add_argument("--critical-service", type=float, default=600.0)
     ap.add_argument("--nc-service", type=float, default=120.0)
+    ap.add_argument("--cv", type=float, default=0.07,
+                    help="coefficient of variation on every activity duration. "
+                         "0 gives the deterministic `fix` durations the family "
+                         "used to be generated with, which drive the level-0 "
+                         "noise floor to exactly zero and make the replication "
+                         "budget, the bootstrap intervals and rise_over_floor "
+                         "all meaningless. 0.07 matches the other two families.")
     ap.add_argument("--common-workers", type=int, default=12)
     ap.add_argument("--critical-workers", type=int, default=40)
     ap.add_argument("--nc-workers", type=int, default=40,
@@ -259,6 +295,7 @@ def main() -> None:
         critical_service=args.critical_service, nc_service=args.nc_service,
         common_workers=args.common_workers,
         critical_workers=args.critical_workers, nc_workers=args.nc_workers,
+        cv=args.cv,
     )
     args.out_dir.mkdir(parents=True, exist_ok=True)
     bpmn_path = args.out_dir / f"{args.name}.bpmn"
@@ -275,7 +312,7 @@ def main() -> None:
                 "nc_service": args.nc_service,
                 "common_workers": args.common_workers,
                 "critical_workers": args.critical_workers,
-                "nc_workers": args.nc_workers},
+                "nc_workers": args.nc_workers, "cv": args.cv},
     )
     print(f"wrote {sidecar}")
 

@@ -157,8 +157,15 @@ def main() -> None:
     elif args.perturbation == "gateway":
         levels = (0, 1, 2, 3)
     elif args.perturbation == "arrival_burst":
-        # CV² multipliers 1.0, 1.5, 2.0, 3.0, 5.0 (encoded as 0/50/100/200/400).
-        levels = (0, 50, 100, 200, 400)
+        # CV² multipliers 1.0, 1.5, 2.0, 2.5, 3.0(?), 5.0 -- six rungs, encoded
+        # as 0/50/100/200/300/400. Six rather than five because the mean-first
+        # c-index over L levels has only C(L,2) pairs: at five levels it is
+        # quantised to 0.1 and the percentile bootstrap's lower bound lands
+        # exactly on 0.50, which the strict "interval excludes 0.50" test reads
+        # as a non-detection. The positive control then showed c = 1.000 with
+        # no star on five of eleven measures purely because its ladder was one
+        # rung shorter than everything else's.
+        levels = (0, 50, 100, 200, 300, 400)
     elif args.perturbation == "relabel":
         # Percentage of the chosen activity's instances relabeled.
         levels = (0, 10, 20, 30, 40)

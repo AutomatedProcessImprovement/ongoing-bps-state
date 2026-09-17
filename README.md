@@ -97,14 +97,14 @@ ladder, so a cell is comparable down a column as well as across one.
 | T1 | `timeline6_e2` | `front_back_swap` | two branches of 6 | 2 swapped | `0,20,40,60,80,100` |
 | T2 | `timeline6_e4` | `front_back_swap` | two branches of 6 | 4 swapped | `0,20,40,60,80,100` |
 | T3 | `timeline6_e6` | `front_back_swap` | two branches of 6 | 6 swapped | `0,20,40,60,80,100` |
-| P1 | `pairing6_e2` | `route_error_graded` | chain of 6 gateways | 2 inverted | `0,20,40,60,80,100` |
-| P2 | `pairing6_e4` | `route_error_graded` | chain of 6 gateways | 4 inverted | `0,20,40,60,80,100` |
-| P3 | `pairing6_e6` | `route_error_graded` | chain of 6 gateways | 6 inverted | `0,20,40,60,80,100` |
+| P1 | `pairing_mirror6_e2` | `route_error_graded` | two mirrored branches of 6 | 2 reversed | `0,20,40,60,80,100` |
+| P2 | `pairing_mirror6_e4` | `route_error_graded` | two mirrored branches of 6 | 4 reversed | `0,20,40,60,80,100` |
+| P3 | `pairing_mirror6_e6` | `route_error_graded` | two mirrored branches of 6 | 6 reversed | `0,20,40,60,80,100` |
 | X1 | `Loan-stable` | `resources` | — | — | `0,2,4,6,7,8` |
-| X2 | `Loan-stable` | `arrival_burst` | — | — | `0,50,100,200,400` |
+| X2 | `Loan-stable` | `arrival_burst` | — | — | `0,50,100,200,300,400` |
 
 The three geometries are `samples/dev-samples/synthetic_composition6`,
-`synthetic_timeline6` and `synthetic_pairing6`; the `*_e2` / `*_e4` / `*_e6`
+`synthetic_timeline6` and `synthetic_pairing_mirror6`; the `*_e2` / `*_e4` / `*_e6`
 dataset keys bind the same BPMN and params to a different perturbation extent.
 Each model carries a `.gen.json` sidecar (written by `tools/genprov.py`)
 recording the generator, its argv and the commit it ran at.
@@ -123,11 +123,11 @@ python -m evaluation.state_metrics.run_pipeline composition6_e6 --runs 20 --pert
 python -m evaluation.state_metrics.run_pipeline timeline6_e2    --runs 20 --perturbation front_back_swap
 python -m evaluation.state_metrics.run_pipeline timeline6_e4    --runs 20 --perturbation front_back_swap
 python -m evaluation.state_metrics.run_pipeline timeline6_e6    --runs 20 --perturbation front_back_swap
-python -m evaluation.state_metrics.run_pipeline pairing6_e2     --runs 20 --perturbation route_error_graded
-python -m evaluation.state_metrics.run_pipeline pairing6_e4     --runs 20 --perturbation route_error_graded
-python -m evaluation.state_metrics.run_pipeline pairing6_e6     --runs 20 --perturbation route_error_graded
+python -m evaluation.state_metrics.run_pipeline pairing_mirror6_e2 --runs 20 --perturbation route_error_graded --gt-total-cases 3000 --sim-total-cases 3000
+python -m evaluation.state_metrics.run_pipeline pairing_mirror6_e4 --runs 20 --perturbation route_error_graded --gt-total-cases 3000 --sim-total-cases 3000
+python -m evaluation.state_metrics.run_pipeline pairing_mirror6_e6 --runs 20 --perturbation route_error_graded --gt-total-cases 3000 --sim-total-cases 3000
 python -m evaluation.state_metrics.run_pipeline Loan-stable     --runs 20 --perturbation resources     --levels 0,2,4,6,7,8
-python -m evaluation.state_metrics.run_pipeline Loan-stable     --runs 20 --perturbation arrival_burst --levels 0,50,100,200,400
+python -m evaluation.state_metrics.run_pipeline Loan-stable     --runs 20 --perturbation arrival_burst
 ```
 
 The composition ladder **lengthens** the perturbed activities rather than
@@ -137,6 +137,28 @@ longer overlaps the interval it occupies in the unperturbed model, its pairs
 stop changing, and the distance flattens — the closed form is
 `perturb.overlap_bound`, and `--automation-ladder shrink_bounded` is the
 alternative fix that clamps the ladder at that bound instead.
+
+All three geometries execute **nine activities per case**: an opening activity,
+one long common activity, six perturbable elements, and a closing activity.
+Composition runs the six in parallel with the long one; timeline and pairing
+run them on one of two branches.
+
+The pairing branches carry the **same six labels in mirrored order** -- a case
+routed one way runs `R_1 ... R_6`, a case routed the other way runs
+`R_6 ... R_1` -- with one shared duration distribution. Position `i` offers
+`{R_i, R_(7-i)}`, so reversing a centred even window leaves the per-position
+population multiset, the per-case label set, case duration and within-case
+event positions all unchanged, and only which case is where differs. That makes
+every aggregate blind by construction rather than by luck; the residual is
+finite-sample (P and Q must balance at each position) and is measured and
+reported rather than assumed. The earlier 3-vs-3 design carried different
+labels on the two branches, so the plain `activity` view saw the error too.
+
+Composition activities run at **CV 7 %**, like the other two families. With the
+deterministic `fix` durations it used to have, two level-0 runs produced the
+same log, the measured noise floor was exactly zero, the replication budget did
+nothing, every bootstrap interval collapsed to a point and `rise_over_floor`
+was undefined.
 
 The `activity_role` view is still implemented and still described in the paper,
 but it is not in the reported grid: with no role perturbation left in the
