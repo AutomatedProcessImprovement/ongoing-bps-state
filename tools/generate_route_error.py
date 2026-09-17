@@ -50,6 +50,8 @@ import json
 from pathlib import Path
 from xml.sax.saxutils import escape
 
+from tools.genprov import write_sidecar
+
 BPMN_NS = "http://www.omg.org/spec/BPMN/20100524/MODEL"
 
 
@@ -100,6 +102,8 @@ def build_model(
     arrival_mean: float = 60.0,
     branch_service: float = 300.0,
     common_service: float = 180.0,
+    route_attribute: str = "discrete",
+    threshold: float = 50.0,
 ) -> tuple[str, dict]:
     """Return (bpmn_xml, prosimos_params) for an ``n_gateways``-gateway chain.
 
@@ -208,8 +212,88 @@ def build_model(
     )
 
     params = _build_params(task_means, gateway_specs,
-                           workers=workers, arrival_mean=arrival_mean)
+                           workers=workers, arrival_mean=arrival_mean,
+                           route_attribute=route_attribute, threshold=threshold)
     return bpmn, params
+
+
+# The routing attribute, in the two flavours the P family uses.
+#
+# ``discrete``   case_type in {red, blue}, 50/50, matched by equality. The
+#                routing error is then all-or-nothing: a gateway either routes
+#                every red case correctly or inverts every one of them.
+# ``continuous`` case_type ~ Uniform[0, 100), read as a risk score with a
+#                decision threshold: below ``threshold`` is "red" (A-branch),
+#                at or above it is "blue" (B-branch). The marginal split is the
+#                same 50/50, and the population and per-case workload are
+#                identical to the discrete model -- but because the attribute
+#                is ORDERED, a routing error can be graded: inverting the
+#                decision on the band of width ``m/2`` either side of the
+#                threshold misroutes exactly ``m`` percent of each class. That
+#                is what lets the pairing family carry a magnitude ladder while
+#                the number of affected gateways stays fixed per model.
+#
+# Conditions use ``>=`` / ``<`` rather than ``in``: Prosimos coerces both sides
+# to float for the ordered comparisons, but NOT for ``in`` (see
+# prosimos/branch_condition_rules.py), and an attribute restored from a prefix
+# CSV can arrive as a string.
+CONTINUOUS_MIN = -1.0        # below every sampled value
+CONTINUOUS_MAX = 101.0       # above every sampled value
+
+
+def continuous_route_rules(
+    threshold: float, misroute_pct: float,
+) -> tuple[list, list]:
+    """(A-branch rule, B-branch rule) as OR-of-AND clause lists.
+
+    At ``misroute_pct = m`` the band ``[threshold - m/2, threshold)`` (the top
+    ``m`` percent of the red half) routes to B and ``[threshold, threshold +
+    m/2)`` (the bottom ``m`` percent of the blue half) routes to A. The two
+    bands are equal in width, so the marginal A/B split stays exactly 50/50 at
+    every magnitude and the only thing that changes is WHICH cases take which
+    branch. The two rules partition the attribute's range at every ``m``, so
+    exactly one is true for any sampled value and no default path is needed.
+    """
+    if not 0.0 <= misroute_pct <= 100.0:
+        raise ValueError("misroute_pct must be in [0, 100]")
+    half = misroute_pct / 2.0
+
+    def band(lo: float, hi: float) -> list:
+        return [{"attribute": "case_type", "comparison": ">=", "value": lo},
+                {"attribute": "case_type", "comparison": "<", "value": hi}]
+
+    rule_a = [band(CONTINUOUS_MIN, threshold - half), band(threshold, threshold + half)]
+    rule_b = [band(threshold - half, threshold), band(threshold + half, CONTINUOUS_MAX)]
+    return rule_a, rule_b
+
+
+def _routing_spec(route_attribute: str, threshold: float):
+    """Return (rule_a_id, rule_b_id, case_attribute, branch_rules)."""
+    if route_attribute == "discrete":
+        case_attribute = {
+            "name": "case_type",
+            "type": "discrete",
+            "values": [{"key": "red", "value": 0.5}, {"key": "blue", "value": 0.5}],
+        }
+        branch_rules = [
+            {"id": "rule_red", "rules": [[{"attribute": "case_type", "comparison": "=", "value": "red"}]]},
+            {"id": "rule_blue", "rules": [[{"attribute": "case_type", "comparison": "=", "value": "blue"}]]},
+        ]
+        return "rule_red", "rule_blue", case_attribute, branch_rules
+    if route_attribute == "continuous":
+        case_attribute = {
+            "name": "case_type",
+            "type": "continuous",
+            "values": {"distribution_name": "uniform",
+                       "distribution_params": [{"value": 0.0}, {"value": 100.0}]},
+        }
+        rule_a, rule_b = continuous_route_rules(threshold, 0.0)
+        branch_rules = [
+            {"id": "rule_a_ok", "rules": rule_a},
+            {"id": "rule_b_ok", "rules": rule_b},
+        ]
+        return "rule_a_ok", "rule_b_ok", case_attribute, branch_rules
+    raise ValueError(f"unknown route_attribute {route_attribute!r}")
 
 
 def _build_params(
@@ -218,6 +302,8 @@ def _build_params(
     *,
     workers: int,
     arrival_mean: float,
+    route_attribute: str = "discrete",
+    threshold: float = 50.0,
 ) -> dict:
     cal_id = "cal_247"
     periods = [{"from": "MONDAY", "to": "SUNDAY",
@@ -247,15 +333,20 @@ def _build_params(
     }]
 
     # CORRECT routing baked in: split gateways route by case_type via condition.
-    #   _a branch (long)  -> rule_red   (red cases)
-    #   _b branch (short) -> rule_blue  (blue cases)
+    #   _a branch -> the "red" rule    _b branch -> the "blue" rule
+    # Which rule ids those are depends on how case_type is declared; see
+    # `_routing_spec` for the discrete (red/blue label) and continuous
+    # (risk score, thresholded) variants.
+    rule_a_id, rule_b_id, case_attribute, branch_rules = _routing_spec(
+        route_attribute, threshold
+    )
     gateway_branching_probabilities = []
     for spec in gateway_specs:
         if spec["split"]:
             a, b = spec["paths"]
             probs = [
-                {"path_id": a, "condition_id": "rule_red"},
-                {"path_id": b, "condition_id": "rule_blue"},
+                {"path_id": a, "condition_id": rule_a_id},
+                {"path_id": b, "condition_id": rule_b_id},
             ]
         else:
             probs = [{"path_id": spec["paths"][0], "value": "1"}]
@@ -275,15 +366,8 @@ def _build_params(
         "resource_profiles": resource_profiles,
         "event_distribution": [],
         "batch_processing": [],
-        "case_attributes": [{
-            "name": "case_type",
-            "type": "discrete",
-            "values": [{"key": "red", "value": 0.5}, {"key": "blue", "value": 0.5}],
-        }],
-        "branch_rules": [
-            {"id": "rule_red", "rules": [[{"attribute": "case_type", "comparison": "=", "value": "red"}]]},
-            {"id": "rule_blue", "rules": [[{"attribute": "case_type", "comparison": "=", "value": "blue"}]]},
-        ],
+        "case_attributes": [case_attribute],
+        "branch_rules": branch_rules,
         "prioritisation_rules": [],
     }
 
@@ -303,12 +387,23 @@ def main() -> None:
     ap.add_argument("--out-dir", type=Path,
                     default=Path(__file__).resolve().parents[1] / "samples" / "dev-samples")
     ap.add_argument("--name", default="synthetic_route_error")
+    ap.add_argument("--route-attribute", choices=["discrete", "continuous"],
+                    default="discrete",
+                    help="how case_type is declared. 'discrete' is the "
+                         "red/blue label (all-or-nothing inversion); "
+                         "'continuous' is a Uniform[0,100) risk score with a "
+                         "decision threshold, which lets the routing error be "
+                         "graded by the fraction of cases misrouted.")
+    ap.add_argument("--threshold", type=float, default=50.0,
+                    help="continuous only: the routing decision threshold "
+                         "(below -> A-branch, at/above -> B-branch)")
     args = ap.parse_args()
 
     bpmn, params = build_model(
         args.gateways, a_len=args.a_len, b_len=args.b_len, workers=args.workers,
         arrival_mean=args.arrival_mean, branch_service=args.branch_service,
         common_service=args.common_service,
+        route_attribute=args.route_attribute, threshold=args.threshold,
     )
     args.out_dir.mkdir(parents=True, exist_ok=True)
     bpmn_path = args.out_dir / f"{args.name}.bpmn"
@@ -322,6 +417,17 @@ def main() -> None:
           f"a_len={args.a_len} b_len={args.b_len if args.b_len is not None else args.a_len}")
     print(f"  A-branch tasks: {[t for t in tasks if t.startswith('t_a')]}")
     print(f"  B-branch tasks: {[t for t in tasks if t.startswith('t_b')]}")
+    sidecar = write_sidecar(
+        args.out_dir, args.name, generator="tools/generate_route_error.py",
+        params={"gateways": args.gateways, "a_len": args.a_len,
+                "b_len": args.b_len if args.b_len is not None else args.a_len,
+                "workers": args.workers, "arrival_mean": args.arrival_mean,
+                "branch_service": args.branch_service,
+                "common_service": args.common_service,
+                "route_attribute": args.route_attribute,
+                "threshold": args.threshold},
+    )
+    print(f"wrote {sidecar}")
 
 
 if __name__ == "__main__":

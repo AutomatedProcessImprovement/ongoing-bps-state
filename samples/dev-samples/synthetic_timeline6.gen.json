@@ -1,0 +1,42 @@
+{
+  "name": "synthetic_timeline6",
+  "generator": "tools/generate_front_back_xor.py",
+  "argv": [
+    "/root/process_state/tools/generate_front_back_xor.py",
+    "--branch-len",
+    "6",
+    "--branch-total",
+    "1200",
+    "--profile-shape",
+    "step",
+    "--step-ratio",
+    "3",
+    "--gate-service",
+    "9600",
+    "--gate-cv",
+    "0.002",
+    "--workers",
+    "400",
+    "--arrival-mean",
+    "60",
+    "--common-service",
+    "180",
+    "--out-dir",
+    "samples/dev-samples",
+    "--name",
+    "synthetic_timeline6"
+  ],
+  "generated_utc": "2026-09-17T10:38:46+00:00",
+  "git_commit": "c5e85ed",
+  "parameters": {
+    "branch_len": 6,
+    "branch_total": 1200.0,
+    "profile_shape": "step",
+    "step_ratio": 3.0,
+    "common_service": 180.0,
+    "gate_service": 9600.0,
+    "gate_cv": 0.002,
+    "workers": 400,
+    "arrival_mean": 60.0
+  }
+}

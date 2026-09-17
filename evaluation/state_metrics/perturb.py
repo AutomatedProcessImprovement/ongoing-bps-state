@@ -715,6 +715,141 @@ def build_route_error_params(
     }
 
 
+def _split_gateways(params: dict) -> list[dict]:
+    """Branching entries with exactly two ``_a`` / ``_b`` paths, in id order."""
+    def _is_split(entry: dict) -> bool:
+        ids = [p["path_id"] for p in entry.get("probabilities", [])]
+        return len(ids) == 2 and any(i.endswith("_a") for i in ids) and any(
+            i.endswith("_b") for i in ids
+        )
+
+    return sorted(
+        (e for e in params.get("gateway_branching_probabilities", []) if _is_split(e)),
+        key=lambda e: e["gateway_id"],
+    )
+
+
+def build_graded_route_error_params(
+    base_json_path: str | Path,
+    *,
+    gateway_positions: list[int],
+    misroute_pct: float,
+    threshold: float = 50.0,
+    out_json_path: str | Path,
+) -> dict:
+    """Misroute ``misroute_pct`` percent of cases at the named split gateways.
+
+    The graded counterpart of :func:`build_route_error_params`, for the
+    *continuous* route-error synthetic (``generate_route_error.py
+    --route-attribute continuous``). There ``case_type`` is a Uniform[0, 100)
+    risk score and the correct model routes below ``threshold`` to the A-branch
+    and at/above it to the B-branch. This builder moves the decision boundary
+    of the listed gateways OUTWARD SYMMETRICALLY: the band
+    ``[threshold - m/2, threshold)`` goes to B and ``[threshold, threshold +
+    m/2)`` goes to A, so exactly ``m`` percent of each class is misrouted.
+
+    Two properties the pairing family depends on survive at every ``m``:
+
+    * the two bands are equal in width, so each gateway's marginal A/B split
+      stays exactly 50/50 -- the population takes the same branches in the same
+      proportions, only different *cases* take them;
+    * the branches are length- and duration-symmetric, so a misrouted case does
+      the same amount of work as a correctly routed one.
+
+    Separating extent (which gateways) from magnitude (how many cases) is the
+    point: it lets the three pairing models share one geometry and one ladder
+    and differ only in how much of the model the error touches, which the
+    all-or-nothing discrete inversion cannot express.
+
+    ``gateway_positions`` are 1-based indices into the id-ordered split
+    gateways. ``misroute_pct == 0`` is a no-op.
+    """
+    if not 0.0 <= misroute_pct <= 100.0:
+        raise ValueError("misroute_pct must be in [0, 100]")
+    params = _load_params(base_json_path)
+    splits = _split_gateways(params)
+    if not gateway_positions:
+        raise ValueError("gateway_positions must be non-empty")
+    bad = [i for i in gateway_positions if not 1 <= i <= len(splits)]
+    if bad:
+        raise ValueError(
+            f"gateway positions {bad} out of range; the model has "
+            f"{len(splits)} split gateways"
+        )
+
+    from tools.generate_route_error import continuous_route_rules
+
+    rule_a, rule_b = continuous_route_rules(threshold, misroute_pct)
+    rules = {r["id"]: r for r in params.get("branch_rules", [])}
+    for rid in ("rule_a_ok", "rule_b_ok"):
+        if rid not in rules:
+            raise ValueError(
+                f"base params have no {rid!r} branch rule; this builder needs a "
+                "model generated with --route-attribute continuous"
+            )
+    params["branch_rules"] = list(params.get("branch_rules", [])) + [
+        {"id": "rule_a_err", "rules": rule_a},
+        {"id": "rule_b_err", "rules": rule_b},
+    ]
+
+    touched: list[str] = []
+    for pos in sorted(gateway_positions):
+        entry = splits[pos - 1]
+        for path in entry["probabilities"]:
+            if "condition_id" not in path:
+                raise ValueError(
+                    f"gateway {entry['gateway_id']!r} path {path['path_id']!r} "
+                    "has no condition_id; base params must route by case_type"
+                )
+            path["condition_id"] = (
+                "rule_a_err" if path["path_id"].endswith("_a") else "rule_b_err"
+            )
+        touched.append(entry["gateway_id"])
+
+    _write_params(params, out_json_path)
+    return {
+        "gateway_positions": sorted(gateway_positions),
+        "misrouted_gateways": touched,
+        "extent": len(touched),
+        "misroute_pct": misroute_pct,
+        "threshold": threshold,
+        "n_split_gateways": len(splits),
+    }
+
+
+def overlap_bound(n_perturbed: int) -> float:
+    """Scale factor at which a perturbed chain slides clear of its GT twin.
+
+    Closed form, computable before any simulation. Take a chain of equal-length
+    activities of duration ``D`` and scale a contiguous block of ``k`` of them
+    by ``f``. Activity ``j`` of that block runs over
+    ``[(j-1)D - (j-s)(1-f)D, jD - (j-s+1)(1-f)D]`` against its unperturbed twin
+    ``[(j-1)D, jD]``; the two still overlap only while ``(j-s+1)(1-f) < 1``.
+    The binding case is the block's last activity, and every activity AFTER the
+    block is displaced by the same accumulated ``k(1-f)D``, which gives the same
+    condition. So the whole chain stays paired with its twin iff
+
+        f > (k - 1) / k .
+
+    Below that the perturbed instances are *absent* rather than *displaced*: an
+    ``(activity, case)`` key holds at most one instance, so the union stops
+    growing and the measured distance flattens (it can even fall back, since a
+    missing instance contributes less to the Jaccard distance than a mismatched
+    one). ``(k-1)/k`` is therefore the floor of the ladder's usable range, and
+    it depends only on how many activities the error touches -- not on their
+    duration, the pool, or anything measured after the fact.
+
+    The mirror-image condition for a STRETCH ladder is ``f < k / (k - 1)``, but
+    it is not a saturation point: past it the perturbed instance is still
+    present, just fully displaced, and the distance keeps climbing as the
+    stretched activity covers more of the window. See
+    ``build_branch_automation_params``'s ``ladder='stretch'``.
+    """
+    if n_perturbed < 1:
+        raise ValueError("n_perturbed must be >= 1")
+    return (n_perturbed - 1) / n_perturbed
+
+
 def build_branch_automation_params(
     base_json_path: str | Path,
     *,
@@ -722,6 +857,8 @@ def build_branch_automation_params(
     level: int,
     floor_seconds: float = 1.0,
     floor_fraction: float = 0.0,
+    ladder: str = "shrink",
+    stretch_max: float = 1.0,
     out_json_path: str | Path,
 ) -> dict:
     """Automate (shrink) the durations of the non-critical branch tasks.
@@ -753,17 +890,48 @@ def build_branch_automation_params(
     beyond ``100 * (1 - floor_fraction)`` all collapse to the same model — pair
     it with a ladder that stops there rather than one that runs to 100.
 
-    **Reported configuration: ``floor_fraction = 0.0`` (uncapped).** The C
-    family is reported on the uncapped ladder, which runs to level 100 and lets
-    the case-keyed projections saturate. A capped ladder was built and run; both
-    versions star, so the capped one buys no claim and costs a post-hoc choice
-    to defend. The saturation is explained rather than engineered away: an
-    ``(activity, case)`` key holds at most one instance, so it degrades
-    all-or-nothing and tops out once each chain task has slid clear of its
-    ground-truth twin, whereas an ``activity`` key holds up to 30 and keeps
-    degrading gradually. That contrast is the mechanism the family exists to
-    show, and capping the ladder would hide it. No dataset passes
-    ``floor_fraction``; it is retained for the ceiling diagnostic only.
+    **Reported configuration: ``ladder="stretch"``, ``stretch_max = 1.8``.**
+    The composition family is reported on the UPWARD ladder, which lengthens
+    the non-critical chain instead of shrinking it. The downward ladder has a
+    ceiling and the upward one does not, and the ceiling is what the old
+    ``(a,c)`` reading was hitting.
+
+    Why the direction fixes it, from the geometry rather than from the numbers.
+    Shrinking by ``f`` slides chain task ``k`` clear of the interval its
+    ground-truth twin occupies once ``f < (k-1)/k`` (``overlap_bound``), after
+    which the pairs it contributes stop changing: the instance is absent rather
+    than displaced, and an ``(activity, case)`` key holds at most one instance,
+    so it degrades all-or-nothing and tops out. Stretching has a displacement
+    point at ``f > k/(k-1)`` but no ceiling -- a lengthened activity always
+    still overlaps the interval it started in, because it starts no later and
+    ends later. So the upward ladder cannot saturate, at any extent.
+
+    The bound is computable before running anything, and it predicted the
+    reading: on the six-element chain at extent 6 the uncapped downward ladder
+    puts ``(a,c)`` at c = 0.60, rising to level 40 and then falling back, worse
+    than the 0.80/0.70 it read on the old three- and five-element chains. Both
+    fixes repair it -- ``ladder="shrink_bounded"`` with ``floor_fraction`` at
+    the family's binding bound gives c = 1.00, and ``ladder="stretch"`` gives
+    c = 1.00 at roughly three times the amplitude and with a far stronger
+    ``red`` signal. Stretch is reported because it removes the ceiling instead
+    of stopping short of it, so nothing about the ladder's endpoint has to be
+    defended as a post-hoc choice.
+
+    The upward ladder's own precondition is that the lengthened chain stays
+    strictly inside the critical branch's slack, or the non-critical path
+    becomes critical and ``cycle_time`` would detect the perturbation for the
+    wrong reason. Checked on the logs, not assumed: at ``stretch_max = 1.8``
+    and extent 6 the chain runs 1296 s against a 2400 s critical branch,
+    leaving 1104 s of slack, and zero of the ~200 cases per replication
+    finished their non-critical chain after their critical branch.
+    ``cycle_time``, ``rtd``, ``paired_ct``, ``paired_cf`` and ``ngd_n2`` are
+    all identically 0 at every level.
+
+    ``floor_fraction`` is used by ``ladder="shrink_bounded"`` and clamps
+    ``ladder="shrink"``; the binding value for a family is taken from the
+    LARGEST extent it runs (``overlap_bound(max_k)``), so that the three models
+    of a family share one ladder and extent stays the only thing that differs
+    between them.
 
     Returns a manifest with the scale factor and which tasks were touched.
     """
@@ -779,7 +947,30 @@ def build_branch_automation_params(
         raise ValueError("floor_fraction must be in [0, 1)")
 
     params = _load_params(base_json_path)
-    factor = max(1.0 - level / 100.0, floor_fraction)
+    if ladder == "shrink":
+        # Legacy/unbounded: the ladder runs to 0 and is merely CLAMPED at
+        # floor_fraction, so every level past 100*(1-floor_fraction) collapses
+        # onto the same model. With the default floor_fraction=0 this is the
+        # uncapped ladder the C family was reported on.
+        factor = max(1.0 - level / 100.0, floor_fraction)
+    elif ladder == "shrink_bounded":
+        # Fix (a): REMAP the ladder onto [floor_fraction, 1] instead of
+        # clamping it, so all L levels stay distinct and all of them stay
+        # inside the overlapping regime.
+        if floor_fraction <= 0.0:
+            raise ValueError("ladder='shrink_bounded' needs floor_fraction > 0")
+        factor = 1.0 - (level / 100.0) * (1.0 - floor_fraction)
+    elif ladder == "stretch":
+        # Fix (b): LENGTHEN the touched activities instead of shortening them.
+        # There is no floor to hit, so the ladder has no ceiling to saturate
+        # against -- but the chain must stay strictly inside the critical
+        # branch's slack, which is the caller's (and the model's) business, not
+        # this builder's; the manifest reports the factor so it can be checked.
+        if stretch_max <= 1.0:
+            raise ValueError("ladder='stretch' needs stretch_max > 1")
+        factor = 1.0 + (level / 100.0) * (stretch_max - 1.0)
+    else:
+        raise ValueError(f"unknown ladder {ladder!r}")
     targets = set(automate_task_ids)
     touched: list[str] = []
     for task in params.get("task_resource_distribution", []):
@@ -809,9 +1000,16 @@ def build_branch_automation_params(
     return {
         "automate_task_ids": list(automate_task_ids),
         "level": level,
+        "ladder": ladder,
         "factor": factor,
         "floor_seconds": floor_seconds,
         "floor_fraction": floor_fraction,
+        "stretch_max": stretch_max,
+        "overlap_bound": overlap_bound(len(automate_task_ids)),
+        "inside_overlapping_regime": (
+            factor > overlap_bound(len(automate_task_ids)) if ladder != "stretch"
+            else True
+        ),
         "tasks_touched": touched,
     }
 
@@ -910,12 +1108,33 @@ def build_front_back_load_params(
     }
 
 
+def centred_window(n: int, k: int) -> list[int]:
+    """1-based indices of the centred window of ``k`` of ``n`` positions.
+
+    The rule the whole benchmark uses to turn a perturbation EXTENT into a
+    concrete set of model elements, so the three models of a family are nested
+    (extent k's set is contained in extent k+2's) and every family picks its
+    elements the same way. Requires ``n`` and ``k`` to have the same parity so
+    the window is genuinely centred.
+    """
+    if not 1 <= k <= n:
+        raise ValueError(f"k must be in [1, {n}], got {k}")
+    if (n - k) % 2:
+        raise ValueError(
+            f"a centred window of {k} in {n} is not symmetric; n and k must "
+            "share parity"
+        )
+    start = (n - k) // 2
+    return list(range(start + 1, start + k + 1))
+
+
 def build_front_back_swap_params(
     base_json_path: str | Path,
     *,
     branch_p_task_ids: list[str],
     branch_q_task_ids: list[str],
     level: int,
+    positions: list[int] | None = None,
     out_json_path: str | Path,
 ) -> dict:
     """Swap the front-/back-loaded time profiles of two equal-total XOR branches.
@@ -962,6 +1181,29 @@ def build_front_back_swap_params(
     q0 = [_task_mean(t) for t in branch_q_task_ids]
     a = level / 100.0
 
+    n = len(branch_p_task_ids)
+    touched = sorted(positions) if positions is not None else list(range(1, n + 1))
+    if touched and (touched[0] < 1 or touched[-1] > n):
+        raise ValueError(f"positions must be 1-based indices in [1, {n}]: {touched}")
+    if len(set(touched)) != len(touched):
+        raise ValueError(f"positions must be distinct: {touched}")
+
+    # A swap restricted to a subset of positions is only usable if the subset's
+    # duration difference cancels: otherwise each branch's TOTAL moves, the
+    # per-case cycle time moves with it, and the duration baselines detect the
+    # perturbation for a reason that has nothing to do with the timeline. That
+    # is not a tuning preference, it is the premise of the family, so it is
+    # enforced here rather than left to whoever picks the positions.
+    imbalance = sum(q0[i - 1] - p0[i - 1] for i in touched)
+    scale = sum(p0) or 1.0
+    if abs(imbalance) > 1e-9 * scale:
+        raise ValueError(
+            f"positions {touched} do not preserve the branch totals: swapping "
+            f"them moves {imbalance:.6g}s of work between the branches. A "
+            "subset swap must be balanced (e.g. a centred window on a profile "
+            "whose position-wise differences are antisymmetric)."
+        )
+
     def _apply(tid: str, base_mean: float, new_mean: float) -> float:
         f = new_mean / base_mean if base_mean > 0 else 1.0
         for r in trd_by_id[tid].get("resources", []):
@@ -972,15 +1214,19 @@ def build_front_back_swap_params(
 
     factors: dict[str, float] = {}
     for i, tid in enumerate(branch_p_task_ids):
-        factors[tid] = _apply(tid, p0[i], (1 - a) * p0[i] + a * q0[i])
+        target = (1 - a) * p0[i] + a * q0[i] if (i + 1) in touched else p0[i]
+        factors[tid] = _apply(tid, p0[i], target)
     for i, tid in enumerate(branch_q_task_ids):
-        factors[tid] = _apply(tid, q0[i], (1 - a) * q0[i] + a * p0[i])
+        target = (1 - a) * q0[i] + a * p0[i] if (i + 1) in touched else q0[i]
+        factors[tid] = _apply(tid, q0[i], target)
 
     _write_params(params, out_json_path)
     return {
         "branch_p_task_ids": list(branch_p_task_ids),
         "branch_q_task_ids": list(branch_q_task_ids),
         "level": level,
+        "positions": touched,
+        "extent": len(touched),
         "factors": factors,
         "branch_p_total_mean": sum(p0),
         "branch_q_total_mean": sum(q0),

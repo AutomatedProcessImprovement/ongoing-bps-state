@@ -45,6 +45,8 @@ import json
 from pathlib import Path
 from xml.sax.saxutils import escape
 
+from tools.genprov import write_sidecar
+
 BPMN_NS = "http://www.omg.org/spec/BPMN/20100524/MODEL"
 
 
@@ -240,6 +242,13 @@ def main() -> None:
     ap.add_argument("--arrival-mean", type=float, default=30.0)
     ap.add_argument("--critical-service", type=float, default=600.0)
     ap.add_argument("--nc-service", type=float, default=120.0)
+    ap.add_argument("--common-workers", type=int, default=12)
+    ap.add_argument("--critical-workers", type=int, default=40)
+    ap.add_argument("--nc-workers", type=int, default=40,
+                    help="size the non-critical pool for the LOUDEST level of "
+                         "the ladder: a stretch ladder raises that pool's load "
+                         "by the stretch factor, and the whole family is void "
+                         "if the extra work queues instead of running")
     ap.add_argument("--out-dir", type=Path,
                     default=Path(__file__).resolve().parents[1] / "samples" / "dev-samples")
     ap.add_argument("--name", default="synthetic_parallel_auto")
@@ -248,6 +257,8 @@ def main() -> None:
     bpmn, params, nc_ids = build_model(
         args.nc_tasks, arrival_mean=args.arrival_mean,
         critical_service=args.critical_service, nc_service=args.nc_service,
+        common_workers=args.common_workers,
+        critical_workers=args.critical_workers, nc_workers=args.nc_workers,
     )
     args.out_dir.mkdir(parents=True, exist_ok=True)
     bpmn_path = args.out_dir / f"{args.name}.bpmn"
@@ -257,6 +268,16 @@ def main() -> None:
     print(f"wrote {bpmn_path}")
     print(f"wrote {json_path}")
     print(f"  non-critical tasks (automation targets): {nc_ids}")
+    sidecar = write_sidecar(
+        args.out_dir, args.name, generator="tools/generate_parallel_auto.py",
+        params={"nc_tasks": args.nc_tasks, "arrival_mean": args.arrival_mean,
+                "critical_service": args.critical_service,
+                "nc_service": args.nc_service,
+                "common_workers": args.common_workers,
+                "critical_workers": args.critical_workers,
+                "nc_workers": args.nc_workers},
+    )
+    print(f"wrote {sidecar}")
 
 
 if __name__ == "__main__":

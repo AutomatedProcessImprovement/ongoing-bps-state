@@ -55,7 +55,7 @@ def main() -> None:
                             "mix_ratio", "label_swap", "case_route",
                             "parallel_auto", "front_back_load",
                             "case_type_drift", "route_error",
-                            "front_back_swap"],
+                            "route_error_graded", "front_back_swap"],
                    default="resources",
                    help="which perturbation family to apply")
     p.add_argument("--remove-from-profile", default=None,
@@ -87,6 +87,24 @@ def main() -> None:
     p.add_argument("--case-route-ruled", type=int, default=None,
                    help="case_route / case_type_drift: number of XOR splits the "
                         "reference sim routes by case_type (default: all splits)")
+    p.add_argument("--automation-ladder",
+                   choices=["shrink", "shrink_bounded", "stretch"],
+                   default="shrink",
+                   help="parallel_auto: direction and bounding of the duration "
+                        "ladder. 'shrink' is the legacy uncapped one; "
+                        "'shrink_bounded' remaps the ladder onto "
+                        "[--automation-floor-fraction, 1]; 'stretch' lengthens "
+                        "up to --automation-stretch-max instead.")
+    p.add_argument("--automation-floor-fraction", type=float, default=0.0,
+                   help="parallel_auto: smallest scale factor the ladder may "
+                        "reach. The closed-form bound below which a perturbed "
+                        "chain slides clear of its ground-truth twin is "
+                        "(k-1)/k for k touched activities "
+                        "(perturb.overlap_bound).")
+    p.add_argument("--automation-stretch-max", type=float, default=1.0,
+                   help="parallel_auto, ladder=stretch: scale factor at level "
+                        "100. Must leave the non-critical chain strictly "
+                        "inside the critical branch's slack.")
     p.add_argument("--load-direction", choices=["front", "back"], default="front",
                    help="front_back_load: which end of the chain gets the "
                         "duration mass (default: front)")
@@ -168,6 +186,9 @@ def main() -> None:
     elif args.perturbation == "route_error":
         # Number of leading XOR splits whose case_type routing is inverted.
         levels = spec.default_levels
+    elif args.perturbation == "route_error_graded":
+        # Percent of cases misrouted at the model's affected gateways.
+        levels = spec.default_levels
     elif args.perturbation == "front_back_swap":
         # Percent the two branch time profiles are swapped (0=GT, 100=full).
         levels = spec.default_levels
@@ -199,10 +220,15 @@ def main() -> None:
         mix_baseline_green=args.mix_baseline_green,
         case_route_ruled=args.case_route_ruled,
         automate_task_ids=spec.automate_task_ids or None,
+        automation_ladder=args.automation_ladder,
+        automation_floor_fraction=args.automation_floor_fraction,
+        automation_stretch_max=args.automation_stretch_max,
         chain_task_ids=spec.chain_task_ids or None,
         load_direction=args.load_direction,
         swap_p_task_ids=spec.swap_p_task_ids or None,
         swap_q_task_ids=spec.swap_q_task_ids or None,
+        swap_positions=spec.swap_positions or None,
+        route_gateway_positions=spec.route_gateway_positions or None,
     )
     run_pipeline(cfg)
 

@@ -84,42 +84,74 @@ perturbation family and the cut-off strategies.
 Eleven models, twenty replications each. Wall time is roughly 3–25 minutes per
 model on one machine, about two hours for the grid.
 
-| Paper | Dataset | `--perturbation` | `--levels` |
-| --- | --- | --- | --- |
-| C1 | `synthetic_parallel_auto` | `parallel_auto` | `0,25,50,75,100` |
-| C2 | `synthetic_parallel_auto5` | `parallel_auto` | `0,25,50,75,100` |
-| C3 | `synthetic_role_pools` | `role_swap` | `0,1,2,3,4,5` |
-| T1 | `synthetic_front_back_gated_lv` | `front_back_swap` | `0,25,50,75,100` |
-| T2 | `synthetic_front_back_gated4_lv` | `front_back_swap` | `0,25,50,75,100` |
-| T3 | `synthetic_front_back_gated5_lv` | `front_back_swap` | `0,25,50,75,100` |
-| P1 | `synthetic_route_error_wide` | `route_error` | `0,1,2,3,4,5,6` |
-| P2 | `synthetic_route_error_asym` | `route_error` | `0,1,2,3,4` |
-| P3 | `synthetic_route_error_deep` | `route_error` | `0,1,2,3,4,5` |
-| X1 | `Loan-stable` | `resources` | `0,2,4,6,7,8` |
-| X2 | `Loan-stable` | `arrival_burst` | `0,50,100,200,400` |
+Each family now has **one** BPMN geometry, and its three models differ only in
+how much of that geometry the injected error touches. The extent is matched
+across families — two, four, six — and every family runs the same six-step
+ladder, so a cell is comparable down a column as well as across one.
 
-The timeline family reports the **low-variance gated** design (`*_gated*_lv`,
-gate CV 0.2%). The ungated `synthetic_front_back_xor*` and the CV 7%
-`synthetic_front_back_gated*` datasets are the two designs it was compared
-against; [`docs/state-metrics/gate_variance_decision.md`](docs/state-metrics/gate_variance_decision.md)
-records the comparison and the rule for picking one. In
-`results_source_of_truth.csv` those three designs appear as `T1`–`T3`,
-`T1'`–`T3'` and `T1lv`–`T3lv` respectively.
+| Paper | Dataset | `--perturbation` | Geometry | Extent | `--levels` |
+| --- | --- | --- | --- | --- | --- |
+| C1 | `composition6_e2` | `parallel_auto` | non-critical chain of 6 | 2 lengthened | `0,20,40,60,80,100` |
+| C2 | `composition6_e4` | `parallel_auto` | non-critical chain of 6 | 4 lengthened | `0,20,40,60,80,100` |
+| C3 | `composition6_e6` | `parallel_auto` | non-critical chain of 6 | 6 lengthened | `0,20,40,60,80,100` |
+| T1 | `timeline6_e2` | `front_back_swap` | two branches of 6 | 2 swapped | `0,20,40,60,80,100` |
+| T2 | `timeline6_e4` | `front_back_swap` | two branches of 6 | 4 swapped | `0,20,40,60,80,100` |
+| T3 | `timeline6_e6` | `front_back_swap` | two branches of 6 | 6 swapped | `0,20,40,60,80,100` |
+| P1 | `pairing6_e2` | `route_error_graded` | chain of 6 gateways | 2 inverted | `0,20,40,60,80,100` |
+| P2 | `pairing6_e4` | `route_error_graded` | chain of 6 gateways | 4 inverted | `0,20,40,60,80,100` |
+| P3 | `pairing6_e6` | `route_error_graded` | chain of 6 gateways | 6 inverted | `0,20,40,60,80,100` |
+| X1 | `Loan-stable` | `resources` | — | — | `0,2,4,6,7,8` |
+| X2 | `Loan-stable` | `arrival_burst` | — | — | `0,50,100,200,400` |
+
+The three geometries are `samples/dev-samples/synthetic_composition6`,
+`synthetic_timeline6` and `synthetic_pairing6`; the `*_e2` / `*_e4` / `*_e6`
+dataset keys bind the same BPMN and params to a different perturbation extent.
+Each model carries a `.gen.json` sidecar (written by `tools/genprov.py`)
+recording the generator, its argv and the commit it ran at.
+
+The extents are **even** because the timeline family cannot do odd ones: a
+cross-branch position swap moves one task each way, so preserving the branch
+totals takes an even number of positions — a single-position swap is either a
+no-op or it changes branch length as well as content, which is the confound the
+one-geometry redesign exists to remove.
 
 ```bash
 # the whole grid
-python -m evaluation.state_metrics.run_pipeline synthetic_parallel_auto        --perturbation parallel_auto   --levels 0,25,50,75,100 --runs 20
-python -m evaluation.state_metrics.run_pipeline synthetic_parallel_auto5       --perturbation parallel_auto   --levels 0,25,50,75,100 --runs 20
-python -m evaluation.state_metrics.run_pipeline synthetic_role_pools           --perturbation role_swap       --levels 0,1,2,3,4,5    --runs 20
-python -m evaluation.state_metrics.run_pipeline synthetic_front_back_gated_lv  --perturbation front_back_swap --levels 0,25,50,75,100 --runs 20
-python -m evaluation.state_metrics.run_pipeline synthetic_front_back_gated4_lv --perturbation front_back_swap --levels 0,25,50,75,100 --runs 20
-python -m evaluation.state_metrics.run_pipeline synthetic_front_back_gated5_lv --perturbation front_back_swap --levels 0,25,50,75,100 --runs 20
-python -m evaluation.state_metrics.run_pipeline synthetic_route_error_wide     --perturbation route_error     --levels 0,1,2,3,4,5,6  --runs 20
-python -m evaluation.state_metrics.run_pipeline synthetic_route_error_asym     --perturbation route_error     --levels 0,1,2,3,4      --runs 20
-python -m evaluation.state_metrics.run_pipeline synthetic_route_error_deep     --perturbation route_error     --levels 0,1,2,3,4,5    --runs 20
-python -m evaluation.state_metrics.run_pipeline Loan-stable                    --perturbation resources       --levels 0,2,4,6,7,8    --runs 20
-python -m evaluation.state_metrics.run_pipeline Loan-stable                    --perturbation arrival_burst   --levels 0,50,100,200,400 --runs 20
+python -m evaluation.state_metrics.run_pipeline composition6_e2 --runs 20 --perturbation parallel_auto      --automation-ladder stretch --automation-stretch-max 1.8
+python -m evaluation.state_metrics.run_pipeline composition6_e4 --runs 20 --perturbation parallel_auto      --automation-ladder stretch --automation-stretch-max 1.8
+python -m evaluation.state_metrics.run_pipeline composition6_e6 --runs 20 --perturbation parallel_auto      --automation-ladder stretch --automation-stretch-max 1.8
+python -m evaluation.state_metrics.run_pipeline timeline6_e2    --runs 20 --perturbation front_back_swap
+python -m evaluation.state_metrics.run_pipeline timeline6_e4    --runs 20 --perturbation front_back_swap
+python -m evaluation.state_metrics.run_pipeline timeline6_e6    --runs 20 --perturbation front_back_swap
+python -m evaluation.state_metrics.run_pipeline pairing6_e2     --runs 20 --perturbation route_error_graded
+python -m evaluation.state_metrics.run_pipeline pairing6_e4     --runs 20 --perturbation route_error_graded
+python -m evaluation.state_metrics.run_pipeline pairing6_e6     --runs 20 --perturbation route_error_graded
+python -m evaluation.state_metrics.run_pipeline Loan-stable     --runs 20 --perturbation resources     --levels 0,2,4,6,7,8
+python -m evaluation.state_metrics.run_pipeline Loan-stable     --runs 20 --perturbation arrival_burst --levels 0,50,100,200,400
 ```
+
+The composition ladder **lengthens** the perturbed activities rather than
+shortening them, staying strictly inside the critical branch's slack. Shrinking
+saturates: past a scale factor of `(k-1)/k` the k-th activity of the chain no
+longer overlaps the interval it occupies in the unperturbed model, its pairs
+stop changing, and the distance flattens — the closed form is
+`perturb.overlap_bound`, and `--automation-ladder shrink_bounded` is the
+alternative fix that clamps the ladder at that bound instead.
+
+The `activity_role` view is still implemented and still described in the paper,
+but it is not in the reported grid: with no role perturbation left in the
+family set it is identical to `activity` on every model, which is checked
+rather than assumed (see the provenance audit).
+
+**Reproducibility boundary.** A cell reproduces *exactly* only under all three
+of: the same cached ground-truth log, the same `_seed_world` seed, and the same
+`PYTHONHASHSEED`. Prosimos is seeded through `_seed_world`, but parts of the
+engine iterate over hash-ordered containers, so the interpreter's hash seed
+still changes the draw order — on `Loan-stable`, hash seed 0 gives a 2737-row
+log where seeds 1, 2 and 12345 give a 2621-row one from identical params.
+Without pinning all three you get statistically equivalent numbers, not
+identical ones. See
+[`docs/state-metrics/reproducibility.md`](docs/state-metrics/reproducibility.md).
 
 ### Re-scoring without re-simulating
 
@@ -135,13 +167,25 @@ python -m evaluation.state_metrics.run_pipeline \
 
 ### What will and will not reproduce
 
-**Prosimos is unseeded.** Re-running the grid gives statistically equivalent
-numbers, not identical ones, and the generator scripts in `tools/generate_*.py`
-are unseeded too — re-running those produces different models, which is why the
-models themselves are committed under `samples/dev-samples/` rather than built
-on demand. What *is* deterministic is the scoring: the bootstrap seeds from
-SHA-256 of the key rather than `hash()`, so intervals are stable across
-processes and machines.
+**Prosimos is seeded, but not sufficient on its own.** `pipeline._seed_world`
+seeds the engine, and three composition runs launched with the same seed came
+back byte-identical — but two `Loan-stable` runs with the same params and the
+same seed did not, because parts of the engine iterate over hash-ordered
+containers. A cell therefore reproduces exactly only under all three of: the
+same **cached ground-truth log** (`build_basic_sim_for_prefix` is not seeded,
+so a fresh GT is a different GT), the same **`_seed_world` seed**, and the same
+**`PYTHONHASHSEED`**. On `Loan-stable`, hash seed 0 produces a 2737-row log
+where seeds 1, 2 and 12345 all produce a 2621-row one. Change any of the three
+and you get statistically equivalent numbers, not identical ones.
+
+The generator scripts in `tools/generate_*.py` are unseeded too — re-running
+those produces different models, which is why the models themselves are
+committed under `samples/dev-samples/` rather than built on demand, each with a
+`.gen.json` sidecar recording the argv and commit that produced it.
+
+What *is* deterministic regardless is the scoring: the bootstrap seeds from
+SHA-256 of `(seed, scope, family, metric)` rather than `hash()`, so intervals
+are stable across processes and machines.
 
 The numbers actually reported, with their provenance, are in
 [`docs/state-metrics/`](docs/state-metrics/) — `results_source_of_truth.csv`

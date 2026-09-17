@@ -45,6 +45,8 @@ import json
 from pathlib import Path
 from xml.sax.saxutils import escape
 
+from tools.genprov import write_sidecar
+
 BPMN_NS = "http://www.omg.org/spec/BPMN/20100524/MODEL"
 
 
@@ -91,15 +93,48 @@ def _norm(mean: float, cv: float = 0.07) -> dict:
     }
 
 
-def _profile(branch_len: int, total: float, *, front: bool) -> list[float]:
-    """A monotone front- or back-loaded duration profile over ``branch_len``
-    activities summing to ``total``. Front-loaded ramps DOWN (early long),
-    back-loaded ramps UP (late long); both are mirror images so their sums match.
+def _profile(branch_len: int, total: float, *, front: bool,
+             shape: str = "ramp", step_ratio: float = 3.0) -> list[float]:
+    """A front- or back-loaded duration profile over ``branch_len`` activities
+    summing to ``total``. Front-loaded puts the long work early, back-loaded
+    late; the two are mirror images, so their sums match and the position-wise
+    sum ``P_i + Q_i`` is what decides whether the 50/50 population's aggregate
+    event distribution moves when the profiles are swapped.
+
+    ``shape``:
+
+    ``ramp``
+        Linear ramp of weights ``[n, n-1, ..., 1]`` (front) or its reverse.
+        ``P_i + Q_i`` is constant, so ``red`` is blind to a full swap -- but
+        the per-position gap ``|P_i - Q_i|`` GROWS with distance from the
+        chain's midpoint. A swap restricted to a centred window of ``k``
+        positions therefore changes both HOW MANY activities move and HOW FAR
+        each one moves, which is exactly the confound a fixed geometry is
+        meant to remove.
+
+    ``step``
+        Two levels: the first half of the branch long (``H``), the second half
+        short (``L``), with ``H / L = step_ratio``. ``P_i + Q_i = H + L`` is
+        still constant (so ``red`` is still blind), but now EVERY position
+        differs between the branches by the same ``H - L``. Swapping a centred
+        window of ``k`` positions moves exactly ``k`` activities by exactly
+        ``H - L`` each, so the extent is the only thing that varies across the
+        family. Requires an even ``branch_len``.
     """
-    # Linear ramp of positive weights, then normalise to `total`.
-    weights = [float(i) for i in range(1, branch_len + 1)]        # [1,2,...,n]
-    if front:
-        weights = weights[::-1]                                    # [n,...,2,1]
+    if shape == "ramp":
+        weights = [float(i) for i in range(1, branch_len + 1)]      # [1,2,...,n]
+        if front:
+            weights = weights[::-1]                                # [n,...,2,1]
+    elif shape == "step":
+        if branch_len % 2:
+            raise ValueError("shape='step' needs an even branch_len so the two "
+                             "levels are equally sized and the branch totals match")
+        half = branch_len // 2
+        weights = [step_ratio] * half + [1.0] * half                # H...H L...L
+        if not front:
+            weights = weights[::-1]
+    else:
+        raise ValueError(f"unknown profile shape {shape!r}")
     s = sum(weights)
     return [total * w / s for w in weights]
 
@@ -108,6 +143,8 @@ def build_model(
     *,
     branch_len: int = 3,
     branch_total: float = 1200.0,
+    profile_shape: str = "ramp",
+    step_ratio: float = 3.0,
     common_service: float = 180.0,
     gate_service: float = 0.0,
     gate_cv: float = 0.07,
@@ -156,8 +193,10 @@ def build_model(
     f_sp, f_sq = "f_gs_p", "f_gs_q"
     nodes.append(_xor("gs", "XOR-split", [split_in], [f_sp, f_sq]))
 
-    p_front = _profile(branch_len, branch_total, front=True)   # Branch P front-loaded
-    q_back = _profile(branch_len, branch_total, front=False)   # Branch Q back-loaded
+    p_front = _profile(branch_len, branch_total, front=True,
+                       shape=profile_shape, step_ratio=step_ratio)
+    q_back = _profile(branch_len, branch_total, front=False,
+                      shape=profile_shape, step_ratio=step_ratio)
 
     def _branch(side: str, split_flow: str, means: list[float]) -> str:
         label = side.upper()
@@ -251,6 +290,13 @@ def main() -> None:
                     help="activities per branch (>= 2)")
     ap.add_argument("--branch-total", type=float, default=1200.0,
                     help="total seconds of work per branch (equal for P and Q)")
+    ap.add_argument("--profile-shape", choices=["ramp", "step"], default="ramp",
+                    help="'ramp' is the monotone linear profile; 'step' is a "
+                         "two-level long-half/short-half profile in which every "
+                         "position differs between the branches by the same "
+                         "amount (needs an even --branch-len)")
+    ap.add_argument("--step-ratio", type=float, default=3.0,
+                    help="shape='step': long-level / short-level duration ratio")
     ap.add_argument("--common-service", type=float, default=180.0)
     ap.add_argument("--gate-cv", type=float, default=0.07,
                     help="coefficient of variation for the gate activity only "
@@ -268,6 +314,7 @@ def main() -> None:
 
     bpmn, params = build_model(
         branch_len=args.branch_len, branch_total=args.branch_total,
+        profile_shape=args.profile_shape, step_ratio=args.step_ratio,
         common_service=args.common_service, gate_service=args.gate_service,
         gate_cv=args.gate_cv,
         workers=args.workers,
@@ -289,6 +336,15 @@ def main() -> None:
     print(f"wrote {json_path}")
     print(f"  Branch P (front) means: {[round(_mean(t)) for t in p_tasks]} total={round(sum(_mean(t) for t in p_tasks))}")
     print(f"  Branch Q (back)  means: {[round(_mean(t)) for t in q_tasks]} total={round(sum(_mean(t) for t in q_tasks))}")
+    sidecar = write_sidecar(
+        args.out_dir, args.name, generator="tools/generate_front_back_xor.py",
+        params={"branch_len": args.branch_len, "branch_total": args.branch_total,
+                "profile_shape": args.profile_shape, "step_ratio": args.step_ratio,
+                "common_service": args.common_service,
+                "gate_service": args.gate_service, "gate_cv": args.gate_cv,
+                "workers": args.workers, "arrival_mean": args.arrival_mean},
+    )
+    print(f"wrote {sidecar}")
 
 
 if __name__ == "__main__":

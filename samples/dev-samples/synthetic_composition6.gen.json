@@ -1,0 +1,36 @@
+{
+  "name": "synthetic_composition6",
+  "generator": "tools/generate_parallel_auto.py",
+  "argv": [
+    "/root/process_state/tools/generate_parallel_auto.py",
+    "--nc-tasks",
+    "6",
+    "--nc-service",
+    "120",
+    "--critical-service",
+    "2400",
+    "--arrival-mean",
+    "30",
+    "--common-workers",
+    "12",
+    "--critical-workers",
+    "200",
+    "--nc-workers",
+    "100",
+    "--out-dir",
+    "samples/dev-samples",
+    "--name",
+    "synthetic_composition6"
+  ],
+  "generated_utc": "2026-09-17T10:38:46+00:00",
+  "git_commit": "c5e85ed",
+  "parameters": {
+    "nc_tasks": 6,
+    "arrival_mean": 30.0,
+    "critical_service": 2400.0,
+    "nc_service": 120.0,
+    "common_workers": 12,
+    "critical_workers": 200,
+    "nc_workers": 100
+  }
+}

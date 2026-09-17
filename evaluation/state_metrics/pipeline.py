@@ -71,6 +71,7 @@ from evaluation.state_metrics.perturb import (
     build_perturbed_params,
     build_role_swap_params,
     build_route_error_params,
+    build_graded_route_error_params,
 )
 from src.process_state_prosimos_run import run_basic_simulation
 from src.runner import run_process_state_and_simulation
@@ -152,9 +153,26 @@ class PipelineConfig:
     # reference (the pairing-unique attack on a genuinely attribute-routed log).
     case_route_ruled: int | None = None
     # parallel_auto kwargs (scenario #2). The non-critical AND-branch tasks to
-    # automate; `level` is read as the percent shrink toward `automation_floor`.
+    # automate; `level` is read as the percent of the ladder's full magnitude.
+    #   automation_ladder "shrink"          — legacy uncapped shrink toward the
+    #                                          floor; saturates once the chain
+    #                                          slides clear of its GT twin.
+    #                     "shrink_bounded"  — same direction, but the ladder is
+    #                                          remapped onto
+    #                                          [automation_floor_fraction, 1] so
+    #                                          every level stays inside the
+    #                                          overlapping regime (fix a).
+    #                     "stretch"         — LENGTHEN the touched activities up
+    #                                          to `automation_stretch_max`, which
+    #                                          has no saturating floor at all
+    #                                          (fix b). Only usable while the
+    #                                          chain stays inside the critical
+    #                                          branch's slack.
     automate_task_ids: tuple[str, ...] | None = None
     automation_floor_seconds: float = 1.0
+    automation_ladder: str = "shrink"
+    automation_floor_fraction: float = 0.0
+    automation_stretch_max: float = 1.0
     # front_back_load kwargs (scenario #4). The ordered chain tasks whose mean
     # durations are reweighted total-invariantly; `load_direction` decides the
     # sign so the (non-negative) `level` ladder stays monotone for ranking.
@@ -165,6 +183,16 @@ class PipelineConfig:
     # (0 = ground truth, 100 = full swap). Positional correspondence P_i <-> Q_i.
     swap_p_task_ids: tuple[str, ...] | None = None
     swap_q_task_ids: tuple[str, ...] | None = None
+    # Which branch positions the swap touches (1-based). None = all of them.
+    # The subset must leave both branch totals invariant; the builder refuses
+    # otherwise.
+    swap_positions: tuple[int, ...] | None = None
+    # route_error_graded kwargs. `route_gateway_positions` is the EXTENT (which
+    # split gateways carry the error, 1-based in id order) and `level` is the
+    # MAGNITUDE (percent of cases misrouted at them), so a family can hold one
+    # geometry and vary the extent alone.
+    route_gateway_positions: tuple[int, ...] | None = None
+    route_threshold: float = 50.0
     # Windowing controls (added 2026-05 to enable cross-utilization comparison).
     # cutoff_strategy:
     #   "p90_wip"   — middle of top-decile WIP band (legacy default).
@@ -681,6 +709,7 @@ def _compute_metrics_row(
     scope: str,
     window: tuple[pd.Timestamp, pd.Timestamp],
     role_map: dict[str, str] | None = None,
+    base_role_map: dict[str, str] | None = None,
     case_starts: Mapping[str, pd.Timestamp] | None = None,
 ) -> list[dict]:
     from log_distance_measures.config import (
@@ -710,16 +739,25 @@ def _compute_metrics_row(
     # Resources in the sim log that aren't in the map (e.g. unknown sim-
     # internal IDs) would raise; cap by restricting to logged resources via
     # an inclusive default.
+    #
+    # `role_map` is the perturbed level's map, and for a family that DELETES
+    # resources the ground-truth log still contains them. Falling straight to
+    # "unknown" therefore collapses every deleted resource into one synthetic
+    # role on the GT side only, which makes activity_role diverge from activity
+    # for a reason that lives in the map rather than in the model -- on X1 that
+    # showed up as a 0.02-0.04 gap from level 2 upward. `base_role_map` is the
+    # unperturbed map; consult it first so a resource keeps the role it has in
+    # the model under study, and reserve "unknown" for resources neither map
+    # has ever heard of.
     sim_role_map = role_map
     if sim_role_map is not None:
         present = set(baseline_continuation["resource"].astype(str)) | set(
             sim_continuation["resource"].astype(str)
         )
-        # If any resource appears in the logs but not in the map, fall back
-        # to a synthetic role "unknown" rather than crashing.
         if any(r not in sim_role_map for r in present):
             sim_role_map = {
                 **{r: "unknown" for r in present},
+                **(base_role_map or {}),
                 **sim_role_map,
             }
     state_results = compute_all_state_distances(
@@ -923,13 +961,41 @@ def _compute_utilization_rows(
 
 
 def _seed_world(seed: int) -> None:
-    """Seed stdlib + numpy RNGs as a best-effort gesture.
+    """Seed the stdlib + numpy global RNGs before a simulation.
 
-    Prosimos does not expose deterministic RNG control, so two runs with the
-    same ``seed`` are NOT guaranteed to produce identical outputs. We keep
-    this for the parts of the pipeline that *are* deterministic (resource
-    pruning, file naming) and to make the per-run RNG state at least
-    namespaced. The ranking analysis downstream does not rely on pairing.
+    Prosimos exposes no RNG control in its API, but the pinned
+    ``short-term-simulation`` fork draws from the *global* ``random`` and
+    ``numpy.random`` streams, so seeding them here does pin the draws. It does
+    not by itself pin the simulation, and the difference matters.
+
+    Measured, on a fixed prefix and a fixed ``seed``. Repeated calls inside one
+    process are byte-identical. Calls in different processes are byte-identical
+    **only if the processes share a ``PYTHONHASHSEED``**: on ``Loan-stable``,
+    hash seed 0 gives a 2737-row log and hash seeds 1, 2 and 12345 all give a
+    different 2621-row one. Something in the engine iterates a set or dict
+    keyed by strings -- resource ids or activity names -- and that order feeds
+    the order in which random draws are consumed. Python randomises string
+    hashing per process unless ``PYTHONHASHSEED`` is set, so two runs of the
+    same cell can and do differ.
+
+    Whether it bites depends on the model. On the low-contention synthetics the
+    outcome does not depend on which equivalent resource is picked, and three
+    separately launched runs of ``synthetic_composition6`` came out
+    byte-identical at every ``(level, k)`` whose parameters matched. On
+    ``Loan-stable`` at utilisation 0.88 the pick decides who queues, and the X1
+    and X2 runs -- same model, same level 0, same seed, different processes --
+    produced different logs.
+
+    So the reproducibility boundary has three parts, and all three have to hold
+    to reproduce a cell exactly: the same cached ground truth (
+    ``build_basic_sim_for_prefix`` is NOT seeded, so regenerating it moves the
+    whole grid -- it is cached on disk precisely so that it is not
+    regenerated), the same ``seed`` here, and the same ``PYTHONHASHSEED``. Set
+    ``PYTHONHASHSEED`` in the environment to make the third one hold.
+
+    This rests on an implementation detail of the pinned fork rather than on a
+    promised API, so it is a property to re-check after a Prosimos bump, not
+    one to rely on blindly.
     """
     random.seed(seed)
     np.random.seed(seed)
@@ -1023,6 +1089,9 @@ def _prepare_params_for_level(
             automate_task_ids=list(cfg.automate_task_ids),
             level=level,
             floor_seconds=cfg.automation_floor_seconds,
+            floor_fraction=cfg.automation_floor_fraction,
+            ladder=cfg.automation_ladder,
+            stretch_max=cfg.automation_stretch_max,
             out_json_path=out_params,
         )
     elif cfg.perturbation == "front_back_load":
@@ -1054,6 +1123,7 @@ def _prepare_params_for_level(
             branch_p_task_ids=list(cfg.swap_p_task_ids),
             branch_q_task_ids=list(cfg.swap_q_task_ids),
             level=level,
+            positions=list(cfg.swap_positions) if cfg.swap_positions else None,
             out_json_path=out_params,
         )
     elif cfg.perturbation == "route_error":
@@ -1067,6 +1137,23 @@ def _prepare_params_for_level(
         manifest = build_route_error_params(
             cfg.params_path,
             n_gateways_inverted=level,
+            out_json_path=out_params,
+        )
+    elif cfg.perturbation == "route_error_graded":
+        if not cfg.route_gateway_positions:
+            raise ValueError(
+                "route_error_graded requires cfg.route_gateway_positions"
+            )
+        if not 0 <= level <= 100:
+            raise ValueError(
+                "route_error_graded levels must be in [0, 100] (percent of "
+                "cases misrouted)"
+            )
+        manifest = build_graded_route_error_params(
+            cfg.params_path,
+            gateway_positions=list(cfg.route_gateway_positions),
+            misroute_pct=float(level),
+            threshold=cfg.route_threshold,
             out_json_path=out_params,
         )
     else:
@@ -1965,6 +2052,8 @@ def run_pipeline(cfg: PipelineConfig) -> Path:
     # reference. It is NOT the long-term simulation any more.
     level0_params, level0_manifest = _prepare_params_for_level(cfg, 0, run_dir)
     (run_dir / "level_0_manifest.json").write_text(json.dumps(level0_manifest, indent=2))
+    with open(level0_params, encoding="utf-8") as f:
+        base_role_map = _resource_to_profile(json.load(f))
 
     baseline_conts_A: dict[int, pd.DataFrame] = {}
     baseline_conts_B: dict[int, pd.DataFrame] = {}
@@ -1997,6 +2086,9 @@ def run_pipeline(cfg: PipelineConfig) -> Path:
             level_params = json.load(f)
         # Recompute the role_map per level: role_swap and resource add/remove
         # both change which resource_ids exist and which profile they belong to.
+        # `base_role_map` keeps the unperturbed assignment available so that a
+        # resource the level deleted is still projected onto its own role when
+        # it appears on the ground-truth side (see _compute_metrics_row).
         level_role_map = _resource_to_profile(level_params)
 
         for k in range(1, cfg.runs + 1):
@@ -2025,12 +2117,14 @@ def run_pipeline(cfg: PipelineConfig) -> Path:
                 level=level, k_baseline=k, k_sim=k, scope="A_ongoing",
                 window=(cutoff, horizon_end),
                 case_starts=case_starts, role_map=level_role_map,
+                base_role_map=base_role_map,
             ))
             results.extend(_compute_metrics_row(
                 baseline_continuation=baseline_conts_B[k], sim_continuation=sim_B,
                 level=level, k_baseline=k, k_sim=k, scope="B_all",
                 window=(cutoff, horizon_end),
                 case_starts=case_starts, role_map=level_role_map,
+                base_role_map=base_role_map,
             ))
 
     return _finalize_pipeline_outputs(run_dir, results, util_rows)
