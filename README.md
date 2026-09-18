@@ -9,19 +9,58 @@ it, rather than from an empty marking. It supports three lines of work:
    simulation error, using clustering over pre-cut feature vectors.
 3. **State-based metrics** — per-timestamp multiset distances over active
    activity instances, benchmarked against baseline log-distance measures under
-   controlled perturbations. This is the current line; see
-   [`docs/state-metrics/`](docs/state-metrics/) for the recorded results.
+   controlled perturbations. This is the current line.
 
 ---
 
-## Setup
+## Quick start
 
-Requires **Python 3.11** (what this is developed and tested on) and **git**, which
-pip needs to fetch the Prosimos fork.
+One script installs everything and reproduces the whole state-metrics grid:
 
 ```bash
 git clone https://github.com/AutomatedProcessImprovement/ongoing-bps-state.git
 cd ongoing-bps-state
+./run_evaluation.sh
+```
+
+It builds a virtualenv, installs the pinned dependencies **including the
+Prosimos fork** and checks the fork actually took, runs all eleven models
+concurrently, recomputes every cell from the stored simulation logs, scores the
+grid, and prints it next to the committed reference table so you can see which
+cells moved.
+
+```bash
+./run_evaluation.sh --smoke        # 2 replications, 2 levels -- a few minutes
+./run_evaluation.sh --setup-only   # just build the venv
+./run_evaluation.sh --jobs 4       # cap concurrency (default: all cores)
+./run_evaluation.sh --skip-setup   # venv already built
+./run_evaluation.sh --help
+```
+
+Requires **Python 3.11** and **git** (pip needs it to fetch the Prosimos fork).
+Everything else the run reads — BPMN models, Prosimos parameter JSONs, event
+logs — is in the clone; nothing is downloaded at run time.
+
+The full grid is eleven models x twenty replications x six perturbation levels.
+On a 16-core machine expect roughly an hour, most of it in the pairing family,
+which simulates 3000 cases per replication. Results land in
+`outputs/evaluation_run/` (override with `--work-dir`); the scored table is
+`results_source_of_truth.csv` there.
+
+`--smoke` shortens the ladder to two levels, which is enough to prove the
+install works but not to reproduce anything: the mean-first c-index over L
+levels has C(L,2) pairs, so at two levels every cell is 0.000 or 1.000 and the
+bootstrap intervals are degenerate. The script says so and skips the reference
+comparison rather than printing a meaningless diff.
+
+---
+
+## Setup by hand
+
+`run_evaluation.sh` does all of this; these are the same steps if you would
+rather drive them yourself, or you only want the environment.
+
+```bash
 python3.11 -m venv venv
 source venv/bin/activate          # Windows: venv\Scripts\activate
 pip install -r requirements.txt
@@ -81,10 +120,10 @@ perturbation family and the cut-off strategies.
 
 ### Reproducing the reported grid
 
-Eleven models, twenty replications each. Wall time is roughly 3–25 minutes per
-model on one machine, about two hours for the grid.
+`./run_evaluation.sh` runs everything below. This section is what it runs and
+why, for when you want one model rather than the grid.
 
-Each family now has **one** BPMN geometry, and its three models differ only in
+Each family has **one** BPMN geometry, and its three models differ only in
 how much of that geometry the injected error touches. The extent is matched
 across families — two, four, six — and every family runs the same six-step
 ladder, so a cell is comparable down a column as well as across one.
@@ -116,10 +155,10 @@ no-op or it changes branch length as well as content, which is the confound the
 one-geometry redesign exists to remove.
 
 ```bash
-# the whole grid
-python -m evaluation.state_metrics.run_pipeline composition6_e2 --runs 20 --perturbation parallel_auto      --automation-ladder stretch --automation-stretch-max 1.8
-python -m evaluation.state_metrics.run_pipeline composition6_e4 --runs 20 --perturbation parallel_auto      --automation-ladder stretch --automation-stretch-max 1.8
-python -m evaluation.state_metrics.run_pipeline composition6_e6 --runs 20 --perturbation parallel_auto      --automation-ladder stretch --automation-stretch-max 1.8
+# one model at a time -- this is exactly what run_evaluation.sh issues
+python -m evaluation.state_metrics.run_pipeline composition6_e2 --runs 20 --perturbation parallel_auto --automation-ladder stretch --automation-stretch-max 1.8
+python -m evaluation.state_metrics.run_pipeline composition6_e4 --runs 20 --perturbation parallel_auto --automation-ladder stretch --automation-stretch-max 1.8
+python -m evaluation.state_metrics.run_pipeline composition6_e6 --runs 20 --perturbation parallel_auto --automation-ladder stretch --automation-stretch-max 1.8
 python -m evaluation.state_metrics.run_pipeline timeline6_e2    --runs 20 --perturbation front_back_swap
 python -m evaluation.state_metrics.run_pipeline timeline6_e4    --runs 20 --perturbation front_back_swap
 python -m evaluation.state_metrics.run_pipeline timeline6_e6    --runs 20 --perturbation front_back_swap
@@ -129,6 +168,55 @@ python -m evaluation.state_metrics.run_pipeline pairing_mirror6_e6 --runs 20 --p
 python -m evaluation.state_metrics.run_pipeline Loan-stable     --runs 20 --perturbation resources     --levels 0,2,4,6,7,8
 python -m evaluation.state_metrics.run_pipeline Loan-stable     --runs 20 --perturbation arrival_burst
 ```
+
+The three models of a family share one ground-truth simulation, which is cached
+on first use — so run one model of each family to completion before starting
+its siblings, or they will race to build the same cache.
+
+### Scoring a finished grid
+
+The reported table is **not** read out of the runs' own `results.csv` files. It
+is recomputed from the stored `sim_log.csv` files, so it cannot inherit a stale
+baseline bin or a superseded scoring pass. Four scripts under
+`evaluation/state_metrics/reporting/`, in order:
+
+```bash
+REP=evaluation/state_metrics/reporting
+W=outputs/evaluation_run          # holds jobs.txt, written by run_evaluation.sh
+
+# 1. pin each reported cell to a run directory
+python $REP/build_run_manifest.py $W <unix-time-the-batch-started>
+# 2. re-derive all eleven measures from the logs (one process per model)
+python $REP/recompute_from_logs.py $W/run_manifest.json C1
+# 3. c-index, bootstrap intervals, noise floors (one process per model)
+python $REP/build_source_of_truth.py $W C1
+python $REP/build_source_of_truth.py $W merge
+# 4. bin sensitivity: fixed 1 h vs window/20, /50, /100
+python $REP/sweep_bin_grid.py $W/run_manifest.json C1
+```
+
+Step 1 matters more than it looks. Nine composition runs land in one output
+directory, so a run cannot be identified by "the newest one under this
+dataset", and matching by launch order silently mis-assigned nine of seventeen
+runs when it was tried. Each run instead declares its own extent and ladder in
+its `level_<top>_manifest.json`, and the manifest builder matches on that and
+refuses rather than guesses.
+
+Step 3 is the slow one — 100 bootstrap seeds x 1000 iterations per cell — which
+is why it takes one model at a time and merges at the end.
+
+`sweep_bin_grid.py`'s `window/50` column must reproduce the scored table
+exactly; that is the check that the grid and the sensitivity table came from
+the same scoring code.
+
+`evaluation/state_metrics/reference_results.csv` is the committed result of all
+of this: 121 rows, eleven models x eleven measures, with point estimates,
+bootstrap intervals, noise floors, utilisation and the run id and commit behind
+each cell. `run_evaluation.sh` diffs a fresh run against it.
+
+`evaluation/state_metrics/reporting/check_pairing_invariants.py <run-dir>`
+measures, on the logs, each population quantity the mirrored pairing design
+claims to preserve, separating a real residual from replication noise.
 
 The composition ladder **lengthens** the perturbed activities rather than
 shortening them, staying strictly inside the critical branch's slack. Shrinking
@@ -172,8 +260,7 @@ engine iterate over hash-ordered containers, so the interpreter's hash seed
 still changes the draw order — on `Loan-stable`, hash seed 0 gives a 2737-row
 log where seeds 1, 2 and 12345 give a 2621-row one from identical params.
 Without pinning all three you get statistically equivalent numbers, not
-identical ones. See
-[`docs/state-metrics/reproducibility.md`](docs/state-metrics/reproducibility.md).
+identical ones. "What will and will not reproduce" below has the detail.
 
 ### Re-scoring without re-simulating
 
@@ -209,10 +296,12 @@ What *is* deterministic regardless is the scoring: the bootstrap seeds from
 SHA-256 of `(seed, scope, family, metric)` rather than `hash()`, so intervals
 are stable across processes and machines.
 
-The numbers actually reported, with their provenance, are in
-[`docs/state-metrics/`](docs/state-metrics/) — `results_source_of_truth.csv`
-holds every reported cell, and `provenance_audit.md` records the pass that
-recomputed each one from its run's stored logs.
+Every reported cell, with its provenance, is in
+[`evaluation/state_metrics/reference_results.csv`](evaluation/state_metrics/reference_results.csv):
+the point estimate, its bootstrap interval, the fraction of 100 bootstrap seeds
+that would star it, the noise floor, the model geometry, and the run id and
+commit the cell came from. `run_evaluation.sh` diffs a fresh run against it and
+reports which cells changed significance.
 
 ---
 
@@ -284,7 +373,9 @@ evaluation/              benchmarks built on the two libraries above
   short_term_simulation/ ICPM-2025 three-flavour pipeline
   clustering/            uncertainty / CI extension
   state_metrics/         perturbation benchmark: pipeline, perturbations, datasets, ranking
-docs/state-metrics/      recorded results, provenance audit, design decisions
+    reporting/           recompute, score and audit a finished grid
+    reference_results.csv  every reported cell, with its provenance
+run_evaluation.sh        install + run + score + compare, in one command
 tools/                   generate_*.py, the synthetic BPS model generators
 samples/                 BPMN models, Prosimos params, gzipped event logs
 tests/                   pytest suite; tests/e2e/ runs a real simulator

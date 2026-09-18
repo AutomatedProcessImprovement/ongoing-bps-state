@@ -159,27 +159,23 @@ evaluation/tmp_dupe_check/
 !samples/**/*.bpmn
 !samples/**/*.json
 
-# The experiment records the harness's numbers are cited from. They stay in the
-# repository even though the paper sources do not, so the blanket *.csv rule
-# above must not swallow the results table the records refer to.
-!docs/state-metrics/*.csv
+# The reference grid the harness compares a fresh run against. It is part of
+# the evaluation code, not paper output, so the blanket *.csv rule above must
+# not swallow it.
+!evaluation/state_metrics/reference_results.csv
 
-# Paper sources. The LaTeX is drafted outside this repository, but the figure
-# GENERATORS and the data they read are not optional extras: Section 7.2 claims
-# every reported figure's script is in the repository, so the scripts, their
-# input CSVs and the rendered PDFs are tracked. The PNG previews and __pycache__
-# are not.
-/paper/*
-!/paper/figures/
-/paper/figures/*
-!/paper/figures/*.py
-!/paper/figures/*.csv
-!/paper/figures/*.pdf
-!/paper/figures/*.md
-/paper/figures/__pycache__/
+# Paper sources and working notes. The LaTeX, the figures and the running
+# commentary are drafted outside this repository; what a reader needs to
+# reproduce the numbers is the code, run_evaluation.sh and the reference grid.
+# The scenario catalogues under evaluation/state_metrics/ are design notes from
+# the same drafting: they record what was considered, not what the harness runs,
+# and datasets.py / perturb.py are the authority on that.
+/paper/
+/docs/
+evaluation/state_metrics/*.md
 
 # Loose working files at the root -- run logs, half-finished notes, one-off
-# scripts. Anything worth keeping goes to docs/state-metrics/ under a real name.
+# scripts. Anything worth keeping earns a real name under evaluation/ or tools/.
 /scratch_*
 /.codex
 
