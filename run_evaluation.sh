@@ -3,6 +3,7 @@
 # Reproduce the state-metrics evaluation grid end to end, from a fresh clone.
 #
 #   ./run_evaluation.sh                # install if needed, then run everything
+#   ./run_evaluation.sh --rescore      # score the shipped logs, no simulator
 #   ./run_evaluation.sh --setup-only   # just build the venv
 #   ./run_evaluation.sh --smoke        # 2 replications, 2 levels -- ~5 minutes
 #   ./run_evaluation.sh --jobs 4       # cap concurrent simulations
@@ -11,6 +12,12 @@
 # perturbation levels. Every model is independent, so they run concurrently;
 # on a 16-core machine expect roughly an hour, most of it in the pairing
 # family, which simulates 3000 cases per replication.
+#
+# --rescore skips the simulator entirely and scores the logs the repository
+# ships under evaluation/state_metrics/reference_runs/. That reproduces the
+# reported table exactly, which a fresh simulation cannot: Prosimos is seeded
+# but not fully deterministic, so re-running gives statistically equivalent
+# numbers, not identical ones.
 #
 set -euo pipefail
 
@@ -25,6 +32,7 @@ LEVELS=""                 # empty = each dataset's own six-step ladder
 JOBS="$( (command -v nproc >/dev/null && nproc) || echo 4 )"
 SETUP_ONLY=0
 SKIP_SETUP=0
+RESCORE=0
 # The reference table is only comparable at the reported protocol.
 FULL_PROTOCOL=1
 
@@ -32,11 +40,12 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --setup-only) SETUP_ONLY=1; shift ;;
     --skip-setup) SKIP_SETUP=1; shift ;;
+    --rescore)    RESCORE=1; shift ;;
     --smoke)      RUNS=2; LEVELS="0,100"; FULL_PROTOCOL=0; shift ;;
     --runs)       RUNS="$2"; [[ "$2" == 20 ]] || FULL_PROTOCOL=0; shift 2 ;;
     --jobs)       JOBS="$2"; shift 2 ;;
     --work-dir)   WORK="$2"; shift 2 ;;
-    -h|--help)    sed -n '2,14p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    -h|--help)    sed -n '2,21p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "unknown option: $1" >&2; exit 2 ;;
   esac
 done
@@ -70,7 +79,24 @@ EOF
 fi
 [[ $SETUP_ONLY -eq 1 ]] && { say "Setup done."; exit 0; }
 
-# ---------------------------------------------------------------- 2. models
+# -------------------------------------------------- 2a. score the shipped logs
+REP="evaluation/state_metrics/reporting"
+ARCHIVE="evaluation/state_metrics/reference_runs"
+if [[ $RESCORE -eq 1 ]]; then
+  [[ -f "$ARCHIVE/run_manifest.json" ]] || {
+    echo "no archive at $ARCHIVE -- run without --rescore to simulate" >&2
+    exit 1; }
+  mkdir -p "$WORK"
+  cp "$ARCHIVE/run_manifest.json" "$WORK/run_manifest.json"
+  MODELS=$("$PY" -c "import json,sys;print(' '.join(json.load(open('$ARCHIVE/run_manifest.json'))))")
+  DATA_ROOT="$ARCHIVE"
+  FULL_PROTOCOL=1          # the archive IS the reported protocol
+  say "Scoring the shipped logs (no simulation)"
+else
+  DATA_ROOT=""
+fi
+
+if [[ $RESCORE -eq 0 ]]; then
 # The generators are unseeded, so regenerating would produce DIFFERENT models
 # and move every number. The models under samples/dev-samples/ are committed
 # for exactly that reason and are used as they are; each carries a .gen.json
@@ -144,17 +170,20 @@ else
   while IFS= read -r line; do run_one "$line"; done < "$WORK/jobs.txt"
 fi
 
-# ------------------------------------------------------- 4. score and report
-REP="evaluation/state_metrics/reporting"
-
 say "Pinning each run to its job"
 "$PY" "$REP/build_run_manifest.py" "$WORK" "$SINCE"
+fi   # end of the simulate-from-scratch path
+
+# ------------------------------------------------------- 4. score and report
+DR=""; [[ -n "$DATA_ROOT" ]] && DR="--data-root $DATA_ROOT"
+
 
 say "Recomputing every cell from the stored simulation logs"
 # Reads only each run's sim_log.csv files, never its own results.csv, so the
 # table cannot inherit a stale baseline bin or a superseded scoring pass.
+# shellcheck disable=SC2086
 printf '%s\n' $MODELS | xargs -P "$JOBS" -I{} \
-    "$PY" "$REP/recompute_from_logs.py" "$WORK/run_manifest.json" {}
+    "$PY" "$REP/recompute_from_logs.py" "$WORK/run_manifest.json" {} $DR
 "$PY" - "$WORK" <<'EOF'
 import glob, pickle, sys
 work = sys.argv[1]
@@ -166,20 +195,22 @@ print(f"  merged {len(R)} models")
 EOF
 
 say "Scoring: c-index, bootstrap intervals, noise floors"
+# shellcheck disable=SC2086
 printf '%s\n' $MODELS | xargs -P "$JOBS" -I{} \
-    "$PY" "$REP/build_source_of_truth.py" "$WORK" {}
+    "$PY" "$REP/build_source_of_truth.py" "$WORK" {} $DR
 "$PY" "$REP/build_source_of_truth.py" "$WORK" merge
 
 say "Bin sensitivity (fixed 1h / window-20 / window-50 / window-100)"
+# shellcheck disable=SC2086
 printf '%s\n' $MODELS | xargs -P "$JOBS" -I{} \
-    "$PY" "$REP/sweep_bin_grid.py" "$WORK/run_manifest.json" {}
+    "$PY" "$REP/sweep_bin_grid.py" "$WORK/run_manifest.json" {} $DR
 
 # ---------------------------------------------------------------- 5. compare
 say "Result"
-"$PY" - "$WORK" "$FULL_PROTOCOL" <<'EOF'
+"$PY" - "$WORK" "$FULL_PROTOCOL" "$RESCORE" <<'EOF'
 import sys
 import pandas as pd
-work, full = sys.argv[1], sys.argv[2] == "1"
+work, full, rescore = sys.argv[1], sys.argv[2] == "1", sys.argv[3] == "1"
 new = pd.read_csv(f"{work}/results_source_of_truth.csv")
 ORDER = ["(a,c)", "act", "(a,r)", "case", "card", "cf", "ct", "ngd", "red",
          "cyc", "rtd"]
@@ -214,11 +245,29 @@ print(f"\nvs evaluation/state_metrics/reference_results.csv: "
 for (mo, me), a, b in flips:
     print(f"  {mo:3s} {me:5s} {'lost' if a else 'gained'} its star "
           f"({r[(mo, me)].c_index_means:.3f} -> {d[(mo, me)].c_index_means:.3f})")
-print("""
+
+if rescore:
+    # Same logs, same scoring code: every column must match to the digit. A
+    # difference here is a bug in the scoring pass, not simulator variance.
+    worst, where = 0.0, None
+    for k in common:
+        for c in ("c_index_means", "ci_low", "ci_high"):
+            gap = abs(getattr(r[k], c) - getattr(d[k], c))
+            if gap > worst:
+                worst, where = gap, (k, c)
+    print(f"\nExact-reproduction check: worst |difference| {worst:.3g}"
+          + (f" at {where[0][0]} {where[0][1]} {where[1]}" if where else ""))
+    if worst > 1e-9 or flips:
+        raise SystemExit("the shipped logs no longer reproduce the reference "
+                         "table -- the scoring pass changed")
+    print("The shipped logs reproduce the reported table exactly.")
+else:
+    print("""
 Prosimos is seeded, but a cell reproduces EXACTLY only under the same cached
 ground-truth log, the same _seed_world seed and the same PYTHONHASHSEED. A
 fresh run gives statistically equivalent numbers, not identical ones, so a few
 cells near the star threshold moving is expected; a whole column flipping is
-not.""")
+not. Use --rescore to reproduce the reported cells exactly, from the logs the
+repository ships.""")
 print(f"full table: {work}/results_source_of_truth.csv")
 EOF

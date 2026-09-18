@@ -19,6 +19,14 @@ sys.path.insert(0, str(ROOT))
 from evaluation.state_metrics.datasets import DATASETS as DS   # noqa: E402
 
 FAM = {"C": "Composition", "T": "Timeline", "P": "Pairing", "X": "Control"}
+def _started(run: Path) -> str:
+    """When the run began, recorded now: an archived copy has fresh mtimes."""
+    import datetime as _dt
+    t = min(p.stat().st_mtime for p in run.iterdir())
+    return _dt.datetime.fromtimestamp(t, _dt.timezone.utc).isoformat(
+        timespec="seconds")
+
+
 commit = subprocess.run(["git", "rev-parse", "--short", "HEAD"],
                         capture_output=True, text=True, cwd=ROOT).stdout.strip()
 
@@ -62,9 +70,14 @@ for tag, argv in jobs:
     used.add(str(d))
     man[tag] = {
         "job": tag, "family": FAM[tag[0]] + ("-alt" if "_" in tag else ""),
-        "dataset_key": key, "dataset": name, "run_dir": str(d),
-        "params": str(spec.params) if spec else "",
-        "bpmn": str(spec.bpmn) if spec else "",
+        "dataset_key": key, "dataset": name,
+        # Relative to the data root, so the same manifest scores a fresh run
+        # under outputs/ and the gzipped archive under reference_runs/.
+        "run_dir": str(d.relative_to(OUT)),
+        "run_started_utc": _started(d),
+        # Repo-relative, so the archived manifest resolves in any checkout.
+        "params": str(Path(spec.params).relative_to(ROOT)) if spec else "",
+        "bpmn": str(Path(spec.bpmn).relative_to(ROOT)) if spec else "",
         "extent": want_ext, "ladder": want_lad,
         "reported": "_" not in tag,
         "argv": argv, "perturbation": pert, "git_commit": commit,

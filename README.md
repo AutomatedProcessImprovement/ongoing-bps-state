@@ -15,19 +15,42 @@ it, rather than from an empty marking. It supports three lines of work:
 
 ## Quick start
 
-One script installs everything and reproduces the whole state-metrics grid:
+One script does everything: installs the environment, reproduces the grid and
+checks the result against the numbers this repository reports.
 
 ```bash
 git clone https://github.com/AutomatedProcessImprovement/ongoing-bps-state.git
 cd ongoing-bps-state
-./run_evaluation.sh
+./run_evaluation.sh --rescore     # the reported table, exactly, in ~8 minutes
+./run_evaluation.sh               # re-simulate the whole grid, ~1 hour
 ```
 
-It builds a virtualenv, installs the pinned dependencies **including the
-Prosimos fork** and checks the fork actually took, runs all eleven models
-concurrently, recomputes every cell from the stored simulation logs, scores the
-grid, and prints it next to the committed reference table so you can see which
-cells moved.
+Requires **Python 3.11** and **git** (pip needs it to fetch the Prosimos fork).
+Everything either mode reads — BPMN models, Prosimos parameter JSONs, event
+logs — is in the clone; nothing is downloaded at run time. Results land in
+`outputs/evaluation_run/` (override with `--work-dir`); the scored table is
+`results_source_of_truth.csv` there.
+
+Both modes build a virtualenv, install the pinned dependencies **including the
+Prosimos fork**, and verify the fork actually took (a vanilla Prosimos will not
+accept `process_state=`, and the branch's version string is not bumped, so pip
+alone cannot tell you).
+
+**`--rescore` reproduces the reported table exactly**, without running a
+simulator at all. It scores the simulation logs the repository ships under
+`evaluation/state_metrics/reference_runs/` — 1670 gzipped files, 163 MB — and
+fails loudly if any of the 121 cells differs from
+`evaluation/state_metrics/reference_results.csv`. This is the mode to use to
+check the paper's numbers, because a fresh simulation *cannot* reproduce them
+to the digit (see [What will and will not reproduce](#what-will-and-will-not-reproduce)).
+
+**Without `--rescore`** the script simulates the grid from scratch — eleven
+models x twenty replications x six perturbation levels — then recomputes,
+scores and diffs against the same reference, naming the cells whose
+significance moved. On a 16-core machine expect roughly an hour, most of it in
+the pairing family, which simulates 3000 cases per replication. This is the
+mode that tests the *pipeline*: it answers "does the claim survive a fresh
+draw", not "are the published digits right".
 
 ```bash
 ./run_evaluation.sh --smoke        # 2 replications, 2 levels -- a few minutes
@@ -36,16 +59,6 @@ cells moved.
 ./run_evaluation.sh --skip-setup   # venv already built
 ./run_evaluation.sh --help
 ```
-
-Requires **Python 3.11** and **git** (pip needs it to fetch the Prosimos fork).
-Everything else the run reads — BPMN models, Prosimos parameter JSONs, event
-logs — is in the clone; nothing is downloaded at run time.
-
-The full grid is eleven models x twenty replications x six perturbation levels.
-On a 16-core machine expect roughly an hour, most of it in the pairing family,
-which simulates 3000 cases per replication. Results land in
-`outputs/evaluation_run/` (override with `--work-dir`); the scored table is
-`results_source_of_truth.csv` there.
 
 `--smoke` shortens the ladder to two levels, which is enough to prove the
 install works but not to reproduce anything: the mean-first c-index over L
@@ -178,7 +191,8 @@ its siblings, or they will race to build the same cache.
 The reported table is **not** read out of the runs' own `results.csv` files. It
 is recomputed from the stored `sim_log.csv` files, so it cannot inherit a stale
 baseline bin or a superseded scoring pass. Four scripts under
-`evaluation/state_metrics/reporting/`, in order:
+`evaluation/state_metrics/reporting/`, in order — this is what
+`run_evaluation.sh` runs after the simulator, and all `--rescore` runs:
 
 ```bash
 REP=evaluation/state_metrics/reporting
@@ -194,6 +208,12 @@ python $REP/build_source_of_truth.py $W merge
 # 4. bin sensitivity: fixed 1 h vs window/20, /50, /100
 python $REP/sweep_bin_grid.py $W/run_manifest.json C1
 ```
+
+Every one of them takes `--data-root DIR`, which is how the same four scripts
+score a run that was just simulated (`outputs/state_metrics/`, the default) or
+the archived one the repository ships (`evaluation/state_metrics/reference_runs/`).
+A manifest stores each run's path relative to that root, and each reader opens
+`x.csv` or `x.csv.gz`, whichever is there.
 
 Step 1 matters more than it looks. Nine composition runs land in one output
 directory, so a run cannot be identified by "the newest one under this
@@ -213,6 +233,26 @@ the same scoring code.
 of this: 121 rows, eleven models x eleven measures, with point estimates,
 bootstrap intervals, noise floors, utilisation and the run id and commit behind
 each cell. `run_evaluation.sh` diffs a fresh run against it.
+
+### The archived runs
+
+`evaluation/state_metrics/reference_runs/` holds the logs those 121 cells were
+computed from: every replication's `sim_log.csv` at every level, plus the
+per-run `cutoff.json`, `utilization.csv`, `prefix.csv` and the ground-truth
+prefix log each family shares. 1670 files, gzipped, 163 MB.
+
+It is there because a fresh simulation cannot reproduce the published digits —
+Prosimos is seeded but not fully deterministic — so without the logs the
+reported table would be unfalsifiable. `./run_evaluation.sh --rescore` scores
+them in about eight minutes on 96 cores and fails if any cell has moved; it
+currently reproduces all 52 columns of all 121 rows exactly.
+
+What is *not* archived is the rest of a run directory. Prosimos writes one
+warning line per simulated event, so `simulation_warnings.txt` is 5.2 GB of a
+5.3 GB pairing run; the archive drops it and everything else regenerable,
+taking 909 MB of logs down to 163 MB on disk.
+`evaluation/state_metrics/reporting/archive_runs.py <work-dir>` rebuilds it
+from a finished batch.
 
 `evaluation/state_metrics/reporting/check_pairing_invariants.py <run-dir>`
 measures, on the logs, each population quantity the mirrored pairing design
@@ -260,7 +300,9 @@ engine iterate over hash-ordered containers, so the interpreter's hash seed
 still changes the draw order — on `Loan-stable`, hash seed 0 gives a 2737-row
 log where seeds 1, 2 and 12345 give a 2621-row one from identical params.
 Without pinning all three you get statistically equivalent numbers, not
-identical ones. "What will and will not reproduce" below has the detail.
+identical ones. That is what the archived runs are for: `--rescore` scores the
+stored logs and so reproduces the published cells to the digit. "What will and
+will not reproduce" below has the detail.
 
 ### Re-scoring without re-simulating
 
@@ -285,7 +327,9 @@ same **cached ground-truth log** (`build_basic_sim_for_prefix` is not seeded,
 so a fresh GT is a different GT), the same **`_seed_world` seed**, and the same
 **`PYTHONHASHSEED`**. On `Loan-stable`, hash seed 0 produces a 2737-row log
 where seeds 1, 2 and 12345 all produce a 2621-row one. Change any of the three
-and you get statistically equivalent numbers, not identical ones.
+and you get statistically equivalent numbers, not identical ones — which is
+exactly why the logs behind the reported table are committed under
+`evaluation/state_metrics/reference_runs/` and `--rescore` exists.
 
 The generator scripts in `tools/generate_*.py` are unseeded too — re-running
 those produces different models, which is why the models themselves are
@@ -375,6 +419,7 @@ evaluation/              benchmarks built on the two libraries above
   state_metrics/         perturbation benchmark: pipeline, perturbations, datasets, ranking
     reporting/           recompute, score and audit a finished grid
     reference_results.csv  every reported cell, with its provenance
+    reference_runs/      the gzipped logs those cells were computed from
 run_evaluation.sh        install + run + score + compare, in one command
 tools/                   generate_*.py, the synthetic BPS model generators
 samples/                 BPMN models, Prosimos params, gzipped event logs

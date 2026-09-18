@@ -3,13 +3,17 @@ import csv, glob, json, os, pickle, re, sys
 from pathlib import Path
 import numpy as np, pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+sys.path.insert(0, str(Path(__file__).parent))
+import runs as RUNS
 from evaluation.state_metrics.ranking import (
     concordance_index_on_means, bootstrap_ci, _stable_seed)
 
-SP = Path(sys.argv[1])
+ARGV = sys.argv[1:]
+DATA = RUNS.data_root(ARGV)
+SP = Path(ARGV[0])
 MAN = json.load(open(SP / "run_manifest.json"))
-R = pickle.load(open(SP / "recomputed.pkl", "rb"))
-ONLY = sys.argv[2] if len(sys.argv) > 2 else None
+R = pickle.load(open(SP / "recomputed.pkl", "rb")) if (SP / "recomputed.pkl").exists() else {}
+ONLY = ARGV[1] if len(ARGV) > 1 else None
 
 # Canonical order for the merged table: family first, then extent, then the
 # measure order the paper's table uses. Alphabetical would interleave the
@@ -53,7 +57,7 @@ SHORT = {"activity_case.jaccard":"(a,c)","activity.jaccard":"act",
 ORDER = MEASURE_ORDER
 
 def model_geometry(bpmn_path, params_path):
-    x = open(bpmn_path).read()
+    x = open(RUNS.in_repo(bpmn_path)).read()
     # Loan-stable's BPMN has no namespace prefix on its elements; the generated
     # synthetics use bpmn:. Match either, or the controls silently read 0.
     tasks = re.findall(r'<(?:\w+:)?task\s[^>]*id="([^"]+)"[^>]*?(?:name="([^"]*)")?', x)
@@ -61,7 +65,7 @@ def model_geometry(bpmn_path, params_path):
     splits = len(re.findall(
         r'<(?:\w+:)?exclusiveGateway\b(?:(?!</(?:\w+:)?exclusiveGateway>).)*?'
         r'<(?:\w+:)?outgoing>.*?</(?:\w+:)?outgoing>\s*<(?:\w+:)?outgoing>', x, re.S))
-    p = json.load(open(params_path))
+    p = json.load(open(RUNS.in_repo(params_path)))
     workers = sum(len(pr.get("resource_list", [])) for pr in p.get("resource_profiles", []))
     return len(tasks), workers, splits, [t for t, _ in tasks], p
 
@@ -77,6 +81,7 @@ rows, report = [], {}
 ALL_LEVELS = sorted({l for e in R.values() for l in e["levels"]})
 for mdl, e in R.items():
     m = MAN[mdl]
+    run = RUNS.run_dir(m, DATA)
     n_tasks, n_workers, n_splits, tids, params = model_geometry(m["bpmn"], m["params"])
     # timeline descriptors
     gate_mean = gate_cv = pre_pct = None; design = None; bla = blb = None
@@ -96,12 +101,16 @@ for mdl, e in R.items():
         blb = sum(1 for t in tids if re.fullmatch(r"t_b1_\d+", t))
     # the run's own rankings.csv = what the pipeline reported at run time
     own = {}
-    rk = Path(m["run_dir"]) / "rankings.csv"
-    if rk.exists():
-        rd = pd.read_csv(rk)
+    rk = run / "rankings.csv"
+    if rk.exists() or rk.with_suffix(".csv.gz").exists():
+        rd = pd.read_csv(RUNS.resolve(rk))
         rd = rd[rd.scope == "A_ongoing"]
         own = {r.metric: r.c_index_means for r in rd.itertuples()}
-    started = min(os.path.getmtime(p) for p in glob.glob(f"{m['run_dir']}/*"))
+    # The run records when it started; an archived copy has fresh mtimes, so
+    # falling back to those would date the archive, not the experiment.
+    started = m.get("run_started_utc") or pd.Timestamp(
+        min(p.stat().st_mtime for p in run.iterdir()), unit="s",
+        tz="UTC").isoformat(timespec="seconds")
     for full, short in SHORT.items():
         vbl = {l: [v for v in e["vals"][full][l]] for l in e["levels"]}
         fam = e["fam"][full]
@@ -127,7 +136,7 @@ for mdl, e in R.items():
             "reported_point_before_audit": own.get(full, ""),
             "point_matches_report": int(abs(own.get(full, c) - c) < 5e-4) if full in own else "",
             "run_id": os.path.basename(m["run_dir"]), "dataset": m["dataset"],
-            "run_started_utc": pd.Timestamp(started, unit="s", tz="UTC").isoformat(timespec="seconds"),
+            "run_started_utc": started,
             "git_commit": m["git_commit"], "n_levels": len(e["levels"]),
             "levels": ",".join(str(l) for l in e["levels"]),
             "n_replications": len(e["ks"]), "ongoing_cases": e["ongoing"],

@@ -159,10 +159,14 @@ evaluation/tmp_dupe_check/
 !samples/**/*.bpmn
 !samples/**/*.json
 
-# The reference grid the harness compares a fresh run against. It is part of
-# the evaluation code, not paper output, so the blanket *.csv rule above must
-# not swallow it.
+# The reference grid the harness compares a fresh run against, and the
+# simulation logs it was computed from. Prosimos is seeded but not fully
+# deterministic, so a fresh run cannot reproduce the published cells exactly --
+# only these logs can, which is why they are tracked. They are gzipped: 909 MB
+# of CSV, 161 MB on disk. The blanket *.csv / *.json rules above must not
+# swallow either.
 !evaluation/state_metrics/reference_results.csv
+!evaluation/state_metrics/reference_runs/**
 
 # Paper sources and working notes. The LaTeX, the figures and the running
 # commentary are drafted outside this repository; what a reader needs to

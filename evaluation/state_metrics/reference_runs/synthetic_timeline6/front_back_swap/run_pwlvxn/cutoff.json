@@ -1,0 +1,10 @@
+{
+  "cutoff": "2026-09-18T11:48:30.042243+00:00",
+  "horizon_end": "2026-09-18T18:00:44.678636736+00:00",
+  "horizon_seconds": 22334.636393,
+  "cutoff_strategy": "p90_wip",
+  "cutoff_fraction": null,
+  "target_ongoing": null,
+  "horizon_hours_config": null,
+  "ongoing_cases_in_source": 205
+}

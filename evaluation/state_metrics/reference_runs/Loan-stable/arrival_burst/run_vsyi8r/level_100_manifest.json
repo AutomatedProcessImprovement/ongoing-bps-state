@@ -1,0 +1,10 @@
+{
+  "perturbation": "arrival_burst",
+  "level": 100,
+  "distribution": "gamma",
+  "cv2_multiplier": 2.0,
+  "mean_before": 874.00214277072,
+  "mean_after": 874.00214277072,
+  "variance_before": 1444897.8077153028,
+  "variance_after": 2889795.6154306056
+}

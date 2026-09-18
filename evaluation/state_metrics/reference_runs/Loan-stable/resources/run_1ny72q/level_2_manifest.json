@@ -1,0 +1,11 @@
+{
+  "perturbation": "resources",
+  "level": 2,
+  "profile": "Role 2_profile",
+  "removed": [
+    "Clerk-000001",
+    "Clerk-000002"
+  ],
+  "added": [],
+  "remaining": 7
+}

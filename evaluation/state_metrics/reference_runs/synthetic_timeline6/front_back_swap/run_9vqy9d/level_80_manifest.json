@@ -1,0 +1,42 @@
+{
+  "perturbation": "front_back_swap",
+  "level": 80,
+  "branch_p_task_ids": [
+    "t_p1",
+    "t_p2",
+    "t_p3",
+    "t_p4",
+    "t_p5",
+    "t_p6"
+  ],
+  "branch_q_task_ids": [
+    "t_q1",
+    "t_q2",
+    "t_q3",
+    "t_q4",
+    "t_q5",
+    "t_q6"
+  ],
+  "positions": [
+    3,
+    4
+  ],
+  "extent": 2,
+  "factors": {
+    "t_p1": 1.0,
+    "t_p2": 1.0,
+    "t_p3": 0.4666666666666667,
+    "t_p4": 2.6,
+    "t_p5": 1.0,
+    "t_p6": 1.0,
+    "t_q1": 1.0,
+    "t_q2": 1.0,
+    "t_q3": 2.6,
+    "t_q4": 0.4666666666666667,
+    "t_q5": 1.0,
+    "t_q6": 1.0
+  },
+  "branch_p_total_mean": 1200.0,
+  "branch_q_total_mean": 1200.0,
+  "total_invariant": true
+}

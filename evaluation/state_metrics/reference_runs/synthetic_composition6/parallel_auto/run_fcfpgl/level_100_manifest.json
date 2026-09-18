@@ -1,0 +1,19 @@
+{
+  "perturbation": "parallel_auto",
+  "level": 100,
+  "automate_task_ids": [
+    "t_nc3",
+    "t_nc4"
+  ],
+  "ladder": "stretch",
+  "factor": 1.8,
+  "floor_seconds": 1.0,
+  "floor_fraction": 0.0,
+  "stretch_max": 1.8,
+  "overlap_bound": 0.5,
+  "inside_overlapping_regime": true,
+  "tasks_touched": [
+    "t_nc3",
+    "t_nc4"
+  ]
+}

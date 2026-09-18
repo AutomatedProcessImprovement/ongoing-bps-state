@@ -1,0 +1,20 @@
+{
+  "perturbation": "route_error_graded",
+  "level": 20,
+  "gateway_positions": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "misrouted_gateways": [
+    "g2s",
+    "g3s",
+    "g4s",
+    "g5s"
+  ],
+  "extent": 4,
+  "misroute_pct": 20.0,
+  "threshold": 50.0,
+  "n_split_gateways": 6
+}

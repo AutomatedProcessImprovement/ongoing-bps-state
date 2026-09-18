@@ -31,9 +31,12 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).parent))
+from runs import levels as _levels, replications as _reps, resolve, sim_log
+
 
 def _read(p: Path) -> pd.DataFrame:
-    d = pd.read_csv(p)
+    d = pd.read_csv(resolve(p))
     for c in ("start_time", "end_time"):
         d[c] = pd.to_datetime(d[c], format="mixed", utc=True)
     return d
@@ -118,7 +121,7 @@ def _offset_shift(a: pd.DataFrame, b: pd.DataFrame) -> float:
 def position_balance(run: Path) -> tuple[int, int, float]:
     """(ongoing cases, summed |P-Q| across positions, imbalance as a fraction)."""
     cut = pd.Timestamp(json.loads((run / "cutoff.json").read_text())["cutoff"])
-    pre = pd.read_csv(run / "prefix.csv")
+    pre = pd.read_csv(resolve(run / "prefix.csv"))
     gt = _read(run / "baseline" / "k_1" / "sim_log.csv")
     ong = set(gt["case_id"].unique())
     sub = pre[pre["CaseId"].isin(ong)]
@@ -139,16 +142,11 @@ def main() -> None:
         run = Path(arg)
         cut = pd.Timestamp(json.loads((run / "cutoff.json").read_text())["cutoff"])
         hz = pd.Timestamp(json.loads((run / "cutoff.json").read_text())["horizon_end"])
-        ks = sorted(int(p.name.split("_")[1])
-                    for p in (run / "baseline").glob("k_*"))
-        top = max(int(p.name.split("_")[1])
-                  for p in run.glob("level_*") if p.is_dir())
-        base = {k: _clip(_read(run / "baseline" / f"k_{k}" / "sim_log.csv"), cut, hz)
-                for k in ks}
-        lvl0 = {k: _clip(_read(run / "level_0" / f"k_{k}" / "sim_log.csv"), cut, hz)
-                for k in ks}
-        lvlT = {k: _clip(_read(run / f"level_{top}" / f"k_{k}" / "sim_log.csv"), cut, hz)
-                for k in ks}
+        ks = _reps(run)
+        top = max(_levels(run))
+        base = {k: _clip(_read(sim_log(run, "baseline", k)), cut, hz) for k in ks}
+        lvl0 = {k: _clip(_read(sim_log(run, 0, k)), cut, hz) for k in ks}
+        lvlT = {k: _clip(_read(sim_log(run, top, k)), cut, hz) for k in ks}
 
         n, imb, frac = position_balance(run)
         print(f"\n=== {run.name}  ({n} ongoing cases, top level {top}) ===")

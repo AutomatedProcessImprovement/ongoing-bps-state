@@ -3,7 +3,8 @@ import glob, json, os, pickle, sys
 from pathlib import Path
 import numpy as np, pandas as pd
 ROOT = Path(__file__).resolve().parents[3]
-sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT)); sys.path.insert(0, str(Path(__file__).parent))
+import runs as RUNS
 from evaluation.state_metrics.pipeline import (
     filter_to_cases_in_window, get_ongoing_case_ids, _baseline_bin_size,
     _true_case_starts, _relative_event_distance_from_starts,
@@ -43,23 +44,23 @@ def paired_ct(b, s):
     mae = sum(abs(bd[c]-sd[c]) for c in common)/len(common)
     return mae / ((sum(bd[c] for c in common)/len(common)) or 1.0)
 
-MAN = json.load(open(sys.argv[1]))
-only = sys.argv[2] if len(sys.argv) > 2 else None
+ARGV = sys.argv[1:]
+DATA = RUNS.data_root(ARGV)
+MAN = json.load(open(ARGV[0]))
+only = ARGV[1] if len(ARGV) > 1 else None
 out = {}
 for mdl, d in MAN.items():
     if only and mdl != only: continue
-    R = d["run_dir"]; ds = d["dataset"]
-    cut = json.load(open(f"{R}/cutoff.json")); c0 = pd.Timestamp(cut["cutoff"])
+    R = RUNS.run_dir(d, DATA); ds = d["dataset"]
+    cut = json.load(open(R / "cutoff.json")); c0 = pd.Timestamp(cut["cutoff"])
     hz = pd.Timedelta(seconds=cut["horizon_seconds"]); win = (c0, c0+hz)
-    src = load(ROOT / "outputs" / "state_metrics" / ds / "prefix_source_log.csv")
+    src = load(RUNS.resolve(DATA / ds / "prefix_source_log.csv"))
     ong = get_ongoing_case_ids(src, c0)
     starts = _true_case_starts(src, ong)
     bin_td = _baseline_bin_size(win); bin_sec = bin_td.total_seconds()
-    role_map = _resource_to_profile(json.load(open(d["params"])))
-    ks = sorted(int(os.path.basename(os.path.dirname(p)).split("_")[1])
-                for p in glob.glob(f"{R}/baseline/k_*/sim_log.csv"))
-    levels = sorted(int(os.path.basename(p).split("_")[1])
-                    for p in glob.glob(f"{R}/level_*") if os.path.isdir(p))
+    role_map = _resource_to_profile(json.load(open(RUNS.in_repo(d["params"]))))
+    ks = RUNS.replications(R)
+    levels = RUNS.levels(R)
     cache = {}
     def W(p):
         if p not in cache: cache[p] = filter_to_cases_in_window(load(p), ong, c0, hz)
@@ -69,8 +70,8 @@ for mdl, d in MAN.items():
         vals.setdefault(m, {}).setdefault(l, []).append(v); fam[m] = f
     for l in levels:
         for k in ks:
-            b = W(f"{R}/baseline/k_{k}/sim_log.csv")
-            s = W(f"{R}/level_{l}/k_{k}/sim_log.csv")
+            b = W(RUNS.sim_log(R, "baseline", k))
+            s = W(RUNS.sim_log(R, l, k))
             rm = role_map
             present = set(b["resource"].astype(str)) | set(s["resource"].astype(str))
             if any(r not in rm for r in present):
@@ -89,7 +90,7 @@ for mdl, d in MAN.items():
             put("red", l, _relative_event_distance_from_starts(b, s, starts, bin_sec), "baseline")
             put("cycle_time", l, _cycle_time_distance_from_starts(b, s, starts, bin_sec), "baseline")
             put("rtd", l, rtd_distance(b, IDS, s, IDS, reference_point=c0, bin_size=bin_td), "baseline")
-    u = pd.read_csv(f"{R}/utilization.csv")
+    u = pd.read_csv(RUNS.resolve(R / "utilization.csv"))
     out[mdl] = {"vals": vals, "fam": fam, "levels": levels, "ks": ks,
                 "ongoing": len(ong), "bin_min": bin_sec/60,
                 "horizon_min": hz.total_seconds()/60,
@@ -99,5 +100,5 @@ for mdl, d in MAN.items():
                 **{k: d[k] for k in ("run_dir","dataset","extent","ladder","reported","perturbation")}}
     print(f"{mdl:14} done  metrics={len(vals)} reps={len(ks)} levels={levels}", flush=True)
 tag = f"_{only}" if only else ""
-pickle.dump(out, open(f"{os.path.dirname(sys.argv[1])}/recomputed{tag}.pkl","wb"))
+pickle.dump(out, open(f"{os.path.dirname(os.path.abspath(ARGV[0]))}/recomputed{tag}.pkl","wb"))
 print("RECOMPUTE DONE")
