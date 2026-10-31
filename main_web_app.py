@@ -1,6 +1,9 @@
 import json
+import re
+import shutil
+import time
 from pathlib import Path
-from fastapi import FastAPI, Form, UploadFile, File
+from fastapi import FastAPI, Form, UploadFile, File, HTTPException
 import pandas as pd
 from ongoing_process_state.utils import read_bpmn_model
 from pix_framework.io.event_log import read_csv_log, EventLogIDs
@@ -12,10 +15,26 @@ from src.compute_frontend_events_from_trace import sim_log_ids
 
 from fastapi import Depends
 from sqlalchemy.orm import Session
+from sqlalchemy import text
 from db.database import get_db
 from db.ngram_repository import delete_ngrams_by_process_id
 
 app = FastAPI()
+
+PROCESSES_DIR = Path("./processes")
+PROCESS_ID_PATTERN = re.compile(r"[A-Za-z0-9_-]{1,64}")
+
+
+def process_folder_of(process_id: str) -> Path:
+    if not PROCESS_ID_PATTERN.fullmatch(process_id):
+        raise HTTPException(status_code=400, detail="Invalid process id")
+    return PROCESSES_DIR / process_id
+
+
+@app.get("/health")
+def health(db: Session = Depends(get_db)):
+    db.execute(text("SELECT 1"))
+    return {"status": "ok"}
 
 @app.post("/start")
 async def start_short_term_simulation(
@@ -27,7 +46,7 @@ async def start_short_term_simulation(
     bpmn_model: UploadFile = File(...),
     json_parameters: UploadFile = File(...),
 ):
-    process_folder = Path(f"./processes/{process_id}/")
+    process_folder = process_folder_of(process_id)
     process_folder.mkdir(parents=True, exist_ok=True)
 
     ongoing_log_path = process_folder / "ongoing_event_log.csv"
@@ -69,9 +88,6 @@ async def start_short_term_simulation(
         short_term_simulated_log_path=short_term_simulated_log_path,
     )
 
-    with open(process_folder / "initial_frame.json", "w") as frame_file:
-        json.dump(frame, frame_file, indent=4)
-
     # Post-process simulated log by:
     # - Adding the ongoing case prefixes (activity instances prior to [start_time])
     # - Adding the start event prior to the first event of each case.
@@ -82,7 +98,8 @@ async def start_short_term_simulation(
         start_time=pd.Timestamp(start_time),
         simulated_log_path=short_term_simulated_log_path,
         post_processed_log_path=post_processed_log_path,
-        bpmn_model_path=bpmn_model_path
+        bpmn_model_path=bpmn_model_path,
+        ongoing_case_ids=[case['case_id'] for case in frame],
     )
 
     # Compute token events with token movements for front-end
@@ -96,8 +113,15 @@ async def start_short_term_simulation(
 
     for event in events:
         event['timestamp'] = event['timestamp'].strftime("%Y-%m-%dT%H:%M:%S.%f%z")
-    with open(process_folder / "initial_events.json", "w") as events_file: # ToDo: remove it in production!
-        json.dump(events, events_file, indent=4)
+
+    # When each case ongoing at [start_time] started, so the front end can tell how long it has been open
+    arrival_times = compute_ongoing_case_arrivals(
+        ongoing_log_path=ongoing_log_path,
+        ongoing_log_ids=ongoing_log_ids,
+        ongoing_case_ids=[case['case_id'] for case in frame],
+    )
+    for case in frame:
+        case['arrival_time'] = arrival_times.get(str(case['case_id']))
 
     return {
         "frames": frame,
@@ -110,7 +134,7 @@ class ResumeRequest(BaseModel):
 
 @app.post("/resumption")
 def resume_short_term_simulation(request: ResumeRequest, db: Session = Depends(get_db)):
-    process_folder = Path(f"./processes/{request.process_id}/")
+    process_folder = process_folder_of(request.process_id)
     # Input params of the call
     resume_timestamp = pd.Timestamp(request.timestamp)
     # Path to files to store intermediate objects
@@ -137,8 +161,54 @@ def resume_short_term_simulation(request: ResumeRequest, db: Session = Depends(g
 
 @app.delete("/delete/{process_id}")
 def delete_ngrams(process_id: str, db: Session = Depends(get_db)):
+    process_folder = process_folder_of(process_id)
     delete_ngrams_by_process_id(process_id, db)
-    return {"message": f"Ngrams for process {process_id} deleted successfully"}
+    shutil.rmtree(process_folder, ignore_errors=True)
+    return {"message": f"Process {process_id} deleted successfully"}
+
+
+class PruneRequest(BaseModel):
+    keep: list[str]
+    min_age_hours: float = 48
+
+
+@app.post("/prune")
+def prune_processes(request: PruneRequest, db: Session = Depends(get_db)):
+    keep = set(request.keep)
+    cutoff = time.time() - request.min_age_hours * 3600
+    removed = []
+    if PROCESSES_DIR.is_dir():
+        for folder in PROCESSES_DIR.iterdir():
+            if folder.name in keep or not folder.is_dir() or folder.stat().st_mtime > cutoff:
+                continue
+            if PROCESS_ID_PATTERN.fullmatch(folder.name):
+                delete_ngrams_by_process_id(folder.name, db)
+            shutil.rmtree(folder, ignore_errors=True)
+            removed.append(folder.name)
+    return {"removed": removed}
+
+def compute_ongoing_case_arrivals(
+        ongoing_log_path: Path,
+        ongoing_log_ids: EventLogIDs,
+        ongoing_case_ids: list,
+) -> dict:
+    # The arrival of an ongoing case is approximated by the earliest enablement or start of its activity instances
+    ongoing_case_ids = {str(case_id) for case_id in ongoing_case_ids}
+    ongoing_event_log = read_csv_log(ongoing_log_path, ongoing_log_ids)
+    case_ids = ongoing_event_log[ongoing_log_ids.case].astype(str)
+    ongoing_event_log = ongoing_event_log[case_ids.isin(ongoing_case_ids)]
+    time_columns = [
+        column for column in [ongoing_log_ids.enabled_time, ongoing_log_ids.start_time]
+        if column in ongoing_event_log.columns
+    ]
+    if ongoing_event_log.empty or not time_columns:
+        return {}
+    first_times = ongoing_event_log[time_columns].min(axis=1).groupby(case_ids[ongoing_event_log.index]).min()
+    return {
+        case_id: timestamp.strftime("%Y-%m-%dT%H:%M:%S.%f%z")
+        for case_id, timestamp in first_times.items()
+        if pd.notna(timestamp)
+    }
 
 def post_process_simulated_log(
         ongoing_log_path: Path,
@@ -147,6 +217,7 @@ def post_process_simulated_log(
         simulated_log_path: Path,
         post_processed_log_path: Path,
         bpmn_model_path: Path,
+        ongoing_case_ids: list,
 ):
     # Read BPMN model
     bpmn_model = read_bpmn_model(bpmn_model_path)
@@ -154,11 +225,13 @@ def post_process_simulated_log(
     end_event = [node for node in bpmn_model.nodes if node.is_end_event()][0]  # Should be only one
     # Read simulated log
     simulated_event_log = read_csv_log(simulated_log_path, sim_log_ids)
-    simulated_case_ids = simulated_event_log[sim_log_ids.case].unique()
-    # Add activity instances finished prior to the [start_time] of the log
+    # Add activity instances finished prior to the [start_time] of the log, only for the cases ongoing at
+    # [start_time]. New arrivals may reuse the ID of a case that already finished in the ongoing log, and
+    # must not inherit its history.
+    ongoing_case_ids = {str(case_id) for case_id in ongoing_case_ids}
     ongoing_event_log = read_csv_log(ongoing_log_path, ongoing_log_ids)
     previous_events = ongoing_event_log[
-        (ongoing_event_log[ongoing_log_ids.case].isin(simulated_case_ids)) &
+        (ongoing_event_log[ongoing_log_ids.case].astype(str).isin(ongoing_case_ids)) &
         (ongoing_event_log[ongoing_log_ids.end_time] < start_time)
         ].copy()
     previous_events.rename(columns={

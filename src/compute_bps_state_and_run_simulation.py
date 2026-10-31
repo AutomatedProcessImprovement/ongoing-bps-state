@@ -100,9 +100,16 @@ def generate_events_with_token_movements(
     # Go case by case generating the token movements
     events = []
     for case_id, activity_instances in event_log.groupby(sim_log_ids.case):
+        if case_id not in ongoing_token_status:
+            # Case not ongoing at the starting point, but the simulator may schedule its arrival before it (backlog
+            # of arrivals between the last arrival in the log and the starting point). Move such timestamps to the
+            # starting point, so the case arrives there instead of losing its arrival event.
+            activity_instances = activity_instances.copy()
+            for column in [sim_log_ids.enabled_time, sim_log_ids.start_time, sim_log_ids.end_time]:
+                activity_instances[column] = activity_instances[column].clip(lower=start_timestamp)
         # Filter out previous events
         activity_instances_pre_start = activity_instances[activity_instances[sim_log_ids.start_time] <= start_timestamp]
-        if len(activity_instances_pre_start) > 1:
+        if case_id in ongoing_token_status and len(activity_instances_pre_start) > 1:
             # Some activities started before the starting point, keep only the ones that complete after start_point
             activity_instances = activity_instances[activity_instances[sim_log_ids.end_time] > start_timestamp]
         # Nullify enabled/start events previous to cut-point
