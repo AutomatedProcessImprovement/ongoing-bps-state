@@ -36,6 +36,7 @@ def run_process_state_and_simulation(
     sim_stats_csv='simulation_stats.csv',
     sim_log_csv='simulation_log.csv',
     produce_events_when_simulating=False,
+    on_stage=None,
 ) -> Tuple[dict, Path]:
     """
     1) Compute the process state from the event log + BPMN.
@@ -52,6 +53,8 @@ def run_process_state_and_simulation(
     :param sim_stats_csv: path to final stats CSV
     :param sim_log_csv: path to final event log CSV
     """
+    if on_stage:
+        on_stage("state")
     print("=== RUNNER: Step A: Building a fake args object for InputHandler ===")
 
     # 1) Build a minimal "args" object for InputHandler
@@ -128,6 +131,8 @@ def run_process_state_and_simulation(
 
     # 4) If simulate => call short-term approach
     if simulate:
+        if on_stage:
+            on_stage("simulation")
         print("=== RUNNER: Step G: Doing short-term simulation ===")
         sim_horizon_dt = parse_datetime(simulation_horizon)
         partial_state = output_data

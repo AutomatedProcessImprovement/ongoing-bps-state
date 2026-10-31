@@ -33,6 +33,7 @@ def compute_bps_state_and_run_simulation(
         simulation_horizon: str = None,
         short_term_simulated_log_path: Path = None,
         column_mapping: str = None,
+        on_stage=None,
 ) -> Tuple[List[dict], Path]:
     # Set column mapping to default if None
     if column_mapping is None:
@@ -54,7 +55,8 @@ def compute_bps_state_and_run_simulation(
         total_cases=20,  # default, irrelevant
         sim_stats_csv=None,
         sim_log_csv=short_term_simulated_log_path,
-        produce_events_when_simulating=False
+        produce_events_when_simulating=False,
+        on_stage=on_stage,
     )
 
     # Produce frame for front-end

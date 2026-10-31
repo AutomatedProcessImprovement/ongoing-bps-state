@@ -1,9 +1,12 @@
 import json
+import logging
 import re
 import shutil
+import threading
 import time
 from pathlib import Path
 from fastapi import FastAPI, Form, UploadFile, File, HTTPException
+from fastapi.concurrency import run_in_threadpool
 import pandas as pd
 from ongoing_process_state.utils import read_bpmn_model
 from pix_framework.io.event_log import read_csv_log, EventLogIDs
@@ -20,6 +23,7 @@ from db.database import get_db
 from db.ngram_repository import delete_ngrams_by_process_id
 
 app = FastAPI()
+logger = logging.getLogger(__name__)
 
 PROCESSES_DIR = Path("./processes")
 PROCESS_ID_PATTERN = re.compile(r"[A-Za-z0-9_-]{1,64}")
@@ -31,10 +35,131 @@ def process_folder_of(process_id: str) -> Path:
     return PROCESSES_DIR / process_id
 
 
+RUN_TTL_SECONDS = 3600
+runs: dict = {}
+runs_lock = threading.Lock()
+simulation_lock = threading.Lock()
+
+
+def set_stage(process_id: str, stage: str):
+    now = time.time()
+    with runs_lock:
+        for stale_id in [key for key, run in runs.items() if now - run["updated"] > RUN_TTL_SECONDS]:
+            del runs[stale_id]
+        run = runs.setdefault(process_id, {"stage": None, "stages": {}, "error": None, "updated": now})
+        if run["stage"] in run["stages"]:
+            run["stages"][run["stage"]]["finished"] = now
+        run["stage"] = stage
+        run["stages"][stage] = {"started": now, "finished": None}
+        run["updated"] = now
+
+
+def finish_run(process_id: str, error: str = None) -> str:
+    now = time.time()
+    with runs_lock:
+        run = runs.get(process_id)
+        if run is None:
+            return None
+        stage = run["stage"]
+        if stage in run["stages"]:
+            run["stages"][stage]["finished"] = now
+        run["error"] = error
+        run["stage"] = "failed" if error else "done"
+        run["updated"] = now
+        return stage
+
+
+@app.get("/progress/{process_id}")
+def run_progress(process_id: str):
+    now = time.time()
+    with runs_lock:
+        run = runs.get(process_id)
+        if run is None:
+            raise HTTPException(status_code=404, detail="Unknown run")
+        return {
+            "stage": run["stage"],
+            "error": run["error"],
+            "durations": {
+                stage: round((times["finished"] or now) - times["started"], 2)
+                for stage, times in run["stages"].items()
+            },
+        }
+
+
 @app.get("/health")
 def health(db: Session = Depends(get_db)):
     db.execute(text("SELECT 1"))
     return {"status": "ok"}
+
+def simulate(
+        process_id: str,
+        process_folder: Path,
+        ongoing_log_path: Path,
+        ongoing_log_ids: EventLogIDs,
+        bpmn_model_path: Path,
+        bpmn_parameters_path: Path,
+        start_time: str,
+        simulation_horizon: str,
+):
+    with simulation_lock:
+        # Path to files to store intermediate objects
+        short_term_simulated_log_path = process_folder / "short-term-simulation.csv"
+        post_processed_log_path = process_folder / "short-term-simulation-processed.csv"
+        reachability_graph_path = process_folder / "complete_reachability_graph.tgf"
+        reachability_graph_with_events_path = process_folder / "reachability_graph_with_events.tgf"
+        n_gram_index_with_events_path = process_folder / "n_gram_index_with_events.map"
+
+        # Compute the initial frame and run short-term simulation
+        frame, short_term_simulated_log_path = compute_bps_state_and_run_simulation(
+            ongoing_log_path=ongoing_log_path,
+            bpmn_model_path=bpmn_model_path,
+            bpmn_parameters_path=bpmn_parameters_path,
+            start_time=start_time,
+            simulation_horizon=simulation_horizon,
+            short_term_simulated_log_path=short_term_simulated_log_path,
+            on_stage=lambda stage: set_stage(process_id, stage),
+        )
+        set_stage(process_id, "playback")
+
+        # Post-process simulated log by:
+        # - Adding the ongoing case prefixes (activity instances prior to [start_time])
+        # - Adding the start event prior to the first event of each case.
+        # - Adding the end event after the last event of each case.
+        post_process_simulated_log(
+            ongoing_log_path=ongoing_log_path,
+            ongoing_log_ids=ongoing_log_ids,
+            start_time=pd.Timestamp(start_time),
+            simulated_log_path=short_term_simulated_log_path,
+            post_processed_log_path=post_processed_log_path,
+            bpmn_model_path=bpmn_model_path,
+            ongoing_case_ids=[case['case_id'] for case in frame],
+        )
+
+        # Compute token events with token movements for front-end
+        events = generate_events_with_token_movements(
+            bpmn_model_path=bpmn_model_path,
+            start_timestamp=pd.Timestamp(start_time),
+            short_term_simulation_path=post_processed_log_path,
+            reachability_graph_path=reachability_graph_path,
+            frame=frame,
+        )
+
+        for event in events:
+            event['timestamp'] = event['timestamp'].strftime("%Y-%m-%dT%H:%M:%S.%f%z")
+
+        arrival_times = compute_ongoing_case_arrivals(
+            ongoing_log_path=ongoing_log_path,
+            ongoing_log_ids=ongoing_log_ids,
+            ongoing_case_ids=[case['case_id'] for case in frame],
+        )
+        for case in frame:
+            case['arrival_time'] = arrival_times.get(str(case['case_id']))
+
+        return {
+            "frames": frame,
+            "events": events,
+        }
+
 
 @app.post("/start")
 async def start_short_term_simulation(
@@ -71,62 +196,18 @@ async def start_short_term_simulation(
     with open(bpmn_parameters_path, "wb") as f:
         f.write(await json_parameters.read())
 
-    # Path to files to store intermediate objects
-    short_term_simulated_log_path = process_folder / "short-term-simulation.csv"
-    post_processed_log_path = process_folder / "short-term-simulation-processed.csv"
-    reachability_graph_path = process_folder / "complete_reachability_graph.tgf"
-    reachability_graph_with_events_path = process_folder / "reachability_graph_with_events.tgf"
-    n_gram_index_with_events_path = process_folder / "n_gram_index_with_events.map"
-
-    # Compute the initial frame and run short-term simulation
-    frame, short_term_simulated_log_path = compute_bps_state_and_run_simulation(
-        ongoing_log_path=ongoing_log_path,
-        bpmn_model_path=bpmn_model_path,
-        bpmn_parameters_path=bpmn_parameters_path,
-        start_time=start_time,
-        simulation_horizon=simulation_horizon,
-        short_term_simulated_log_path=short_term_simulated_log_path,
-    )
-
-    # Post-process simulated log by:
-    # - Adding the ongoing case prefixes (activity instances prior to [start_time])
-    # - Adding the start event prior to the first event of each case.
-    # - Adding the end event after the last event of each case.
-    post_process_simulated_log(
-        ongoing_log_path=ongoing_log_path,
-        ongoing_log_ids=ongoing_log_ids,
-        start_time=pd.Timestamp(start_time),
-        simulated_log_path=short_term_simulated_log_path,
-        post_processed_log_path=post_processed_log_path,
-        bpmn_model_path=bpmn_model_path,
-        ongoing_case_ids=[case['case_id'] for case in frame],
-    )
-
-    # Compute token events with token movements for front-end
-    events = generate_events_with_token_movements(
-        bpmn_model_path=bpmn_model_path,
-        start_timestamp=pd.Timestamp(start_time),
-        short_term_simulation_path=post_processed_log_path,
-        reachability_graph_path=reachability_graph_path,
-        frame=frame,
-    )
-
-    for event in events:
-        event['timestamp'] = event['timestamp'].strftime("%Y-%m-%dT%H:%M:%S.%f%z")
-
-    # When each case ongoing at [start_time] started, so the front end can tell how long it has been open
-    arrival_times = compute_ongoing_case_arrivals(
-        ongoing_log_path=ongoing_log_path,
-        ongoing_log_ids=ongoing_log_ids,
-        ongoing_case_ids=[case['case_id'] for case in frame],
-    )
-    for case in frame:
-        case['arrival_time'] = arrival_times.get(str(case['case_id']))
-
-    return {
-        "frames": frame,
-        "events": events,
-    }
+    set_stage(process_id, "queued")
+    try:
+        result = await run_in_threadpool(
+            simulate, process_id, process_folder, ongoing_log_path, ongoing_log_ids, bpmn_model_path,
+            bpmn_parameters_path, start_time, simulation_horizon,
+        )
+    except Exception as error:
+        logger.exception("Simulation %s failed", process_id)
+        stage = finish_run(process_id, error=f"{type(error).__name__}: {error}")
+        raise HTTPException(status_code=422, detail={"stage": stage, "message": f"{type(error).__name__}: {error}"})
+    finish_run(process_id)
+    return result
 
 class ResumeRequest(BaseModel):
     process_id: str
@@ -192,7 +273,6 @@ def compute_ongoing_case_arrivals(
         ongoing_log_ids: EventLogIDs,
         ongoing_case_ids: list,
 ) -> dict:
-    # The arrival of an ongoing case is approximated by the earliest enablement or start of its activity instances
     ongoing_case_ids = {str(case_id) for case_id in ongoing_case_ids}
     ongoing_event_log = read_csv_log(ongoing_log_path, ongoing_log_ids)
     case_ids = ongoing_event_log[ongoing_log_ids.case].astype(str)
@@ -233,15 +313,20 @@ def post_process_simulated_log(
     previous_events = ongoing_event_log[
         (ongoing_event_log[ongoing_log_ids.case].astype(str).isin(ongoing_case_ids)) &
         (ongoing_event_log[ongoing_log_ids.end_time] < start_time)
-        ].copy()
-    previous_events.rename(columns={
+        ]
+    renamed_columns = {
         ongoing_log_ids.case: sim_log_ids.case,
         ongoing_log_ids.activity: sim_log_ids.activity,
         ongoing_log_ids.resource: sim_log_ids.resource,
         ongoing_log_ids.start_time: sim_log_ids.start_time,
         ongoing_log_ids.end_time: sim_log_ids.end_time,
         ongoing_log_ids.enabled_time: sim_log_ids.enabled_time,
-    }, inplace=True)
+    }
+    previous_events = previous_events[
+        [column for column in renamed_columns if column in previous_events.columns]
+    ].rename(columns=renamed_columns)
+    if sim_log_ids.enabled_time not in previous_events.columns:
+        previous_events[sim_log_ids.enabled_time] = previous_events[sim_log_ids.start_time]
     simulated_event_log = pd.concat([simulated_event_log, previous_events], ignore_index=True)
     # Prosimos may already emit rows for the BPMN's start/end events under the same activity name.
     # Only synthesize them here if they are not already present, to avoid duplicate CASE_ARRIVAL/CASE_END.
