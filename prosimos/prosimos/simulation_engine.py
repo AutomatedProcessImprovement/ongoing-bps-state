@@ -1061,7 +1061,7 @@ class SimBPMEnv:
             self.sim_resources[r_id].worked_time += full_evt.real_duration
 
         cid = full_evt.p_case
-        first_start = self.cases_first_start.setdefault(cid, full_evt.started_datetime)
+        first_start = self.cases_first_start.setdefault(cid, full_evt.enabled_datetime)
         if cid not in self.cases_skip:
             self.cases_skip[cid] = (self.simulation_horizon is not None and
                                     first_start >= self.sim_setup.simulation_horizon)
@@ -1071,9 +1071,6 @@ class SimBPMEnv:
             if row:
                 self._debug_rows_written += 1
                 self.log_writer.add_csv_row(row)
-                # optional debug dump:
-                with open("../output.txt", "a", encoding="utf-8") as fh:
-                    fh.write(f"{row}\n")
 
         return full_evt.completed_at, full_evt.completed_datetime
 
