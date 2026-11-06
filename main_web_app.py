@@ -1,5 +1,6 @@
 import json
 import logging
+import multiprocessing
 import re
 import shutil
 import threading
@@ -37,6 +38,9 @@ def process_folder_of(process_id: str) -> Path:
 
 RUN_TTL_SECONDS = 3600
 runs: dict = {}
+multiprocessing.set_start_method("forkserver", force=True)
+multiprocessing.set_forkserver_preload(["pix_framework.enhancement.concurrency_oracle"])
+
 runs_lock = threading.Lock()
 simulation_lock = threading.Lock()
 
