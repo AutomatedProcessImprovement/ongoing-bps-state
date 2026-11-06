@@ -13,9 +13,11 @@ import argparse
 import datetime as _dt
 import json
 from pathlib import Path
+import random
 import sys
 from typing import Optional
 
+import numpy
 from prosimos.simulation_engine import run_simulation
 
 # -----------------------------------------------------------------
@@ -78,6 +80,7 @@ def run_short_term_simulation(
     process_state: dict | None,
     simulation_horizon: str | _dt.datetime | None,
     produce_events_when_simulating=False,
+    seed: int | None = None,
 ) -> float:
     """
     Perform a "short-term" simulation by calling Prosimos's run_simulation(...) once,
@@ -85,6 +88,10 @@ def run_short_term_simulation(
     without referencing testing_scripts.
     """
     t0 = _dt_now()
+
+    if seed is not None:
+        random.seed(seed)
+        numpy.random.seed(seed)
 
     run_simulation(
         bpmn_path=str(bpmn_model),
