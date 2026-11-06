@@ -1,5 +1,6 @@
 import copy
 import json
+import multiprocessing
 import os
 import pickle
 import tempfile
@@ -153,6 +154,11 @@ class SummarizeLog(unittest.TestCase):
         self.assertEqual(change["changes"]["waitMs"], {"mean": 1, "low": -2, "high": 4})
         self.assertIsNone(change["changes"]["cycleMs"]["mean"])
         self.assertEqual(change["tasks"]["A"]["queueAverage"], {"mean": 1, "low": -2, "high": 4})
+
+
+class WorkerProcesses(unittest.TestCase):
+    def test_workers_do_not_fork_from_the_threaded_server(self):
+        self.assertEqual(multiprocessing.get_start_method(), "forkserver")
 
 
 class OngoingTaskTimes(unittest.TestCase):

@@ -1,6 +1,7 @@
 import datetime
 import json
 import logging
+import multiprocessing
 import os
 import re
 import secrets
@@ -46,6 +47,9 @@ REPEAT_BUDGET_SECONDS = float(os.getenv("SCENARIO_REPEAT_BUDGET_SECONDS", "60"))
 PROCESS_STATE_FILE = "process_state.pkl"
 RUN_SETTINGS_FILE = "run.json"
 runs: dict = {}
+multiprocessing.set_start_method("forkserver", force=True)
+multiprocessing.set_forkserver_preload(["pix_framework.enhancement.concurrency_oracle"])
+
 runs_lock = threading.Lock()
 simulation_lock = threading.Lock()
 
