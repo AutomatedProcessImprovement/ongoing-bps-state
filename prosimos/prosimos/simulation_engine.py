@@ -428,6 +428,10 @@ class SimBPMEnv:
             inter_arrival_seconds = self.sim_setup.next_arrival_time(current_time)
             next_arrival_time = current_time + timedelta(seconds=inter_arrival_seconds)
 
+            if next_arrival_time < self.sim_setup.start_datetime:
+                current_time = next_arrival_time if inter_arrival_seconds > 0 else self.sim_setup.start_datetime
+                continue
+
             enabled_at = (next_arrival_time - self.sim_setup.start_datetime).total_seconds()
             arrival_event = EnabledEvent(
                 p_case=case_id,

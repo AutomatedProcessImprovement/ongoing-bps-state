@@ -16,7 +16,7 @@ from pix_framework.io.event_log import read_csv_log, EventLogIDs
 from pydantic import BaseModel
 
 from src.compute_bps_state_and_run_simulation import compute_bps_state_and_run_simulation, compute_bps_resumed_state, \
-    generate_events_with_token_movements, rerun_from_process_state
+    generate_events_with_token_movements, ongoing_case_ids, rerun_from_process_state, write_empty_process_state
 from src.compute_frontend_events_from_trace import sim_log_ids
 from src.run_metrics import paired_change, resource_timeline, summarize_log
 from src.scenario import InvalidEdit, apply_edits, can_edit_pools, pool_size
@@ -116,6 +116,18 @@ def read_run_settings(process_folder: Path):
     return json.loads(settings_path.read_text()) if settings_path.exists() else None
 
 
+def note_run_seconds(process_id: str, process_folder: Path):
+    with runs_lock:
+        stages = dict(runs.get(process_id, {}).get("stages", {}))
+    seconds = {
+        f"{stage}_seconds": round(times["finished"] - times["started"], 2)
+        for stage, times in stages.items()
+        if stage in ("state", "simulation") and times["finished"]
+    }
+    settings_path = process_folder / RUN_SETTINGS_FILE
+    settings_path.write_text(json.dumps({**read_run_settings(process_folder), **seconds}))
+
+
 def simulate(
         process_id: str,
         process_folder: Path,
@@ -193,8 +205,15 @@ def prepare_playback(
         ongoing_log_ids=ongoing_log_ids,
         ongoing_case_ids=[case['case_id'] for case in frame],
     )
+    task_times = compute_ongoing_task_times(
+        simulated_log_path=short_term_simulated_log_path,
+        bpmn_model_path=bpmn_model_path,
+        start_time=pd.Timestamp(start_time),
+        ongoing_case_ids=[case['case_id'] for case in frame],
+    )
     for case in frame:
         case['arrival_time'] = arrival_times.get(str(case['case_id']))
+        case['task_times'] = task_times.get(str(case['case_id']), {})
 
     return {
         "frames": frame,
@@ -231,24 +250,31 @@ def simulate_scenario(process_id: str, base_process_id: str, edits: dict):
     window = pd.Timestamp(start_time), pd.Timestamp(simulation_horizon)
     log_path = process_folder / "short-term-simulation.csv"
 
+    as_is_state_path = base_folder / PROCESS_STATE_FILE
+    to_be_state_path = process_folder / PROCESS_STATE_FILE
+    empty_start = bool(edits.get("empty_start"))
+
     with simulation_lock:
         set_stage(process_id, "state")
+        if empty_start:
+            write_empty_process_state(as_is_state_path, to_be_state_path)
         rerun = dict(
-            process_state_path=base_folder / PROCESS_STATE_FILE, bpmn_model_path=bpmn_model_path,
-            start_time=start_time, simulation_horizon=simulation_horizon,
+            bpmn_model_path=bpmn_model_path, start_time=start_time, simulation_horizon=simulation_horizon,
         )
         set_stage(process_id, "simulation")
         simulation_started = time.monotonic()
         frame = rerun_from_process_state(
-            **rerun, bpmn_parameters_path=bpmn_parameters_path, short_term_simulated_log_path=log_path, seed=seed,
+            **rerun, process_state_path=to_be_state_path, bpmn_parameters_path=bpmn_parameters_path,
+            short_term_simulated_log_path=log_path, seed=seed,
         )
         simulation_seconds = time.monotonic() - simulation_started
 
-        arrivals = compute_ongoing_case_arrivals(
-            ongoing_log_path, ongoing_log_ids, [case["case_id"] for case in frame],
+        as_is_arrivals = compute_ongoing_case_arrivals(
+            ongoing_log_path, ongoing_log_ids, ongoing_case_ids(as_is_state_path),
         )
-        as_is = summarize_log(read_csv_log(base_folder / "short-term-simulation.csv", sim_log_ids), *window, arrivals)
-        to_be = summarize_log(read_csv_log(log_path, sim_log_ids), *window, arrivals)
+        to_be_arrivals = {} if empty_start else as_is_arrivals
+        as_is = summarize_log(read_csv_log(base_folder / "short-term-simulation.csv", sim_log_ids), *window, as_is_arrivals)
+        to_be = summarize_log(read_csv_log(log_path, sim_log_ids), *window, to_be_arrivals)
 
         set_stage(process_id, "repeats")
         repeats_folder = process_folder / "repeats"
@@ -257,11 +283,14 @@ def simulate_scenario(process_id: str, base_process_id: str, edits: dict):
         repeats = min(SCENARIO_REPEATS, int(REPEAT_BUDGET_SECONDS // max(2 * simulation_seconds, 0.01)))
         for number in range(1, repeats + 1):
             pair = {}
-            for side, parameters_path in [("asIs", base_folder / "json_parameters.json"), ("toBe", bpmn_parameters_path)]:
+            for side, parameters_path, state_path, arrivals in [
+                ("asIs", base_folder / "json_parameters.json", as_is_state_path, as_is_arrivals),
+                ("toBe", bpmn_parameters_path, to_be_state_path, to_be_arrivals),
+            ]:
                 repeat_log_path = repeats_folder / f"{side}-{number}.csv"
                 rerun_from_process_state(
-                    **rerun, bpmn_parameters_path=parameters_path, short_term_simulated_log_path=repeat_log_path,
-                    seed=seed + number,
+                    **rerun, process_state_path=state_path, bpmn_parameters_path=parameters_path,
+                    short_term_simulated_log_path=repeat_log_path, seed=seed + number,
                 )
                 pair[side] = summarize_log(read_csv_log(repeat_log_path, sim_log_ids), *window, arrivals)
             pairs.append(pair)
@@ -329,6 +358,7 @@ async def start_short_term_simulation(
         "start_time": start_time,
         "simulation_horizon": simulation_horizon,
         "column_mapping": column_mapping,
+        "files": {"log": event_log.filename, "bpmn": bpmn_model.filename, "parameters": json_parameters.filename},
     }))
 
     set_stage(process_id, "queued")
@@ -342,12 +372,14 @@ async def start_short_term_simulation(
         stage = finish_run(process_id, error=f"{type(error).__name__}: {error}")
         raise HTTPException(status_code=422, detail={"stage": stage, "message": f"{type(error).__name__}: {error}"})
     finish_run(process_id)
+    note_run_seconds(process_id, process_folder)
     return result
 
 class ScenarioEdits(BaseModel):
     pools: dict[str, int] = {}
     arrival_percent: int = 0
     tasks: dict[str, int] = {}
+    empty_start: bool = False
 
 
 class ScenarioRequest(BaseModel):
@@ -396,6 +428,19 @@ def what_if_options(process_id: str):
             ({"id": node.id, "name": node.name} for node in bpmn_model.nodes if node.id in task_ids),
             key=lambda task: task["name"],
         ),
+    }
+
+
+@app.get("/run/{process_id}")
+def run_details(process_id: str):
+    settings = read_run_settings(process_folder_of(process_id))
+    if settings is None:
+        raise HTTPException(status_code=404, detail="Unknown process")
+    return {
+        "seed": settings["seed"],
+        "files": settings.get("files"),
+        "stateSeconds": settings.get("state_seconds"),
+        "simulationSeconds": settings.get("simulation_seconds"),
     }
 
 
@@ -490,6 +535,30 @@ def compute_ongoing_case_arrivals(
         for case_id, timestamp in first_times.items()
         if pd.notna(timestamp)
     }
+
+def compute_ongoing_task_times(
+        simulated_log_path: Path,
+        bpmn_model_path: Path,
+        start_time: pd.Timestamp,
+        ongoing_case_ids: list,
+) -> dict:
+    node_ids = {node.name: node.id for node in read_bpmn_model(bpmn_model_path).nodes}
+    log = read_csv_log(simulated_log_path, sim_log_ids)
+    case_ids = log[sim_log_ids.case].astype(str)
+    in_flight = log[case_ids.isin({str(case_id) for case_id in ongoing_case_ids}) & (log[sim_log_ids.enabled_time] < start_time)]
+    task_times = {}
+    time_format = "%Y-%m-%dT%H:%M:%S.%f%z"
+    for _, activity in in_flight.iterrows():
+        node_id = node_ids.get(activity[sim_log_ids.activity])
+        if node_id is None:
+            continue
+        started = activity[sim_log_ids.start_time]
+        task_times.setdefault(str(activity[sim_log_ids.case]), {})[node_id] = {
+            "enabled": activity[sim_log_ids.enabled_time].strftime(time_format),
+            "started": started.strftime(time_format) if started < start_time else None,
+        }
+    return task_times
+
 
 def post_process_simulated_log(
         ongoing_log_path: Path,

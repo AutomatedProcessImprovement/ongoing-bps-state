@@ -93,6 +93,20 @@ def rerun_from_process_state(
     return compute_frame(saved_state["case_states"])
 
 
+def ongoing_case_ids(process_state_path: Path) -> list:
+    with open(process_state_path, "rb") as state_file:
+        return list(pickle.load(state_file)["case_states"])
+
+
+def write_empty_process_state(process_state_path: Path, empty_state_path: Path):
+    with open(process_state_path, "rb") as state_file:
+        saved_state = pickle.load(state_file)
+    saved_state["case_states"] = {}
+    saved_state["partial_state"] = {**saved_state["partial_state"], "cases": {}}
+    with open(empty_state_path, "wb") as state_file:
+        pickle.dump(saved_state, state_file)
+
+
 def compute_frame(bps_state: dict) -> List[dict]:
     frame = []
     for case_id, case_info in bps_state.items():
@@ -146,7 +160,10 @@ def generate_events_with_token_movements(
         activity_instances_pre_start = activity_instances[activity_instances[sim_log_ids.start_time] <= start_timestamp]
         if case_id in ongoing_token_status and len(activity_instances_pre_start) > 1:
             # Some activities started before the starting point, keep only the ones that complete after start_point
-            activity_instances = activity_instances[activity_instances[sim_log_ids.end_time] > start_timestamp]
+            activity_instances = activity_instances[
+                (activity_instances[sim_log_ids.end_time] > start_timestamp) |
+                (activity_instances[sim_log_ids.start_time] >= start_timestamp)
+            ]
         # Nullify enabled/start events previous to cut-point
         activity_instances.loc[
             activity_instances[sim_log_ids.enabled_time] < start_timestamp,
