@@ -134,11 +134,13 @@ class SummarizeLog(unittest.TestCase):
 
     def test_paired_change_reports_the_spread_over_seeds(self):
         def side(value):
-            return {"waitMs": value, "queueAverage": value, "cycleMs": None, "finished": value}
+            return {"waitMs": value, "queueAverage": value, "cycleMs": None, "finished": value,
+                    "tasks": {"A": {"waitMs": value, "queueAverage": value}}}
         change = paired_change([{"asIs": side(10), "toBe": side(8)}, {"asIs": side(10), "toBe": side(14)}])
         self.assertEqual(change["seeds"], 2)
         self.assertEqual(change["changes"]["waitMs"], {"mean": 1, "low": -2, "high": 4})
         self.assertIsNone(change["changes"]["cycleMs"]["mean"])
+        self.assertEqual(change["tasks"]["A"]["queueAverage"], {"mean": 1, "low": -2, "high": 4})
 
 
 class ResourceTimeline(unittest.TestCase):

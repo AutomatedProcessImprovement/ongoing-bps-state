@@ -183,16 +183,29 @@ def resource_timeline(log: pd.DataFrame, parameters: dict, start: pd.Timestamp, 
     }
 
 
+def _spread(pairs: List[dict], metric: str) -> dict:
+    values = [
+        pair["toBe"][metric] - pair["asIs"][metric] for pair in pairs
+        if pair["toBe"].get(metric) is not None and pair["asIs"].get(metric) is not None
+    ]
+    return {
+        "mean": float(np.mean(values)) if values else None,
+        "low": float(min(values)) if values else None,
+        "high": float(max(values)) if values else None,
+    }
+
+
 def paired_change(pairs: List[dict]) -> dict:
-    changes = {}
-    for metric in ["waitMs", "queueAverage", "cycleMs", "finished"]:
-        values = [
-            pair["toBe"][metric] - pair["asIs"][metric] for pair in pairs
-            if pair["toBe"][metric] is not None and pair["asIs"][metric] is not None
-        ]
-        changes[metric] = {
-            "mean": float(np.mean(values)) if values else None,
-            "low": float(min(values)) if values else None,
-            "high": float(max(values)) if values else None,
-        }
-    return {"seeds": len(pairs), "changes": changes}
+    task_pairs = {}
+    for pair in pairs:
+        for side, summary in pair.items():
+            for activity, task in summary.get("tasks", {}).items():
+                task_pairs.setdefault(activity, {}).setdefault(id(pair), {})[side] = task
+    return {
+        "seeds": len(pairs),
+        "changes": {metric: _spread(pairs, metric) for metric in ["waitMs", "queueAverage", "cycleMs", "finished"]},
+        "tasks": {
+            activity: {metric: _spread(list(sides.values()), metric) for metric in ["waitMs", "queueAverage"]}
+            for activity, sides in task_pairs.items()
+        },
+    }

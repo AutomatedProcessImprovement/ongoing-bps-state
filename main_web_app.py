@@ -1,6 +1,7 @@
 import datetime
 import json
 import logging
+import os
 import re
 import secrets
 import shutil
@@ -41,7 +42,7 @@ def process_folder_of(process_id: str) -> Path:
 
 RUN_TTL_SECONDS = 3600
 SCENARIO_REPEATS = 8
-REPEAT_BUDGET_SECONDS = 60
+REPEAT_BUDGET_SECONDS = float(os.getenv("SCENARIO_REPEAT_BUDGET_SECONDS", "60"))
 PROCESS_STATE_FILE = "process_state.pkl"
 RUN_SETTINGS_FILE = "run.json"
 runs: dict = {}
