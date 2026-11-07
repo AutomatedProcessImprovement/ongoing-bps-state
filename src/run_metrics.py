@@ -78,16 +78,18 @@ def summarize_log(log: pd.DataFrame, start: pd.Timestamp, end: pd.Timestamp, ong
         if case_id in arrivals.index:
             arrivals[case_id] = min(arrivals[case_id], _to_ms(pd.Timestamp(arrival)))
     ongoing = arrivals.index.isin(list(ongoing_arrivals))
+    arrived_in_time = arrivals <= end_ms
+    finished = case_ends <= end_ms
     waits_counted = waits[counted]
 
     return {
         "startDate": start.isoformat(),
         "endDate": end.isoformat(),
         "stepMs": step_ms,
-        "arrived": int((~ongoing).sum()),
-        "finished": int((case_ends <= end_ms).sum()),
-        "openAtEnd": int((case_ends > end_ms).sum()),
-        "cycleMs": float((case_ends - arrivals).mean()) if len(arrivals) else None,
+        "arrived": int((~ongoing & arrived_in_time).sum()),
+        "finished": int(finished.sum()),
+        "openAtEnd": int((arrived_in_time & ~finished).sum()),
+        "cycleMs": float((case_ends - arrivals)[finished].mean()) if finished.any() else None,
         "waitMs": float(waits_counted.mean()) if len(waits_counted) else None,
         "queueAverage": float(queued_ms.sum() / window_ms),
         "queuePeak": int(total_series.max()) if len(total_series) else 0,

@@ -5,12 +5,14 @@ import os
 import pickle
 import tempfile
 import unittest
+from datetime import datetime, timezone
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
 import pandas as pd
 from ongoing_process_state.bpmn_model import BPMNModel, BPMNNodeType
+from prosimos.simulation_engine import SimBPMEnv
 
 from main_web_app import compute_ongoing_task_times, log_ids_of, name_model_nodes, read_bpmn_model, \
     state_column_mapping
@@ -118,6 +120,17 @@ def log_rows(*rows):
 class SummarizeLog(unittest.TestCase):
     start = pd.Timestamp("2025-03-03T00:00:00Z")
     end = pd.Timestamp("2025-03-03T10:00:00Z")
+
+    def test_cases_outside_the_horizon_do_not_count(self):
+        summary = summarize_log(log_rows(
+            (1, "A", "2025-03-03T01:00Z", "2025-03-03T01:00Z", "2025-03-03T03:00Z", "x"),
+            (2, "A", "2025-03-03T02:00Z", "2025-03-03T02:00Z", "2025-03-20T02:00Z", "x"),
+            (3, "A", "2025-03-04T02:00Z", "2025-03-04T02:00Z", "2025-03-04T03:00Z", "x"),
+        ), self.start, self.end, {})
+        self.assertEqual(summary["arrived"], 2)
+        self.assertEqual(summary["finished"], 1)
+        self.assertEqual(summary["openAtEnd"], 1)
+        self.assertEqual(summary["cycleMs"], 2 * 3600000)
 
     def test_waiting_counts_work_that_only_starts_after_the_horizon(self):
         summary = summarize_log(log_rows(
@@ -275,6 +288,24 @@ class TimerEvents(unittest.TestCase):
         self.assertEqual([event["lifecycle"] for event in events], [
             "CASE_ARRIVAL", "START", "COMPLETE", "START", "COMPLETE", "CASE_END",
         ])
+
+
+class NewArrivals(unittest.TestCase):
+    def arrivals(self, horizon, estimated, open_cases):
+        queued = []
+        setup = SimpleNamespace(
+            total_num_cases=estimated, simulation_horizon=horizon, start_datetime=datetime(2025, 3, 3, tzinfo=timezone.utc),
+            next_arrival_time=lambda current: 3600, bpmn_graph=SimpleNamespace(starting_event="start"), initial_state=lambda: None,
+        )
+        engine = SimpleNamespace(sim_setup=setup, calc_priority_and_append_to_queue=lambda event, is_arrival_event: queued.append(event))
+        SimBPMEnv.generate_remaining_arrival_events(engine, {"cases": {str(case): {} for case in range(open_cases)}})
+        return len(queued)
+
+    def test_open_cases_do_not_use_up_the_arrivals_of_a_horizon(self):
+        self.assertEqual(self.arrivals(datetime(2025, 3, 4, tzinfo=timezone.utc), 40, 50), 40)
+
+    def test_without_a_horizon_the_total_still_includes_open_cases(self):
+        self.assertEqual(self.arrivals(None, 40, 30), 10)
 
 
 class OngoingTaskTimes(unittest.TestCase):

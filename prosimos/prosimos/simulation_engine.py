@@ -404,6 +404,8 @@ class SimBPMEnv:
         total_existing_cases = len(existing_case_ids)
         process_state_cases = total_existing_cases
         total_cases_needed = self.sim_setup.total_num_cases
+        if self.sim_setup.simulation_horizon:
+            total_cases_needed += process_state_cases
 
         # If we already have enough cases in partial state, do nothing
         if total_existing_cases >= total_cases_needed:
