@@ -11,6 +11,7 @@ import time
 from pathlib import Path
 from fastapi import FastAPI, Form, UploadFile, File, HTTPException
 from fastapi.concurrency import run_in_threadpool
+from lxml import etree
 import pandas as pd
 from ongoing_process_state.utils import read_bpmn_model
 from pix_framework.io.event_log import read_csv_log, EventLogIDs
@@ -49,6 +50,10 @@ RUN_SETTINGS_FILE = "run.json"
 runs: dict = {}
 multiprocessing.set_start_method("forkserver", force=True)
 multiprocessing.set_forkserver_preload(["pix_framework.enhancement.concurrency_oracle"])
+
+DISCOVER_ENABLEMENT = "__DISCOVER__"
+BPMN_NAMESPACE = "http://www.omg.org/spec/BPMN/20100524/MODEL"
+SILENT_NODES = ("exclusiveGateway", "inclusiveGateway", "parallelGateway", "intermediateCatchEvent", "intermediateThrowEvent")
 
 runs_lock = threading.Lock()
 simulation_lock = threading.Lock()
@@ -115,6 +120,37 @@ def log_ids_of(column_mapping: dict) -> EventLogIDs:
     )
 
 
+def state_column_mapping(log_ids: EventLogIDs) -> str:
+    mapping = {
+        log_ids.case: "CaseId",
+        log_ids.activity: "Activity",
+        log_ids.resource: "Resource",
+        log_ids.start_time: "StartTime",
+        log_ids.end_time: "EndTime",
+    }
+    if log_ids.enabled_time != DISCOVER_ENABLEMENT:
+        mapping[log_ids.enabled_time] = "enabled_time"
+    return json.dumps(mapping)
+
+
+def name_model_nodes(bpmn_model_path: Path):
+    tree = etree.parse(str(bpmn_model_path))
+    names = {node.get("name") for node in tree.iter() if isinstance(node.tag, str)}
+    changed = False
+    for event, name in (("startEvent", "Process start"), ("endEvent", "Process end")):
+        for node in tree.iter(f"{{{BPMN_NAMESPACE}}}{event}"):
+            if not (node.get("name") or "").strip() and name not in names:
+                node.set("name", name)
+                changed = True
+    for tag in SILENT_NODES:
+        for node in tree.iter(f"{{{BPMN_NAMESPACE}}}{tag}"):
+            if node.get("name") != node.get("id"):
+                node.set("name", node.get("id"))
+                changed = True
+    if changed:
+        tree.write(str(bpmn_model_path), xml_declaration=True, encoding="UTF-8")
+
+
 def read_run_settings(process_folder: Path):
     settings_path = process_folder / RUN_SETTINGS_FILE
     return json.loads(settings_path.read_text()) if settings_path.exists() else None
@@ -155,6 +191,7 @@ def simulate(
             start_time=start_time,
             simulation_horizon=simulation_horizon,
             short_term_simulated_log_path=short_term_simulated_log_path,
+            column_mapping=state_column_mapping(ongoing_log_ids),
             on_stage=lambda stage: set_stage(process_id, stage),
             process_state_path=process_folder / PROCESS_STATE_FILE,
             seed=seed,
@@ -351,6 +388,7 @@ async def start_short_term_simulation(
     bpmn_model_path = process_folder / "bpmn_model.bpmn"
     with open(bpmn_model_path, "wb") as f:
         f.write(await bpmn_model.read())
+    name_model_nodes(bpmn_model_path)
 
     bpmn_parameters_path = process_folder / "json_parameters.json"
     with open(bpmn_parameters_path, "wb") as f:

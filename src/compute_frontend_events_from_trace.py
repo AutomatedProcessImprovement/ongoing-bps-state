@@ -1,4 +1,5 @@
 import ast
+import logging
 import random
 from pathlib import Path
 
@@ -6,6 +7,7 @@ import pandas as pd
 from ongoing_process_state.bpmn_model import BPMNModel
 from ongoing_process_state.reachability_graph import ReachabilityGraph
 from pix_framework.io.event_log import EventLogIDs
+from collections import deque
 from typing import List, Dict, Set, Tuple, Optional
 
 sim_log_ids = EventLogIDs(
@@ -22,6 +24,15 @@ sim_log_ids = EventLogIDs(
 # Function to compute the reachability graph of a BPMN model, considering   #
 # the START and COMPLETE events of each node, and all markings in the model #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+logger = logging.getLogger(__name__)
+
+TIMESTAMP_TOLERANCE = pd.Timedelta(milliseconds=1)
+
+
+def silent_or(node, label: str) -> str:
+    return "GATEWAY" if node.is_intermediate_event() else label
+
 
 def compute_complete_reachability_graph(model: BPMNModel) -> ReachabilityGraph:
     # Get initial BPMN marking and instantiate reachability graph
@@ -56,7 +67,7 @@ def compute_complete_reachability_graph(model: BPMNModel) -> ReachabilityGraph:
                     new_marking = current_marking - enabled_node.incoming_flows | {enabled_node_id}
                     # Update reachability graph
                     graph.add_marking(new_marking)
-                    graph.add_edge((enabled_node.name, "START"), current_marking, new_marking)
+                    graph.add_edge((enabled_node.name, silent_or(enabled_node, "START")), current_marking, new_marking)
                     # Save to continue exploring it
                     marking_stack += [new_marking]
                 elif enabled_node.is_gateway():  # If gateway, process traversing at once
@@ -77,7 +88,7 @@ def compute_complete_reachability_graph(model: BPMNModel) -> ReachabilityGraph:
                     new_marking = current_marking - {ongoing_node_id} | ongoing_node.outgoing_flows
                     # Update reachability graph
                     graph.add_marking(new_marking)
-                    graph.add_edge((ongoing_node.name, "COMPLETE"), current_marking, new_marking)
+                    graph.add_edge((ongoing_node.name, silent_or(ongoing_node, "COMPLETE")), current_marking, new_marking)
                     # Save to continue exploring it
                     marking_stack += [new_marking]
     # Return reachability graph
@@ -134,7 +145,7 @@ def sorted_trace_events(trace: pd.DataFrame, start_event: str, end_event: str) -
                 processed_event = {
                     'case_id': event[sim_log_ids.case],
                     'lifecycle': "ENABLE",
-                    'timestamp': event[sim_log_ids.enabled_time],
+                    'timestamp': enabled_no_later_than_start(event),
                     'node_name': event[sim_log_ids.activity]
                 }
                 add_to_sorted_events(sorted_events, processed_event)
@@ -159,10 +170,15 @@ def sorted_trace_events(trace: pd.DataFrame, start_event: str, end_event: str) -
     return sorted_events
 
 
+def enabled_no_later_than_start(event: pd.Series) -> pd.Timestamp:
+    enabled, started = event[sim_log_ids.enabled_time], event[sim_log_ids.start_time]
+    return enabled if pd.isna(started) else min(enabled, started)
+
+
 def add_to_sorted_events(sorted_events: List[dict], event: dict):
     index = 0
     for i, other_event in enumerate(sorted_events):
-        if other_event['timestamp'] <= event['timestamp']:
+        if other_event['timestamp'] <= event['timestamp'] + TIMESTAMP_TOLERANCE:
             index = i
     sorted_events.insert(index + 1, event)
 
@@ -181,6 +197,7 @@ def compute_marking_sequence(
     # If the trace is an ongoing one, instantiate the ongoing marking as current path
     current_marking_paths = None if ongoing_marking_id is None else [[ongoing_marking_id]]
     # Compute all marking sequences that fulfill the event sequence
+    replayed_events = []
     for event in sorted_events:
         next_marking_paths = []
         if event['lifecycle'] == "CASE_ARRIVAL":
@@ -219,42 +236,44 @@ def compute_marking_sequence(
                             next_marking_paths += [current_path + path + [graph.edges[edge_id][1]]]
                         else:
                             next_marking_paths += [current_path + path]
-        # Update marking paths
-        current_marking_paths = next_marking_paths
+        if not next_marking_paths:
+            logger.warning("Case %s: no way to replay %s of %s", event['case_id'], event['lifecycle'], event['node_name'])
+            continue
+        replayed_events.append(event)
+        # Update marking paths, keeping one per reached marking
+        current_marking_paths = list({path[-1]: path for path in next_marking_paths}.values())
+    sorted_events[:] = replayed_events
     # Return path
     return random.choice(current_marking_paths)
 
 
 def find_paths(graph: ReachabilityGraph, start_marking: int, end_marking: int) -> List[List[int]]:
-    # Initialize final paths
-    final_paths = []
-    # Check if already reached
-    if end_marking == start_marking:
-        # Reached, add empty path
-        final_paths = [[]]
-    else:
-        # Find paths
-        paths = [
-            [graph.edges[edge_id][1]]
-            for edge_id in graph.outgoing_edges[start_marking]
-            if graph.edge_to_activity[edge_id][1] == "GATEWAY"
-        ]
-        while len(paths) > 0:
-            current_path = paths.pop()
-            current_marking = current_path[-1]
-            if current_marking == end_marking:
-                # Reached, add to final paths
-                final_paths += [current_path]
-            else:
-                # Keep expanding through gateway edges (avoiding loops)
-                paths += [
-                    current_path + [graph.edges[edge_id][1]]
-                    for edge_id in graph.outgoing_edges[current_marking]
-                    if graph.edge_to_activity[edge_id][1] == "GATEWAY" and graph.edges[edge_id][1] not in current_path
-                ]
+    known_paths = graph.__dict__.setdefault("known_paths", {})
+    if (start_marking, end_marking) not in known_paths:
+        known_paths[(start_marking, end_marking)] = shortest_silent_path(graph, start_marking, end_marking)
+    return known_paths[(start_marking, end_marking)]
 
-    # return [[]] if already there
-    return final_paths
+
+def shortest_silent_path(graph: ReachabilityGraph, start_marking: int, end_marking: int) -> List[List[int]]:
+    if end_marking == start_marking:
+        return [[]]
+    previous = {start_marking: None}
+    pending = deque([start_marking])
+    while pending:
+        marking = pending.popleft()
+        for edge_id in graph.outgoing_edges[marking]:
+            next_marking = graph.edges[edge_id][1]
+            if graph.edge_to_activity[edge_id][1] != "GATEWAY" or next_marking in previous:
+                continue
+            previous[next_marking] = marking
+            if next_marking == end_marking:
+                path = []
+                while next_marking != start_marking:
+                    path.append(next_marking)
+                    next_marking = previous[next_marking]
+                return [path[::-1]]
+            pending.append(next_marking)
+    return []
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -284,6 +303,7 @@ def compute_token_movements(
     # Obtain labels for start and end events
     start_event = [node for node in model.nodes if node.is_start_event()][0]
     end_event = [node for node in model.nodes if node.is_end_event()][0]
+    timers = {node.name for node in model.nodes if node.is_intermediate_event()}
     # Compute sorted events and marking sequence for this trace
     sorted_events = sorted_trace_events(trace, start_event.name, end_event.name)
     marking_sequence = compute_marking_sequence(reach_graph, sorted_events, ongoing_marking_id)
@@ -358,7 +378,11 @@ def compute_token_movements(
             elif event['lifecycle'] == "COMPLETE":
                 # Exit activity and process gateway advancements
                 next_edge_label = get_next_edge_label(reach_graph, marking_sequence, i)
-                while next_edge_label == (event['node_name'], "COMPLETE") or next_edge_label[1] == "GATEWAY":
+                completed = False
+                while next_edge_label == (event['node_name'], "COMPLETE") or (
+                        next_edge_label[1] == "GATEWAY" and not (completed and next_edge_label[0] in timers)
+                ):
+                    completed = completed or next_edge_label[1] == "COMPLETE"
                     # Retrieve gateway/node ID
                     gateway_id = [node.id for node in model.nodes if node.name == next_edge_label[0]][0]
                     # Advance tokens in marking
@@ -450,12 +474,17 @@ def update_token_status(
     return updated_token_status, paths, token_idx
 
 
+def edge_labels(reachability_graph: ReachabilityGraph) -> Dict[Tuple[int, int], Tuple[str, str]]:
+    if "labels_by_markings" not in reachability_graph.__dict__:
+        reachability_graph.labels_by_markings = {
+            markings: reachability_graph.edge_to_activity[edge_id]
+            for edge_id, markings in reversed(list(reachability_graph.edges.items()))
+        }
+    return reachability_graph.labels_by_markings
+
+
 def get_next_edge_label(reachability_graph: ReachabilityGraph, marking_sequence: List[int], i: int) -> Tuple[str, str]:
     if i + 1 < len(marking_sequence):
-        return [
-            reachability_graph.edge_to_activity[edge_id]
-            for edge_id in reachability_graph.edges
-            if reachability_graph.edges[edge_id] == (marking_sequence[i], marking_sequence[i + 1])
-        ][0]  # Should be only 1 by construction
+        return edge_labels(reachability_graph)[(marking_sequence[i], marking_sequence[i + 1])]
     else:
         return "", ""

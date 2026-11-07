@@ -10,11 +10,14 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 import pandas as pd
+from ongoing_process_state.bpmn_model import BPMNModel, BPMNNodeType
 
-from main_web_app import compute_ongoing_task_times
+from main_web_app import compute_ongoing_task_times, log_ids_of, name_model_nodes, read_bpmn_model, \
+    state_column_mapping
 from src.compute_bps_state_and_run_simulation import compute_bps_state_and_run_simulation, \
     generate_events_with_token_movements, ongoing_case_ids, rerun_from_process_state, write_empty_process_state
-from src.compute_frontend_events_from_trace import sim_log_ids
+from src.compute_frontend_events_from_trace import compute_complete_reachability_graph, compute_marking_sequence, \
+    compute_token_movements, sim_log_ids, sorted_trace_events
 from src.run_metrics import paired_change, resource_timeline, summarize_log
 from src.scenario import InvalidEdit, apply_edits, expand_amounts, pool_members, pool_size
 
@@ -159,6 +162,119 @@ class SummarizeLog(unittest.TestCase):
 class WorkerProcesses(unittest.TestCase):
     def test_workers_do_not_fork_from_the_threaded_server(self):
         self.assertEqual(multiprocessing.get_start_method(), "forkserver")
+
+
+class ColumnMapping(unittest.TestCase):
+    def test_the_mapped_columns_reach_the_state_computation(self):
+        log_ids = log_ids_of({"case": "case_id", "activity": "task", "resource": "who", "start": "from", "end": "to",
+                              "enablement": "ready"})
+        self.assertEqual(json.loads(state_column_mapping(log_ids)), {
+            "case_id": "CaseId", "task": "Activity", "who": "Resource", "from": "StartTime", "to": "EndTime",
+            "ready": "enabled_time",
+        })
+
+    def test_a_discovered_enablement_is_not_a_column(self):
+        log_ids = log_ids_of({"enablement": "__DISCOVER__"})
+        self.assertNotIn("__DISCOVER__", json.loads(state_column_mapping(log_ids)))
+
+
+class ModelNames(unittest.TestCase):
+    model = """<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"><process id="p">
+        <startEvent id="s" name=""/><task id="t" name="{task}"/><exclusiveGateway id="g1" name=""/>
+        <exclusiveGateway id="g2"/><intermediateCatchEvent id="c"/><endEvent id="e"/></process></definitions>"""
+
+    def names(self, task):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "model.bpmn"
+            path.write_text(self.model.format(task=task))
+            name_model_nodes(path)
+            return {node.id: node.name for node in read_bpmn_model(path).nodes}
+
+    def test_every_node_can_be_told_apart(self):
+        self.assertEqual(self.names("Check"), {
+            "s": "Process start", "t": "Check", "g1": "g1", "g2": "g2", "c": "c", "e": "Process end",
+        })
+
+    def test_a_task_with_that_name_keeps_it_unique(self):
+        names = self.names("Process end")
+        self.assertEqual(list(names.values()).count("Process end"), 1)
+
+
+class EventOrder(unittest.TestCase):
+    def test_rounding_in_the_log_does_not_reorder_a_task(self):
+        trace = log_rows(
+            (1, "A", "2025-03-03T10:00:00.000001Z", "2025-03-03T10:00:00Z", "2025-03-03T11:00:00Z", "x"),
+            (1, "B", "2025-03-03T10:59:59.9999995Z", "2025-03-03T11:00:00Z", "2025-03-03T12:00:00Z", "x"),
+        )
+        events = [(event["lifecycle"], event["node_name"]) for event in sorted_trace_events(trace, "s", "e")]
+        self.assertEqual(events, [
+            ("ENABLE", "A"), ("START", "A"), ("COMPLETE", "A"), ("ENABLE", "B"), ("START", "B"), ("COMPLETE", "B"),
+        ])
+
+
+class TimerEvents(unittest.TestCase):
+    def test_replay_passes_through_events_the_simulator_does_not_log(self):
+        model = BPMNModel()
+        model.add_event(BPMNNodeType.START_EVENT, "s", "s")
+        model.add_task("a", "A")
+        model.add_event(BPMNNodeType.INTERMEDIATE_EVENT, "c", "c")
+        model.add_task("b", "B")
+        model.add_event(BPMNNodeType.END_EVENT, "e", "e")
+        for source, target in [("s", "a"), ("a", "c"), ("c", "b"), ("b", "e")]:
+            model.add_flow(f"{source}-{target}", "", source, target)
+        graph = compute_complete_reachability_graph(model)
+
+        def at(activity, lifecycle):
+            return {"lifecycle": lifecycle, "node_name": activity}
+
+        sequence = compute_marking_sequence(graph, [
+            {"lifecycle": "CASE_ARRIVAL", "node_name": "s"}, at("A", "START"), at("A", "COMPLETE"), at("B", "START"),
+            at("B", "COMPLETE"), at("e", "CASE_END"),
+        ])
+        self.assertIn(graph.marking_to_key[("c",)], sequence)
+
+    def test_a_token_stays_before_a_timer_until_the_next_task_is_enabled(self):
+        model = BPMNModel()
+        model.add_event(BPMNNodeType.START_EVENT, "s", "s")
+        model.add_task("a", "A")
+        model.add_event(BPMNNodeType.INTERMEDIATE_EVENT, "c", "c")
+        model.add_task("b", "B")
+        model.add_event(BPMNNodeType.END_EVENT, "e", "e")
+        for source, target in [("s", "a"), ("a", "c"), ("c", "b"), ("b", "e")]:
+            model.add_flow(f"{source}-{target}", "", source, target)
+        graph = compute_complete_reachability_graph(model)
+        at = pd.Timestamp("2025-03-03T09:00:00Z")
+        hour = pd.Timedelta(hours=1)
+        rows = [("s", at, at, at), ("A", at, at, at + hour), ("B", at + 4 * hour, at + 5 * hour, at + 6 * hour),
+                ("e", at + 6 * hour, at + 6 * hour, at + 6 * hour)]
+        trace = pd.DataFrame([{
+            sim_log_ids.case: 1, sim_log_ids.activity: activity, sim_log_ids.enabled_time: enabled,
+            sim_log_ids.start_time: start, sim_log_ids.end_time: end,
+        } for activity, enabled, start, end in rows])
+
+        events = {(event["node_id"], event["lifecycle"]): event for event in compute_token_movements(model, graph, trace)}
+
+        self.assertEqual(events[("a", "COMPLETE")]["paths"]["token_0"][-1], "a-c")
+        self.assertEqual(events[("b", "ENABLE")]["paths"]["token_0"][-1], "c-b")
+
+    def test_an_event_that_cannot_be_replayed_is_left_out(self):
+        model = BPMNModel()
+        model.add_event(BPMNNodeType.START_EVENT, "s", "s")
+        model.add_task("a", "A")
+        model.add_task("b", "B")
+        model.add_event(BPMNNodeType.END_EVENT, "e", "e")
+        for source, target in [("s", "a"), ("a", "b"), ("b", "e")]:
+            model.add_flow(f"{source}-{target}", "", source, target)
+        graph = compute_complete_reachability_graph(model)
+        events = [{"case_id": 1, "lifecycle": lifecycle, "node_name": name} for lifecycle, name in [
+            ("CASE_ARRIVAL", "s"), ("START", "A"), ("COMPLETE", "A"), ("START", "B"), ("COMPLETE", "B"),
+            ("START", "A"), ("CASE_END", "e"),
+        ]]
+        with self.assertLogs("src.compute_frontend_events_from_trace", "WARNING"):
+            compute_marking_sequence(graph, events)
+        self.assertEqual([event["lifecycle"] for event in events], [
+            "CASE_ARRIVAL", "START", "COMPLETE", "START", "COMPLETE", "CASE_END",
+        ])
 
 
 class OngoingTaskTimes(unittest.TestCase):
