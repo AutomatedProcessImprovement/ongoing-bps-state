@@ -50,7 +50,7 @@ PROCESS_STATE_FILE = "process_state.pkl"
 RUN_SETTINGS_FILE = "run.json"
 runs: dict = {}
 multiprocessing.set_start_method("forkserver", force=True)
-multiprocessing.set_forkserver_preload(["pix_framework.enhancement.concurrency_oracle"])
+multiprocessing.set_forkserver_preload(["pix_framework.enhancement.concurrency_oracle", "src.process_state_prosimos_run"])
 
 DISCOVER_ENABLEMENT = "__DISCOVER__"
 BPMN_NAMESPACE = "http://www.omg.org/spec/BPMN/20100524/MODEL"
@@ -87,6 +87,8 @@ FAILURE_HINTS = {
 
 
 def explain_failure(stage: str, error: Exception) -> str:
+    if isinstance(error, TimeoutError):
+        return str(error)
     detail = f"{type(error).__name__}: {error}"
     hint = FAILURE_HINTS.get(stage)
     return f"{hint} Details: {detail}" if hint else detail

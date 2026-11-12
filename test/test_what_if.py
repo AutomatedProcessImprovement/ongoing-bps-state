@@ -18,6 +18,7 @@ from fastapi import HTTPException
 
 from main_web_app import compute_ongoing_task_times, log_ids_of, name_model_nodes, read_bpmn_model, \
     run_parameters, state_column_mapping
+from src.process_state_prosimos_run import SimulationTimeout
 from src.compute_bps_state_and_run_simulation import compute_bps_state_and_run_simulation, \
     generate_events_with_token_movements, ongoing_case_ids, rerun_from_process_state, write_empty_process_state
 from src.compute_frontend_events_from_trace import compute_complete_reachability_graph, compute_marking_sequence, \
@@ -490,6 +491,21 @@ class RerunFromState(unittest.TestCase):
         at_the_start = (arrivals <= pd.Timestamp(self.start) + pd.Timedelta(seconds=1)).sum()
         self.assertGreater(len(arrivals), 0)
         self.assertLessEqual(at_the_start, 1)
+
+    def test_a_simulation_that_runs_too_long_is_stopped(self):
+        with patch("src.process_state_prosimos_run.SIMULATION_TIMEOUT_SECONDS", 0.01):
+            with self.assertRaises(SimulationTimeout):
+                self.rerun(self.sample / "Loan_Application.json", "slow.csv")
+        _, log_path = self.rerun(self.sample / "Loan_Application.json", "after.csv")
+        self.assertEqual(log_path.read_bytes(), self.first_log.read_bytes())
+
+    def test_simulator_errors_keep_their_type(self):
+        broken = json.loads((self.sample / "Loan_Application.json").read_text())
+        broken["task_resource_distribution"][0]["resources"][0]["distribution_params"] = []
+        path = self.path / "broken.json"
+        path.write_text(json.dumps(broken))
+        with self.assertRaises(IndexError):
+            self.rerun(path, "broken.csv")
 
     def test_an_empty_start_keeps_no_ongoing_case(self):
         empty_state = self.path / "empty.pkl"
