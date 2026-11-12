@@ -12,6 +12,8 @@ from __future__ import annotations
 import argparse
 import datetime as _dt
 import json
+import multiprocessing
+import os
 from pathlib import Path
 import random
 import sys
@@ -69,6 +71,56 @@ def _load_process_state(path: Optional[str]):
 # -----------------------------------------------------------------
 # 3) two public functions                                           #
 # -----------------------------------------------------------------
+SIMULATION_TIMEOUT_SECONDS = float(os.getenv("SIMULATION_TIMEOUT_SECONDS", "600"))
+
+
+class SimulationTimeout(TimeoutError):
+    pass
+
+
+def _simulate_in_child(connection, seed, arguments):
+    try:
+        if seed is not None:
+            random.seed(seed)
+            numpy.random.seed(seed)
+        run_simulation(**arguments)
+        connection.send(None)
+    except BaseException as error:
+        try:
+            connection.send(error)
+        except Exception:
+            connection.send(RuntimeError(f"{type(error).__name__}: {error}"))
+    finally:
+        connection.close()
+
+
+def _run_with_time_limit(seed, arguments):
+    context = multiprocessing.get_context()
+    receiver, sender = context.Pipe(duplex=False)
+    child = context.Process(target=_simulate_in_child, args=(sender, seed, arguments), daemon=True)
+    child.start()
+    sender.close()
+    try:
+        if not receiver.poll(SIMULATION_TIMEOUT_SECONDS):
+            if child.is_alive():
+                raise SimulationTimeout(
+                    f"The simulation did not finish within {SIMULATION_TIMEOUT_SECONDS / 60:g} minutes and was stopped. "
+                    "This happens when the parameters create far more cases than usual (e.g. a very short time "
+                    "between arrivals), when resources never work (empty calendars), or with a very long horizon."
+                )
+        try:
+            error = receiver.recv()
+        except EOFError:
+            child.join(5)
+            raise RuntimeError(f"The simulator stopped unexpectedly (exit code {child.exitcode}).")
+        if error is not None:
+            raise error
+    finally:
+        if child.is_alive():
+            child.kill()
+        child.join(5)
+        receiver.close()
+
 def run_short_term_simulation(
     *,
     start_date: str | _dt.datetime | None,
@@ -89,11 +141,7 @@ def run_short_term_simulation(
     """
     t0 = _dt_now()
 
-    if seed is not None:
-        random.seed(seed)
-        numpy.random.seed(seed)
-
-    run_simulation(
+    _run_with_time_limit(seed, dict(
         bpmn_path=str(bpmn_model),
         json_path=str(json_sim_params),
         total_cases=total_cases,
@@ -103,7 +151,7 @@ def run_short_term_simulation(
         process_state=process_state,
         simulation_horizon=simulation_horizon,
         is_event_added_to_log=produce_events_when_simulating
-    )
+    ))
 
     return (_dt_now() - t0).total_seconds()
 
