@@ -21,6 +21,7 @@ from src.compute_bps_state_and_run_simulation import compute_bps_state_and_run_s
     generate_events_with_token_movements, ongoing_case_ids, rerun_from_process_state, write_empty_process_state
 from src.compute_frontend_events_from_trace import sim_log_ids
 from src.run_metrics import paired_change, resource_timeline, summarize_log
+from src.log_input import InvalidLog, prepare_event_log
 from src.scenario import InvalidEdit, apply_edits, can_edit_pools, pool_size
 
 from fastapi import Depends
@@ -70,6 +71,31 @@ def set_stage(process_id: str, stage: str):
         run["stage"] = stage
         run["stages"][stage] = {"started": now, "finished": None}
         run["updated"] = now
+
+
+FAILURE_HINTS = {
+    "state": "The process state could not be computed from the log. Check the column mapping and that the "
+             "activity names in the log match the task names in the BPMN model.",
+    "simulation": "Prosimos could not simulate the model with these parameters. Check that the JSON parameters "
+                  "belong to this BPMN model: every task needs a duration distribution (fix, norm, expon, uniform, "
+                  "lognorm or gamma), every resource a calendar, and the branching probabilities of each "
+                  "gateway must add up to 1.",
+    "repeats": "Prosimos could not simulate the model with these parameters.",
+    "playback": "The simulated log could not be replayed on the BPMN model. This happens when the log, the model "
+                "and the parameters do not belong to the same process.",
+}
+
+
+def explain_failure(stage: str, error: Exception) -> str:
+    detail = f"{type(error).__name__}: {error}"
+    hint = FAILURE_HINTS.get(stage)
+    return f"{hint} Details: {detail}" if hint else detail
+
+
+def current_stage(process_id: str) -> str:
+    with runs_lock:
+        run = runs.get(process_id)
+        return run["stage"] if run else None
 
 
 def finish_run(process_id: str, error: str = None) -> str:
@@ -388,11 +414,19 @@ async def start_short_term_simulation(
     bpmn_model_path = process_folder / "bpmn_model.bpmn"
     with open(bpmn_model_path, "wb") as f:
         f.write(await bpmn_model.read())
-    name_model_nodes(bpmn_model_path)
 
     bpmn_parameters_path = process_folder / "json_parameters.json"
     with open(bpmn_parameters_path, "wb") as f:
         f.write(await json_parameters.read())
+
+    set_stage(process_id, "queued")
+    try:
+        renumbered_cases = bool(prepare_event_log(ongoing_log_path, column_mapping, DISCOVER_ENABLEMENT))
+        name_model_nodes(bpmn_model_path)
+    except (InvalidLog, etree.XMLSyntaxError) as error:
+        message = str(error) if isinstance(error, InvalidLog) else f"The BPMN file is not valid XML: {error}."
+        stage = finish_run(process_id, error=message)
+        raise HTTPException(status_code=422, detail={"stage": stage, "message": message, "input": True})
 
     seed = secrets.randbelow(2 ** 31)
     (process_folder / RUN_SETTINGS_FILE).write_text(json.dumps({
@@ -401,9 +435,9 @@ async def start_short_term_simulation(
         "simulation_horizon": simulation_horizon,
         "column_mapping": column_mapping,
         "files": {"log": event_log.filename, "bpmn": bpmn_model.filename, "parameters": json_parameters.filename},
+        "renumbered_cases": renumbered_cases,
     }))
 
-    set_stage(process_id, "queued")
     try:
         result = await run_in_threadpool(
             simulate, process_id, process_folder, ongoing_log_path, ongoing_log_ids, bpmn_model_path,
@@ -411,8 +445,10 @@ async def start_short_term_simulation(
         )
     except Exception as error:
         logger.exception("Simulation %s failed", process_id)
-        stage = finish_run(process_id, error=f"{type(error).__name__}: {error}")
-        raise HTTPException(status_code=422, detail={"stage": stage, "message": f"{type(error).__name__}: {error}"})
+        stage = current_stage(process_id)
+        message = explain_failure(stage, error)
+        finish_run(process_id, error=message)
+        raise HTTPException(status_code=422, detail={"stage": stage, "message": message})
     finish_run(process_id)
     note_run_seconds(process_id, process_folder)
     return result
@@ -442,9 +478,11 @@ def start_scenario(request: ScenarioRequest):
         raise HTTPException(status_code=422, detail={"stage": stage, "message": str(error)})
     except Exception as error:
         logger.exception("Scenario %s failed", request.process_id)
-        stage = finish_run(request.process_id, error=f"{type(error).__name__}: {error}")
+        stage = current_stage(request.process_id)
+        message = explain_failure(stage, error)
+        finish_run(request.process_id, error=message)
         shutil.rmtree(process_folder_of(request.process_id), ignore_errors=True)
-        raise HTTPException(status_code=422, detail={"stage": stage, "message": f"{type(error).__name__}: {error}"})
+        raise HTTPException(status_code=422, detail={"stage": stage, "message": message})
     finish_run(request.process_id)
     return result
 
@@ -483,6 +521,7 @@ def run_details(process_id: str):
         "files": settings.get("files"),
         "stateSeconds": settings.get("state_seconds"),
         "simulationSeconds": settings.get("simulation_seconds"),
+        "renumberedCases": settings.get("renumbered_cases", False),
     }
 
 
