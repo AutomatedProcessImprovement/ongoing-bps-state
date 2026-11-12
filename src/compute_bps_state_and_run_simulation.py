@@ -1,6 +1,7 @@
 # runner.py
 
 import datetime
+import pickle
 from pathlib import Path
 
 import pandas as pd
@@ -12,6 +13,7 @@ from typing import Tuple, List
 from src.bpmn_handler import compute_extended_bpmn_model
 from src.compute_frontend_events_from_trace import read_reachability_graph, compute_complete_reachability_graph, \
     sim_log_ids, compute_token_movements
+from src.process_state_prosimos_run import run_short_term_simulation
 from src.runner import run_process_state_and_simulation
 from src.state_computer import _add_to_sorted_events
 
@@ -34,6 +36,8 @@ def compute_bps_state_and_run_simulation(
         short_term_simulated_log_path: Path = None,
         column_mapping: str = None,
         on_stage=None,
+        process_state_path: Path = None,
+        seed: int = None,
 ) -> Tuple[List[dict], Path]:
     # Set column mapping to default if None
     if column_mapping is None:
@@ -57,9 +61,53 @@ def compute_bps_state_and_run_simulation(
         sim_log_csv=short_term_simulated_log_path,
         produce_events_when_simulating=False,
         on_stage=on_stage,
+        process_state_path=process_state_path,
+        seed=seed,
     )
 
-    # Produce frame for front-end
+    return compute_frame(bps_state), simulated_log_path
+
+
+def rerun_from_process_state(
+        process_state_path: Path,
+        bpmn_model_path: Path,
+        bpmn_parameters_path: Path,
+        start_time: str,
+        simulation_horizon: str,
+        short_term_simulated_log_path: Path,
+        seed: int,
+) -> List[dict]:
+    with open(process_state_path, "rb") as state_file:
+        saved_state = pickle.load(state_file)
+    run_short_term_simulation(
+        start_date=start_time,
+        total_cases=20,
+        bpmn_model=bpmn_model_path,
+        json_sim_params=bpmn_parameters_path,
+        out_stats_csv_path=None,
+        out_log_csv_path=short_term_simulated_log_path,
+        process_state=saved_state["partial_state"],
+        simulation_horizon=parse_datetime(simulation_horizon),
+        seed=seed,
+    )
+    return compute_frame(saved_state["case_states"])
+
+
+def ongoing_case_ids(process_state_path: Path) -> list:
+    with open(process_state_path, "rb") as state_file:
+        return list(pickle.load(state_file)["case_states"])
+
+
+def write_empty_process_state(process_state_path: Path, empty_state_path: Path):
+    with open(process_state_path, "rb") as state_file:
+        saved_state = pickle.load(state_file)
+    saved_state["case_states"] = {}
+    saved_state["partial_state"] = {**saved_state["partial_state"], "cases": {}}
+    with open(empty_state_path, "wb") as state_file:
+        pickle.dump(saved_state, state_file)
+
+
+def compute_frame(bps_state: dict) -> List[dict]:
     frame = []
     for case_id, case_info in bps_state.items():
         active_elements = dict()
@@ -70,8 +118,7 @@ def compute_bps_state_and_run_simulation(
             active_elements[f"token_{i}"] = active_flow
             i += 1
         frame += [{'case_id': case_id, 'active_elements': active_elements}]
-
-    return frame, simulated_log_path
+    return frame
 
 
 def generate_events_with_token_movements(
@@ -113,7 +160,10 @@ def generate_events_with_token_movements(
         activity_instances_pre_start = activity_instances[activity_instances[sim_log_ids.start_time] <= start_timestamp]
         if case_id in ongoing_token_status and len(activity_instances_pre_start) > 1:
             # Some activities started before the starting point, keep only the ones that complete after start_point
-            activity_instances = activity_instances[activity_instances[sim_log_ids.end_time] > start_timestamp]
+            activity_instances = activity_instances[
+                (activity_instances[sim_log_ids.end_time] > start_timestamp) |
+                (activity_instances[sim_log_ids.start_time] >= start_timestamp)
+            ]
         # Nullify enabled/start events previous to cut-point
         activity_instances.loc[
             activity_instances[sim_log_ids.enabled_time] < start_timestamp,

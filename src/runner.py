@@ -2,6 +2,7 @@
 
 import json
 import datetime
+import pickle
 from pathlib import Path
 from typing import Tuple
 
@@ -37,6 +38,8 @@ def run_process_state_and_simulation(
     sim_log_csv='simulation_log.csv',
     produce_events_when_simulating=False,
     on_stage=None,
+    process_state_path=None,
+    seed=None,
 ) -> Tuple[dict, Path]:
     """
     1) Compute the process state from the event log + BPMN.
@@ -128,6 +131,9 @@ def run_process_state_and_simulation(
     with open('output.json', 'w') as f:
         json.dump(output_data, f, default=str, indent=4)
     # print("Process state in 'output.json'.")
+    if process_state_path is not None:
+        with open(process_state_path, 'wb') as f:
+            pickle.dump({"partial_state": output_data, "case_states": case_states}, f)
 
     # 4) If simulate => call short-term approach
     if simulate:
@@ -146,7 +152,8 @@ def run_process_state_and_simulation(
             out_log_csv_path=sim_log_csv,
             process_state=partial_state,
             simulation_horizon=sim_horizon_dt,
-            produce_events_when_simulating=produce_events_when_simulating
+            produce_events_when_simulating=produce_events_when_simulating,
+            seed=seed,
         )
         print(f"Simulation done. Duration: {sim_time} seconds. Log in '{sim_log_csv}'.")
 

@@ -404,6 +404,8 @@ class SimBPMEnv:
         total_existing_cases = len(existing_case_ids)
         process_state_cases = total_existing_cases
         total_cases_needed = self.sim_setup.total_num_cases
+        if self.sim_setup.simulation_horizon:
+            total_cases_needed += process_state_cases
 
         # If we already have enough cases in partial state, do nothing
         if total_existing_cases >= total_cases_needed:
@@ -427,6 +429,10 @@ class SimBPMEnv:
         while total_existing_cases < total_cases_needed:
             inter_arrival_seconds = self.sim_setup.next_arrival_time(current_time)
             next_arrival_time = current_time + timedelta(seconds=inter_arrival_seconds)
+
+            if next_arrival_time < self.sim_setup.start_datetime:
+                current_time = next_arrival_time if inter_arrival_seconds > 0 else self.sim_setup.start_datetime
+                continue
 
             enabled_at = (next_arrival_time - self.sim_setup.start_datetime).total_seconds()
             arrival_event = EnabledEvent(
@@ -1061,7 +1067,7 @@ class SimBPMEnv:
             self.sim_resources[r_id].worked_time += full_evt.real_duration
 
         cid = full_evt.p_case
-        first_start = self.cases_first_start.setdefault(cid, full_evt.started_datetime)
+        first_start = self.cases_first_start.setdefault(cid, full_evt.enabled_datetime)
         if cid not in self.cases_skip:
             self.cases_skip[cid] = (self.simulation_horizon is not None and
                                     first_start >= self.sim_setup.simulation_horizon)
@@ -1071,9 +1077,6 @@ class SimBPMEnv:
             if row:
                 self._debug_rows_written += 1
                 self.log_writer.add_csv_row(row)
-                # optional debug dump:
-                with open("../output.txt", "a", encoding="utf-8") as fh:
-                    fh.write(f"{row}\n")
 
         return full_evt.completed_at, full_evt.completed_datetime
 
