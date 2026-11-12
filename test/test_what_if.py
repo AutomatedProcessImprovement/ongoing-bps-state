@@ -14,8 +14,10 @@ import pandas as pd
 from ongoing_process_state.bpmn_model import BPMNModel, BPMNNodeType
 from prosimos.simulation_engine import SimBPMEnv
 
+from fastapi import HTTPException
+
 from main_web_app import compute_ongoing_task_times, log_ids_of, name_model_nodes, read_bpmn_model, \
-    state_column_mapping
+    run_parameters, state_column_mapping
 from src.compute_bps_state_and_run_simulation import compute_bps_state_and_run_simulation, \
     generate_events_with_token_movements, ongoing_case_ids, rerun_from_process_state, write_empty_process_state
 from src.compute_frontend_events_from_trace import compute_complete_reachability_graph, compute_marking_sequence, \
@@ -364,6 +366,22 @@ class TokenMovements(unittest.TestCase):
             (1, "done", "2025-03-02T18:00Z", "2025-03-02T19:00Z", "2025-03-02T20:00Z", "x"),
             (1, "running", "2025-03-02T21:00Z", "2025-03-02T22:00Z", "2025-03-03T02:00Z", "x"),
         ), ["running"])
+
+
+class RunParameters(unittest.TestCase):
+    def test_returns_the_parameters_the_run_used(self):
+        parameters = {"resource_profiles": [{"id": "pool", "name": "Clerks"}]}
+        with tempfile.TemporaryDirectory() as folder:
+            (Path(folder) / "run-1").mkdir()
+            (Path(folder) / "run-1" / "json_parameters.json").write_text(json.dumps(parameters))
+            with patch("main_web_app.PROCESSES_DIR", Path(folder)):
+                self.assertEqual(run_parameters("run-1"), parameters)
+
+    def test_an_unknown_run_is_not_found(self):
+        with tempfile.TemporaryDirectory() as folder, patch("main_web_app.PROCESSES_DIR", Path(folder)):
+            with self.assertRaises(HTTPException) as raised:
+                run_parameters("run-2")
+        self.assertEqual(raised.exception.status_code, 404)
 
 
 class ResourceTimeline(unittest.TestCase):

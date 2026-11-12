@@ -486,6 +486,14 @@ def run_details(process_id: str):
     }
 
 
+@app.get("/parameters/{process_id}")
+def run_parameters(process_id: str):
+    parameters_path = process_folder_of(process_id) / "json_parameters.json"
+    if not parameters_path.exists():
+        raise HTTPException(status_code=404, detail="Unknown process")
+    return json.loads(parameters_path.read_text())
+
+
 @app.get("/resources/{process_id}")
 def run_resources(process_id: str, start: str, end: str):
     process_folder = process_folder_of(process_id)
