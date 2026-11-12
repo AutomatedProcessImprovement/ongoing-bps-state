@@ -103,8 +103,9 @@ def _run_with_time_limit(seed, arguments):
     try:
         if not receiver.poll(SIMULATION_TIMEOUT_SECONDS):
             if child.is_alive():
+                minutes = SIMULATION_TIMEOUT_SECONDS / 60
                 raise SimulationTimeout(
-                    f"The simulation did not finish within {SIMULATION_TIMEOUT_SECONDS / 60:g} minutes and was stopped. "
+                    f"The simulation did not finish within {minutes:g} minute{'' if minutes == 1 else 's'} and was stopped. "
                     "This happens when the parameters create far more cases than usual (e.g. a very short time "
                     "between arrivals), when resources never work (empty calendars), or with a very long horizon."
                 )
