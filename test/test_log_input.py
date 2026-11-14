@@ -59,8 +59,13 @@ class PrepareEventLog(unittest.TestCase):
         self.assertRejected(HEADER + ROWS.replace("2025-03-25 10:00:00+02:00", "25/03/2025 10:00"),
                             'Column "StartTime"', "row 3", '"25/03/2025 10:00"', "ISO 8601")
 
-    def test_empty_end_times_are_rejected(self):
-        self.assertRejected(HEADER + ROWS.replace("2025-03-25 11:00:00+02:00", ""), "no end timestamp", "row 3")
+    def test_empty_end_times_mark_activities_in_progress(self):
+        frame, _ = self.prepare(HEADER + ROWS.replace("2025-03-25 11:00:00+02:00", ""))
+        self.assertTrue(pd.isna(frame.at[1, "EndTime"]))
+        self.assertEqual(frame.at[0, "EndTime"], "2025-03-25 09:30:00+02:00")
+        self.assertRejected(HEADER + ROWS.replace("2025-03-25 10:00:00+02:00", ""), "no start timestamp", "row 3")
+        self.assertRejected(HEADER + ROWS.replace("2025-03-25 11:00:00+02:00", "").replace("2025-03-25 09:30:00+02:00", ""),
+                            "no end timestamp")
 
     def test_timestamps_without_time_zone_are_read_as_utc(self):
         frame, _ = self.prepare(HEADER + ROWS.replace("+02:00", ""))

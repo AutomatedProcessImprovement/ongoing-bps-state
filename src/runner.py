@@ -91,7 +91,8 @@ def run_process_state_and_simulation(
     print("=== RUNNER: Step E: Compute process state ===")
     state_computer = StateComputer(
         n_gram_index, reachability_graph, processed_event_log,
-        bpmn_handler, concurrency_oracle, event_log_ids
+        bpmn_handler, concurrency_oracle, event_log_ids,
+        drop_finished=event_log_processor.log_ends_at_cut,
     )
 
     case_states = state_computer.compute_case_states()

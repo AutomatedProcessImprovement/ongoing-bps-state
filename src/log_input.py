@@ -69,26 +69,27 @@ def _normalize_column(frame: pd.DataFrame, column: str):
     frame.loc[~present, column] = pd.NA
 
 
-def _check_timestamps(frame: pd.DataFrame, column: str, label: str, case_column: str) -> pd.Series:
+def _check_timestamps(frame: pd.DataFrame, column: str, label: str, case_column: str, optional=False) -> pd.Series:
     values = frame[column].fillna("").str.strip()
     empty = values == ""
-    if empty.any():
+    if empty.all() or (empty.any() and not optional):
         raise InvalidLog(f'{_count(empty, "row")} of the log {"has" if empty.sum() == 1 else "have"} no {label.lower()} '
                          f'in column "{column}" ({_example(frame, empty, column, case_column)}). Every event needs one.')
-    unreadable = ~values.str.match(ISO_TIMESTAMP)
+    unreadable = ~empty & ~values.str.match(ISO_TIMESTAMP)
     if unreadable.any():
         raise InvalidLog(f'Column "{column}" ({label}) has values that are not timestamps '
                          f'({_example(frame, unreadable, column, case_column)}). {TIMESTAMP_HINT}')
     with_offset = values.str.contains(HAS_OFFSET)
-    if with_offset.any() and not with_offset.all():
+    if with_offset.any() and not with_offset[~empty].all():
         raise InvalidLog(f'Column "{column}" mixes timestamps with and without a time zone '
-                         f'({_example(frame, ~with_offset, column, case_column)}). Give all of them a time zone or none.')
-    values = _canonical(values)
+                         f'({_example(frame, ~empty & ~with_offset, column, case_column)}). Give all of them a time zone or none.')
+    values = _canonical(values[~empty])
     if not with_offset.any():
         values = values + "+00:00"
-    frame[column] = values
+    frame.loc[~empty, column] = values
+    frame.loc[empty, column] = pd.NA
     try:
-        return pd.to_datetime(values, utc=True, format="ISO8601")
+        return pd.to_datetime(values, utc=True, format="ISO8601").reindex(frame.index)
     except (ValueError, TypeError) as error:
         raise InvalidLog(f'Column "{column}" ({label}) has a timestamp that does not exist: {error}. {TIMESTAMP_HINT}')
 
@@ -126,7 +127,7 @@ def prepare_event_log(log_path: Path, column_mapping: dict, discover_enablement:
                              f'{LABELS[field].lower()} in column "{column}" (row {_row(empty[empty].index[0])}).')
     frame[column_mapping["resource"]] = frame[column_mapping["resource"]].fillna("Unknown resource")
 
-    times = {field: _check_timestamps(frame, column_mapping[field], LABELS[field], case_column)
+    times = {field: _check_timestamps(frame, column_mapping[field], LABELS[field], case_column, optional=field == "end")
              for field in fields if field in ("start", "end", "enablement")}
     mapped = {column_mapping[field] for field in fields}
     for column in frame.columns.difference(list(mapped)):

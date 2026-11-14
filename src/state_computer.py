@@ -6,13 +6,15 @@ from ongoing_process_state.n_gram_index import NGramIndex
 
 class StateComputer:
     """Computes the state of each case using the N-Gram index."""
-    def __init__(self, n_gram_index, reachability_graph, event_log_df, bpmn_handler, concurrency_oracle, event_log_ids):
+    def __init__(self, n_gram_index, reachability_graph, event_log_df, bpmn_handler, concurrency_oracle, event_log_ids,
+                 drop_finished=False):
         self.n_gram_index = n_gram_index
         self.reachability_graph = reachability_graph
         self.event_log_df = event_log_df
         self.bpmn_handler = bpmn_handler
         self.concurrency_oracle = concurrency_oracle
         self.event_log_ids = event_log_ids
+        self.drop_finished = drop_finished
 
     def compute_case_states(self):
         """Computes states and active activities for all cases."""
@@ -165,6 +167,10 @@ class StateComputer:
                         "enabled_time": event_enabled_time
                     })
 
+
+            if self.drop_finished and not ongoing_activities and not enabled_activities and all(
+                    self.bpmn_handler.can_end_without_work(element["id"]) for element in enabled_gateways + enabled_events):
+                continue
 
             # Store case information
             case_states[case_id] = {
