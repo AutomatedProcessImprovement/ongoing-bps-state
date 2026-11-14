@@ -119,14 +119,14 @@ class InputHandler:
                 raise ValueError(f"Missing required column: {col}")
 
         # Convert StartTime to string, ensure fractional seconds, then parse
-        df['StartTime'] = df['StartTime'].astype(str).apply(ensure_fractional_seconds)
+        df['StartTime'] = df['StartTime'].map(lambda value: value if pd.isna(value) else ensure_fractional_seconds(str(value)))
         df['StartTime'] = pd.to_datetime(
             df['StartTime'],
             utc=True,
         )
 
         # Convert EndTime to string, ensure fractional seconds, then parse
-        df['EndTime'] = df['EndTime'].astype(str).apply(ensure_fractional_seconds)
+        df['EndTime'] = df['EndTime'].map(lambda value: value if pd.isna(value) else ensure_fractional_seconds(str(value)))
         missing_end = df['EndTime'].isna()
         if missing_end.any():
             print(f"There are {missing_end.sum()} rows with missing/invalid EndTime.")
