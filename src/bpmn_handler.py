@@ -77,6 +77,20 @@ class BPMNHandler:
         """
         return element_id in self.end_events
 
+    def can_end_without_work(self, element_id, visited=None):
+        """
+        Returns True if the element is an end event, or a gateway from which an end event
+        can be reached through gateways only.
+        """
+        if element_id in self.end_events:
+            return True
+        visited = visited if visited is not None else set()
+        if element_id not in self.gateways or element_id in visited:
+            return False
+        visited.add(element_id)
+        return any(self.can_end_without_work(target, visited)
+                   for flow_id, target in self.sequence_flows.items() if self.flow_sources[flow_id] == element_id)
+
     def get_upstream_tasks_through_gateways(self, gateway_id):
         visited = set()
         stack = [gateway_id]

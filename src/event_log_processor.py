@@ -12,12 +12,16 @@ class EventLogProcessor:
         self.start_time = pd.to_datetime(start_time, utc=True) if start_time else None
         self.event_log_ids = event_log_ids
         self.concurrency_oracle = None
+        self.log_ends_at_cut = False
     
     def process(self):
         """Processes the event log according to the provided starting point and computes enabled times."""
         df = self.event_log_df.copy()
         ids = self.event_log_ids
         if self.start_time:
+            # With nothing after the cut-off, finished cases are told apart from waiting ones by the BPMN model.
+            self.log_ends_at_cut = not ((df[ids.start_time] > self.start_time).any() or (df[ids.end_time] > self.start_time).any())
+        if self.start_time and not self.log_ends_at_cut:
             # Before altering EndTime, filter out cases that are "finished" before the cut-off.
             #
             # A case is considered ongoing if it has at least one event that is either:
@@ -34,6 +38,7 @@ class EventLogProcessor:
             )[ids.case].unique()
             df = df[df[ids.case].isin(ongoing_cases)]
 
+        if self.start_time:
             # Now, restrict to events that have occurred up to the cut-off.
             df = df[df[ids.start_time] <= self.start_time]
             
